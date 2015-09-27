@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+    <title>Default</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+    Header
+</div>
+<div th:replace="${name} :: content">
+    Content
+</div>
+<div th:replace="fragments/footer :: footer">
+    &copy; Miller's Honey Farms -- Powered by DROCKK Software Solutions
+</div>
+</body>
+</html>
