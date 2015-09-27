@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>bees-and-honey</name>
-    <description>Data management system for Miller's Farms</description>
+    <description>Data management system for Miller Honey Farms</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
