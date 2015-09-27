@@ -6,6 +6,12 @@ package drocck.sp.beesandhoney.business.entities;
 public class Yard {
     private Integer id = null;
     private String name = null;
+    private String status = null;
+    private String combo = null;
+    private String address = null;
+    private String zip = null;
+    private String accessLocation = null;
+    private Integer maxHives = null;
 
     public Yard() {
         super();
@@ -17,7 +23,7 @@ public class Yard {
         return this.id;
     }
 
-    public void setId(final Integer id) {
+    public void setId( Integer id) {
         this.id = id;
     }
 
@@ -25,9 +31,58 @@ public class Yard {
         return this.name;
     }
 
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCombo() {
+        return combo;
+    }
+
+    public void setCombo(String combo) {
+        this.combo = combo;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public String getAccessLocation() {
+        return accessLocation;
+    }
+
+    public void setAccessLocation(String accessLocation) {
+        this.accessLocation = accessLocation;
+    }
+
+    public Integer getMaxHives() {
+        return maxHives;
+    }
+
+    public void setMaxHives(Integer maxHives) {
+        this.maxHives = maxHives;
+    }
+
     @Override
     public String toString() {
         return "Yard [id="+this.id+"]";

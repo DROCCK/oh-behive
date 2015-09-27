@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 
 <head>
     <title>Yard Manager</title>
@@ -8,8 +7,53 @@
 </head>
 
 <body>
+    <header th:replace="fragments/header">
+        <h1>HEADER: TO BE REPLACED</h1>
+    </header>
 
-    <h2 th:text="#{title.list}">List of Yards</h2>
+    <h2 >List of Yards</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Combo</th>
+            <th>Address</th>
+            <th>Zip</th>
+            <th>Access Location</th>
+            <th>Max Hives</th>
+        </tr>
+        </thead>
 
+        <tbody>
+        <tr th:each="y : ${allYards}">
+            <td th:text="${{y.id}}">0</td>
+            <td th:text="${{y.name}}">Watson</td>
+            <td th:text="${{y.status}}">in use</td>
+            <td th:text="${{y.combo}}">no key</td>
+            <td th:text="${{y.address}}">1 Main St</td>
+            <td th:text="${{y.zip}}">55555</td>
+            <td th:text="${{y.accessLocation}}">driveway</td>
+            <td th:text="${{y.maxHives}}">80</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form action="#" th:action="@{/yard/}" th:object="${yard}" method="get">
+        <p>Id: <input type="number" th:field="*{id}" /></p>
+        <p>Name: <input type="text" th:field="*{name}" /></p>
+        <p>Status: <input type="text" th:field="*{status}" /></p>
+        <p>Combo: <input type="text" th:field="*{combo}" /></p>
+        <p>Address: <input type="text" th:field="*{address}" /></p>
+        <p>Zip: <input type="text" th:field="*{zip}" /></p>
+        <p>Access Location: <input type="text" th:field="*{accessLocation}" /></p>
+        <p>Max Hives: <input type="number" th:field="*{maxHives}" /></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+    <p>Submit is not working atm</p>
+    <footer th:replace="fragments/footer">
+        <h2>FOOTER: TO BE REPLACED</h2>
+    </footer>
 </body>
 </html>

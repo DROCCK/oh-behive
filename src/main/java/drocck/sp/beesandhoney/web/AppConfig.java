@@ -20,6 +20,8 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 @Configuration
 public class AppConfig {
 
+    /**
+     * Getting errors
     @Bean
     public ViewResolver tilesViewResolver() {
         ThymeleafViewResolver vr = new ThymeleafViewResolver();
@@ -55,7 +57,7 @@ public class AppConfig {
         ttc.setDefinitions("/resources/templates/tiles-defs.xml");
         return ttc;
     }
-
+     **/
     @Bean
     public YardService yardService() {
         return new YardService();
