@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title></title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head" >
 </head>
 <body>
-<div align="center">
-    &copy; Miller's Honey Farms
+<div align="center" th:fragment="footer">
+    &copy; Miller's Honey Farms  --  Powered by DROCCK Software Solutions
 </div>
 </body>
 </html>
