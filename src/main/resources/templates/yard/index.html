@@ -9,9 +9,9 @@
 <body>
     <header th:replace="fragments/header :: header">
     </header>
-
+<div class="container">
     <h2 >List of Yards</h2>
-    <table>
+    <table class="table table-hover">
         <thead>
         <tr>
             <th>ID</th>
@@ -38,18 +38,64 @@
         </tr>
         </tbody>
     </table>
-
-    <form action="#" th:action="@{/yard/}" th:object="${yard}" method="get">
-        <p>Id: <input type="number" th:field="*{id}" /></p>
-        <p>Name: <input type="text" th:field="*{name}" /></p>
-        <p>Status: <input type="text" th:field="*{status}" /></p>
-        <p>Combo: <input type="text" th:field="*{combo}" /></p>
-        <p>Address: <input type="text" th:field="*{address}" /></p>
-        <p>Zip: <input type="text" th:field="*{zip}" /></p>
-        <p>Access Location: <input type="text" th:field="*{accessLocation}" /></p>
-        <p>Max Hives: <input type="number" th:field="*{maxHives}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</div>
+    <div class="container">
+    <form class="form-horizontal" role="form" action="#" th:action="@{/yard/}" th:object="${yard}" method="post">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="id">Id: </label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" th:field="*{id}" id="id" placeholder="0"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Yard Name: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="yard name"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="status">Status: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{status}" id="status" placeholder="in use"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="combo">Combination or Key: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{combo}" id="combo" placeholder="mhf key"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="address">Address: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{address}" id="address" placeholder="123 Main St."/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="zip">Zip: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{zip}" id="zip" placeholder="95658"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="accessLocation">Access Location: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{accessLocation}" id="accessLocation" placeholder=""/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="maxHives">Max number of hives: </label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" th:field="*{maxHives}" id="maxHives" placeholder="80"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
     </form>
+    </div>
     <p>Submit is not working atm</p>
     <footer th:replace="fragments/footer :: footer">
     </footer>
