@@ -1,4 +1,4 @@
-package drocck.sp.beesandhoney.controllers;
+package drocck.sp.beesandhoney.web.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

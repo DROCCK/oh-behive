@@ -1,4 +1,4 @@
-package drocck.sp.beesandhoney;
+package drocck.sp.beesandhoney.web;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.boot.SpringApplication;
