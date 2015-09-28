@@ -5,6 +5,10 @@
     <title tiles:include="title">Title</title>
 </head>
 <body>
-
+    <div th:replace="fragments/header :: header"></div>
+    <div class="container" >
+        <div tiles:replace="content"></div>
+        <div th:replace="fragments/footre :: footer"></div>
+    </div>
 </body>
 </html>
