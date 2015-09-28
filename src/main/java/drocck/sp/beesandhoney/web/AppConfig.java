@@ -1,8 +1,9 @@
 package drocck.sp.beesandhoney.web;
 
+import drocck.sp.beesandhoney.business.entities.repositories.OwnerRepository;
 import drocck.sp.beesandhoney.business.entities.repositories.YardRepository;
+import drocck.sp.beesandhoney.business.services.OwnerService;
 import drocck.sp.beesandhoney.business.services.YardService;
-import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -24,8 +25,6 @@ import org.thymeleaf.templateresolver.UrlTemplateResolver;
 @Configuration
 public class AppConfig {
 
-    private static final String VIEWS = "templates/**";
-
     @Bean
     public YardService yardService() {
         return new YardService();
@@ -35,6 +34,12 @@ public class AppConfig {
     public YardRepository yardRepository() {
         return new YardRepository();
     }
+
+    @Bean
+    public OwnerService ownerService(){return new OwnerService();}
+
+    @Bean
+    public OwnerRepository ownerRepository(){return new OwnerRepository();}
 /*
     @Bean
     public TemplateResolver templateResolver() {

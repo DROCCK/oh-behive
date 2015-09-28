@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+
+
+<head th:include="fragments/head :: head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Owner Page</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header">
+</header>
+
+<div class="container">
+    <h2 >Current Owners</h2>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Street Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="owner : ${allOwners}">
+            <td th:text="${{owner.id}}">0</td>
+            <td th:text="${{owner.name}}">Humbub</td>
+            <td th:text="${{owner.phoneNumber}}">555-555-5555</td>
+            <td th:text="${{owner.email}}">xxxx@gmail.com</td>
+            <td th:text="${{owner.street}}">1 Main St</td>
+            <td th:text="${{owner.city}}">Sacramento</td>
+            <td th:text="${{owner.state}}">CA</td>
+            <td th:text="${{owner.zip}}">95828</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+</body>
+</html>
