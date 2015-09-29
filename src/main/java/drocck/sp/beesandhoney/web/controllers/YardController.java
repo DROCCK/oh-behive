@@ -73,20 +73,15 @@ public class YardController {
 
     /** Request Mapping **/
 
-    @RequestMapping("/create")
-    public String create() {
-        return "yard/create";
-
-    }
-
     @RequestMapping({"/" ,"/index"})
     public String index() {
         return "/yard/index";
     }
 
     @RequestMapping(value="/", method = RequestMethod.POST)
-    public String yardSubmit(@ModelAttribute Yard yard, Model model) {
+    public String yardSubmit(Yard yard, Model model) {
         model.addAttribute("yard", yard);
+        yardService.add(yard);
         return index();
     }
 }

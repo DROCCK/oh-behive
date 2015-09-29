@@ -85,6 +85,7 @@ public class Yard {
 
     @Override
     public String toString() {
-        return "Yard [id="+this.id+"]";
+        return "Yard [id="+this.id+" name="+this.name+" status="+this.status+" combo="+this.combo+" address="+this.address+
+                " zip="+this.zip+" accessLocation="+this.accessLocation+" maxHives="+this.maxHives+"]";
     }
 }
