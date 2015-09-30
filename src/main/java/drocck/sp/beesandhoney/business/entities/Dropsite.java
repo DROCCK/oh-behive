@@ -12,10 +12,13 @@ import java.util.Date;
 public class Dropsite {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private double longitude, latitude;
-    private String notes;
-    private Long dropId;
-    private int numDoublesDropped, numSinglesDropped, numVisits;
+    private Double longitude = null;
+    private Double latitude = null;
+    private String notes = null;
+    private Long dropId = null;
+    private Integer numDoublesDropped = null;
+    private Integer numSinglesDropped = null;
+    private Integer numVisits = null;
 
     public double getLongitude() {
         return longitude;
