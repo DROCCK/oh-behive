@@ -14,3 +14,5 @@ will be the html from the individual pages.
 
 IMPORTANT: Oscar: When I pushed, I edited the AppConfig class in the web folder. Take care to have current
 versions of files you edit that you didn't create before pushing again.
+
+Chai: I'll do Bee Company.
