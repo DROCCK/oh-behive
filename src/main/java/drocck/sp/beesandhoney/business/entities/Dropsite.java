@@ -14,7 +14,7 @@ public class Dropsite {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private double longitude, latitude;
     private String notes;
-    private int dropId;
+    private Long dropId;
     private int numDoublesDropped, numSinglesDropped, numVisits;
 
     public double getLongitude() {
@@ -41,11 +41,11 @@ public class Dropsite {
         this.notes = notes;
     }
 
-    public int getDropId() {
+    public Long getDropId() {
         return dropId;
     }
 
-    public void setDropId(int dropId) {
+    public void setDropId(Long dropId) {
         this.dropId = dropId;
     }
 
