@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -40,8 +41,7 @@ public class YardController {
         //Test Data
         Yard y1 = new Yard();
         Yard y2 = new Yard();
-        y1.setId(0);
-        y2.setId(1);
+
         y1.setName("Watson");
         y2.setName("Moss");
         y1.setStatus("in use");
@@ -62,8 +62,14 @@ public class YardController {
     /** Models **/
 
     @ModelAttribute("allYards")
-    public @ResponseBody List<Yard> populateYards(){
-        return yardService.findAll();
+    public List<Yard> populateYards(){
+        List<Yard> allYards = yardService.findAll();
+        Iterator itr = allYards.iterator();
+        logger.info("Yard List:");
+        while (itr.hasNext())
+            logger.info(itr.next());
+
+        return allYards;
     }
 
     @ModelAttribute("yard")

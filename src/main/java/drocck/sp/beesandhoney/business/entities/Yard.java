@@ -1,10 +1,21 @@
 package drocck.sp.beesandhoney.business.entities;
 
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * Created by Connor on 9/26/2015.
  */
+
+@Entity
 public class Yard {
-    private Integer id = null;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id = null;
     private String name = null;
     private String status = null;
     private String combo = null;
@@ -19,11 +30,12 @@ public class Yard {
 
     /** Getters and Setters **/
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId( Integer id) {
+    // Is this needed? possibly delete
+    public void setId(Long id) {
         this.id = id;
     }
 

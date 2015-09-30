@@ -14,7 +14,7 @@ import java.util.List;
 public class YardService {
 
     @Autowired
-    private YardRepository yardRepository;
+    YardRepository yardRepository;
 
     public YardService() {
         super();
@@ -25,6 +25,6 @@ public class YardService {
     }
 
     public void add(final Yard yard) {
-        this.yardRepository.add(yard);
+        this.yardRepository.save(yard);
     }
 }
