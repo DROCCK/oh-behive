@@ -11,16 +11,8 @@ import java.util.List;
  * Based on Yard repository
  */
 @Repository
-public class OwnerRepository {
-    private final List<Owner> owners = new ArrayList<Owner>();
+public interface OwnerRepository {
+    public List<Owner> findAll();
 
-    public OwnerRepository() {super();}
-
-    public List<Owner> findAll() {
-            return new ArrayList<Owner>(owners);
-        }
-
-    public void add(final Owner newOwner) {
-            owners.add(newOwner);
-        }
+    public void add(Owner newOwner);
 }
