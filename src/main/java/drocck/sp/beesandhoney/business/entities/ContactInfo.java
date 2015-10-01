@@ -1,6 +1,9 @@
 package drocck.sp.beesandhoney.business.entities;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 
 /**
  * @author Rob
@@ -13,22 +16,9 @@ public class ContactInfo {
     private Long id;
     private String email;
     private String phone;
-
-    @OneToOne(mappedBy = "contactInfo")
-    private Address address;
-
-    @JoinColumn(name = "ID")
     @OneToOne
     @MapsId
-    private Person person;
-
-    public ContactInfo() {
-        super();
-    }
-
-    public ContactInfo(Person person){
-        this.person = person;
-    }
+    private Address address;
 
     public Long getId() {
         return id;

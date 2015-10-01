@@ -62,13 +62,25 @@ public class YardController {
         Person p2 = new Person();
         p2.setName("John Doe");
 
-        ContactInfo c1 = new ContactInfo(p1);
-        ContactInfo c2 = new ContactInfo(p2);
+        ContactInfo c1 = new ContactInfo();
+        ContactInfo c2 = new ContactInfo();
 
-        Address a1 = new Address(c1);
-        Address a2 = new Address(c2);
+        Address a1 = new Address();
+        Address a2 = new Address();
         a1.setStreet("80 Geraldson Drive");
         a2.setStreet("6000 J St");
+
+        p1.setContactInfo(c1);
+        p2.setContactInfo(c2);
+
+        c1.setAddress(a1);
+        c2.setAddress(a2);
+
+        p1.getContactInfo().setId(1l);
+        p1.getContactInfo().getAddress().setId(1l);
+
+        p2.getContactInfo().setId(2l);
+        p2.getContactInfo().getAddress().setId(2l);
 
         personService.save(p1);
         personService.save(p2);
