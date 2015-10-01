@@ -56,19 +56,26 @@ public class YardController {
 
     // for test uses only
     private void initData() {
+        Address a1 = new Address();
+        a1.setId(1l);
+        a1.setStreet("80 Geraldson Drive");
+        Address a2 = new Address();
+        a2.setId(2l);
+        a2.setStreet("6000 J St");
+
+        ContactInfo c1 = new ContactInfo();
+        c1.setId(1l);
+        c1.setAddress(a1);
+        ContactInfo c2 = new ContactInfo();
+        c2.setId(2l);
+        c2.setAddress(a2);
+
         Person p1 = new Person();
         p1.setName("Jackie Chan");
-
+        p1.setContactInfo(c1);
         Person p2 = new Person();
         p2.setName("John Doe");
-
-        ContactInfo c1 = new ContactInfo(p1);
-        ContactInfo c2 = new ContactInfo(p2);
-
-        Address a1 = new Address(c1);
-        Address a2 = new Address(c2);
-        a1.setStreet("80 Geraldson Drive");
-        a2.setStreet("6000 J St");
+        p2.setContactInfo(c2);
 
         personService.save(p1);
         personService.save(p2);

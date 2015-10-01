@@ -22,7 +22,7 @@ public class OwnerService {
         return ownerRepository.findAll();
     }
 
-    public void add(final Owner newOwner) {
-        ownerRepository.add(newOwner);
+    public void save(final Owner newOwner) {
+        ownerRepository.save(newOwner);
     }
 }

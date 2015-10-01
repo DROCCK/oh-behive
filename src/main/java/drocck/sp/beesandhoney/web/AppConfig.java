@@ -80,7 +80,4 @@ public class AppConfig {
 
     @Bean
     public OwnerService ownerService(){return new OwnerService();}
-
-    @Bean
-    public OwnerRepository ownerRepository(){return new OwnerRepository();}
 }

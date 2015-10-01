@@ -1,10 +1,15 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * Created by Oscar on 9/27/2015.
  */
+@Entity
 public class Owner {
 
+    @Id
     private Integer id=null;
     private String name=null;
     private String phoneNumber=null;

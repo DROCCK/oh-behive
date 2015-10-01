@@ -27,10 +27,6 @@ public class Yard {
     @ManyToOne
     private Person rentReceiver;
 
-    public Yard() {
-        super();
-    }
-
     /** Getters and Setters **/
 
     public Long getId() {
