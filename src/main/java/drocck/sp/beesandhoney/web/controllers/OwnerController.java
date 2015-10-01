@@ -43,7 +43,7 @@ public class OwnerController {
         o1.setCity("Sacramento");
         o1.setState("CA");
         o1.setZip("94643");
-        ownerService.add(o1);
+        ownerService.save(o1);
     }
 
     @ModelAttribute("allOwners")

@@ -67,9 +67,6 @@ public class AppConfig {
     public OwnerService ownerService(){return new OwnerService();}
 
     @Bean
-    public OwnerRepository ownerRepository(){return new OwnerRepository();}
-
-    @Bean
     public PersonService personService() { return new PersonService(); }
 
     @Bean

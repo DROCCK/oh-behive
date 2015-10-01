@@ -26,7 +26,6 @@ public class AddressService {
     }
 
     Address save(Address address) {
-
         return addressRepository.save(address);
     }
 }

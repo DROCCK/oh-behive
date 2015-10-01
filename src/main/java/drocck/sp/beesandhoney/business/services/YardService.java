@@ -24,7 +24,7 @@ public class YardService {
         return this.yardRepository.findAll();
     }
 
-    public void add(final Yard yard) {
-        this.yardRepository.save(yard);
+    public Yard add(final Yard yard) {
+        return this.yardRepository.save(yard);
     }
 }
