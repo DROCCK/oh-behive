@@ -1,7 +1,6 @@
 package drocck.sp.beesandhoney.business.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author Rob
@@ -17,6 +16,19 @@ public class Address {
     private String city;
     private String state;
     private String zip;
+
+    @JoinColumn(name = "ID")
+    @OneToOne
+    @MapsId
+    private ContactInfo contactInfo;
+
+    public Address() {
+        super();
+    }
+
+    public Address(ContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
+    }
 
     public Long getId() {
         return id;

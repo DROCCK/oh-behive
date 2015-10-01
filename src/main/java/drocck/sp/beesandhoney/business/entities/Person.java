@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * @author Rob
@@ -15,9 +16,18 @@ public class Person {
 
     private String name;
 
-    @OneToOne
-    @MapsId
+    @OneToOne(mappedBy = "person")
     private ContactInfo contactInfo;
+
+    @OneToMany(mappedBy = "owner")
+    private Collection<Yard> owns;
+
+    @OneToMany(mappedBy = "rentReceiver")
+    private Collection<Yard> receivesRent;
+
+    public Person() {
+        super();
+    }
 
     public Long getId() {
         return id;
@@ -41,6 +51,27 @@ public class Person {
 
     public void setContactInfo(ContactInfo contactInfo) {
         this.contactInfo = contactInfo;
+    }
+
+    public Collection<Yard> getOwns() {
+        return owns;
+    }
+
+    public void setOwns(Collection<Yard> owns) {
+        this.owns = owns;
+    }
+
+    public Collection<Yard> getReceivesRent() {
+        return receivesRent;
+    }
+
+    public void setRecievesRent(Collection<Yard> receivesRent) {
+        this.receivesRent = receivesRent;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
 

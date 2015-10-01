@@ -1,10 +1,7 @@
 package drocck.sp.beesandhoney.business.entities;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Connor on 9/26/2015.
@@ -23,6 +20,12 @@ public class Yard {
     private String zip = null;
     private String accessLocation = null;
     private Integer maxHives = null;
+
+    @ManyToOne
+    private Person owner;
+
+    @ManyToOne
+    private Person rentReceiver;
 
     public Yard() {
         super();
@@ -93,6 +96,22 @@ public class Yard {
 
     public void setMaxHives(Integer maxHives) {
         this.maxHives = maxHives;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
+
+    public Person getRentReceiver() {
+        return rentReceiver;
+    }
+
+    public void setRentReceiver(Person rentReceiver) {
+        this.rentReceiver = rentReceiver;
     }
 
     @Override

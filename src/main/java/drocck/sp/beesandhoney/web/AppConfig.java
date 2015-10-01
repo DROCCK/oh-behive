@@ -1,8 +1,7 @@
 package drocck.sp.beesandhoney.web;
 
 import drocck.sp.beesandhoney.business.entities.repositories.OwnerRepository;
-import drocck.sp.beesandhoney.business.services.OwnerService;
-import drocck.sp.beesandhoney.business.services.YardService;
+import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -58,11 +57,26 @@ public class AppConfig {
         return txManager;
     }
 
+    /** SERVICE BEANS **/
     @Bean
     public YardService yardService() {
         return new YardService();
     }
 
+    @Bean
+    public PersonService personService() {
+        return new PersonService();
+    }
+
+    @Bean
+    public ContactInfoService contactInfoService() {
+        return new ContactInfoService();
+    }
+
+    @Bean
+    public AddressService addressService() {
+        return new AddressService();
+    }
 
     @Bean
     public OwnerService ownerService(){return new OwnerService();}

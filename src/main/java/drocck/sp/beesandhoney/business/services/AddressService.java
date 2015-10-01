@@ -25,7 +25,7 @@ public class AddressService {
         return addressRepository.findById(id);
     }
 
-    Address save(Address address) {
+    public Address save(Address address) {
         return addressRepository.save(address);
     }
 }

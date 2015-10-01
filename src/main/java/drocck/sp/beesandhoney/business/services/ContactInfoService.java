@@ -34,7 +34,7 @@ public class ContactInfoService {
         return contactInfo;
     }
 
-    ContactInfo save(ContactInfo contactInfo) {
+    public ContactInfo save(ContactInfo contactInfo) {
         return contactInfoRepository.save(contactInfo);
     }
 }

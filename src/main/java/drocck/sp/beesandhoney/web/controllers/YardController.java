@@ -1,6 +1,12 @@
 package drocck.sp.beesandhoney.web.controllers;
 
+import drocck.sp.beesandhoney.business.entities.Address;
+import drocck.sp.beesandhoney.business.entities.ContactInfo;
+import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.Yard;
+import drocck.sp.beesandhoney.business.services.AddressService;
+import drocck.sp.beesandhoney.business.services.ContactInfoService;
+import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,14 +36,43 @@ public class YardController {
     private YardService yardService;
 
     @Autowired
-    public YardController(YardService yardService) {
+    private PersonService personService;
+
+    @Autowired
+    private ContactInfoService contactInfoService;
+
+    @Autowired
+    private AddressService addressService;
+
+    @Autowired
+    public YardController(YardService yardService, PersonService personService, ContactInfoService contactInfoService, AddressService addressService) {
         super();
         this.yardService = yardService;
+        this.personService = personService;
+        this.contactInfoService = contactInfoService;
+        this.addressService = addressService;
         initData();
     }
 
     // for test uses only
     private void initData() {
+        Person p1 = new Person();
+        p1.setName("Jackie Chan");
+
+        Person p2 = new Person();
+        p2.setName("John Doe");
+
+        ContactInfo c1 = new ContactInfo(p1);
+        ContactInfo c2 = new ContactInfo(p2);
+
+        Address a1 = new Address(c1);
+        Address a2 = new Address(c2);
+        a1.setStreet("80 Geraldson Drive");
+        a2.setStreet("6000 J St");
+
+        personService.save(p1);
+        personService.save(p2);
+
         //Test Data
         Yard y1 = new Yard();
         Yard y2 = new Yard();
@@ -56,6 +91,10 @@ public class YardController {
         y2.setMaxHives(160);
         y1.setCombo("12345");
         y2.setCombo("MHF Key");
+        y1.setOwner(p1);
+        y2.setOwner(p1);
+        y1.setRentReceiver(p1);
+        y2.setRentReceiver(p2);
         this.yardService.add(y1);
         this.yardService.add(y2);
     }
@@ -64,11 +103,10 @@ public class YardController {
     @ModelAttribute("allYards")
     public List<Yard> populateYards(){
         List<Yard> allYards = yardService.findAll();
-        Iterator itr = allYards.iterator();
-        logger.info("Yard List:");
-        while (itr.hasNext())
-            logger.info(itr.next());
-
+//        Iterator<Yard> itr = allYards.iterator();
+//        while (itr.hasNext()) {
+//            logger.info(itr.next().getOwnerName());
+//        }
         return allYards;
     }
 
