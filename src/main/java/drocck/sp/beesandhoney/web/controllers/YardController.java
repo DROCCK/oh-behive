@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -132,12 +133,29 @@ public class YardController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String update() { return "/yard/update"; }
+    public String update(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("yard", yardService.findById(id));
+        return "/yard/update";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(Yard yard) {
+        yardService.save(yard);
+        return "redirect:/yard/";
+    }
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)
     public String read(Model model, @RequestParam("id") Long id) {
         model.addAttribute("yard", yardService.findById(id));
         return "/yard/read";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String delete(@RequestParam("id") Long id) {
+        ArrayList<Yard> toBeDeleted = new ArrayList<>();
+        toBeDeleted.add(yardService.findById(id));
+        yardService.deleteInBatch(toBeDeleted);
+        return "redirect:/yard/";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -146,9 +164,7 @@ public class YardController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(Yard yard, Model model) {
-        logger.info(yard + " & " + yard.getOwner().getName());
-        model.addAttribute("yard", yard);
+    public String create(Yard yard) {
         yardService.save(yard);
         return "redirect:/yard/";
     }

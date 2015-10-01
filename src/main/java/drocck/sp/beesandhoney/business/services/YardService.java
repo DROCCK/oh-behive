@@ -29,6 +29,10 @@ public class YardService {
         return person;
     }
 
+    public void deleteInBatch(Iterable<Yard> entities) {
+        yardRepository.deleteInBatch(entities);
+    }
+
     public Yard save(final Yard yard) {
         return this.yardRepository.save(yard);
     }

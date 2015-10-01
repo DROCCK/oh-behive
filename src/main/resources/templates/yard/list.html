@@ -38,8 +38,8 @@
             <td th:text="${{y.maxHives}}">80</td>
             <td><a th:text="${(y.owner.name)}" th:href="@{/owner/(id=${y.owner.id})}"></a></td>
             <td><a th:text="${(y.rentReceiver.name)}" th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
-            <td><button class="btn">Update</button></td>
-            <td><button class="btn">Delete</button></td>
+            <td><a th:href="@{/yard/update/(id=${y.id})}"><button class="btn">Update</button></a></td>
+            <td><a th:href="@{/yard/delete/(id=${y.id})}"><button class="btn">Delete</button></a></td>
         </tr>
         </tbody>
     </table>
