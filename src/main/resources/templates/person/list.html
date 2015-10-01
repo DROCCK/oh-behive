@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: head">
+<head th:include="fragments/head :: head"></head>
+<head>
     <title>People</title> <!-- add your title here -->
 </head>
 <body>
@@ -20,7 +21,7 @@
             <tr>
                 <td th:text="${person.name}">Shit</td>
                 <td th:text="${person.contactInfo.email}">Shat</td>
-                <td th:text="${{person.contactInfo.phone}}">Shut</td>
+                <td th:text="${person.contactInfo.phone}">Shut</td>
                 <td th:text="${person.contactInfo.address}">Shoot</td>
             </tr>
         </tbody>
