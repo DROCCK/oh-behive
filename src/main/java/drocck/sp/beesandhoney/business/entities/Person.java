@@ -65,13 +65,9 @@ public class Person {
         return receivesRent;
     }
 
-    public void setRecievesRent(Collection<Yard> receivesRent) {
+    public void setReceivesRent(Collection<Yard> receivesRent) {
         this.receivesRent = receivesRent;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
 }
 
