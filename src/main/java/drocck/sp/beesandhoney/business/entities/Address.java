@@ -1,7 +1,6 @@
 package drocck.sp.beesandhoney.business.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author Rob
@@ -11,6 +10,8 @@ import javax.persistence.Id;
 public class Address {
 
     @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String street;
     private String apt;
@@ -64,5 +65,10 @@ public class Address {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    @Override
+    public String toString() {
+        return getStreet() + " " + getApt() + " " + getCity() + ", " + getState() + " " + getZip();
     }
 }
