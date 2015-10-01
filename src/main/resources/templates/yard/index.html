@@ -35,8 +35,8 @@
             <td th:text="${{y.zip}}">55555</td>
             <td th:text="${{y.accessLocation}}">driveway</td>
             <td th:text="${{y.maxHives}}">80</td>
-            <td><a th:text="${(y.owner)}" th:href="@{/owner/(personId=${y.owner.id})}"></a></td>
-            <td><a th:text="${(y.rentReceiver)}" th:href="@{/owner/(personId=${y.rentReceiver.id})}"></a></td>
+            <td><a th:text="${(y.owner.name)}" th:href="@{/owner/(personId=${y.owner.id})}"></a></td>
+            <td><a th:text="${(y.rentReceiver.name)}" th:href="@{/owner/(personId=${y.rentReceiver.id})}"></a></td>
         </tr>
         </tbody>
     </table>
