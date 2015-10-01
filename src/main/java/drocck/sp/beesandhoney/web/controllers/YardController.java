@@ -10,18 +10,14 @@ import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -102,8 +98,8 @@ public class YardController {
         y2.setOwner(p1);
         y1.setRentReceiver(p1);
         y2.setRentReceiver(p2);
-        this.yardService.add(y1);
-        this.yardService.add(y2);
+        this.yardService.save(y1);
+        this.yardService.save(y2);
     }
     /** Models **/
 
@@ -117,6 +113,12 @@ public class YardController {
         return allYards;
     }
 
+    @ModelAttribute("allPeople")
+    public List<Person> populatePeople() {
+        List<Person> allPeople = personService.findAll();
+        return allPeople;
+    }
+
     @ModelAttribute("yard")
     public Yard createModel() {
         return new Yard();
@@ -124,15 +126,30 @@ public class YardController {
 
     /** Request Mapping **/
 
-    @RequestMapping({"/" ,"/index"})
+    @RequestMapping({"/" ,"/index", "/list"})
     public String index() {
-        return "/yard/index";
+        return "/yard/list";
     }
 
-    @RequestMapping(value="/", method = RequestMethod.POST)
-    public String yardSubmit(Yard yard, Model model) {
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String update() { return "/yard/update"; }
+
+    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    public String read(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("yard", yardService.findById(id));
+        return "/yard/read";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create() {
+        return "/yard/create";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String create(Yard yard, Model model) {
+        logger.info(yard + " & " + yard.getOwner().getName());
         model.addAttribute("yard", yard);
-        yardService.add(yard);
-        return index();
+        yardService.save(yard);
+        return "redirect:/yard/";
     }
 }

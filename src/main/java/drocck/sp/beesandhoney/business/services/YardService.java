@@ -24,7 +24,12 @@ public class YardService {
         return this.yardRepository.findAll();
     }
 
-    public Yard add(final Yard yard) {
+    public Yard findById(Long id) {
+        Yard person = yardRepository.findById(id);
+        return person;
+    }
+
+    public Yard save(final Yard yard) {
         return this.yardRepository.save(yard);
     }
 }
