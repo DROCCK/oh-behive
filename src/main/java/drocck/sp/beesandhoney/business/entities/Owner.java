@@ -1,11 +1,19 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * Created by Oscar on 9/27/2015.
  */
+@Entity
 public class Owner {
 
-    private Integer id=null;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id=null;
     private String name=null;
     private String phoneNumber=null;
     private String email=null;
@@ -17,8 +25,8 @@ public class Owner {
     public Owner(){super();}
 
     //getters and setters
-    public Integer getId(){return id;}
-    public void setID(Integer newID){id = newID;}
+    public Long getId(){return id;}
+    public void setID(Long newID){id = newID;}
     public String getName(){return name;}
     public void setName(String newName){name=newName;}
     public String getPhoneNumber(){return phoneNumber;}

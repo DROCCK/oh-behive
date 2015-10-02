@@ -10,13 +10,14 @@ import javax.persistence.*;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
     @OneToOne
-    @MapsId
+    @PrimaryKeyJoinColumn(name = "ID")
     private ContactInfo contactInfo;
 
     public Long getId() {

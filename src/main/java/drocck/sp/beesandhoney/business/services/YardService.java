@@ -16,6 +16,9 @@ public class YardService {
     @Autowired
     YardRepository yardRepository;
 
+    @Autowired
+    AddressService addressService;
+
     public YardService() {
         super();
     }
@@ -24,7 +27,17 @@ public class YardService {
         return this.yardRepository.findAll();
     }
 
-    public Yard add(final Yard yard) {
+    public Yard findById(Long id) {
+        Yard person = yardRepository.findById(id);
+        return person;
+    }
+
+    public void deleteInBatch(Iterable<Yard> entities) {
+        yardRepository.deleteInBatch(entities);
+    }
+
+    public Yard save(final Yard yard) {
+        addressService.save(yard.getAddress());
         return this.yardRepository.save(yard);
     }
 }

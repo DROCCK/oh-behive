@@ -1,9 +1,6 @@
 package drocck.sp.beesandhoney.business.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 /**
  * @author Rob
@@ -13,11 +10,14 @@ import javax.persistence.OneToOne;
 public class ContactInfo {
 
     @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String phone;
+
     @OneToOne
-    @MapsId
+    @PrimaryKeyJoinColumn(referencedColumnName = "ID")
     private Address address;
 
     public Long getId() {

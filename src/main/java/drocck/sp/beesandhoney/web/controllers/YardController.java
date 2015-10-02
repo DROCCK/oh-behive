@@ -10,18 +10,15 @@ import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,34 +53,37 @@ public class YardController {
 
     // for test uses only
     private void initData() {
-        Person p1 = new Person();
-        p1.setName("Jackie Chan");
-
-        Person p2 = new Person();
-        p2.setName("John Doe");
-
-        ContactInfo c1 = new ContactInfo();
-        ContactInfo c2 = new ContactInfo();
-
         Address a1 = new Address();
-        Address a2 = new Address();
+        a1.setId(1l);
         a1.setStreet("80 Geraldson Drive");
+
+        Address a2 = new Address();
+        a2.setId(2l);
         a2.setStreet("6000 J St");
 
-        p1.setContactInfo(c1);
-        p2.setContactInfo(c2);
-
+        ContactInfo c1 = new ContactInfo();
+        c1.setId(1l);
         c1.setAddress(a1);
+
+        ContactInfo c2 = new ContactInfo();
+        c2.setId(2l);
         c2.setAddress(a2);
 
-        p1.getContactInfo().setId(1l);
-        p1.getContactInfo().getAddress().setId(1l);
-
-        p2.getContactInfo().setId(2l);
-        p2.getContactInfo().getAddress().setId(2l);
+        Person p1 = new Person();
+        p1.setName("Jackie Chan");
+        p1.setContactInfo(c1);
+        Person p2 = new Person();
+        p2.setName("John Doe");
+        p2.setContactInfo(c2);
 
         personService.save(p1);
         personService.save(p2);
+
+        Address a3 = new Address();
+        a3.setStreet("13 Fake st");
+
+        Address a4 = new Address();
+        a4.setStreet("99 Fun Dr");
 
         //Test Data
         Yard y1 = new Yard();
@@ -95,10 +95,8 @@ public class YardController {
         y2.setStatus("potential yard");
         y1.setAccessLocation("To the left");
         y2.setAccessLocation("Behind the barn");
-        y1.setAddress("123 main st");
-        y2.setAddress("80 1st st");
-        y1.setZip("12345");
-        y2.setZip("95658");
+        y1.setAddress(a3);
+        y2.setAddress(a4);
         y1.setMaxHives(80);
         y2.setMaxHives(160);
         y1.setCombo("12345");
@@ -107,13 +105,16 @@ public class YardController {
         y2.setOwner(p1);
         y1.setRentReceiver(p1);
         y2.setRentReceiver(p2);
-        this.yardService.add(y1);
-        this.yardService.add(y2);
+        this.yardService.save(y1);
+        this.yardService.save(y2);
     }
-    /** Models **/
+
+    /**
+     * Models
+     **/
 
     @ModelAttribute("allYards")
-    public List<Yard> populateYards(){
+    public List<Yard> populateYards() {
         List<Yard> allYards = yardService.findAll();
 //        Iterator<Yard> itr = allYards.iterator();
 //        while (itr.hasNext()) {
@@ -122,22 +123,60 @@ public class YardController {
         return allYards;
     }
 
+    @ModelAttribute("allPeople")
+    public List<Person> populatePeople() {
+        List<Person> allPeople = personService.findAll();
+        return allPeople;
+    }
+
     @ModelAttribute("yard")
     public Yard createModel() {
         return new Yard();
     }
 
-    /** Request Mapping **/
+    /**
+     * Request Mapping
+     **/
 
-    @RequestMapping({"/" ,"/index"})
+    @RequestMapping({"/", "/index", "/list"})
     public String index() {
-        return "/yard/index";
+        return "/yard/list";
     }
 
-    @RequestMapping(value="/", method = RequestMethod.POST)
-    public String yardSubmit(Yard yard, Model model) {
-        model.addAttribute("yard", yard);
-        yardService.add(yard);
-        return index();
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String update(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("yard", yardService.findById(id));
+        return "/yard/update";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(Yard yard) {
+        yardService.save(yard);
+        return "redirect:/yard/";
+    }
+
+    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    public String read(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("yard", yardService.findById(id));
+        return "/yard/read";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String delete(@RequestParam("id") Long id) {
+        ArrayList<Yard> toBeDeleted = new ArrayList<>();
+        toBeDeleted.add(yardService.findById(id));
+        yardService.deleteInBatch(toBeDeleted);
+        return "redirect:/yard/";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create() {
+        return "/yard/create";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String create(Yard yard) {
+        yardService.save(yard);
+        return "redirect:/yard/";
     }
 }

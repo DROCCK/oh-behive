@@ -1,5 +1,6 @@
 package drocck.sp.beesandhoney.business.services;
 
+import drocck.sp.beesandhoney.business.entities.Address;
 import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class PersonService {
     @Autowired
     private ContactInfoService contactInfoService;
 
+    @Autowired
+    private AddressService addressService;
+
     public List<Person> findAll() {
         List<Person> people = personRepository.findAll();
         people.forEach(
@@ -35,6 +39,8 @@ public class PersonService {
     }
 
     public Person save(Person person) {
+        addressService.save(person.getContactInfo().getAddress());
+        contactInfoService.save(person.getContactInfo());
         return personRepository.save(person);
     }
 }

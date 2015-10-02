@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+    <title></title> <!-- save your title here -->
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <form class="form-horizontal" role="form" action="#" th:action="@{/yard/update}" th:object="${yard}" method="post">
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input type="hidden" class="form-control" th:field="*{id}" id="id" placeholder="id"
+                       th:value="${yard.id}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Yard Name: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Yard Name"
+                       th:value="${yard.name}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="status">Status: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{status}" id="status" placeholder="In Use"
+                       th:value="${yard.status}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="combo">Combination or Key: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{combo}" id="combo" placeholder="mhf key"
+                       th:value="${yard.combo}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="street" class="col-sm-2 control-label">Street</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{address.street}" type="text" class="form-control" id="street"
+                       placeholder="Street" th:value="${yard.address.street}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="apt" class="col-sm-2 control-label">Suite/Apartment#</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{address.apt}" type="text" class="form-control" id="apt"
+                       placeholder="Suite/Apartment#" th:value="${yard.address.apt}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="city" class="col-sm-2 control-label">City</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{address.city}" type="text" class="form-control" id="city"
+                       placeholder="City" th:value="${yard.address.city}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="state" class="col-sm-2 control-label">State</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{address.state}" type="text" class="form-control" id="state"
+                       placeholder="State" th:value="${yard.address.state}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="zip" class="col-sm-2 control-label">Zip</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{address.zip}" type="text" class="form-control" id="zip"
+                       placeholder="Zip" th:value="${yard.address.zip}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="accessLocation">Access Notes: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{accessLocation}" id="accessLocation" placeholder=""
+                       th:value="${yard.accessLocation}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="maxHives">Max number of hives: </label>
+
+            <div class="col-sm-10">
+                <input type="number" class="form-control" th:field="*{maxHives}" id="maxHives" placeholder="80"
+                       th:value="${yard.maxHives}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="owner">Who owns the land?</label>
+
+            <div class="col-sm-10">
+                <select class="form-control" th:field="*{owner.id}" id="owner">
+                    <option th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}"
+                            th:unless="${p.id == yard.owner.id}">Guy 1
+                    </option>
+                    <option selected="selected" th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}"
+                            th:unless="${p.id != yard.owner.id}">Guy 1
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="rentReceiver">Who is the rent paid too for this land?</label>
+
+            <div class="col-sm-10">
+                <select class="form-control" th:field="*{rentReceiver.id}" id="rentReceiver">
+                    <option th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}"
+                            th:unless="${p.id == yard.owner.id}">Guy 1
+                    </option>
+                    <option selected="selected" th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}"
+                            th:unless="${p.id != yard.owner.id}">Guy 1
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

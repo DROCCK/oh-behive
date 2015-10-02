@@ -35,7 +35,6 @@ public class OwnerController {
 
     private void initData(){
         Owner o1 = new Owner();
-        o1.setID(1);
         o1.setName("Billy Bob");
         o1.setPhoneNumber("915-222-4444");
         o1.setEmail("BillyBob@BillyTheBob.com");
@@ -43,7 +42,7 @@ public class OwnerController {
         o1.setCity("Sacramento");
         o1.setState("CA");
         o1.setZip("94643");
-        ownerService.add(o1);
+        ownerService.save(o1);
     }
 
     @ModelAttribute("allOwners")
@@ -64,9 +63,21 @@ public class OwnerController {
         return "/owner/index";
     }
 
-    @RequestMapping(value="/", method = RequestMethod.POST)
-    public String yardSubmit(@ModelAttribute Owner newOwner, Model newModel) {
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create() {
+        return "/owner/create";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String create(Owner owner) {
+        ownerService.save(owner);
+        return "redirect:/owner/";
+    }
+    /* currently not in use
+   @RequestMapping(value="/", method = RequestMethod.POST)
+    public String ownerSubmit(@ModelAttribute Owner newOwner, Model newModel) {
         newModel.addAttribute("owner", newOwner);
         return index();
     }
+    */
 }

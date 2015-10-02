@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" >
-<head th:include="fragments/head :: head">
-    <title>Owner Page</title>
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Owner Page</title> <!-- add your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header">
@@ -36,6 +37,13 @@
         </tr>
         </tbody>
     </table>
+
+    <a href="/owner/create.html" th:href="@{/owner/create}">
+        <button type="button" class="btn btn-info">
+            Create a new owner
+        </button>
+    </a>
+
 </div>
 
 <footer th:replace="fragments/footer :: footer">

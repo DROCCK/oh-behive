@@ -2,7 +2,6 @@ package drocck.sp.beesandhoney.business.entities.repositories;
 
 import drocck.sp.beesandhoney.business.entities.Yard;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,4 +11,5 @@ import java.util.List;
 
 public interface YardRepository extends JpaRepository<Yard, Long> {
     List<Yard> findByName(String name);
+    Yard findById(Long id);
 }
