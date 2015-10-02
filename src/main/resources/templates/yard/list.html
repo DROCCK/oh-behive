@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="fragments/head :: head"></head>
 <head>
@@ -7,9 +7,9 @@
 </head>
 
 <body>
-    <header th:replace="fragments/header :: header"></header>
+<header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2 >List of Yards</h2>
+    <h2>List of Yards</h2>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -18,8 +18,7 @@
             <th>Status</th>
             <th>Combo</th>
             <th>Address</th>
-            <th>Zip</th>
-            <th>Access Location</th>
+            <th>Access Notes</th>
             <th>Max Hives</th>
             <th>Owner</th>
             <th>Pay Rent To</th>
@@ -32,14 +31,17 @@
             <td><a th:text="${y.name}" th:href="@{/yard/read/(id=${y.id})}">Watson</a></td>
             <td th:text="${{y.status}}">in use</td>
             <td th:text="${{y.combo}}">no key</td>
-            <td th:text="${{y.address}}">1 Main St</td>
-            <td th:text="${{y.zip}}">55555</td>
+            <td th:text="${y.address}"></td>
             <td th:text="${{y.accessLocation}}">driveway</td>
             <td th:text="${{y.maxHives}}">80</td>
             <td><a th:text="${(y.owner.name)}" th:href="@{/owner/(id=${y.owner.id})}"></a></td>
             <td><a th:text="${(y.rentReceiver.name)}" th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
-            <td><a th:href="@{/yard/update/(id=${y.id})}"><button class="btn">Update</button></a></td>
-            <td><a th:href="@{/yard/delete/(id=${y.id})}"><button class="btn">Delete</button></a></td>
+            <td><a th:href="@{/yard/update/(id=${y.id})}">
+                <button class="btn">Update</button>
+            </a></td>
+            <td><a th:href="@{/yard/delete/(id=${y.id})}">
+                <button class="btn">Delete</button>
+            </a></td>
         </tr>
         </tbody>
     </table>
@@ -50,7 +52,7 @@
     </a>
 </div>
 
-    <footer th:replace="fragments/footer :: footer">
-    </footer>
+<footer th:replace="fragments/footer :: footer">
+</footer>
 </body>
 </html>

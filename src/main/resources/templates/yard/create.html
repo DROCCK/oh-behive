@@ -9,48 +9,87 @@
     <form class="form-horizontal" role="form" action="#" th:action="@{/yard/create}" th:object="${yard}" method="post">
         <div class="form-group">
             <label class="control-label col-sm-2" for="name">Yard Name: </label>
+
             <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="yard name"/>
+                <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Yard Name"/>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="status">Status: </label>
+
             <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{status}" id="status" placeholder="in use"/>
+                <input type="text" class="form-control" th:field="*{status}" id="status" placeholder="Status"/>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="combo">Combination or Key: </label>
+
             <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{combo}" id="combo" placeholder="mhf key"/>
+                <input type="text" class="form-control" th:field="*{combo}" id="combo" placeholder="Key or Combo"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="address">Address: </label>
+            <label for="street" class="col-sm-2 control-label">Street</label>
+
             <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{address}" id="address" placeholder="123 Main St."/>
+                <input th:field="*{address.street}" type="text" class="form-control" id="street"
+                       placeholder="Street"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="apt" class="col-sm-2 control-label">Suite/Apartment#</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{address.apt}" type="text" class="form-control" id="apt"
+                       placeholder="Suite/Apartment#"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="city" class="col-sm-2 control-label">City</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{address.city}" type="text" class="form-control" id="city"
+                       placeholder="City"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="state" class="col-sm-2 control-label">State</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{address.state}" type="text" class="form-control" id="state"
+                       placeholder="State"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="zip" class="col-sm-2 control-label">Zip</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{address.zip}" type="text" class="form-control" id="zip"
+                       placeholder="Zip"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="zip">Zip: </label>
+            <label class="control-label col-sm-2" for="accessLocation">Access Notes: </label>
+
             <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{zip}" id="zip" placeholder="95658"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="accessLocation">Access Location: </label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{accessLocation}" id="accessLocation" placeholder=""/>
+                <input type="text" class="form-control" th:field="*{accessLocation}" id="accessLocation"
+                       placeholder="Access Notes"/>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="maxHives">Max number of hives: </label>
+
             <div class="col-sm-10">
                 <input type="number" class="form-control" th:field="*{maxHives}" id="maxHives" placeholder="80"/>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="owner">Who owns the land?</label>
+
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{owner.id}" id="owner">
                     <option th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}">Guy 1</option>
@@ -59,6 +98,7 @@
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="rentReceiver">Who is the rent paid too for this land?</label>
+
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{rentReceiver.id}" id="rentReceiver">
                     <option th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}">Guy 1</option>

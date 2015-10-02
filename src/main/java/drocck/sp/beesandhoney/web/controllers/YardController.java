@@ -56,6 +56,7 @@ public class YardController {
         Address a1 = new Address();
         a1.setId(1l);
         a1.setStreet("80 Geraldson Drive");
+
         Address a2 = new Address();
         a2.setId(2l);
         a2.setStreet("6000 J St");
@@ -63,6 +64,7 @@ public class YardController {
         ContactInfo c1 = new ContactInfo();
         c1.setId(1l);
         c1.setAddress(a1);
+
         ContactInfo c2 = new ContactInfo();
         c2.setId(2l);
         c2.setAddress(a2);
@@ -77,6 +79,12 @@ public class YardController {
         personService.save(p1);
         personService.save(p2);
 
+        Address a3 = new Address();
+        a3.setStreet("13 Fake st");
+
+        Address a4 = new Address();
+        a4.setStreet("99 Fun Dr");
+
         //Test Data
         Yard y1 = new Yard();
         Yard y2 = new Yard();
@@ -87,10 +95,8 @@ public class YardController {
         y2.setStatus("potential yard");
         y1.setAccessLocation("To the left");
         y2.setAccessLocation("Behind the barn");
-        y1.setAddress("123 main st");
-        y2.setAddress("80 1st st");
-        y1.setZip("12345");
-        y2.setZip("95658");
+        y1.setAddress(a3);
+        y2.setAddress(a4);
         y1.setMaxHives(80);
         y2.setMaxHives(160);
         y1.setCombo("12345");
@@ -102,10 +108,13 @@ public class YardController {
         this.yardService.save(y1);
         this.yardService.save(y2);
     }
-    /** Models **/
+
+    /**
+     * Models
+     **/
 
     @ModelAttribute("allYards")
-    public List<Yard> populateYards(){
+    public List<Yard> populateYards() {
         List<Yard> allYards = yardService.findAll();
 //        Iterator<Yard> itr = allYards.iterator();
 //        while (itr.hasNext()) {
@@ -125,9 +134,11 @@ public class YardController {
         return new Yard();
     }
 
-    /** Request Mapping **/
+    /**
+     * Request Mapping
+     **/
 
-    @RequestMapping({"/" ,"/index", "/list"})
+    @RequestMapping({"/", "/index", "/list"})
     public String index() {
         return "/yard/list";
     }

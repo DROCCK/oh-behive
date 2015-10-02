@@ -16,6 +16,9 @@ public class YardService {
     @Autowired
     YardRepository yardRepository;
 
+    @Autowired
+    AddressService addressService;
+
     public YardService() {
         super();
     }
@@ -34,6 +37,7 @@ public class YardService {
     }
 
     public Yard save(final Yard yard) {
+        addressService.save(yard.getAddress());
         return this.yardRepository.save(yard);
     }
 }

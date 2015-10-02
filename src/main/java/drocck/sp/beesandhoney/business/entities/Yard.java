@@ -11,15 +11,17 @@ import javax.persistence.*;
 public class Yard {
 
     @Id
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id = null;
     private String name = null;
     private String status = null;
     private String combo = null;
-    private String address = null;
-    private String zip = null;
     private String accessLocation = null;
     private Integer maxHives = null;
+
+    @OneToOne
+    private Address address;
 
     @ManyToOne
     private Person owner;
@@ -62,20 +64,12 @@ public class Yard {
         this.combo = combo;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
     }
 
     public String getAccessLocation() {
@@ -113,6 +107,6 @@ public class Yard {
     @Override
     public String toString() {
         return "Yard [id="+this.id+" name="+this.name+" status="+this.status+" combo="+this.combo+" address="+this.address+
-                " zip="+this.zip+" accessLocation="+this.accessLocation+" maxHives="+this.maxHives+"]";
+                 "accessLocation="+this.accessLocation+" maxHives="+this.maxHives+"]";
     }
 }
