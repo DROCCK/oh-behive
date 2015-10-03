@@ -12,6 +12,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -27,6 +28,8 @@ import javax.sql.DataSource;
 @EntityScan("drocck.sp.beesandhoney.business.entities")
 @EnableTransactionManagement
 public class AppConfig {
+
+
 
     @Bean
     public DataSource dataSource() {
@@ -74,4 +77,13 @@ public class AppConfig {
 
     @Bean
     public AddressService addressService() { return new AddressService(); }
+
+    @Bean
+    public UserService userService() {
+        return new UserService();
+    }
+
+    @Bean RoleService roleService() {
+        return new RoleService();
+    }
 }
