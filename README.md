@@ -11,9 +11,7 @@ Connor: I'll make a body page for the yard data
 
 Oscar: I'll do the Owner page
 
-Rob: I'll make a master page that renders a header footer and body. The body
-will be the html from the individual pages.
-> I added a navbar and button to return to the home page, a footer, and bootstrap links.
+Rob: Moved on to security headaches...
 
 IMPORTANT: Oscar: When I pushed, I edited the AppConfig class in the web folder. Take care to have current
 versions of files you edit that you didn't create before pushing again.
