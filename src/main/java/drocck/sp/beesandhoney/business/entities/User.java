@@ -10,28 +10,24 @@ import java.util.List;
 @Entity
 public class User {
 
-    /**
-     * User shares its id with an Employee instance
-     */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
+
+    @Column(name = "username", nullable = false, updatable = false)
     private String username;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany
+/*    @ManyToMany
     @JoinTable
-    private List<Role> roles;
+    private List<Role> roles;*/
 
-    public User() {
-
-    }
-
-    public User(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-    }
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Long getId() {
         return id;
@@ -57,11 +53,19 @@ public class User {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    /*    public List<Role> getRoles() {
         return roles;
     }
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
-    }
+    }*/
 }

@@ -1,7 +1,5 @@
 package drocck.sp.beesandhoney.web.controllers;
 
-import drocck.sp.beesandhoney.business.entities.User;
-import drocck.sp.beesandhoney.security.CurrentUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +15,8 @@ import java.security.Principal;
 public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index( Model model, Principal principal) {
+    public String index(Model model, Principal principal) {
+        model.addAttribute("principal", principal);
         return "index";
     }
 }
