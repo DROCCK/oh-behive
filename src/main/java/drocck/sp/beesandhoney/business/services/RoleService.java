@@ -1,13 +1,6 @@
 package drocck.sp.beesandhoney.business.services;
 
-import drocck.sp.beesandhoney.business.entities.Role;
-import drocck.sp.beesandhoney.business.entities.User;
-import drocck.sp.beesandhoney.business.entities.repositories.RoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Rob
@@ -16,7 +9,7 @@ import java.util.List;
 @Service
 public class RoleService {
 
-    @Autowired
+/*    @Autowired
     private RoleRepository roleRepository;
 
     List<Role> findAll() {
@@ -35,5 +28,5 @@ public class RoleService {
 
     Role save(Role role) {
         return roleRepository.save(role);
-    }
+    }*/
 }

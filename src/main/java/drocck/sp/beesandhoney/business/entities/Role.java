@@ -7,10 +7,11 @@ import java.util.List;
  * @author Rob
  *         Created on 9/29/2015.
  */
-@Entity
-public class Role {
+// @Entity
+public enum Role {
+    USER, ADMIN
 
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -41,5 +42,5 @@ public class Role {
 
     public void setUsers(List<User> users) {
         this.users = users;
-    }
+    }*/
 }

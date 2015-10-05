@@ -17,6 +17,8 @@ public class ContactInfoService {
     @Autowired
     private ContactInfoRepository contactInfoRepository;
 
+    private String why;
+
     @Autowired
     private AddressService addressService;
 
