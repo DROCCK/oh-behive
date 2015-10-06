@@ -11,7 +11,7 @@ Connor: I'll make a body page for the yard data
 
 Oscar: I'll do the Owner page
 
-Rob: Moved on to security headaches...
+Rob: Finished Security v.0.1 with better header sign in / logout behavior.
 
 IMPORTANT: Oscar: When I pushed, I edited the AppConfig class in the web folder. Take care to have current
 versions of files you edit that you didn't create before pushing again.
