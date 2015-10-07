@@ -2,31 +2,45 @@ package drocck.sp.beesandhoney.business.entities;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Connor on 9/26/2015.
  */
 
 @Entity
-public class Yard {
+public class Yard implements Serializable {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "YARD_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id = null;
-    private String name = null;
+
+    @Column(name = "YARD_NAME", nullable = false, updatable = false)
+    private String yardName = null;
+
+    @Column(name = "STATUS")
     private String status = null;
+
+    @Column(name = "COMBO")
     private String combo = null;
-    private String accessLocation = null;
+
+    @Column(name = "ACCESS_NOTES")
+    private String accessNotes = null;
+
+    @Column(name = "MAX_HIVES")
     private Integer maxHives = null;
 
-    @OneToOne
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "ADDRESS_ID")
     private Address address;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "OWNER_ID")
     private Person owner;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "RENT_RECEIVER_ID")
     private Person rentReceiver;
 
     /** Getters and Setters **/
@@ -40,12 +54,12 @@ public class Yard {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public String getYardName() {
+        return this.yardName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setYardName(String yardName) {
+        this.yardName = yardName;
     }
 
     public String getStatus() {
@@ -72,12 +86,12 @@ public class Yard {
         this.address = address;
     }
 
-    public String getAccessLocation() {
-        return accessLocation;
+    public String getAccessNotes() {
+        return accessNotes;
     }
 
-    public void setAccessLocation(String accessLocation) {
-        this.accessLocation = accessLocation;
+    public void setAccessNotes(String accessNotes) {
+        this.accessNotes = accessNotes;
     }
 
     public Integer getMaxHives() {
@@ -106,7 +120,7 @@ public class Yard {
 
     @Override
     public String toString() {
-        return "Yard [id="+this.id+" name="+this.name+" status="+this.status+" combo="+this.combo+" address="+this.address+
-                 "accessLocation="+this.accessLocation+" maxHives="+this.maxHives+"]";
+        return "Yard [id="+this.id+" yardName="+this.yardName +" status="+this.status+" combo="+this.combo+" address="+this.address+
+                 "accessNotes="+this.accessNotes +" maxHives="+this.maxHives+"]";
     }
 }

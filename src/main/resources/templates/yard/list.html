@@ -28,14 +28,14 @@
         <tbody>
         <tr th:each="y : ${allYards}">
             <td th:text="${{y.id}}">0</td>
-            <td><a th:text="${y.name}" th:href="@{/yard/read/(id=${y.id})}">Watson</a></td>
+            <td><a th:text="${y.yardName}" th:href="@{/yard/read/(id=${y.id})}">Watson</a></td>
             <td th:text="${{y.status}}">in use</td>
             <td th:text="${{y.combo}}">no key</td>
             <td th:text="${y.address}"></td>
-            <td th:text="${{y.accessLocation}}">driveway</td>
+            <td th:text="${{y.accessNotes}}">driveway</td>
             <td th:text="${{y.maxHives}}">80</td>
-            <td><a th:text="${(y.owner.name)}" th:href="@{/owner/(id=${y.owner.id})}"></a></td>
-            <td><a th:text="${(y.rentReceiver.name)}" th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
+            <td><a th:unless="${y.owner == null}" th:text="${(y.owner.name)}" th:href="@{/owner/(id=${y.owner.id})}"></a></td>
+            <td><a th:unless="${y.rentReceiver == null}" th:text="${(y.rentReceiver.name)}" th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
             <td><a th:href="@{/yard/update/(id=${y.id})}">
                 <button class="btn">Update</button>
             </a></td>
