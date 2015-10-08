@@ -1,6 +1,6 @@
 package drocck.sp.beesandhoney.web.controllers;
 
-import drocck.sp.beesandhoney.business.entities.Owner;
+import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.services.OwnerService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -30,30 +30,17 @@ public class OwnerController {
     public OwnerController(OwnerService newOwnerService){
         super();
         ownerService = newOwnerService;
-        initData();
-    }
-
-    private void initData(){
-        Owner o1 = new Owner();
-        o1.setName("Billy Bob");
-        o1.setPhoneNumber("915-222-4444");
-        o1.setEmail("BillyBob@BillyTheBob.com");
-        o1.setStreet("1235 Whoa RD");
-        o1.setCity("Sacramento");
-        o1.setState("CA");
-        o1.setZip("94643");
-        ownerService.save(o1);
     }
 
     @ModelAttribute("allOwners")
     public @ResponseBody
-    List<Owner> populateOwners(){
+    List<Person> populateOwners(){
         return ownerService.findAll();
     }
 
     @ModelAttribute("owner")
-    public Owner createModel() {
-        return new Owner();
+    public Person createModel() {
+        return new Person();
     }
 
     /** Request Mapping **/
@@ -69,7 +56,7 @@ public class OwnerController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(Owner owner) {
+    public String create(Person owner) {
         ownerService.save(owner);
         return "redirect:/owner/";
     }
