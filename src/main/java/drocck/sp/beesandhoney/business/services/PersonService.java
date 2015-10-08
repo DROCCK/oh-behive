@@ -21,9 +21,6 @@ public class PersonService {
     @Autowired
     private ContactInfoService contactInfoService;
 
-    @Autowired
-    private AddressService addressService;
-
     public List<Person> findAll() {
         List<Person> people = personRepository.findAll();
         people.forEach(
@@ -39,8 +36,23 @@ public class PersonService {
     }
 
     public Person save(Person person) {
-        addressService.save(person.getContactInfo().getAddress());
         contactInfoService.save(person.getContactInfo());
         return personRepository.save(person);
+    }
+
+    public Person update(Person person) {
+        Person p = personRepository.findById(person.getId());
+        p.setName(person.getName());
+        person.getContactInfo().setId(p.getId());
+        p.setContactInfo(contactInfoService.update(person.getContactInfo()));
+        return personRepository.save(p);
+    }
+
+    public void delete(Long id) {
+        personRepository.delete(id);
+    }
+
+    public void delete(Person person) {
+        personRepository.delete(person);
     }
 }

@@ -70,30 +70,4 @@ public class UserController {
         }
         return "redirect:/users";
     }
-
-/*    @ModelAttribute("user")
-    User construct() {
-        return new User();
-    }
-
-    @RequestMapping("/user/create")
-    public String create() {
-        return "/user/create";
-    }
-
-    @RequestMapping(value = "user/create", method = RequestMethod.POST)
-    public String create(@Valid User user, BindingResult result, RedirectAttributes attributes) {
-        if (result.hasErrors())
-            return "user/create";
-        user = userService.save(user);
-        attributes.addFlashAttribute("successMessage", "Successfully created a new user");
-        List<GrantedAuthority> authorities =
-                AuthorityUtils.createAuthorityList("ROLE_USER");
-        UserDetails userDetails = new org.springframework.security.core.userdetails
-                .User(user.getUsername(), user.getPassword(), authorities);
-        Authentication auth =
-                new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), authorities);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        return "redirect:/";
-    }*/
 }

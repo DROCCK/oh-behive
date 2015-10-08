@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Contact Info List</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>Contact List <a class="btn btn-primary btn-md" th:href="@{/contactInfo/create}">Create New
+        Contact</a></h1>
+    <table class="table table-responsive table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody th:each="contactInfo : ${contactInfos}">
+        <tr>
+            <td th:text="${contactInfo.email}">Email</td>
+            <td th:text="${contactInfo.phone}">Phone</td>
+            <td th:text="${contactInfo.address}">Address</td>
+            <td>
+                <a class="btn btn-xs btn-warning" th:href="@{/contactInfo/update/{id}(id=${contactInfo.id})}">Update</a>
+                <a class="btn btn-xs btn-danger" th:href="@{/contactInfo/delete/{id}(id=${contactInfo.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

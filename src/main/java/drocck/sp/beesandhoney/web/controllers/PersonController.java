@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class PersonController {
-
-    @Autowired
-    private PersonRepository personRepository;
 
     @Autowired
     private PersonService personService;
@@ -39,9 +37,40 @@ public class PersonController {
         return "redirect:/person/list.html";
     }
 
+    @RequestMapping(value = "/person/read/{id}", method = RequestMethod.GET)
+    public String read(@PathVariable Long id, Model model) {
+        model.addAttribute(personService.findById(id));
+        return "person/read";
+    }
+
+    @RequestMapping(value = "/person/update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable Long id, Model model) {
+        model.addAttribute("person", personService.findById(id));
+        return "/person/update";
+    }
+
+    @RequestMapping(value = "person/updatePerson/{id}", method = RequestMethod.POST)
+    public String update(@PathVariable Long id, @ModelAttribute("person") Person person) {
+        person.setId(id);
+        personService.update(person);
+        return "redirect:/person/list";
+    }
+
+    @RequestMapping(value = "/person/delete/{id}", method = RequestMethod.GET)
+    public String delete(@PathVariable Long id, Model model) {
+        model.addAttribute("person", personService.findById(id));
+        return "/person/delete";
+    }
+
+    @RequestMapping(value = "/person/confirmedDelete/{id}")
+    public String confirmedDelete(@PathVariable Long id) {
+        personService.delete(id);
+        return "redirect:/person/list";
+    }
+
     @RequestMapping(value = "/person/list", method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("people", personRepository.findAll());
+        model.addAttribute("people", personService.findAll());
         return "person/list";
     }
 }

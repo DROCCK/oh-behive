@@ -31,8 +31,6 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class AppConfig {
 
-
-
     @Bean
     public DataSource dataSource() {
 

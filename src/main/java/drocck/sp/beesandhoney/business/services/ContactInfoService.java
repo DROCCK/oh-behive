@@ -17,12 +17,10 @@ public class ContactInfoService {
     @Autowired
     private ContactInfoRepository contactInfoRepository;
 
-    private String why;
-
     @Autowired
     private AddressService addressService;
 
-    List<ContactInfo> findAll() {
+    public List<ContactInfo> findAll() {
         List<ContactInfo> contactInfos = contactInfoRepository.findAll();
         contactInfos.forEach(
                 c -> c.setAddress(addressService.findById(c.getId()))
@@ -30,13 +28,31 @@ public class ContactInfoService {
         return contactInfos;
     }
 
-    ContactInfo findById(Long id) {
+    public ContactInfo findById(Long id) {
         ContactInfo contactInfo = contactInfoRepository.findById(id);
         contactInfo.setAddress(addressService.findById(id));
         return contactInfo;
     }
 
     public ContactInfo save(ContactInfo contactInfo) {
+        contactInfo.setAddress(addressService.save(contactInfo.getAddress()));
         return contactInfoRepository.save(contactInfo);
+    }
+
+    public ContactInfo update(ContactInfo contactInfo) {
+        ContactInfo c = contactInfoRepository.findById(contactInfo.getId());
+        c.setEmail(contactInfo.getEmail());
+        c.setPhone(contactInfo.getPhone());
+        contactInfo.getAddress().setId(contactInfo.getId());
+        c.setAddress(addressService.update(contactInfo.getAddress()));
+        return contactInfoRepository.save(c);
+    }
+
+    public void delete(Long id) {
+        contactInfoRepository.delete(id);
+    }
+
+    public void delete(ContactInfo contactInfo) {
+        contactInfoRepository.delete(contactInfo);
     }
 }

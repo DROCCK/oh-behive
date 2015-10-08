@@ -5,3 +5,11 @@
     display: inline-block;
     margin-right: 5px;
 }
+
+a:hover {
+    color: yellow;
+}
+
+.navbar-header > a:hover {
+    color: yellow;
+}
