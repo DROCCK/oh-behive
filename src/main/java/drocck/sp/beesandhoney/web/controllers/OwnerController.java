@@ -2,15 +2,13 @@ package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.services.OwnerService;
+import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +23,8 @@ public class OwnerController {
 
     @Autowired
     private OwnerService ownerService;
+    @Autowired
+    private YardService yardService;
 
     @Autowired
     public OwnerController(OwnerService newOwnerService){
@@ -59,6 +59,12 @@ public class OwnerController {
     public String create(Person owner) {
         ownerService.save(owner);
         return "redirect:/owner/";
+    }
+    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    public String read(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("owner", ownerService.findById(id));
+        model.addAttribute("yard", yardService.findById(ownerService.findById(id).getId()));
+        return "/owner/read";
     }
     /* currently not in use
    @RequestMapping(value="/", method = RequestMethod.POST)

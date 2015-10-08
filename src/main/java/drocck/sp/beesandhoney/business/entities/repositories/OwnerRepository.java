@@ -14,4 +14,5 @@ import java.util.List;
 public interface OwnerRepository extends JpaRepository<Person, Long>{
     public List<Person> findAll();
     public Person save(Person newOwner);
+    public Person findById(Long id);
 }

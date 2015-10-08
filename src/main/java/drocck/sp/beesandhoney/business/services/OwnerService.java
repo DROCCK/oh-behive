@@ -46,9 +46,19 @@ public class OwnerService {
         return owners;
     }
 
+    public Yard findYardByID(Long id){
+        Yard y = yardRepository.findById(id);
+        return y;
+    }
+
     public Person save(Person newOwner) {
         addressService.save(newOwner.getContactInfo().getAddress());
         contactInfoService.save(newOwner.getContactInfo());
         return personRepository.save(newOwner);
+    }
+
+    public Person findById(Long id) {
+        Person person = personRepository.findById(id);
+        return person;
     }
 }
