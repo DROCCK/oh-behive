@@ -37,7 +37,7 @@ public class OwnerService {
         //O(N^2) WHICH IS SHIT. NEED FIX.
         people.forEach(p -> {
             yards.forEach(y ->{
-                if(p.getId()==y.getOwner().getId()){
+                if(p.getId().equals(y.getOwner().getId())){
                     p.setContactInfo(contactInfoService.findById(p.getId()));
                     owners.add(p);
                 }
@@ -52,9 +52,13 @@ public class OwnerService {
     }
 
     public Person save(Person newOwner) {
-        addressService.save(newOwner.getContactInfo().getAddress());
+        //addressService.save(newOwner.getContactInfo().getAddress());
         contactInfoService.save(newOwner.getContactInfo());
         return personRepository.save(newOwner);
+    }
+
+    public void delete(Long id){
+        personRepository.delete(id);
     }
 
     public Person findById(Long id) {

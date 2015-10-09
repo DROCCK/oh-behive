@@ -66,6 +66,28 @@ public class OwnerController {
         model.addAttribute("yard", yardService.findById(ownerService.findById(id).getId()));
         return "/owner/read";
     }
+
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String update(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("owner", ownerService.findById(id));
+        return "/owner/update";
+    }
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(Person owner) {
+        ownerService.save(owner);
+        return "redirect:/owner/";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String delete(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("owner", ownerService.findById(id));
+        return "/owner/delete";
+    }
+    @RequestMapping(value = "/confirmedDelete")
+    public String deleteConfirmed(@RequestParam("id") Long id){
+        ownerService.delete(id);
+        return "redirect:/owner/";
+    }
     /* currently not in use
    @RequestMapping(value="/", method = RequestMethod.POST)
     public String ownerSubmit(@ModelAttribute Owner newOwner, Model newModel) {

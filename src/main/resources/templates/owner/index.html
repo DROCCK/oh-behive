@@ -34,6 +34,10 @@
             <td th:text="${{owner.contactInfo.address.city}}">Sacramento</td>
             <td th:text="${{owner.contactInfo.address.state}}">CA</td>
             <td th:text="${{owner.contactInfo.address.zip}}">12345</td>
+            <td>
+                <a class="btn btn-xs btn-warning" th:href="@{/owner/update/(id=${owner.id})}">Update</a>
+                <a class="btn btn-xs btn-danger" th:href="@{/owner/delete/(id=${owner.id})}">Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>
