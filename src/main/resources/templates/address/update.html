@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Update Address</title> <!-- add your title here -->
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>Update Address</h1>
+
+    <form action="#" th:action="@{/address/updateAddress/{id}(id=${address.id})}" th:object="${address}" method="post" class="form-horizontal">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <div class="form-group">
+            <label for="street" class="col-sm-2 control-label">Street: </label>
+
+            <div class="col-sm-10">
+                <input th:field="*{street}" th:value="${address.street}" type="text" class="form-control" id="street"
+                       placeholder="Street"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="apt" class="col-sm-2 control-label">Suite/Apartment#: </label>
+
+            <div class="col-sm-10">
+                <input th:field="*{apt}" th:value="${address.apt}" type="text" class="form-control" id="apt"
+                       placeholder="Suite/Apartment#"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="city" class="col-sm-2 control-label">City: </label>
+
+            <div class="col-sm-10">
+                <input th:field="*{city}" th:value="${address.city}" type="text" class="form-control" id="city"
+                       placeholder="City"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="state" class="col-sm-2 control-label">State: </label>
+
+            <div class="col-sm-10">
+                <input th:field="*{state}" th:value="${address.state}" type="text" class="form-control" id="state"
+                       placeholder="State"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="zip" class="col-sm-2 control-label">Zip</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{zip}" th:value="${address.zip}" type="text" class="form-control" id="zip"
+                       placeholder="Zip"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-warning">Update</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

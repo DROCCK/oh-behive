@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Owner Page</title> <!-- add your title here -->
+</head>
+<body>
+<header th:replace="fragments/header :: header">
+</header>
+
+<div class="container">
+    <h2 >Current Owners</h2>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Street Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="owner : ${allOwners}">
+            <td th:text="${{owner.id}}">0</td>
+            <td><a th:text="${(owner.name)}" th:href="@{/owner/read/(id=${owner.id})}"></a></td>
+            <td th:text="${{owner.contactInfo.phone}}">555-555-5555</td>
+            <td th:text="${{owner.contactInfo.email}}">xxxx@gmail.com</td>
+            <td th:text="${{owner.contactInfo.address.street}}">1 Main St</td>
+            <td th:text="${{owner.contactInfo.address.city}}">Sacramento</td>
+            <td th:text="${{owner.contactInfo.address.state}}">CA</td>
+            <td th:text="${{owner.contactInfo.address.zip}}">12345</td>
+            <td>
+                <a class="btn btn-xs btn-warning" th:href="@{/owner/update/(id=${owner.id})}">Update</a>
+                <a class="btn btn-xs btn-danger" th:href="@{/owner/delete/(id=${owner.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/owner/create.html" th:href="@{/owner/create}">
+        <button type="button" class="btn btn-info">
+            Create a new owner
+        </button>
+    </a>
+
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+</body>
+</html>

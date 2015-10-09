@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+    <title>Create new Owner</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <form class="form-horizontal" action="#" th:action="@{/owner/create}" th:object="${owner}" method="post">
+        <!-- name -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Owner Name: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Would Jablowme"/>
+            </div>
+        </div>
+        <!--Phone-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="phone">Phone Number: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.phone}" id="phone" placeholder="(000) 000-0000"/>
+            </div>
+        </div>
+        <!--email-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.email}" id="email" placeholder="xxxxxx@example.com"/>
+            </div>
+        </div>
+        <!--Street-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="street">Street Address: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.address.street}" id="street" placeholder="1234 Main St."/>
+            </div>
+        </div>
+        <!--City-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="city">City: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.address.city}" id="city" placeholder="City name"/>
+            </div>
+        </div>
+        <!--State-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="state">State: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.address.state}" id="state" placeholder="State name"/>
+            </div>
+        </div>
+        <!--Zip-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="zip">Zip: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.address.zip}" id="zip" placeholder="12345"/>
+            </div>
+        </div>
+        <!--submit button-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
