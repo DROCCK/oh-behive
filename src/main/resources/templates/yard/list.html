@@ -9,7 +9,11 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>List of Yards</h2>
+    <h2>Yards
+        <a class="btn btn-primary" href="/yard/create.html" th:href="@{/yard/create/}">
+            Create a new yard
+        </a>
+    </h2>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -28,28 +32,21 @@
         <tbody>
         <tr th:each="y : ${allYards}">
             <td th:text="${{y.id}}">0</td>
-            <td><a th:text="${y.yardName}" th:href="@{/yard/read/(id=${y.id})}">Watson</a></td>
+            <td><a th:text="${y.yardName}" th:href="@{/yard/read/{id}(id=${y.id})}">Watson</a></td>
             <td th:text="${{y.status}}">in use</td>
             <td th:text="${{y.combo}}">no key</td>
             <td th:text="${y.address}"></td>
             <td th:text="${{y.accessNotes}}">driveway</td>
             <td th:text="${{y.maxHives}}">80</td>
-            <td><a th:unless="${y.owner == null}" th:text="${(y.owner.name)}" th:href="@{/owner/(id=${y.owner.id})}"></a></td>
-            <td><a th:unless="${y.rentReceiver == null}" th:text="${(y.rentReceiver.name)}" th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
-            <td><a th:href="@{/yard/update/(id=${y.id})}">
-                <button class="btn">Update</button>
-            </a></td>
-            <td><a th:href="@{/yard/delete/(id=${y.id})}">
-                <button class="btn">Delete</button>
-            </a></td>
+            <td><a th:unless="${y.owner == null}" th:text="${(y.owner.name)}"
+                   th:href="@{/owner/(id=${y.owner.id})}"></a></td>
+            <td><a th:unless="${y.rentReceiver == null}" th:text="${(y.rentReceiver.name)}"
+                   th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
+            <td><a class="btn btn-xs btn-warning" th:href="@{/yard/update/{id}(id=${y.id})}">Update</a></td>
+            <td><a class="btn btn-xs btn-danger" th:href="@{/yard/delete/{id}(id=${y.id})}">Delete</a></td>
         </tr>
         </tbody>
     </table>
-    <a href="/yard/create.html" th:href="@{/yard/create/}">
-        <button type="button" class="btn btn-info">
-            Create a new yard
-        </button>
-    </a>
 </div>
 
 <footer th:replace="fragments/footer :: footer">
