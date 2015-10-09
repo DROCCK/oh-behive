@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * @author Rob
+ * @author Robert Wilk
  *         Created on 9/30/2015.
  */
 @Controller

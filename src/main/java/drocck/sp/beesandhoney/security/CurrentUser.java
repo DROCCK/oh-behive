@@ -4,6 +4,9 @@ import drocck.sp.beesandhoney.business.entities.Role;
 import drocck.sp.beesandhoney.business.entities.User;
 import org.springframework.security.core.authority.AuthorityUtils;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Rob
  *         Created on 10/4/2015.
@@ -14,7 +17,7 @@ public class CurrentUser extends org.springframework.security.core.userdetails.U
 
     public CurrentUser(User user) {
         super(user.getUsername(), user.getPassword(),
-                AuthorityUtils.createAuthorityList(user.getRole().toString()));
+                AuthorityUtils.createAuthorityList(user.getRolesAsStrings()));
         this.user = user;
     }
 
@@ -26,8 +29,8 @@ public class CurrentUser extends org.springframework.security.core.userdetails.U
         return user.getId();
     }
 
-    public Role getRole() {
-        return user.getRole();
+    public List<String> getRoles() {
+        return Arrays.asList(user.getRolesAsStrings());
     }
 
     @Override

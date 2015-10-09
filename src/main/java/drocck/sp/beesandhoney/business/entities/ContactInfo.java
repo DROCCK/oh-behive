@@ -1,6 +1,10 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 
 /**
  * @author Rob
@@ -16,7 +20,7 @@ public class ContactInfo {
     private String email;
     private String phone;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn(referencedColumnName = "ID")
     private Address address;
 

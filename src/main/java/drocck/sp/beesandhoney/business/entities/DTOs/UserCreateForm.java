@@ -4,6 +4,7 @@ import drocck.sp.beesandhoney.business.entities.Role;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author Rob
@@ -21,8 +22,10 @@ public class UserCreateForm {
     private String passwordRepeated = "";
 
     @NotNull
+    private List<Role> roles;
+    /*
     private Role role = Role.USER;
-
+*/
     public String getUsername() {
         return username;
     }
@@ -47,21 +50,27 @@ public class UserCreateForm {
         this.passwordRepeated = passwordRepeated;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
     }
 
     @Override
     public String toString() {
+        StringBuilder builder = new StringBuilder();
+        roles.forEach(r -> builder.append(r).append("\n"));
         return "UserCreateForm{" +
                 "email='" + username.replaceFirst("@.+", "@***") + '\'' +
                 ", password=***" + '\'' +
                 ", passwordRepeated=***" + '\'' +
-                ", role=" + role +
+                ", role=" + builder.toString() +
                 '}';
     }
 }

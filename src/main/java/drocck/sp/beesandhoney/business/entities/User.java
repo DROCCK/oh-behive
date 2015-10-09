@@ -1,7 +1,10 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import org.springframework.data.repository.cdi.Eager;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Rob
@@ -21,13 +24,15 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-/*    @ManyToMany
-    @JoinTable
-    private List<Role> roles;*/
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn(name = "ID")
+    private Person person;
 
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles",
+      joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
+      inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
+    private List<Role> roles;
 
     public Long getId() {
         return id;
@@ -53,19 +58,27 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    /*    public List<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
+    }
+
+    public String[] getRolesAsStrings() {
+        String[] roleStrings = new String[roles.size()];
+        IntStream.iterate(0, i -> i++)
+          .limit(roles.size())
+          .forEach(x -> roleStrings[x] = roles.get(x).getName());
+        return roleStrings;
     }
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
-    }*/
+    }
 }

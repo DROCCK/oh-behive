@@ -26,10 +26,6 @@ public class AddressService {
         return addressRepository.findById(id);
     }
 
-    public Address findByContactInfo(ContactInfo contactInfo) {
-        return findByContactInfo(contactInfo);
-    }
-
     public Address save(Address address) {
         return addressRepository.save(address);
     }

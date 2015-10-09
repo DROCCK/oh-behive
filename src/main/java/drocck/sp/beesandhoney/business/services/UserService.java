@@ -4,25 +4,18 @@ import drocck.sp.beesandhoney.business.entities.DTOs.UserCreateForm;
 import drocck.sp.beesandhoney.business.entities.User;
 import drocck.sp.beesandhoney.business.entities.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 /**
- * @author Rob
+ * @author Robert Wilk
  *         Created on 9/30/2015.
  */
 @Service
 public class UserService {
-// implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -47,7 +40,18 @@ public class UserService {
         User user = new User();
         user.setUsername(form.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(form.getPassword()));
-        user.setRole(form.getRole());
+        user.setRoles(form.getRoles());
+        return userRepository.save(user);
+    }
+
+    public User save(User user) {
+        User u = userRepository.findById(user.getId());
+        user.getPerson().setId(user.getId());
+        user.getPerson().getContactInfo().setId(user.getId());
+        user.getPerson().getContactInfo().getAddress().setId(user.getId());
+        u.setPerson(user.getPerson());
+        u.getPerson().setContactInfo(user.getPerson().getContactInfo());
+        u.getPerson().getContactInfo().setAddress(user.getPerson().getContactInfo().getAddress());
         return userRepository.save(user);
     }
 }

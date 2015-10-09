@@ -1,5 +1,6 @@
 package drocck.sp.beesandhoney.web.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import drocck.sp.beesandhoney.business.entities.DTOs.UserCreateForm;
 import drocck.sp.beesandhoney.business.entities.User;
 import drocck.sp.beesandhoney.business.entities.validators.UserCreateFormValidator;
@@ -15,6 +16,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,6 +43,11 @@ public class UserController {
     @Autowired
     private UserCreateFormValidator userCreateFormValidator;
 
+    @ModelAttribute("user")
+    public User construct() {
+        return new User();
+    }
+
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(userCreateFormValidator);
     }
@@ -55,19 +62,68 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/user/create", method = RequestMethod.GET)
     public ModelAndView getUserCreatePage() {
-        return new ModelAndView("user_create", "form", new UserCreateForm());
+        return new ModelAndView("create", "form", new UserCreateForm());
     }
 
     public String handleUserCreateForm(@Valid @ModelAttribute("form") UserCreateForm form,
                                        BindingResult result) {
         if (result.hasErrors())
-            return "user_create";
+            return "create";
         try {
             userService.create(form);
         } catch (DataIntegrityViolationException e) {
             result.reject("email.exists", "Email already exists!");
-            return "user_create";
+            return "create";
         }
         return "redirect:/users";
+    }
+
+/*    @RequestMapping(value = "/user/create", method = RequestMethod.GET)
+    public String create() {
+        return "user/create";
+    }*/
+
+    @RequestMapping(value = "/user/create", method = RequestMethod.POST)
+    public String create(@ModelAttribute User user) {
+        userService.save(user);
+        return "redirect:/user/list";
+    }
+
+    @RequestMapping(value = "/user/read/{id}", method = RequestMethod.GET)
+    public String read(@PathVariable Long id, Model model) {
+        model.addAttribute("user", userService.findById(id));
+        return "user/read";
+    }
+
+    @RequestMapping(value = "/user/update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable Long id, Model model) {
+        model.addAttribute("user",userService.findById(id));
+        return "user/update";
+    }
+
+    @RequestMapping(value = "/user/updateUser/{id}", method = RequestMethod.POST)
+    public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user) {
+        user.setId(id);
+        userService.save(user);
+        return "redirect:/user/list";
+    }
+
+    @RequestMapping(value = "/user/delete/{id}", method = RequestMethod.GET)
+    public String delete(@PathVariable Long id, Model model) {
+        model.addAttribute("user", userService.findById(id));
+        return "user/delete";
+    }
+
+    @RequestMapping(value = "/user/confirmedDelete/{id}")
+    public String confirmedDelete(@PathVariable Long id, @ModelAttribute("user") User user) {
+        user.setId(id);
+        userService.save(user);
+        return "redirect:/user/list";
+    }
+
+    @RequestMapping(value = "/user/list", method = RequestMethod.GET)
+    public String list(Model model) {
+        model.addAttribute("users", userService.findAll());
+        return "user/list";
     }
 }

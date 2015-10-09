@@ -21,21 +21,14 @@ public class ContactInfoService {
     private AddressService addressService;
 
     public List<ContactInfo> findAll() {
-        List<ContactInfo> contactInfos = contactInfoRepository.findAll();
-        contactInfos.forEach(
-                c -> c.setAddress(addressService.findById(c.getId()))
-        );
-        return contactInfos;
+        return contactInfoRepository.findAll();
     }
 
     public ContactInfo findById(Long id) {
-        ContactInfo contactInfo = contactInfoRepository.findById(id);
-        contactInfo.setAddress(addressService.findById(id));
-        return contactInfo;
+        return contactInfoRepository.findById(id);
     }
 
     public ContactInfo save(ContactInfo contactInfo) {
-        contactInfo.setAddress(addressService.save(contactInfo.getAddress()));
         return contactInfoRepository.save(contactInfo);
     }
 
@@ -43,8 +36,8 @@ public class ContactInfoService {
         ContactInfo c = contactInfoRepository.findById(contactInfo.getId());
         c.setEmail(contactInfo.getEmail());
         c.setPhone(contactInfo.getPhone());
-        contactInfo.getAddress().setId(contactInfo.getId());
-        c.setAddress(addressService.update(contactInfo.getAddress()));
+        c.setAddress(contactInfo.getAddress());
+        c.getAddress().setId(c.getId());
         return contactInfoRepository.save(c);
     }
 

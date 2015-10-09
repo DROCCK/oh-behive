@@ -10,8 +10,9 @@ import drocck.sp.beesandhoney.security.CurrentUser;
 public class CurrentUserService {
 
     public boolean canAccessUser(CurrentUser currentUser, Long id) {
+
         return currentUser != null
-                && (currentUser.getRole() == Role.ADMIN
+                && (currentUser.getRoles().contains("ADMIN")
                 || currentUser.getId().equals(id));
     }
 }

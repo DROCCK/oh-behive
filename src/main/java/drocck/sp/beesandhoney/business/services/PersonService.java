@@ -22,29 +22,24 @@ public class PersonService {
     private ContactInfoService contactInfoService;
 
     public List<Person> findAll() {
-        List<Person> people = personRepository.findAll();
-        people.forEach(
-                p -> p.setContactInfo(contactInfoService.findById(p.getId()))
-        );
-        return people;
+        return personRepository.findAll();
     }
 
     public Person findById(Long id) {
-        Person person = personRepository.findById(id);
-        person.setContactInfo(contactInfoService.findById(id));
-        return person;
+        return personRepository.findById(id);
     }
 
     public Person save(Person person) {
-        contactInfoService.save(person.getContactInfo());
         return personRepository.save(person);
     }
 
     public Person update(Person person) {
         Person p = personRepository.findById(person.getId());
         p.setName(person.getName());
-        person.getContactInfo().setId(p.getId());
-        p.setContactInfo(contactInfoService.update(person.getContactInfo()));
+        p.setContactInfo(person.getContactInfo());
+        p.getContactInfo().setId(p.getId());
+        p.getContactInfo().setAddress(person.getContactInfo().getAddress());
+        p.getContactInfo().getAddress().setId(p.getId());
         return personRepository.save(p);
     }
 

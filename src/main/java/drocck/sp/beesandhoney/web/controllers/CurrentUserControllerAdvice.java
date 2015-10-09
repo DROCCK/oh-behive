@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
  *         Created on 10/4/2015.
  */
 @ControllerAdvice
-public class CurrentUserControllerAdvice {
+public class    CurrentUserControllerAdvice {
 
     public CurrentUser getCurrentUser(Authentication authentication) {
         return (authentication == null) ?
