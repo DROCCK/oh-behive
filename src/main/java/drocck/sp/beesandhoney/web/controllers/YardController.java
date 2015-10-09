@@ -13,10 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +32,6 @@ public class YardController {
     @Autowired
     private PersonService personService;
 
-    @Autowired
-    private ContactInfoService contactInfoService;
-
-    @Autowired
-    private AddressService addressService;
-
     /**
      * Models
      **/
@@ -48,10 +39,6 @@ public class YardController {
     @ModelAttribute("allYards")
     public List<Yard> populateYards() {
         List<Yard> allYards = yardService.findAll();
-//        Iterator<Yard> itr = allYards.iterator();
-//        while (itr.hasNext()) {
-//            logger.info(itr.next().getOwnerName());
-//        }
         return allYards;
     }
 
@@ -70,13 +57,13 @@ public class YardController {
      * Request Mapping
      **/
 
-    @RequestMapping({"/", "/index", "/list"})
-    public String index() {
+    @RequestMapping({"/list"})
+    public String list() {
         return "/yard/list";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String update(Model model, @RequestParam("id") Long id) {
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(Model model, @PathVariable Long id) {
         model.addAttribute("yard", yardService.findById(id));
         return "/yard/update";
     }
@@ -84,21 +71,27 @@ public class YardController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Yard yard) {
         yardService.save(yard);
-        return "redirect:/yard/";
+        return "redirect:/yard/list";
     }
 
-    @RequestMapping(value = "/read", method = RequestMethod.GET)
-    public String read(Model model, @RequestParam("id") Long id) {
+    @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
+    public String read(Model model, @PathVariable Long id) {
         model.addAttribute("yard", yardService.findById(id));
         return "/yard/read";
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String delete(@RequestParam("id") Long id) {
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String delete(Model model, @PathVariable Long id) {
+        model.addAttribute("yard", yardService.findById(id));
+        return "yard/delete";
+    }
+
+    @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
+    public String confirmedDelete(@PathVariable Long id) {
         ArrayList<Yard> toBeDeleted = new ArrayList<>();
         toBeDeleted.add(yardService.findById(id));
         yardService.deleteInBatch(toBeDeleted);
-        return "redirect:/yard/";
+        return "redirect:/yard/list";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -109,6 +102,6 @@ public class YardController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Yard yard) {
         yardService.save(yard);
-        return "redirect:/yard/";
+        return "redirect:/yard/list.html";
     }
 }

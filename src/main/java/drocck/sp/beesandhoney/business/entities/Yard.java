@@ -16,7 +16,7 @@ public class Yard implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id = null;
 
-    @Column(name = "YARD_NAME", nullable = false, updatable = false)
+    @Column(name = "YARD_NAME")
     private String yardName = null;
 
     @Column(name = "STATUS")
