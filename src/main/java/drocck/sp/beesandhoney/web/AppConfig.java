@@ -1,7 +1,5 @@
 package drocck.sp.beesandhoney.web;
 
-import drocck.sp.beesandhoney.business.entities.Address;
-import drocck.sp.beesandhoney.business.entities.repositories.OwnerRepository;
 import drocck.sp.beesandhoney.business.entities.validators.UserCreateFormValidator;
 import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -13,7 +11,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -96,6 +93,11 @@ public class AppConfig {
     @Bean
     public CurrentUserService currentUserService() {
         return new CurrentUserService();
+    }
+
+    @Bean
+    public DropSiteService dropService() {
+        return new DropSiteService();
     }
 /*
 

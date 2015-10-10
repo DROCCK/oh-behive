@@ -1,4 +1,5 @@
 package drocck.sp.beesandhoney.business.entities;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -7,13 +8,13 @@ import java.util.Calendar;
 /**
  * Created by David on 9/29/2015.
  */
-
-public class Drop {
+@Entity
+public class DropSite {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id = null;
     private Double longitude = null;
     private Double latitude = null;
-    private Long dropId = null;
     private java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
     public void setDate(java.sql.Date date){
@@ -28,7 +29,7 @@ public class Drop {
         this.longitude = longitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
@@ -36,18 +37,18 @@ public class Drop {
         this.longitude = longitude;
     }
 
-    public double getLatitude() { return latitude; }
+    public Double getLatitude() { return latitude; }
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Long getDropId() {
-        return dropId;
+    public Long getId() {
+        return id;
     }
 
-    public void setDropId(Long dropId) {
-        this.dropId = dropId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
 

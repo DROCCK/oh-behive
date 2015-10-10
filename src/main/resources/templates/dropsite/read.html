@@ -11,17 +11,17 @@
 
         <h1>Drop Info</h1>
 
-        <p th:text="${drop.getDropId()}">ID</p>
+        <p th:text="${dropSite.getId()}">ID</p>
 
-        <p th:text="${drop.getDate()}">Date</p>
+        <p th:text="${dropSite.getDate()}">Date</p>
 
-        <p th:text="${drop.getLatitude()}">Latitude</p>
+        <p th:text="${dropSite.getLatitude()}">Latitude</p>
 
-        <p th:text="${drop.getLongitude()}">Longitude</p>
+        <p th:text="${dropSite.getLongitude()}">Longitude</p>
 
     </div>
     <div class = "container">
-        <a class="btn" th:href="@{/drop/list}">Back to List</a>
+        <a class="btn" th:href="@{/dropsite/list}">Back to List</a>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>

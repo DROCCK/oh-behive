@@ -6,10 +6,11 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <form class="form-horizontal" action="#" th:action="@{/drop/create}" th:object="${drop}" method="post">
-        <!-- name -->
+    <form class="form-horizontal" action="#" th:action="@{/dropsite/create}" th:object="${dropSite}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+       <!-- name -->
         <div class="form-group">
-            <label class="control-label col-sm-2" for="date">Drop Date </label>
+            <label class="control-label col-sm-2" for="date">Drop Date: </label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{date}" id="date" placeholder="0000/00/00"/>
             </div>

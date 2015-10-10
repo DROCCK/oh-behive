@@ -7,9 +7,9 @@
 <header th:replace="fragments/header :: header"></header>
 
 <div class="container">
-    <form class="form-horizontal" role="form" action="#" th:action="@{/drop/update}" th:object="${drop}" method="post">
+    <form class="form-horizontal" role="form" action="#" th:action="@{/dropsite/update}" th:object="${dropSite}" method="post">
 
-        <input type="hidden"  th:field="*{dropId}" id="id" th:value="${drop}"/>
+        <input type="hidden"  th:field="*{id}" id="id" th:value="${dropSite}"/>
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <!--Name-->
@@ -18,7 +18,7 @@
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{date}" id="Date" placeholder="Drop Date"
-                       th:value="${drop.getDropId()}"/>
+                       th:value="${dropSite.getId()}"/>
             </div>
         </div>
         <!--Phone-->
@@ -27,7 +27,7 @@
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{latitude}" id="latitude" placeholder="00.00"
-                       th:value="${drop.getLatitude()}"/>
+                       th:value="${dropSite.getLatitude()}"/>
             </div>
         </div>
         <!--Email-->
@@ -36,7 +36,7 @@
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{longitude}" id="longitude" placeholder="00.00"
-                       th:value="${drop.getLongitude()}"/>
+                       th:value="${dropSite.getLongitude()}"/>
             </div>
         </div>
         <!--Submit button-->

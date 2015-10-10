@@ -16,26 +16,26 @@ import java.util.List;
  * Created by David on 10/10/2015.
  */
 @Controller
-@RequestMapping("/drop")
-public class DropController {
-    private static final Log logger = LogFactory.getLog(DropController.class);
+@RequestMapping("/dropsite")
+public class DropSiteController {
+    private static final Log logger = LogFactory.getLog(DropSiteController.class);
 
     @Autowired
-    private DropService dropService;
+    private DropSiteService dropSiteService;
     /**
      * Models
      **/
 
 
-    @ModelAttribute("allDrops")
-    public List<Drop> populateDrops() {
-        List<Drop> allDrops = dropService.findAll();
-        return allDrops;
+    @ModelAttribute("allDropSites")
+    public List<DropSite> populateDrops() {
+        List<DropSite> allDropSites = dropSiteService.findAll();
+        return allDropSites;
     }
 
-    @ModelAttribute("drop")
-    public Drop createModel() {
-        return new Drop();
+    @ModelAttribute("dropSite")
+    public DropSite createModel() {
+        return new DropSite();
     }
 
     /**
@@ -44,49 +44,51 @@ public class DropController {
 
     @RequestMapping({"/list"})
     public String list() {
-        return "/drop/list";
+        return "/dropsite/list";
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long id) {
-        model.addAttribute("drop", dropService.findById(id));
-        return "/drop/update";
+        model.addAttribute("dropSite", dropSiteService.findById(id));
+        return "/dropsite/update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(Drop drop) {
-        dropService.save(drop);
-        return "redirect:/drop/list";
+    public String update(DropSite dropSite) {
+        dropSiteService.save(dropSite);
+        return "redirect:/dropsite/list";
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(Model model, @PathVariable Long id) {
-        model.addAttribute("drop", dropService.findById(id));
-        return "/drop/read";
+        model.addAttribute("dropSite", dropSiteService.findById(id));
+        return "/dropsite/read";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(Model model, @PathVariable Long id) {
-        model.addAttribute("drop", dropService.findById(id));
-        return "/drop/delete";
+        model.addAttribute("dropSite", dropSiteService.findById(id));
+        return "/dropsite/delete";
     }
 
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String confirmedDelete(@PathVariable Long id) {
-        ArrayList<Drop> toBeDeleted = new ArrayList<>();
-        toBeDeleted.add(dropService.findById(id));
-        dropService.deleteInBatch(toBeDeleted);
-        return "redirect:/drop/list";
+        ArrayList<DropSite> toBeDeleted = new ArrayList<>();
+        toBeDeleted.add(dropSiteService.findById(id));
+        dropSiteService.deleteInBatch(toBeDeleted);
+        return "redirect:/dropsite/list";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
-        return "/drop/create";
+        return "/dropsite/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(Drop drop) {
-        dropService.save(drop);
-        return "redirect:/drop/list.html";
+    public String create(DropSite dropSite) {
+        dropSiteService.save(dropSite);
+        logger.info(dropSite.getLatitude());
+        logger.info(dropSite.getLongitude());
+        return "redirect:/dropsite/list.html";
     }
 }
