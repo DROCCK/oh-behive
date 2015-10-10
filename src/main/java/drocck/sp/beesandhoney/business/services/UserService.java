@@ -44,11 +44,23 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public void delete(Long id) {
+        userRepository.delete(id);
+    }
+
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
+
     public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public User update(User user) {
         User u = userRepository.findById(user.getId());
-        user.getPerson().setId(user.getId());
-        user.getPerson().getContactInfo().setId(user.getId());
-        user.getPerson().getContactInfo().getAddress().setId(user.getId());
+        user.getPerson().setId(u.getId());
+        user.getPerson().getContactInfo().setId(u.getId());
+        user.getPerson().getContactInfo().getAddress().setId(u.getId());
         u.setPerson(user.getPerson());
         u.getPerson().setContactInfo(user.getPerson().getContactInfo());
         u.getPerson().getContactInfo().setAddress(user.getPerson().getContactInfo().getAddress());

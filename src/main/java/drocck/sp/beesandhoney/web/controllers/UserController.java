@@ -62,7 +62,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/user/create", method = RequestMethod.GET)
     public ModelAndView getUserCreatePage() {
-        return new ModelAndView("create", "form", new UserCreateForm());
+        return new ModelAndView("user/create", "form", new UserCreateForm());
     }
 
     public String handleUserCreateForm(@Valid @ModelAttribute("form") UserCreateForm form,
@@ -104,7 +104,7 @@ public class UserController {
     @RequestMapping(value = "/user/updateUser/{id}", method = RequestMethod.POST)
     public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user) {
         user.setId(id);
-        userService.save(user);
+        userService.update(user);
         return "redirect:/user/list";
     }
 
@@ -117,7 +117,7 @@ public class UserController {
     @RequestMapping(value = "/user/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id, @ModelAttribute("user") User user) {
         user.setId(id);
-        userService.save(user);
+        userService.delete(id);
         return "redirect:/user/list";
     }
 

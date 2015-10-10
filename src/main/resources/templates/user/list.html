@@ -7,7 +7,8 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Users</h1> <!-- replace with your content -->
+    <h1>Users <a class="btn btn-primary btn-md" th:href="@{/user/create}">Create New
+        User</a></h1>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
