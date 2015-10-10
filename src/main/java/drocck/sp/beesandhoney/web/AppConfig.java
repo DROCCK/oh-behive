@@ -78,6 +78,9 @@ public class AppConfig {
     public PersonService personService() { return new PersonService(); }
 
     @Bean
+    public EmployeeService employeeService() { return new EmployeeService(); }
+
+    @Bean
     public ContactInfoService contactInfoService() { return new ContactInfoService(); }
 
     @Bean
