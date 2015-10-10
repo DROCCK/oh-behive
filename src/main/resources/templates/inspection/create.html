@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+    <title>Inspection</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <form class="form-horizontal" role="form" action="#" th:action="@{/inspection/create}" th:object="${inspection}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="numDoubles">Number of Doubles: </label>
+
+            <div class="col-sm-10">
+                <input type="number" class="form-control" th:field="*{numDoubles}" id="numDoubles" placeholder="Number of Doubles"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="numSingles">Number of Singles: </label>
+
+            <div class="col-sm-10">
+                <input type="number" class="form-control" th:field="*{numSingles}" id="numSingles" placeholder="Number of Singles"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="visitDate">Date of Visit: </label>
+
+            <div class="col-sm-10">
+                <input type="date" class="form-control" th:field="*{visitDate}" id="visitDate" placeholder="Visit Date"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="medication" class="col-sm-2 control-label">Medication Used?</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{medication}" type="text" class="form-control" id="medication"
+                       placeholder="Medication Used"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="notes" class="col-sm-2 control-label">Notes</label>
+
+            <div class="col-sm-10">
+                <input th:field="*{notes}" type="text" class="form-control" id="notes"
+                       placeholder="Any notes go here"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

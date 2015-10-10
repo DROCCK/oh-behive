@@ -27,7 +27,7 @@
     <div class="col-md-6">
         <h1>Yard Owner</h1>
 
-        <p><a th:text="${yard.owner.name}" th:href="@{/person/read/{id}(id=${yard.owner.id})}"></a></p>
+        <p><a th:text="${yard.owner.name}" th:href="@{/person/read/(id=${yard.owner.id})}"></a></p>
 
         <p th:text="${yard.owner.contactInfo.email}"></p>
 
@@ -35,7 +35,7 @@
 
         <p th:text="${yard.owner.contactInfo.address.street}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.apt}"></p>
+        <p th:text="${yard.owner.contactInfo.address.zip}"></p>
 
         <p th:text="${yard.owner.contactInfo.address.city}"></p>
 
@@ -46,7 +46,7 @@
         <div th:unless="${yard.owner == yard.rentReceiver}">
             <h1>Info about yard rent receiver</h1>
 
-            <p> <a th:text="${yard.rentReceiver.name}" th:href="@{/person/read/{id}(id=${yard.rentReceiver.id})}">name</a></p>
+            <p th:text="${yard.rentReceiver.name}">name</p>
 
             <p th:text="${yard.rentReceiver.contactInfo.email}"></p>
 
@@ -54,7 +54,7 @@
 
             <p th:text="${yard.rentReceiver.contactInfo.address.street}"></p>
 
-            <p th:text="${yard.rentReceiver.contactInfo.address.apt}"></p>
+            <p th:text="${yard.rentReceiver.contactInfo.address.zip}"></p>
 
             <p th:text="${yard.rentReceiver.contactInfo.address.city}"></p>
 
@@ -64,6 +64,7 @@
         </div>
     </div>
     <div class = "container">
+        <a class="btn btn-danger" th:href="@{/yard/confirmedDelete/{id}(id=${yard.id})}">Confrim Delete</a>
         <a class="btn" th:href="@{/yard/list}">Back to List</a>
     </div>
 </div>

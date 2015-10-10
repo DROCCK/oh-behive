@@ -92,6 +92,9 @@ public class AppConfig {
     }
 
     @Bean
+    public InspectionService inspectionService() {return new InspectionService(); }
+
+    @Bean
     public CurrentUserDetailsService currentUserDetailsService() {
         return new CurrentUserDetailsService();
     }

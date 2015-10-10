@@ -1,5 +1,6 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -8,7 +9,7 @@ import java.util.Date;
 /**
  * Created by David on 9/29/2015.
  */
-
+@Entity
 public class Dropsite {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
