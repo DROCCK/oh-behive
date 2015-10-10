@@ -29,7 +29,7 @@
             </form>
             <form th:if="${ #httpServletRequest.userPrincipal != null }" th:action="@{/logout}" action="#" method="post"
                   class="navbar-form navbar-right">
-                <a class="label-name">
+                    <a class="label-name">
                     <label th:text="${ #httpServletRequest.userPrincipal.name }"></label>
                 </a>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
