@@ -1,5 +1,3 @@
-# oh-behive
-
-<h1>Data management tool for Miller's Farms.</h1>
+# oh-behive : A data management tool for Miller's Farms
 
 <h3>// TODO: Add running instructions here:</h3>
