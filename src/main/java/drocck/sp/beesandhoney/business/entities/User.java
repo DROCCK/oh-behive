@@ -1,7 +1,10 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import org.springframework.data.repository.cdi.Eager;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Rob
@@ -10,28 +13,26 @@ import java.util.List;
 @Entity
 public class User {
 
-    /**
-     * User shares its id with an Employee instance
-     */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
+
+    @Column(name = "username", nullable = false, updatable = false)
     private String username;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany
-    @JoinTable
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn(name = "ID")
+    private Person person;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles",
+      joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
+      inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
     private List<Role> roles;
-
-    public User() {
-
-    }
-
-    public User(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-    }
 
     public Long getId() {
         return id;
@@ -57,8 +58,24 @@ public class User {
         this.password = password;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     public List<Role> getRoles() {
         return roles;
+    }
+
+    public String[] getRolesAsStrings() {
+        String[] roleStrings = new String[roles.size()];
+        IntStream.iterate(0, i -> i++)
+          .limit(roles.size())
+          .forEach(x -> roleStrings[x] = roles.get(x).getName());
+        return roleStrings;
     }
 
     public void setRoles(List<Role> roles) {

@@ -1,6 +1,8 @@
 package drocck.sp.beesandhoney.business.entities.repositories;
 
+import drocck.sp.beesandhoney.business.entities.Address;
 import drocck.sp.beesandhoney.business.entities.ContactInfo;
+import drocck.sp.beesandhoney.business.entities.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,6 @@ public interface ContactInfoRepository extends JpaRepository<ContactInfo, Long> 
     List<ContactInfo> findAll();
     ContactInfo findById(Long id);
     ContactInfo save(ContactInfo contactInfo);
+    void delete(Long id);
+    void delete(ContactInfo contactInfo);
 }

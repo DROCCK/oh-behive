@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>People</title> <!-- add your title here -->
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>People</h1> <!-- replace with your content -->
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody th:each="role : ${roles}">
+            <tr>
+                <td th:text="${role.id}">Id</td>
+                <td th:text="${role.name}">Name</td>
+                <td>
+                    <a class="btn btn-warning" th:href="@{/role/update/{id}(id=${role.id})}">Update</a>
+                    <a class="btn btn-warning" th:href="@{/role/delete/{id}(id=${role.id})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

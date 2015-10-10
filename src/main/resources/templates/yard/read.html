@@ -7,27 +7,27 @@
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
 
-    <h1>Yard Info</h1>
-
     <div class="col-md-6">
 
-        <p th:text="${yard.name}">name</p>
+        <h1>Yard Info</h1>
+
+        <p th:text="${yard.yardName}">name</p>
 
         <p th:text="${yard.status}">status</p>
 
-        <p th:text="${yard.combo}">combo</p>
+        <p> Key/Combo: <span th:text="${yard.combo}">combo </span> </p>
 
         <p th:text="${yard.address}">address</p>
 
-        <p th:text="${yard.accessLocation}">access location</p>
+        <p th:text="${yard.accessNotes}">access location</p>
 
-        <p th:text="${yard.maxHives}">status</p>
+        <p> Max Hive Capacity:  <span th:text="${yard.maxHives}">status</span></p>
     </div>
 
     <div class="col-md-6">
-        <h1>Info about yard Owner</h1>
+        <h1>Yard Owner</h1>
 
-        <p th:text="${yard.owner.name}">name</p>
+        <p><a th:text="${yard.owner.name}" th:href="@{/person/read/{id}(id=${yard.owner.id})}"></a></p>
 
         <p th:text="${yard.owner.contactInfo.email}"></p>
 
@@ -46,7 +46,7 @@
         <div th:unless="${yard.owner == yard.rentReceiver}">
             <h1>Info about yard rent receiver</h1>
 
-            <p th:text="${yard.rentReceiver.name}">name</p>
+            <p th:text="${yard.rentReceiver.name}" th:href="@{/person/read/{id}(id=${yard.rentReceiver.id})}">name</p>
 
             <p th:text="${yard.rentReceiver.contactInfo.email}"></p>
 
@@ -62,6 +62,9 @@
 
             <p th:text="${yard.rentReceiver.contactInfo.address.state}"></p>
         </div>
+    </div>
+    <div class = "container">
+        <a class="btn" th:href="@{/yard/list}">Back to List</a>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>

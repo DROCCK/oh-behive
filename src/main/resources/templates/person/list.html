@@ -2,27 +2,33 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>People</title> <!-- add your title here -->
+    <title>People</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>People</h1> <!-- replace with your content -->
-    <table class="table table-striped table-hover">
+    <h1>People <a class="btn btn-primary btn-md" th:href="@{/person/create}">Create New
+        Person</a></h1>
+    <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
             <th>Address</th>
+            <th></th>
         </tr>
         </thead>
         <tbody th:each="person : ${people}">
             <tr>
-                <td th:text="${person.name}">Shit</td>
-                <td th:text="${person.contactInfo.email}">Shat</td>
-                <td th:text="${person.contactInfo.phone}">Shut</td>
-                <td th:text="${person.contactInfo.address}">Shoot</td>
+                <td th:text="${person.name}">Name</td>
+                <td th:text="${person.contactInfo.email}">Email</td>
+                <td th:text="${person.contactInfo.phone}">Phone</td>
+                <td th:text="${person.contactInfo.address}">Address</td>
+                <td>
+                    <a class="btn btn-xs btn-warning" th:href="@{/person/update/{id}(id=${person.id})}">Update</a>
+                    <a class="btn btn-xs btn-danger" th:href="@{/person/delete/{id}(id=${person.id})}">Delete</a>
+                </td>
             </tr>
         </tbody>
     </table>

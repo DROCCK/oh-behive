@@ -1,16 +1,14 @@
 package drocck.sp.beesandhoney.web.controllers;
 
-import drocck.sp.beesandhoney.business.entities.Owner;
+import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.services.OwnerService;
+import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,35 +23,24 @@ public class OwnerController {
 
     @Autowired
     private OwnerService ownerService;
+    @Autowired
+    private YardService yardService;
 
     @Autowired
     public OwnerController(OwnerService newOwnerService){
         super();
         ownerService = newOwnerService;
-        initData();
-    }
-
-    private void initData(){
-        Owner o1 = new Owner();
-        o1.setName("Billy Bob");
-        o1.setPhoneNumber("915-222-4444");
-        o1.setEmail("BillyBob@BillyTheBob.com");
-        o1.setStreet("1235 Whoa RD");
-        o1.setCity("Sacramento");
-        o1.setState("CA");
-        o1.setZip("94643");
-        ownerService.save(o1);
     }
 
     @ModelAttribute("allOwners")
     public @ResponseBody
-    List<Owner> populateOwners(){
+    List<Person> populateOwners(){
         return ownerService.findAll();
     }
 
     @ModelAttribute("owner")
-    public Owner createModel() {
-        return new Owner();
+    public Person createModel() {
+        return new Person();
     }
 
     /** Request Mapping **/
@@ -69,8 +56,36 @@ public class OwnerController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(Owner owner) {
+    public String create(Person owner) {
         ownerService.save(owner);
+        return "redirect:/owner/";
+    }
+    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    public String read(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("owner", ownerService.findById(id));
+        model.addAttribute("yard", yardService.findById(ownerService.findById(id).getId()));
+        return "/owner/read";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String update(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("owner", ownerService.findById(id));
+        return "/owner/update";
+    }
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(Person owner) {
+        ownerService.save(owner);
+        return "redirect:/owner/";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String delete(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("owner", ownerService.findById(id));
+        return "/owner/delete";
+    }
+    @RequestMapping(value = "/confirmedDelete")
+    public String deleteConfirmed(@RequestParam("id") Long id){
+        ownerService.delete(id);
         return "redirect:/owner/";
     }
     /* currently not in use

@@ -27,13 +27,17 @@
         <tbody>
         <tr th:each="owner : ${allOwners}">
             <td th:text="${{owner.id}}">0</td>
-            <td th:text="${{owner.name}}">Humbub</td>
-            <td th:text="${{owner.phoneNumber}}">555-555-5555</td>
-            <td th:text="${{owner.email}}">xxxx@gmail.com</td>
-            <td th:text="${{owner.street}}">1 Main St</td>
-            <td th:text="${{owner.city}}">Sacramento</td>
-            <td th:text="${{owner.state}}">CA</td>
-            <td th:text="${{owner.zip}}">95828</td>
+            <td><a th:text="${(owner.name)}" th:href="@{/owner/read/(id=${owner.id})}"></a></td>
+            <td th:text="${{owner.contactInfo.phone}}">555-555-5555</td>
+            <td th:text="${{owner.contactInfo.email}}">xxxx@gmail.com</td>
+            <td th:text="${{owner.contactInfo.address.street}}">1 Main St</td>
+            <td th:text="${{owner.contactInfo.address.city}}">Sacramento</td>
+            <td th:text="${{owner.contactInfo.address.state}}">CA</td>
+            <td th:text="${{owner.contactInfo.address.zip}}">12345</td>
+            <td>
+                <a class="btn btn-xs btn-warning" th:href="@{/owner/update/(id=${owner.id})}">Update</a>
+                <a class="btn btn-xs btn-danger" th:href="@{/owner/delete/(id=${owner.id})}">Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>

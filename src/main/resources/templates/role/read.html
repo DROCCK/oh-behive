@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>View Template</title> <!-- add your title here -->
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>Hello, DROCCK-ians!</h1> <!-- replace with your content -->
+    <div>
+        <h3>Id: <label th:text="${role.id}"></label></h3>
+
+        <h3>Name: <label th:text="${role.name}"></label></h3>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

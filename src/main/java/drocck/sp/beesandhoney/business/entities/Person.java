@@ -16,7 +16,7 @@ public class Person {
 
     private String name;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn(name = "ID")
     private ContactInfo contactInfo;
 

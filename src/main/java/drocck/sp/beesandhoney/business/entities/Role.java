@@ -1,17 +1,19 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import java.util.List;
 
 /**
- * @author Rob
+ * @author Robert Wilk
  *         Created on 9/29/2015.
  */
 @Entity
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -41,5 +43,10 @@ public class Role {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    @Override
+    public String getAuthority() {
+        return getName();
     }
 }

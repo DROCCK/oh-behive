@@ -2,6 +2,7 @@ package drocck.sp.beesandhoney.web;
 
 import drocck.sp.beesandhoney.business.entities.Address;
 import drocck.sp.beesandhoney.business.entities.repositories.OwnerRepository;
+import drocck.sp.beesandhoney.business.entities.validators.UserCreateFormValidator;
 import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ import javax.sql.DataSource;
 
 /**
  * @author Connor Elison
+ * @author Robert Wilk
  * Created on 9/26/2015.
  */
 @Configuration
@@ -28,8 +30,6 @@ import javax.sql.DataSource;
 @EntityScan("drocck.sp.beesandhoney.business.entities")
 @EnableTransactionManagement
 public class AppConfig {
-
-
 
     @Bean
     public DataSource dataSource() {
@@ -62,6 +62,11 @@ public class AppConfig {
     }
 
     @Bean
+    public UserCreateFormValidator userCreateFormValidator() {
+        return new UserCreateFormValidator();
+    }
+
+    @Bean
     public YardService yardService() {
         return new YardService();
     }
@@ -83,7 +88,19 @@ public class AppConfig {
         return new UserService();
     }
 
-    @Bean RoleService roleService() {
-        return new RoleService();
+    @Bean
+    public CurrentUserDetailsService currentUserDetailsService() {
+        return new CurrentUserDetailsService();
     }
+
+    @Bean
+    public CurrentUserService currentUserService() {
+        return new CurrentUserService();
+    }
+/*
+
+    @Bean
+    public RoleService roleService() { return new RoleService(); }
+
+*/
 }

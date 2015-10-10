@@ -14,7 +14,7 @@ import java.util.List;
 public class YardService {
 
     @Autowired
-    YardRepository yardRepository;
+    private YardRepository yardRepository;
 
     @Autowired
     AddressService addressService;
