@@ -2,6 +2,10 @@ package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Employee;
 import drocck.sp.beesandhoney.business.services.EmployeeService;
+import drocck.sp.beesandhoney.business.entities.Person;
+import drocck.sp.beesandhoney.business.services.PersonService;
+import drocck.sp.beesandhoney.business.entities.User;
+import drocck.sp.beesandhoney.business.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 /**
  * Created by Kyle on 10/10/2015.
  */
@@ -18,6 +25,25 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private PersonService personService;
+
+    @Autowired
+    private UserService userService;
+
+    @ModelAttribute("allEmployees")
+    public List<Employee> populateEmployees() {
+        List<Employee> allEmployees = employeeService.findAll();
+        return allEmployees;
+    }
+
+    @ModelAttribute("allUsers")
+    public Collection<User> populateUsers() {
+        Collection<User> allUsers = userService.findAll();
+        return allUsers;
+    }
+
 
     @ModelAttribute("employee")
     public Employee construct() {
@@ -50,7 +76,7 @@ public class EmployeeController {
     @RequestMapping(value = "employee/updateEmployee/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute("employee") Employee employee) {
         employee.setId(id);
-        employeeService.update(employee);
+        employeeService.save(employee);
         return "redirect:/employee/list";
     }
 
