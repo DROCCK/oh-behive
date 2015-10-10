@@ -78,11 +78,6 @@ public class UserController {
         return "redirect:/users";
     }
 
-/*    @RequestMapping(value = "/user/create", method = RequestMethod.GET)
-    public String create() {
-        return "user/create";
-    }*/
-
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
     public String create(@ModelAttribute User user) {
         userService.save(user);
