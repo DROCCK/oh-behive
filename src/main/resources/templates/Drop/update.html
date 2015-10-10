@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+    <title>Update Drop</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<div class="container">
+    <form class="form-horizontal" role="form" action="#" th:action="@{/drop/update}" th:object="${drop}" method="post">
+
+        <input type="hidden"  th:field="*{dropId}" id="id" th:value="${drop}"/>
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <!--Name-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="date">Drop Date: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{date}" id="Date" placeholder="Drop Date"
+                       th:value="${drop.getDropId()}"/>
+            </div>
+        </div>
+        <!--Phone-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="latitude">Latitude: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{latitude}" id="latitude" placeholder="00.00"
+                       th:value="${drop.getLatitude()}"/>
+            </div>
+        </div>
+        <!--Email-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="longitude">Longitude: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{longitude}" id="longitude" placeholder="00.00"
+                       th:value="${drop.getLongitude()}"/>
+            </div>
+        </div>
+        <!--Submit button-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-warning">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
