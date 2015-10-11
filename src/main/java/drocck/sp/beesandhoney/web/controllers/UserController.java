@@ -1,37 +1,27 @@
 package drocck.sp.beesandhoney.web.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import drocck.sp.beesandhoney.business.entities.DTOs.UserCreateForm;
+import drocck.sp.beesandhoney.business.entities.Role;
 import drocck.sp.beesandhoney.business.entities.User;
 import drocck.sp.beesandhoney.business.entities.validators.UserCreateFormValidator;
+import drocck.sp.beesandhoney.business.services.RoleService;
 import drocck.sp.beesandhoney.business.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * @author Rob
+ * @author Robert Wilk
  *         Created on 10/3/2015.
  */
 @Controller
@@ -41,11 +31,19 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private RoleService roleService;
+
+    @Autowired
     private UserCreateFormValidator userCreateFormValidator;
 
     @ModelAttribute("user")
     public User construct() {
         return new User();
+    }
+
+    @ModelAttribute("allRoles")
+    public @ResponseBody List<Role> allRoles() {
+        return roleService.findAll();
     }
 
     public void initBinder(WebDataBinder binder) {
@@ -59,11 +57,13 @@ public class UserController {
             .orElseThrow(() -> new NoSuchElementException("User not found!")));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+/*    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/user/create", method = RequestMethod.GET)
     public ModelAndView getUserCreatePage() {
+        UserCreateForm form = new UserCreateForm();
+        form.setAllRoles(roleService.findAll());
         return new ModelAndView("user/create", "form", new UserCreateForm());
-    }
+    }*/
 
     public String handleUserCreateForm(@Valid @ModelAttribute("form") UserCreateForm form,
                                        BindingResult result) {
@@ -75,11 +75,17 @@ public class UserController {
             result.reject("email.exists", "Email already exists!");
             return "create";
         }
-        return "redirect:/users";
+        return "redirect:/user/list";
+    }
+
+    @RequestMapping(value = "/user/create", method = RequestMethod.GET)
+    public String create(Model model) {
+        model.addAttribute("currentRoles", roleService.findAll());
+        return "user/create";
     }
 
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute User user) {
+    public String create(@ModelAttribute User user, BindingResult result, Model model) {
         userService.save(user);
         return "redirect:/user/list";
     }

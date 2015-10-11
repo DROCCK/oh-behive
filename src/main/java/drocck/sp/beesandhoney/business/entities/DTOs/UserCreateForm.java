@@ -23,6 +23,8 @@ public class UserCreateForm {
 
     @NotNull
     private List<Role> roles;
+
+    private List<Role> allRoles;
     /*
     private Role role = Role.USER;
 */
@@ -60,6 +62,14 @@ public class UserCreateForm {
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+
+    public List<Role> getAllRoles() {
+        return allRoles;
+    }
+
+    public void setAllRoles(List<Role> allRoles) {
+        this.allRoles = allRoles;
     }
 
     @Override

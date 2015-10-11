@@ -13,3 +13,12 @@ a:hover {
 .navbar-header > a:hover {
     color: yellow;
 }
+
+.inline-div {
+    display: inline;
+    margin: 5px;
+}
+
+.inline-checks {
+    margin: 50px;
+}

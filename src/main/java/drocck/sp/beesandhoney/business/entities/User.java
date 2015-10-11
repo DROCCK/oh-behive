@@ -1,13 +1,11 @@
 package drocck.sp.beesandhoney.business.entities;
 
-import org.springframework.data.repository.cdi.Eager;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.stream.IntStream;
 
 /**
- * @author Rob
+ * @author Robert Wilk
  *         Created on 9/29/2015.
  */
 @Entity
@@ -76,6 +74,17 @@ public class User {
           .limit(roles.size())
           .forEach(x -> roleStrings[x] = roles.get(x).getName());
         return roleStrings;
+    }
+
+    public String getRoleAsString() {
+        if (!roles.isEmpty()) {
+            StringBuilder builder = new StringBuilder(roles.get(0).getName());
+            IntStream.iterate(1, i -> i++)
+              .limit(roles.size() - 1)
+              .forEach(i -> builder.append(", ").append(roles.get(i).getName()));
+            return builder.toString();
+        }
+        return "NONE";
     }
 
     public void setRoles(List<Role> roles) {
