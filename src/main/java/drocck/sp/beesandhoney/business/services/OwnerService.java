@@ -46,23 +46,16 @@ public class OwnerService {
         return owners;
     }
 
-    public Yard findYardByID(Long id){
-        Yard y = yardRepository.findById(id);
-        return y;
-    }
-
-    public Person save(Person newOwner) {
-        //addressService.save(newOwner.getContactInfo().getAddress());
-        contactInfoService.save(newOwner.getContactInfo());
-        return personRepository.save(newOwner);
-    }
-
-    public void delete(Long id){
-        personRepository.delete(id);
-    }
-
-    public Person findById(Long id) {
-        Person person = personRepository.findById(id);
-        return person;
+    public Yard findYard(Long id){
+        List <Yard> yard = yardRepository.findAll();
+        final Yard[] ownedYard = new Yard[1];
+        Yard last;
+        yard.forEach(y->{
+            if(y.getOwner().getId().equals(id)){
+                ownedYard[0] = y;   //not entirely sure why this was necessary
+            }
+        });
+        last = ownedYard[0];
+        return last;
     }
 }

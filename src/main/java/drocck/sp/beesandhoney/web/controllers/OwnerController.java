@@ -2,6 +2,7 @@ package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.services.OwnerService;
+import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -22,15 +23,11 @@ public class OwnerController {
     private static final Log logger = LogFactory.getLog(YardController.class);
 
     @Autowired
+    private PersonService personService;
+    @Autowired
     private OwnerService ownerService;
     @Autowired
     private YardService yardService;
-
-    @Autowired
-    public OwnerController(OwnerService newOwnerService){
-        super();
-        ownerService = newOwnerService;
-    }
 
     @ModelAttribute("allOwners")
     public @ResponseBody
@@ -45,9 +42,9 @@ public class OwnerController {
 
     /** Request Mapping **/
 
-    @RequestMapping({"/" ,"/index"})
-    public String index() {
-        return "/owner/index";
+    @RequestMapping(value ="/list",  method = RequestMethod.GET)
+    public String list() {
+        return "/owner/list";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -57,42 +54,35 @@ public class OwnerController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Person owner) {
-        ownerService.save(owner);
-        return "redirect:/owner/";
+        personService.save(owner);
+        return "redirect:/owner/list";
     }
     @RequestMapping(value = "/read", method = RequestMethod.GET)
     public String read(Model model, @RequestParam("id") Long id) {
-        model.addAttribute("owner", ownerService.findById(id));
-        model.addAttribute("yard", yardService.findById(ownerService.findById(id).getId()));
+        model.addAttribute("owner", personService.findById(id));
+        model.addAttribute("yard", ownerService.findYard(id));
         return "/owner/read";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String update(Model model, @RequestParam("id") Long id) {
-        model.addAttribute("owner", ownerService.findById(id));
+        model.addAttribute("owner", personService.findById(id));
         return "/owner/update";
     }
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Person owner) {
-        ownerService.save(owner);
-        return "redirect:/owner/";
+        personService.update(owner);
+        return "redirect:/owner/list";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String delete(Model model, @RequestParam("id") Long id) {
-        model.addAttribute("owner", ownerService.findById(id));
+        model.addAttribute("owner", personService.findById(id));
         return "/owner/delete";
     }
     @RequestMapping(value = "/confirmedDelete")
     public String deleteConfirmed(@RequestParam("id") Long id){
-        ownerService.delete(id);
-        return "redirect:/owner/";
+        personService.delete(id);
+        return "redirect:/owner/list";
     }
-    /* currently not in use
-   @RequestMapping(value="/", method = RequestMethod.POST)
-    public String ownerSubmit(@ModelAttribute Owner newOwner, Model newModel) {
-        newModel.addAttribute("owner", newOwner);
-        return index();
-    }
-    */
 }

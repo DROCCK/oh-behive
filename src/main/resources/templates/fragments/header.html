@@ -36,7 +36,21 @@
                 <button class="btn btn-success" type="submit">Logout</button>
             </form>
             <ul class="nav navbar-nav">
-                <li><a href="/yard/list" th:href="@{/yard/list}">Yard Data</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Main Menu
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/person/list" th:href="@{/person/list}">People</a></li>
+                        <li><a href="/address/list" th:href="@{/address/list}">Addresses</a></li>
+                        <li><a href="/contactInfo/list" th:href="@{/contactInfo/list}">Contact Info</a></li>
+                        <li><a href="/employee/list" th:href="@{/employee/list}">Employees</a></li>
+                        <li><a href="/owner/list" th:href="@{/owner/list}">Owners</a></li>
+                        <li><a href="/role/list" th:href="@{/role/list}">Roles</a></li>
+                        <li><a href="/user/list" th:href="@{/user/list}">Users</a></li>
+                        <li><a href="/yard/list" th:href="@{/yard/list}">Yard List</a></li>
+                        <li><a href="/dropsite/list" th:href="@{/dropsite/list}">Drop Sites</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <!--/.navbar-collapse -->
