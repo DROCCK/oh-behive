@@ -102,13 +102,8 @@ public class AppConfig {
     }
 
     @Bean
-    public DropSiteService dropService() {
-        return new DropSiteService();
-    }
-/*
-
-    @Bean
     public RoleService roleService() { return new RoleService(); }
 
-*/
+    @Bean
+    public DropSiteService dropSiteService() { return new DropSiteService(); }
 }

@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
- * @author Rob
+ * @author Robert Wilk
  *         Created on 10/3/2015.
  */
 @Component
