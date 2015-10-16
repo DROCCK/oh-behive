@@ -1,6 +1,6 @@
 package drocck.sp.beesandhoney.business.services;
 
-import drocck.sp.beesandhoney.business.entities.Dropsite;
+import drocck.sp.beesandhoney.business.entities.DropSite;
 import drocck.sp.beesandhoney.business.entities.Inspection;
 import drocck.sp.beesandhoney.business.entities.repositories.InspectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +15,15 @@ public class InspectionService {
     @Autowired
     private InspectionRepository inspectionRepository;
 
-    /**
-     * @autowired
-     * private DropsiteService dropsiteService
-     */
+    @Autowired
+    private DropSiteService dropSiteService;
 
     public Inspection findById(Long id) {
         return inspectionRepository.findById(id);
     }
 
-    public List<Inspection> findByDropsite(Dropsite dropsite) {
-        return inspectionRepository.findByDropsite(dropsite);
+    public List<Inspection> findByDropsite(DropSite dropsite) {
+        return inspectionRepository.findByDropSite(dropsite);
     }
 
     public Inspection save(Inspection inspection) {

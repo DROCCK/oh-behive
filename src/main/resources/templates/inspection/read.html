@@ -7,64 +7,24 @@
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
 
-    <div class="col-md-6">
+    <h1>Inspection Info</h1>
 
-        <h1>Yard Info</h1>
+    <p th:text="${inspection.id}"></p>
 
-        <p th:text="${yard.yardName}">name</p>
+    <p> Number of doubles: <span th:text="${inspection.numDoubles}"></span></p>
 
-        <p th:text="${yard.status}">status</p>
+    <p> Number of singles: <span th:text="${inspection.numSingles}"></span></p>
 
-        <p> Key/Combo: <span th:text="${yard.combo}">combo </span> </p>
+    <p> Date of visit: <span th:text="${inspection.visitDate}"></span></p>
 
-        <p th:text="${yard.address}">address</p>
+    <p> Were the bees fed? <span th:text="${inspection.fed}"></span></p>
 
-        <p th:text="${yard.accessNotes}">access location</p>
+    <p> Medication used: <span th:text="${inspection.medication}"></span></p>
 
-        <p> Max Hive Capacity:  <span th:text="${yard.maxHives}">status</span></p>
-    </div>
+    <p> Notes: <span th:text="${inspection.notes}"></span></p>
 
-    <div class="col-md-6">
-        <h1>Yard Owner</h1>
-
-        <p><a th:text="${yard.owner.name}" th:href="@{/person/read/{id}(id=${yard.owner.id})}"></a></p>
-
-        <p th:text="${yard.owner.contactInfo.email}"></p>
-
-        <p th:text="${yard.owner.contactInfo.phone}"></p>
-
-        <p th:text="${yard.owner.contactInfo.address.street}"></p>
-
-        <p th:text="${yard.owner.contactInfo.address.apt}"></p>
-
-        <p th:text="${yard.owner.contactInfo.address.city}"></p>
-
-        <p th:text="${yard.owner.contactInfo.address.zip}"></p>
-
-        <p th:text="${yard.owner.contactInfo.address.state}"></p>
-
-        <div th:unless="${yard.owner == yard.rentReceiver}">
-            <h1>Info about yard rent receiver</h1>
-
-            <p> <a th:text="${yard.rentReceiver.name}" th:href="@{/person/read/{id}(id=${yard.rentReceiver.id})}">name</a></p>
-
-            <p th:text="${yard.rentReceiver.contactInfo.email}"></p>
-
-            <p th:text="${yard.rentReceiver.contactInfo.phone}"></p>
-
-            <p th:text="${yard.rentReceiver.contactInfo.address.street}"></p>
-
-            <p th:text="${yard.rentReceiver.contactInfo.address.apt}"></p>
-
-            <p th:text="${yard.rentReceiver.contactInfo.address.city}"></p>
-
-            <p th:text="${yard.rentReceiver.contactInfo.address.zip}"></p>
-
-            <p th:text="${yard.rentReceiver.contactInfo.address.state}"></p>
-        </div>
-    </div>
-    <div class = "container">
-        <a class="btn" th:href="@{/yard/list}">Back to List</a>
+    <div class="container">
+        <a class="btn" th:href="@{/inspection/list/{id} (id=${inspection.getDropSite().getId()})}">Back to List</a>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>

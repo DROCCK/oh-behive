@@ -2,6 +2,7 @@ package drocck.sp.beesandhoney.business.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Calendar;
 
 /**
  * Created by cjeli_000 on 10/9/2015.
@@ -21,7 +22,7 @@ public class Inspection {
     private Integer numSingles = null;
 
     @Column(name = "VISIT_DATE")
-    private Date visitDate = null;
+    private Date visitDate = new Date(Calendar.getInstance().getTime().getTime());;
 
     @Column(name = "IS_FED")
     private boolean isFed = false;
@@ -33,8 +34,8 @@ public class Inspection {
     private String notes = null;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "DROPSITE")
-    private Dropsite dropsite;
+    @JoinColumn(name = "DROP_SITE")
+    private DropSite dropSite;
 
     public Long getId() {
         return id;
@@ -92,11 +93,11 @@ public class Inspection {
         this.notes = notes;
     }
 
-    public Dropsite getDropsite() {
-        return dropsite;
+    public DropSite getDropSite() {
+        return dropSite;
     }
 
-    public void setDropsite(Dropsite dropSite) {
-        this.dropsite = dropSite;
+    public void setDropSite(DropSite dropSite) {
+        this.dropSite = dropSite;
     }
 }
