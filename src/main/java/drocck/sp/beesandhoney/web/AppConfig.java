@@ -106,4 +106,10 @@ public class AppConfig {
 
     @Bean
     public DropSiteService dropSiteService() { return new DropSiteService(); }
+
+    @Bean
+    public CompanyService companyService() { return new CompanyService(); }
+
+    @Bean
+    public LocationService locationService() { return new LocationService(); }
 }

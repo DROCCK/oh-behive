@@ -1,0 +1,17 @@
+package drocck.sp.beesandhoney.business.entities.repositories;
+
+import drocck.sp.beesandhoney.business.entities.Company;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**
+ * Created by Chai on 10/10/2015.
+ */
+
+@Repository
+public interface CompanyRepository extends JpaRepository<Company, Long> {
+    List<Company> findAll();
+    Company findById(Long id);
+}
