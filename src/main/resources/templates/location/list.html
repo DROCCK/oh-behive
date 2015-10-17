@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Location List</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>Location List <a class="btn btn-primary btn-md" th:href="@{/location/create}">Create New
+        Location</a></h1>
+    <table class="table table-responsive table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+        </tr>
+        </thead>
+        <tbody th:each="contactInfo : ${locations}">
+        <tr>
+            <td th:text="${location.id}">ID</td>
+            <td th:text="${location.name}">Name</td>
+            <td th:text="${location.contactInfo.email}">Email</td>
+            <td th:text="${location.contactInfo.phone}">Phone</td>
+            <td th:text="${location.contactInfo.address}">Address</td>
+            <td>
+                <a class="btn btn-xs btn-warning" th:href="@{/location/update/{id}(id=${location.id})}">Update</a>
+                <a class="btn btn-xs btn-danger" th:href="@{/location/delete/{id}(id=${location.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

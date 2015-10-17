@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Address</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>Address</h1>
+
+    <div>
+        <h3>Street: <label th:text="${address.street}"></label></h3>
+
+        <h3>Suite/Apt#: <label th:text="${address.apt}"></label></h3>
+
+        <h3>City: <label th:text="${address.city}"></label></h3>
+
+        <h3>State: <label th:text="${address.state}"></label></h3>
+
+        <h3>Zip: <label th:text="${address.zip}"></label></h3>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>

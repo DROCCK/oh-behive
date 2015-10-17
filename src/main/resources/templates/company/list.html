@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Company List</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>Company List <a class="btn btn-primary btn-md" th:href="@{/company/create}">Create New
+        Company</a></h1>
+    <table class="table table-responsive table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody th:each="contactInfo : ${company}">
+        <tr>
+            <td th:text="${company.id}">ID</td>
+            <td th:text="${company.name}">Name</td>
+            <td>
+                <a class="btn btn-xs btn-warning" th:href="@{/company/update/{id}(id=${company.id})}">Update</a>
+                <a class="btn btn-xs btn-danger" th:href="@{/company/delete/{id}(id=${company.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

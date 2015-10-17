@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+    <title>Owner Info</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <div class="col-md-6">
+
+        <h1>Owner Info</h1>
+
+        <p th:text="${owner.name}">name</p>
+        <p th:text="${{owner.contactInfo.phone}}">555-555-5555</p>
+        <p th:text="${{owner.contactInfo.email}}">xxxx@gmail.com</p>
+        <p th:text="${{owner.contactInfo.address.street}}">1 Main St</p>
+        <p th:text="${{owner.contactInfo.address.city}}">Sacramento</p>
+        <p th:text="${{owner.contactInfo.address.state}}">CA</p>
+        <p th:text="${{owner.contactInfo.address.zip}}">12345</p>
+    </div>
+
+    <div class="col-md-6">
+        <h1>Yard Info</h1>
+        <p th:text="${yard.yardName}">name</p>
+        <p th:text="${yard.status}">status</p>
+        <p> Key/Combo: <span th:text="${yard.combo}">combo </span> </p>
+        <p th:text="${yard.address}">address</p>
+        <p th:text="${yard.accessNotes}">access location</p>
+        <p> Max Hive Capacity:  <span th:text="${yard.maxHives}">status</span></p>
+    </div>
+
+    <div class = "container">
+        <a th:href="@{/owner/}"><button class="btn">Back to List</button></a>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

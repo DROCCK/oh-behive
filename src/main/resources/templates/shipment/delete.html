@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Delete Role</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>Are you sure you want to delete this record?</h1>
+    <h1>Shipment</h1> <!-- replace with your content -->
+    <div>
+        <p> From: <span th:text="${shipment.fromYard.yardName}">from</span> </p>
+        <p> To: <span th:text="${shipment.toYard.yardName}">to</span> </p>
+        <p> Singles Moved <span th:text="${shipment.singles}">singles</span> </p>
+        <p> Doubles Moved <span th:text="${shipment.doubles}">doubles</span> </p>
+    </div>
+    <a class="btn btn-danger" th:href="@{/shipment/confirmedDelete/{id}(id = ${shipment.id})}">Confirm Delete</a>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

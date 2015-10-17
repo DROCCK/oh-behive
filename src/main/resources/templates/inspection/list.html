@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Inspection Report</title> <!-- save your title here -->
+</head>
+
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h2>Inspections for <span th:unless="${dropSite == null}" th:text="${dropSite.id}"></span>
+        <a class="btn btn-primary" href="/inspection/create.html" th:href="@{/inspection/create/}">
+            Add a new inspection to <span th:unless="${dropSite == null}" th:text="${dropSite.id}"></span>
+        </a>
+    </h2>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Doubles</th>
+            <th>Singles</th>
+            <th>Visit Date</th>
+            <th>Fed</th>
+            <th>Medication Used</th>
+            <th>Notes</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="i : ${inspections}">
+            <td><a th:text="${i.id}" th:href="@{/inspection/read/{id}(id=${i.id})}"></a></td>
+            <td th:text="${{i.numSingles}}"></td>
+            <td th:text="${{i.numDoubles}}"></td>
+            <td th:text="${i.visitDate}"></td>
+            <td th:text="${{i.fed}}"></td>
+            <td th:text="${{i.medication}}"></td>
+            <td th:text="${{i.notes}}"></td>
+
+            <td><a class="btn btn-xs btn-warning" th:href="@{/inspection/update/{id}(id=${i.id})}">Update</a></td>
+            <td><a class="btn btn-xs btn-danger" th:href="@{/inspection/delete/{id}(id=${i.id})}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+</body>
+</html>
