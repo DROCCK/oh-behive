@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Rob
@@ -14,9 +15,10 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     @PrimaryKeyJoinColumn(name = "ID")
     private ContactInfo contactInfo;
 
