@@ -20,7 +20,7 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
-    @ModelAttribute("companyService")
+    @ModelAttribute("company")
     public Company construct() {
         return new Company();
     }

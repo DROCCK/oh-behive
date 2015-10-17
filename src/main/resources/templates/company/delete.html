@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: head">
+<head th:include="fragments/head :: head"></head>
+<head>
     <title>Delete Company</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <form class="form-horizontal" role="form" action="#" th:action="@{/company/delete}" th:object="${company}" method="post">
-
-        <h1>Are you sure you want to delete this Company?</h1>
-        <div>
-            <h3>Name: <label th:text="${company.name}"></label></h3>
-        </div>
-        <a class="btn btn-danger" th:href="@{/company/confirmedDelete/(id = ${company.id})}">Confirm Delete</a>
-
-    </form>
+    <h1>Are you sure you want to delete this Company?</h1>
+    <div>
+        <h3>Name: <label th:text="${company.name}"></label></h3>
+    </div>
+    <a class="btn btn-danger" th:href="@{/company/confirmedDelete/{id}(id = ${company.id})}">Confirm Delete</a>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
