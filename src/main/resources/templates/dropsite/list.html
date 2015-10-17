@@ -17,6 +17,7 @@
     <table class="table table-hover">
         <thead>
         <tr>
+            <th>Yard</th>
             <th>ID</th>
             <th>Date</th>
             <th>Latitude</th>
@@ -26,7 +27,8 @@
 
         <tbody>
         <tr th:each="y : ${allDropSites}">
-            <td th:text="${{y.getId()}}">0</td>
+            <td th:text="${{y.yard.getYardName()}}">0</td>
+            <td th:text="${{y.getYard().getYardName()}}">0</td>
             <td><a th:text="${y.getDate()}" th:href="@{/dropsite/read/{id}(id=${dropSite.getId()})}">0000/00/00</a></td>
             <td th:text="${{y.getLatitude()}}">00.00</td>
             <td th:text="${{y.getLongitude()}}">00.00</td>

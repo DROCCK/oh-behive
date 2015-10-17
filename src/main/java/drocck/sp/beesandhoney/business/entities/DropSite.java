@@ -1,8 +1,5 @@
 package drocck.sp.beesandhoney.business.entities;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Calendar;
 /**
@@ -16,6 +13,14 @@ public class DropSite {
     private Double longitude = null;
     private Double latitude = null;
     private java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "YARD_ID")
+    private Yard yard;
+
+    public Yard getYard(){ return yard; }
+
+    public void setYard(Yard yard){ this.yard = yard; }
 
     public void setDate(java.sql.Date date){
         this.sqlDate = date;

@@ -43,6 +43,36 @@ public class Yard implements Serializable {
     @JoinColumn(name = "RENT_RECEIVER_ID")
     private Person rentReceiver;
 
+    private Integer singles;
+    private Integer doubles;
+
+    public Integer getDoubles() {
+        return doubles;
+    }
+
+    public void setDoubles(Integer doubles) {
+        this.doubles = doubles;
+    }
+
+    public Integer getSingles() {
+        return singles;
+    }
+
+    public void setSingles(Integer singles) {
+        this.singles = singles;
+    }
+
+    public Integer getCurrentHives() {
+        return currentHives;
+    }
+
+    public void setCurrentHives(Integer singles, Integer doubles) {
+        this.currentHives = singles+doubles;
+    }
+
+    @Column(name = "CURRENT_HIVES")
+    private Integer currentHives = null;
+
     /** Getters and Setters **/
 
     public Long getId() {
