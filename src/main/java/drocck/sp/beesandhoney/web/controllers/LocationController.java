@@ -21,7 +21,7 @@ public class LocationController {
     @Autowired
     private LocationService locationService;
 
-    @ModelAttribute("locationService")
+    @ModelAttribute("location")
     public Location construct() {
         return new Location();
     }
