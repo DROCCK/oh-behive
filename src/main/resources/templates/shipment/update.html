@@ -10,16 +10,18 @@
     <h1>Update Shipment</h1>
 
     <form action="#" th:action="@{/shipment/update}" th:object="${shipment}" method="post" class="form-horizontal">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="hidden" th:field="*{id}" th:value="${shipment.id}"/>
         <div class="form-group">
             <label class="control-label col-sm-2" for="fromYard">Where are the bees coming from?</label>
 
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{fromYard.id}" id="fromYard">
                     <option th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}"
-                            th:unless="${y.id == yard.owner.id}">Guy 1
+                            th:unless="${y.id == shipment.fromYard.id}">Guy 1
                     </option>
                     <option selected="selected" th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}"
-                            th:unless="${y.id != yard.owner.id}">Guy 1
+                            th:unless="${y.id != shipment.fromYard.id}">Guy 1
                     </option>
                 </select>
             </div>
@@ -31,10 +33,10 @@
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{toYard.id}" id="toYard">
                     <option th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}"
-                            th:unless="${y.id == yard.owner.id}">Guy 1
+                            th:unless="${y.id == shipment.toYard.id}">Guy 1
                     </option>
                     <option selected="selected" th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}"
-                            th:unless="${y.id != yard.owner.id}">Guy 1
+                            th:unless="${y.id != shipment.toYard.id}">Guy 1
                     </option>
                 </select>
             </div>
@@ -44,7 +46,7 @@
             <label class="control-label col-sm-2" for="singles">Max number of hives: </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{singles}" id="singles" placeholder="80" th:value="${shipment.singles}"/>
+                <input type="number" class="form-control" th:field="*{singleHive}" id="singles" placeholder="80" th:value="${shipment.singleHive}"/>
             </div>
         </div>
 
@@ -52,7 +54,7 @@
             <label class="control-label col-sm-2" for="doubles">Max number of hives: </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{doubles}" id="doubles" placeholder="80" th:value="${shipment.dobules}"/>
+                <input type="number" class="form-control" th:field="*{doubleHive}" id="doubles" placeholder="80" th:value="${shipment.doubleHive}"/>
             </div>
         </div>
 

@@ -11,7 +11,6 @@ import java.util.List;
  *         Created on 10/17/2015.
  */
 public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
-    List<Shipment> findAll();
     Shipment findById(Long id);
     Shipment findByToYard(Yard yard);
     Shipment findByFromYard(Yard yard);
