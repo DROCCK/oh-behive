@@ -11,7 +11,7 @@ public class Shipment {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = null;
+    private Long id;
 
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @PrimaryKeyJoinColumn(name = "ID")
@@ -26,10 +26,10 @@ public class Shipment {
     private Yard fromYard;
 
     @Column(name = "SINGLEHIVE")
-    private Integer singleHive = null;
+    private Integer singleHive;
 
     @Column(name = "DOUBLEHIVE")
-    private Integer doubleHive = null;
+    private Integer doubleHive;
 
     public void setId(Long id) {
         this.id = id;

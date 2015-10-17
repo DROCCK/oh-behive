@@ -27,11 +27,11 @@
 
         <tbody>
         <tr th:each="s : ${allShipments}">
-            <td th:text="${s.id}}">0</td>
+            <td th:text="${s.id}">0</td>
             <td><a th:text="${s.fromYard.yardName}" th:href="@{/yard/read/{id}(id=${s.fromYard.id})}">Watson</a></td>
             <td><a th:text="${s.toYard.yardName}" th:href="@{/yard/read/{id}(id=${s.toYard.id})}">Watson</a></td>
-            <td th:text="${{s.singles}}">in use</td>
-            <td th:text="${{s.doubles}}">no key</td>
+            <td th:text="${{s.singleHive}}">in use</td>
+            <td th:text="${{s.doubleHive}}">no key</td>
             <td><a class="btn btn-xs btn-warning" th:href="@{/shipment/update/{id}(id=${s.id})}">Update</a></td>
             <td><a class="btn btn-xs btn-danger" th:href="@{/shipment/delete/{id}(id=${s.id})}">Delete</a></td>
         </tr>

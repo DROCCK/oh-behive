@@ -1,7 +1,9 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Shipment;
+import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.services.ShipmentService;
+import drocck.sp.beesandhoney.business.services.YardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
 
 /**
  * @author Robert Wilk
@@ -20,10 +24,19 @@ public class ShipmentController {
     @Autowired
     private ShipmentService shipmentService;
 
+    @Autowired
+    private YardService yardService;
+
     @ModelAttribute("shipment")
     public Shipment construct() {
         return new Shipment();
     }
+
+    @ModelAttribute("allShipments")
+    public List<Shipment> createShipmentList() { return shipmentService.findAll(); }
+
+    @ModelAttribute("allYards")
+    public List<Yard> createYardList() { return yardService.findAll(); }
 
     @RequestMapping(value = "/shipment/create", method = RequestMethod.GET)
     public String create() {
@@ -31,9 +44,9 @@ public class ShipmentController {
     }
 
     @RequestMapping(value = "/shipment/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute("shipment") Shipment shipment) {
+    public String create(Shipment shipment) {
         shipmentService.save(shipment);
-        return "redirect:/shimpment/list";
+        return "redirect:/shipment/list";
     }
 
     @RequestMapping(value = "/shipment/read/{id}", method = RequestMethod.GET)
@@ -49,7 +62,7 @@ public class ShipmentController {
     }
 
     @RequestMapping(value = "/shipment/update/{id}", method = RequestMethod.POST)
-    public String update(@PathVariable Long id, @ModelAttribute("shipment") Shipment shipment) {
+    public String update(@PathVariable Long id, Shipment shipment) {
         shipmentService.save(shipment);
         return "shipment/update";
     }
@@ -68,7 +81,10 @@ public class ShipmentController {
 
     @RequestMapping(value = "/shipment/list", method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("shipment", shipmentService.findAll());
+        List<Shipment> allShipments = shipmentService.findAll();
+        model.addAttribute("allShipments", allShipments);
+        for(Shipment s : allShipments)
+            System.out.println(s.getDoubleHive());
         return "shipment/list";
     }
 }

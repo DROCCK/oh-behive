@@ -27,9 +27,7 @@
 
         <tbody>
         <tr th:each="y : ${allDropSites}">
-            <td th:text="${{y.yard.getYardName()}}">0</td>
-            <td th:text="${{y.getYard().getYardName()}}">0</td>
-            <td><a th:text="${y.getDate()}" th:href="@{/dropsite/read/{id}(id=${dropSite.getId()})}">0000/00/00</a></td>
+            <td><a th:text="${y.getDate()}" th:href="@{/dropsite/read/{id}(id=${y.getId()})}">0000/00/00</a></td>
             <td th:text="${{y.getLatitude()}}">00.00</td>
             <td th:text="${{y.getLongitude()}}">00.00</td>
             <td><a class="btn btn-xs btn-warning" th:href="@{/dropsite/update/{id}(id=${y.getId()})}">Update</a></td>
