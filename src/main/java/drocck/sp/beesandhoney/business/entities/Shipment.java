@@ -26,10 +26,10 @@ public class Shipment {
     private Yard fromYard;
 
     @Column(name = "SINGLEHIVE")
-    private String singleHive = null;
+    private Integer singleHive = null;
 
     @Column(name = "DOUBLEHIVE")
-    private String doubleHive = null;
+    private Integer doubleHive = null;
 
     public void setId(Long id) {
         this.id = id;
@@ -47,19 +47,19 @@ public class Shipment {
         return shipment;
     }
 
-    public void setSingleHive(String singleHive) {
+    public void setSingleHive(Integer singleHive) {
         this.singleHive = singleHive;
     }
 
-    public String getSingleHive() {
+    public Integer getSingleHive() {
         return singleHive;
     }
 
-    public void setDoubleHive(String doubleHive) {
+    public void setDoubleHive(Integer doubleHive) {
         this.doubleHive = doubleHive;
     }
 
-    public String getDoubleHive() {
+    public Integer getDoubleHive() {
         return doubleHive;
     }
 
