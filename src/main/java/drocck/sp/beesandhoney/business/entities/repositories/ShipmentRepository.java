@@ -13,9 +13,10 @@ import java.util.List;
 public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
     List<Shipment> findAll();
     Shipment findById(Long id);
-    Shipment findByYard(Yard yard);
-    Shipment save(Shipment shipment);
-    Shipment save(Long id);
-    void delete(Shipment shipment);
-    void delete(Long id);
+    Shipment findByToYard(Yard yard);
+    Shipment findByFromYard(Yard yard);
+//    Shipment save(Shipment shipment);
+//    Shipment save(Long id);
+//    void delete(Shipment shipment);
+//    void delete(Long id);
 }
