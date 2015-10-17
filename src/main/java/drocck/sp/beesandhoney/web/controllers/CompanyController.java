@@ -1,14 +1,14 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Company;
+import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Chai
@@ -23,6 +23,12 @@ public class CompanyController {
     @ModelAttribute("company")
     public Company construct() {
         return new Company();
+    }
+
+    @ModelAttribute("allCompanies")
+    public @ResponseBody
+    List<Company> populateCompanies(){
+        return companyService.findAll();
     }
 
     @RequestMapping(value = "/company/create", method = RequestMethod.GET)
@@ -48,11 +54,20 @@ public class CompanyController {
         return "company/update";
     }
 
+
     @RequestMapping(value = "/company/update/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute("company") Company company) {
         companyService.save(company);
         return "redirect:/company/list";
     }
+
+/*
+    @RequestMapping(value = "/company/update/", method = RequestMethod.POST)
+    public String update(Company company) {
+        companyService.update(company);
+        return "redirect:/company/list";
+    }
+*/
 
     @RequestMapping(value = "/company/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
@@ -66,9 +81,8 @@ public class CompanyController {
         return "redirect:/company/list";
     }
 
-    @RequestMapping("/company/list")
-    public String list(Model model) {
-        model.addAttribute("company", companyService.findAll());
+    @RequestMapping(value ="/company/list",  method = RequestMethod.GET)
+    public String list() {
         return "company/list";
     }
 }
