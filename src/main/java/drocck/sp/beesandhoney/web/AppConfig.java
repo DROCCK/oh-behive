@@ -112,4 +112,7 @@ public class AppConfig {
 
     @Bean
     public LocationService locationService() { return new LocationService(); }
+
+    @Bean
+    public ShipmentService shipmentService() { return new ShipmentService(); }
 }
