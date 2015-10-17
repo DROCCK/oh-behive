@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Drop Manager</title> <!-- save your title here -->
+</head>
+
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h2>Drops
+        <a class="btn btn-primary" href="/dropsite/create.html" th:href="@{/dropsite/create/}">
+            Create a New Drop
+        </a>
+    </h2>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Yard</th>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="y : ${allDropSites}">
+            <td th:text="${{y.yard.getYardName()}}">0</td>
+            <td th:text="${{y.getYard().getYardName()}}">0</td>
+            <td><a th:text="${y.getDate()}" th:href="@{/dropsite/read/{id}(id=${dropSite.getId()})}">0000/00/00</a></td>
+            <td th:text="${{y.getLatitude()}}">00.00</td>
+            <td th:text="${{y.getLongitude()}}">00.00</td>
+            <td><a class="btn btn-xs btn-warning" th:href="@{/dropsite/update/{id}(id=${y.getId()})}">Update</a></td>
+            <td><a class="btn btn-xs btn-danger" th:href="@{/dropsite/delete/{id}(id=${y.getId()})}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="fragments/footer :: footer">
+</footer>
+</body>
+</html>

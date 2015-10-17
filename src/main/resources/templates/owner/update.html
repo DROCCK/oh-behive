@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+    <title>Update Owner</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<div class="container">
+    <form class="form-horizontal" role="form" action="#" th:action="@{/owner/update}" th:object="${owner}" method="post">
+
+        <input type="hidden"  th:field="*{id}" id="id" th:value="${owner.id}"/>
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <!--Name-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Name: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Owner Name"
+                       th:value="${owner.name}"/>
+            </div>
+        </div>
+        <!--Phone-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="phone">Phone: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.phone}" id="phone" placeholder="Phone Number"
+                       th:value="${owner.contactInfo.phone}"/>
+            </div>
+        </div>
+        <!--Email-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.email}" id="email" placeholder="Email"
+                       th:value="${owner.contactInfo.email}"/>
+            </div>
+        </div>
+        <!--Street-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="street">Street: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.address.street}" id="street" placeholder="Street Address"
+                       th:value="${owner.contactInfo.address.street}"/>
+            </div>
+        </div>
+        <!--City-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="city">City: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.address.city}" id="city" placeholder="city"
+                       th:value="${owner.contactInfo.address.city}"/>
+            </div>
+        </div>
+        <!--State-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="state">State: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.address.state}" id="state" placeholder="State"
+                       th:value="${owner.contactInfo.address.state}"/>
+            </div>
+        </div>
+        <!--Zip-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="zip">Zip: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{contactInfo.address.zip}" id="zip" placeholder="Zip"
+                       th:value="${owner.contactInfo.address.zip}"/>
+            </div>
+        </div>
+        <!--Submit button-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-warning">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

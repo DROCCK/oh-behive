@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Addresses</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>Addresses <a class="btn btn-primary btn-md" th:href="@{/address/create}">Create New Address</a></h1>
+    <table class="table table-responsive table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>Street</th>
+            <th>Suite/Apt</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody th:each="address : ${addresses}">
+        <tr>
+            <td th:text="${address.street}">Street</td>
+            <td th:text="${address.apt}">Apt.</td>
+            <td th:text="${address.city}">City</td>
+            <td th:text="${address.state}">State</td>
+            <td th:text="${address.zip}">Zip</td>
+            <td>
+                <a class="btn btn-xs btn-warning" th:href="@{/address/update/{id}(id=${address.id})}">Update</a>
+                <a class="btn btn-xs btn-danger" th:href="@{/address/delete/{id}(id=${address.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
