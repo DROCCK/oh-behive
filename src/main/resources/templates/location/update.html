@@ -14,20 +14,16 @@
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
         <div class="form-group">
-            <label for="Name" class="col-sm-2 control-label">name</label>
-
+            <label for="Name" class="col-sm-2 control-label">Name</label>
             <div class="col-sm-10">
-                <input th:field="*{name}" th:value="${location.contactInfo.email}" type="name" class="form-control" id="name"
-                       placeholder="Name"/>
+                <input th:field="*{name}" th:value="${location.name}" type="text" class="form-control" id="name" placeholder="Name"/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Email</label>
-
             <div class="col-sm-10">
-                <input th:field="*{contactInfo.email}" th:value="${location.contactInfo.email}" type="email" class="form-control" id="email"
-                       placeholder="Email"/>
+                <input th:field="*{contactInfo.email}" th:value="${location.contactInfo.email}" type="text" class="form-control" id="email" placeholder="Email"/>
             </div>
         </div>
 
@@ -35,9 +31,7 @@
             <label for="phone" class="col-sm-2 control-label">Phone</label>
 
             <div class="col-sm-10">
-                <input th:field="*{contactInfo.phone}" th:value="${location.contactInfo.phone}" type="password" class="form-control"
-                       id="phone"
-                       placeholder="Phone"/>
+                <input th:field="*{contactInfo.phone}" th:value="${location.contactInfo.phone}" type="tel" class="form-control" id="phone" placeholder="Phone"/>
             </div>
         </div>
 
@@ -45,9 +39,7 @@
             <label for="street" class="col-sm-2 control-label">Street</label>
 
             <div class="col-sm-10">
-                <input th:field="*{contactInfo.address.street}" th:value="${location.contactInfo.address.street}" type="text"
-                       class="form-control" id="street"
-                       placeholder="Street"/>
+                <input th:field="*{contactInfo.address.street}" th:value="${location.contactInfo.address.street}" type="text" class="form-control" id="street" placeholder="Street"/>
             </div>
         </div>
 
@@ -55,9 +47,7 @@
             <label for="apt" class="col-sm-2 control-label">Suite/Apartment#</label>
 
             <div class="col-sm-10">
-                <input th:field="*{contactInfo.address.apt}" th:value="${location.contactInfo.address.apt}" type="text" class="form-control"
-                       id="apt"
-                       placeholder="Suite/Apartment#"/>
+                <input th:field="*{contactInfo.address.apt}" th:value="${location.contactInfo.address.apt}" type="text" class="form-control" id="apt" placeholder="Suite/Apartment#"/>
             </div>
         </div>
 
@@ -65,9 +55,7 @@
             <label for="city" class="col-sm-2 control-label">City</label>
 
             <div class="col-sm-10">
-                <input th:field="*{contactInfo.address.city}" th:value="${location.contactInfo.address.city}" type="text"
-                       class="form-control" id="city"
-                       placeholder="City"/>
+                <input th:field="*{contactInfo.address.city}" th:value="${location.contactInfo.address.city}" type="text" class="form-control" id="city" placeholder="City"/>
             </div>
         </div>
 
@@ -75,9 +63,7 @@
             <label for="state" class="col-sm-2 control-label">State</label>
 
             <div class="col-sm-10">
-                <input th:field="*{contactInfo.address.state}" th:value="${location.contactInfo.address.state}" type="text"
-                       class="form-control" id="state"
-                       placeholder="State"/>
+                <input th:field="*{contactInfo.address.state}" th:value="${location.contactInfo.address.state}" type="text" class="form-control" id="state" placeholder="State"/>
             </div>
         </div>
 
@@ -85,9 +71,7 @@
             <label for="zip" class="col-sm-2 control-label">Zip</label>
 
             <div class="col-sm-10">
-                <input th:field="*{contactInfo.address.zip}" th:value="${location.contactInfo.address.zip}" type="text" class="form-control"
-                       id="zip"
-                       placeholder="Zip"/>
+                <input th:field="*{contactInfo.address.zip}" th:value="${location.contactInfo.address.zip}" type="text" class="form-control" id="zip" placeholder="Zip"/>
             </div>
         </div>
 

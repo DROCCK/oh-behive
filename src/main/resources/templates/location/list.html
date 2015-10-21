@@ -19,7 +19,7 @@
             <th>Address</th>
         </tr>
         </thead>
-        <tbody th:each="contactInfo : ${locations}">
+        <tbody th:each="location : ${allLocations}">
         <tr>
             <td th:text="${location.id}">ID</td>
             <td th:text="${location.name}">Name</td>

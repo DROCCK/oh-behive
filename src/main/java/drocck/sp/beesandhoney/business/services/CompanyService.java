@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.services;
 
 import drocck.sp.beesandhoney.business.entities.Company;
+import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -33,5 +34,11 @@ public class CompanyService {
 
     public Company save(final Company company) {
         return this.companyRepository.save(company);
+    }
+
+    public Company update(Company company) {
+        Company c = companyRepository.findById(company.getId());
+        c.setName(company.getName());
+        return companyRepository.save(c);
     }
 }

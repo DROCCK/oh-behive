@@ -8,17 +8,14 @@
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
     <h1>Update Company Information</h1>
-    <form action="#" th:action="@{/company/updateContact/{id}(id = ${company.id})}" th:object="${company}"
-          method="post"
-          class="form-horizontal">
+    <form action="#" th:action="@{/company/update/{id}(id = ${company.id})}" th:object="${company}" method="post" class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
         <div class="form-group">
             <label for="Name" class="col-sm-2 control-label">Name</label>
 
             <div class="col-sm-10">
-                <input th:field="*{name}" th:value="${company.name}" type="name" class="form-control" id="name"
-                       placeholder="Name"/>
+                <input th:field="*{name}" th:value="${company.name}" type="text" class="form-control" id="name" placeholder="Name"/>
             </div>
         </div>
 
