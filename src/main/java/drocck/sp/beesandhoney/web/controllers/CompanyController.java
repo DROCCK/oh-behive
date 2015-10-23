@@ -54,20 +54,11 @@ public class CompanyController {
         return "company/update";
     }
 
-
     @RequestMapping(value = "/company/update/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute("company") Company company) {
         companyService.update(company);
         return "redirect:/company/list";
     }
-
-/*
-    @RequestMapping(value = "/company/update/", method = RequestMethod.POST)
-    public String update(Company company) {
-        companyService.update(company);
-        return "redirect:/company/list";
-    }
-*/
 
     @RequestMapping(value = "/company/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
