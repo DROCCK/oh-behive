@@ -57,7 +57,7 @@ public class CompanyController {
 
     @RequestMapping(value = "/company/update/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute("company") Company company) {
-        companyService.save(company);
+        companyService.update(company);
         return "redirect:/company/list";
     }
 
