@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -22,6 +23,13 @@ public class DropSiteController {
 
     @Autowired
     private DropSiteService dropSiteService;
+
+    @Autowired
+    private YardService yardService;
+
+    @Autowired
+    private UserService userService;
+
     /**
      * Models
      **/
@@ -38,6 +46,12 @@ public class DropSiteController {
         return new DropSite();
     }
 
+    @ModelAttribute("allUsers")
+    public Collection<User> createUserList() {return userService.findAll();}
+
+
+    @ModelAttribute("allYards")
+    public List<Yard> createYardList() { return yardService.findAll(); }
     /**
      * Request Mapping
      **/

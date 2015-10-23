@@ -8,5 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface DropSiteRepository extends JpaRepository<DropSite, Long> {
     DropSite findById(Long id);
+
  //   DropSite findByDate(java.sql.Date date);
 }

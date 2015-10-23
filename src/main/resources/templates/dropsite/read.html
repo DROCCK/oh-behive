@@ -10,6 +10,7 @@
     <div class="col-md-6">
 
         <h1>Drop Info</h1>
+        <p th:text="${dropSite.getDropYard().getYardName()}">Yard</p>
 
         <p th:text="${dropSite.getId()}">ID</p>
 
@@ -18,6 +19,8 @@
         <p th:text="${dropSite.getLatitude()}">Latitude</p>
 
         <p th:text="${dropSite.getLongitude()}">Longitude</p>
+
+        <p th:text="${dropSite.getDropUser().getPerson().getName()}">ID</p>
 
     </div>
     <div class = "container">
