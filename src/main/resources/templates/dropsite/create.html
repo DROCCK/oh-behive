@@ -51,10 +51,19 @@
                 <button type="submit" class="btn btn-default">Submit</button>
             </div>
         </div>
+        <style>
+            #mapPlaceholder {
+                height: 400px;
+                width: 700px;
+                margin:0 auto;
+            }
+        </style>
+        <div id="mapPlaceholder" align="center"></div>
     </form>
     <p id="error"></p>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script>
     var x = document.getElementById("error");
 
@@ -65,15 +74,27 @@
             x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
-
-    x.innerHTML = "TEST2";
     function setVals(position) {
         var lat = position.coords.latitude;
         var long = position.coords.longitude;
         document.getElementById("latitude").value = lat;
         document.getElementById("longitude").value = long;
+        var coords = new google.maps.LatLng(lat, long);
+        var mapOptions = {
+            zoom: 15,
+            center: coords,
+            mapTypeControl: true,
+            mapTypeId: google.maps.MapTypeId.HYBRID
+        };
+        var map = new google.maps.Map(
+                document.getElementById("mapPlaceholder"), mapOptions
+        );
+        var marker = new google.maps.Marker({
+            position: coords,
+            map: map,
+            title: "Current Location"
+        });
     }
-    x.innerHTML = "TEST3";
     function showError(error) {
         switch (error.code) {
             case error.PERMISSION_DENIED:
