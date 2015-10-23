@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by David on 10/10/2015.
@@ -22,6 +24,13 @@ public class DropSiteController {
 
     @Autowired
     private DropSiteService dropSiteService;
+
+    @Autowired
+    private YardService yardService;
+
+    @Autowired
+    private UserService userService;
+
     /**
      * Models
      **/
@@ -38,6 +47,12 @@ public class DropSiteController {
         return new DropSite();
     }
 
+    @ModelAttribute("allUsers")
+    public Collection<User> createUserList() {return userService.findAll();}
+
+
+    @ModelAttribute("allYards")
+    public List<Yard> createYardList() { return yardService.findAll(); }
     /**
      * Request Mapping
      **/
@@ -54,7 +69,9 @@ public class DropSiteController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(DropSite dropSite) {
+    public String update(DropSite dropSite, @RequestParam(value = "principalUser", required = true) String name) {
+        Optional<User> u = userService.getUserByUsername(name); // extract user
+        dropSite.setDropUser(userService.findById(u.get().getId()));  // set dropsite by finding user by id
         dropSiteService.save(dropSite);
         return "redirect:/dropsite/list";
     }
@@ -85,10 +102,10 @@ public class DropSiteController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(DropSite dropSite) {
-        dropSiteService.save(dropSite);
-        logger.info(dropSite.getLatitude());
-        logger.info(dropSite.getLongitude());
+    public String create(DropSite dropSite, @RequestParam(value = "principalUser", required = true) String name) {
+        Optional<User> u = userService.getUserByUsername(name); // extract user
+        dropSite.setDropUser(userService.findById(u.get().getId()));  // set dropsite by finding user by id
+        dropSiteService.save(dropSite); // insert into db
         return "redirect:/dropsite/list.html";
     }
 }

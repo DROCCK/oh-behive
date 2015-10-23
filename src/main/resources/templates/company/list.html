@@ -16,7 +16,7 @@
             <th>Name</th>
         </tr>
         </thead>
-        <tbody th:each="contactInfo : ${company}">
+        <tbody th:each="company : ${allCompanies}">
         <tr>
             <td th:text="${company.id}">ID</td>
             <td th:text="${company.name}">Name</td>
