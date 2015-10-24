@@ -1,6 +1,9 @@
 package drocck.sp.beesandhoney.business.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import org.hibernate.annotations.FetchProfile;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -31,17 +34,20 @@ public class Yard implements Serializable {
     @Column(name = "MAX_HIVES")
     private Integer maxHives = null;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "OWNER_ID")
     private Person owner;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "RENT_RECEIVER_ID")
     private Person rentReceiver;
+
+    @Column(name = "CURRENT_HIVES")
+    private Integer currentHives = null;
 
     private Integer singles;
     private Integer doubles;
@@ -69,9 +75,6 @@ public class Yard implements Serializable {
     public void setCurrentHives(Integer singles, Integer doubles) {
         this.currentHives = singles+doubles;
     }
-
-    @Column(name = "CURRENT_HIVES")
-    private Integer currentHives = null;
 
     /** Getters and Setters **/
 

@@ -10,6 +10,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -46,6 +47,9 @@ public class AppConfig {
         factory.setPackagesToScan("drocck.sp.beesandhoney.business.entities.repositories");
         factory.setDataSource(dataSource());
         factory.afterPropertiesSet();
+
+        OpenEntityManagerInViewFilter openEntityManagerInViewFilter = new OpenEntityManagerInViewFilter();
+        openEntityManagerInViewFilter.setEntityManagerFactoryBeanName("entityManagerFactory");
 
         return factory.getObject();
     }

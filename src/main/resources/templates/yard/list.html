@@ -14,38 +14,22 @@
             Create a new yard
         </a>
     </h2>
-    <table class="table table-hover">
+    <table id="table-pagination" class="table table-hover" data-toggle="table" data-url="/yard/json" data-cache="false" data-pagination="true" data-search="true">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Combo</th>
-            <th>Address</th>
-            <th>Access Notes</th>
-            <th>Max Hives</th>
+            <th data-field="id" data-sortable="true">ID</th>
+            <th data-field="yardName" data-sortable="true">Name</th>
+            <th data-field="status" data-sortable="true">Status</th>
+            <th data-field="combo" data-sortable="true">Combo</th>
+            <th data-field="address.street">Address</th>
+            <th data-field="accessNotes" data-sortable="true">Access Notes</th>
+            <th data-field="maxHives" data-sortable="true">Max Hives</th>
             <th>Owner</th>
             <th>Pay Rent To</th>
         </tr>
         </thead>
 
-        <tbody>
-        <tr th:each="y : ${allYards}">
-            <td th:text="${{y.id}}">0</td>
-            <td><a th:text="${y.yardName}" th:href="@{/yard/read/{id}(id=${y.id})}">Watson</a></td>
-            <td th:text="${{y.status}}">in use</td>
-            <td th:text="${{y.combo}}">no key</td>
-            <td th:text="${y.address}"></td>
-            <td th:text="${{y.accessNotes}}">driveway</td>
-            <td th:text="${{y.maxHives}}">80</td>
-            <td><a th:unless="${y.owner == null}" th:text="${(y.owner.name)}"
-                   th:href="@{/owner/(id=${y.owner.id})}"></a></td>
-            <td><a th:unless="${y.rentReceiver == null}" th:text="${(y.rentReceiver.name)}"
-                   th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
-            <td><a class="btn btn-xs btn-warning" th:href="@{/yard/update/{id}(id=${y.id})}">Update</a></td>
-            <td><a class="btn btn-xs btn-danger" th:href="@{/yard/delete/{id}(id=${y.id})}">Delete</a></td>
-        </tr>
-        </tbody>
+
     </table>
 </div>
 

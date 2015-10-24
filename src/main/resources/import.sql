@@ -13,3 +13,4 @@ INSERT INTO users_roles(user_id, role_id) VALUES (0, 0);
 
 # Yards
 INSERT INTO yard (yard_name, status, combo, max_hives, owner_id, rent_receiver_id, address_id) VALUES ('Andrews', 'In Use', '1234', '80', 0, 0, 0);
+INSERT INTO yard (yard_name, status, combo, max_hives, owner_id, rent_receiver_id, address_id) VALUES ('Tanner', 'Not in use', '7777', '120', 0, 0, 0);
