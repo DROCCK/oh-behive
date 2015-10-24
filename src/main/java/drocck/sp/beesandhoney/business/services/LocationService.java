@@ -35,6 +35,10 @@ public class LocationService {
         locationRepository.delete(id);
     }
 
+    public void delete(Location location) {
+        locationRepository.delete(location);
+    }
+
     public Location save(final Location location) {
         addressService.save(location.getContactInfo().getAddress());
         return this.locationRepository.save(location);
@@ -45,7 +49,7 @@ public class LocationService {
         l.setName(location.getName());
         l.setContactInfo(location.getContactInfo());
         l.getContactInfo().setId(l.getId());
-        l.getContactInfo().setAddress(location.getContactInfo().getAddress());
+        l.getContactInfo().setAddress(l.getContactInfo().getAddress());
         l.getContactInfo().getAddress().setId(l.getId());
         return locationRepository.save(l);
     }

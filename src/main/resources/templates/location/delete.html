@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: head">
-    <title>Delete Location</title>
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Delete Company</title>
 </head>
+
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
@@ -18,9 +20,7 @@
         <h3>State: <label th:text="${location.contactInfo.address.state}"></label></h3>
         <h3>Zip: <label th:text="${location.contactInfo.address.zip}"></label></h3>
     </div>
-    <a class="btn btn-danger" th:href="@{/location/confirmedDelete/(id = ${location.id})}">Confirm Delete</a>
-
-    </form>
+    <a class="btn btn-danger" th:href="@{/location/confirmedDelete/{id}(id = ${location.id})}">Confirm Delete</a>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>

@@ -8,9 +8,7 @@
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
     <h1>Update Location Information</h1>
-    <form action="#" th:action="@{/location/updateContact/{id}(id = ${location.id})}" th:object="${location}"
-          method="post"
-          class="form-horizontal">
+    <form action="#" th:action="@{/location/update/{id}(id = ${location.id})}" th:object="${location}" method="post" class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
         <div class="form-group">
