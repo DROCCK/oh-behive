@@ -21,7 +21,6 @@ public class Location {
     @Column(name = "Name")
     private String name = null;
 
-
     public void setId(Long id) {
         this.id = id;
     }

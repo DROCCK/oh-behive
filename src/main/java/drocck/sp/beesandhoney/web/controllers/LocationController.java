@@ -26,7 +26,6 @@ public class LocationController {
         return new Location();
     }
 
-
     @ModelAttribute("allLocations")
     public @ResponseBody
     List<Location> populateLocations(){
