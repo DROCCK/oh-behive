@@ -10,6 +10,7 @@ import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,9 @@ public class YardController {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private AddressService addressService;
 
     /**
      * Models
@@ -56,6 +60,18 @@ public class YardController {
     /**
      * Request Mapping
      **/
+
+    @RequestMapping("/json")
+    @ResponseBody
+    public List<Yard> json() {
+        List<Yard> yardList = yardService.findAll();
+        Hibernate.initialize(yardList);
+        List<Address> addressList = addressService.findAll();
+        Hibernate.initialize(addressList);
+        List<Person> personList = personService.findAll();
+        Hibernate.initialize(personList);
+        return yardList;
+    }
 
     @RequestMapping({"/list"})
     public String list() {
