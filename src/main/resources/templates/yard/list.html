@@ -24,8 +24,9 @@
             <th data-field="address.street">Address</th>
             <th data-field="accessNotes" data-sortable="true">Access Notes</th>
             <th data-field="maxHives" data-sortable="true">Max Hives</th>
-            <th>Owner</th>
-            <th>Pay Rent To</th>
+            <th data-field="owner.name">Owner</th>
+            <th data-field="rentReceiver.name">Pay Rent To</th>
+            <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">Functions</th>
         </tr>
         </thead>
 
@@ -35,5 +36,32 @@
 
 <footer th:replace="fragments/footer :: footer">
 </footer>
+<script>
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="read ml10" href="javascript:void(0)" title="Read">',
+            '<i class="glyphicon glyphicon-info-sign"></i>',
+            '</a>',
+            '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
+            '<i class="glyphicon glyphicon-edit"></i>',
+            '</a>',
+            '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .read': function (e, value, row, index) {
+            location.href = "/yard/read/" + row["id"];
+        },
+        'click .edit': function (e, value, row, index) {
+            location.href = "/yard/update/" + row["id"];
+        },
+        'click .remove': function (e, value, row, index) {
+            location.href = "/yard/delete/" + row["id"];
+        }
+    };
+</script>
 </body>
 </html>
