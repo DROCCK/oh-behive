@@ -10,6 +10,7 @@
     <form class="form-horizontal" role="form" action="#" th:action="@{/yard/update}" th:object="${yard}" method="post">
 
         <input type="hidden"  th:field="*{id}" id="id" th:value="${yard.id}"/>
+        <input type="hidden" th:field="*{address.id}" id="addressId" th:value="${yard.address.id}"/>
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
