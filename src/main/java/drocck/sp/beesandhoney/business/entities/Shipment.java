@@ -31,6 +31,9 @@ public class Shipment {
     @Column(name = "DOUBLEHIVE")
     private Integer doubleHive = null;
 
+    @Column(name = "IN_ROUTE")
+    private boolean inRoute = true;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -77,6 +80,14 @@ public class Shipment {
 
     public Yard getFromYard() {
         return fromYard;
+    }
+
+    public boolean isInRoute() {
+        return inRoute;
+    }
+
+    public void setInRoute(boolean inRoute) {
+        this.inRoute = inRoute;
     }
 
     @Override

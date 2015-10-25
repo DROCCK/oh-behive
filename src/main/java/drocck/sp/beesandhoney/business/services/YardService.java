@@ -5,6 +5,7 @@ import drocck.sp.beesandhoney.business.entities.repositories.YardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,14 @@ public class YardService {
 
     public List<Yard> findAll() {
         return this.yardRepository.findAll();
+    }
+
+    public List<Yard> findAllInUse() {
+        List<Yard> yards = new ArrayList<>();
+        for (Yard yard : findAll())
+            if (yard.getStatus().equals("IN USE"))
+                yards.add(yard);
+        return yards;
     }
 
     public Yard findById(Long id) {

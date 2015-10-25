@@ -43,8 +43,14 @@ public class Yard implements Serializable {
     @JoinColumn(name = "RENT_RECEIVER_ID")
     private Person rentReceiver;
 
+    @Column(name = "SINGLES")
     private Integer singles;
+
+    @Column(name = "DOUBLES")
     private Integer doubles;
+
+    @Column(name = "CURRENT_HIVES")
+    private Integer currentHives = null;
 
     public Integer getDoubles() {
         return doubles;
@@ -69,9 +75,6 @@ public class Yard implements Serializable {
     public void setCurrentHives(Integer singles, Integer doubles) {
         this.currentHives = singles+doubles;
     }
-
-    @Column(name = "CURRENT_HIVES")
-    private Integer currentHives = null;
 
     /** Getters and Setters **/
 
