@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Bee Board</title> <!-- add your title here -->
+</head>
+<body>
+<script>
+    $('.table > tr').click(function () {
+        alert(this.value);
+    });
+
+    $(function () {
+        $(".clickableRow").on("click", function () {
+            alert(this.value);
+        });
+    });
+</script>
+<header th:replace="fragments/header :: header"></header>
+<div class="row dashboard-row">
+    <div class="col-md-2">
+        <div class="left-sidebar-div">
+            <h3>Hives</h3>
+            <hr/>
+            <h4 th:text="'Singles: ' + ${beeBoard.getTotalSingles()}">Singles: </h4>
+            <h4 th:text="'Doubles: ' + ${beeBoard.getTotalDoubles()}">Doubles: </h4>
+            <h4 th:text="'Totals: '  + ${beeBoard.getTotalHives()}">Total: </h4>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div align="center">
+            <i class="material-icons md-36 bee-board-icon">add_circle_outline</i>
+            <i class="material-icons md-36 bee-board-icon">create</i>
+            <i class="material-icons md-36 bee-board-icon">delete</i>
+            <b class="material-icons md-48 bee-board-icon">|</b>
+            <i class="material-icons md-36 bee-board-icon">person_outline</i>
+            <i class="material-icons md-36 bee-board-icon">place</i>
+            <i class="material-icons md-36 bee-board-icon">send</i>
+        </div>
+        <hr/>
+        <div>
+            <h1>This is where the specific yard will go!</h1>
+        </div>
+        <hr/>
+        <div>
+            <table class="table table-condensed table-responsive">
+                <caption align="center">Active Yards</caption>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Owner</th>
+                    <th>Pay Rent To</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr class='clickableRow' th:each="y : ${beeBoard.getYards()}">
+                    <td><a th:text="${y.yardName}" th:href="@{/yard/read/{id}(id=${y.id})}">Watson</a></td>
+                    <td th:text="${y.address}"></td>
+                    <td><a th:unless="${y.owner == null}" th:text="${(y.owner.name)}"
+                           th:href="@{/owner/(id=${y.owner.id})}"></a></td>
+                    <td><a th:unless="${y.rentReceiver == null}" th:text="${(y.rentReceiver.name)}"
+                           th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
+                    <td>
+                        <a th:href="@{/yard/update/{id}(id=${y.id})}">
+                            <i class="material-icons bee-board-icon">create</i>
+                        </a>
+                    </td>
+                    <td>
+                        <a th:href="@{/yard/delete/{id}(id=${y.id})}">
+                            <i class="material-icons bee-board-icon">delete</i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="right-sidebar-div" >
+            <h3>Active Shipments</h3>
+            <hr/>
+            <h3 align="center" th:text="${beeBoard.getActiveShipments()}">10</h3>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

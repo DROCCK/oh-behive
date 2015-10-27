@@ -22,3 +22,39 @@ a:hover {
 .inline-checks {
     margin: 50px;
 }
+
+.selected {
+    background-color: brown;
+    color: #FFF;
+}
+
+.side-div {
+    background-color: linen;
+}
+
+.right-sidebar-div {
+    margin-right: 15px;
+}
+
+.left-sidebar-div {
+    margin-left: 15px;
+}
+
+.bee-board-icon {
+    width: 12%;
+}
+
+.dashboard-row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.btn-yellow {
+    background-color: yellow;
+}
+
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+.material-icons.md-60 { font-size: 60px; }
