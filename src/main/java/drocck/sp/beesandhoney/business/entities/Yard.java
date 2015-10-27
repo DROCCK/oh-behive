@@ -79,9 +79,6 @@ public class Yard implements Serializable {
         this.currentHives = singles+doubles;
     }
 
-    @Column(name = "CURRENT_HIVES")
-    private Integer currentHives = null;
-
     /** Getters and Setters **/
 
     public Long getId() {
