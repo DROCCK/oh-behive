@@ -119,6 +119,8 @@ public class Shipment {
 
     public void decrementMaxHives(){
         fromYard.setMaxHives(fromYard.getMaxHives() - (this.getSingleHive() + this.getDoubleHive()));
+        //fromYard.setMaxHives( 11 );
+
     }
 
     public void incrementMaxHives(){

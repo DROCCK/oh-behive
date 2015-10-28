@@ -69,6 +69,9 @@ public class ShipmentController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Shipment shipment) {
+        // if(shipment.getStatus() == shipment.getStatusComplete()){
+        //      shipment.incrementMaxHives();
+        //}
         shipmentService.save(shipment);
         return "shipment/list";
     }
