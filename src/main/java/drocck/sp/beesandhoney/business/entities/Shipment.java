@@ -25,14 +25,21 @@ public class Shipment {
     @JoinColumn(name = "FROM_YARD")
     private Yard fromYard;
 
-    @Column(name = "SINGLEHIVE")
+    @Column(name = "SINGLES")
     private Integer singleHive;
 
-    @Column(name = "DOUBLEHIVE")
+    @Column(name = "DOUBLES")
     private Integer doubleHive;
 
     @Column(name = "IN_ROUTE")
     private boolean inRoute = true;
+
+    @Column(name = "STATUS")
+    private String status;
+
+    private String inactive = "Inactive";
+    private String complete = "Complete";
+    private String inProgress = "In Progress";
 
     public void setId(Long id) {
         this.id = id;
@@ -88,6 +95,34 @@ public class Shipment {
 
     public void setInRoute(boolean inRoute) {
         this.inRoute = inRoute;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getStatusInactive() {
+        return inactive;
+    }
+
+    public String getStatusComplete() {
+        return complete;
+    }
+
+    public String getStatusInProgress() {
+        return inProgress;
+    }
+
+    public void decrementMaxHives(){
+        fromYard.setMaxHives(fromYard.getMaxHives() - (this.getSingleHive() + this.getDoubleHive()));
+    }
+
+    public void incrementMaxHives(){
+        toYard.setMaxHives(toYard.getMaxHives() + (this.getSingleHive() + this.getDoubleHive()) );
     }
 
     @Override

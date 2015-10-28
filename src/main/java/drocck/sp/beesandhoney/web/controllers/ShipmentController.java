@@ -49,6 +49,8 @@ public class ShipmentController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Shipment shipment) {
+        shipment.setStatus(shipment.getStatusInactive());
+        //shipment.decrementMaxHives();
         shipmentService.save(shipment);
         return "redirect:/shipment/list";
     }
