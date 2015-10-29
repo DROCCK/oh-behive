@@ -31,26 +31,23 @@ public class Yard implements Serializable {
     @Column(name = "MAX_HIVES")
     private Integer maxHives = null;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "OWNER_ID")
     private Person owner;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "RENT_RECEIVER_ID")
     private Person rentReceiver;
 
-    @Column(name = "SINGLES")
-    private Integer singles;
-
-    @Column(name = "DOUBLES")
-    private Integer doubles;
-
     @Column(name = "CURRENT_HIVES")
     private Integer currentHives = null;
+
+    private Integer singles;
+    private Integer doubles;
 
     public Integer getDoubles() {
         return doubles;
