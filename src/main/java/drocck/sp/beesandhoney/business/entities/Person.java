@@ -19,7 +19,7 @@ public class Person {
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL, optional = false)
-    @PrimaryKeyJoinColumn(name = "ID")
+    @JoinColumn(name = "CONTACT_ID")
     private ContactInfo contactInfo;
 
     public Long getId() {

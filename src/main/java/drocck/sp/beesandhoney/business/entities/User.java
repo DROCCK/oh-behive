@@ -22,10 +22,6 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "ID")
-    private Person person;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
       joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
@@ -54,14 +50,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 
     public List<Role> getRoles() {
