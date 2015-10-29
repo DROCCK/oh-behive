@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Owner Page</title> <!-- add your title here -->
+    <title >Owner Page</title> <!-- add your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header">
 </header>
 
 <div class="container">
-    <h2 >Current Owners</h2>
+    <h2 th:text="#{owner}">Current Owners</h2>
     <table class="table table-hover">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>Street Address</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Zip</th>
+            <th th:text="#{name}"></th>
+            <th th:text="#{phone}"></th>
+            <th th:text="#{email}"></th>
+            <th th:text="#{address}"></th>
+            <th th:text="#{city}"></th>
+            <th th:text="#{state}"></th>
+            <th th:text="#{zip}"></th>
         </tr>
         </thead>
 
@@ -35,15 +35,15 @@
             <td th:text="${{owner.contactInfo.address.state}}">CA</td>
             <td th:text="${{owner.contactInfo.address.zip}}">12345</td>
             <td>
-                <a class="btn btn-xs btn-warning" th:href="@{/owner/update/(id=${owner.id})}">Update</a>
-                <a class="btn btn-xs btn-danger" th:href="@{/owner/delete/(id=${owner.id})}">Delete</a>
+                <a class="btn btn-xs btn-warning" th:href="@{/owner/update/(id=${owner.id})}" th:text="#{update}">Update</a>
+                <a class="btn btn-xs btn-danger" th:href="@{/owner/delete/(id=${owner.id})}" th:text="#{delete}">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
 
     <a href="/owner/create.html" th:href="@{/owner/create}">
-        <button type="button" class="btn btn-primary">
+        <button type="button" class="btn btn-primary" th:text="#{createNewOwner}">
             Create a new owner
         </button>
     </a>
