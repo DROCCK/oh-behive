@@ -5,7 +5,6 @@ import javax.persistence.*;
 /**
  * Created by Chai on 10/9/2015.
  */
-
 @Entity
 public class Location {
 

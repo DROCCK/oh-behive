@@ -16,7 +16,6 @@ public class ContactInfo {
     private String email;
     private String phone;
 
-    // @MapsId
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
