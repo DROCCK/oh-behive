@@ -50,7 +50,10 @@ public class ShipmentController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Shipment shipment) {
         shipment.setStatus(shipment.getStatusInactive());
-        //shipment.decrementMaxHives();
+        shipment.setFromYard(yardService.findById(shipment.getFromYardID()));
+        shipment.setToYard(yardService.findById(shipment.getToYardID()));
+
+        shipment.decrementMaxHives();
         shipmentService.save(shipment);
         return "redirect:/shipment/list";
     }
@@ -69,9 +72,13 @@ public class ShipmentController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Shipment shipment) {
-        // if(shipment.getStatus() == shipment.getStatusComplete()){
-        //      shipment.incrementMaxHives();
-        //}
+        shipment.setFromYard(yardService.findById(shipment.getFromYardID()));
+        shipment.setToYard(yardService.findById(shipment.getToYardID()));
+        //System.out.println("status = " + shipment.getStatus() );
+        if(shipment.getStatus().equals(shipment.getStatusComplete()) ){
+            //System.out.println("status is equal to completed!");
+            shipment.incrementMaxHives();
+        }
         shipmentService.save(shipment);
         return "shipment/list";
     }

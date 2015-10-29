@@ -25,6 +25,12 @@ public class Shipment {
     @JoinColumn(name = "FROM_YARD")
     private Yard fromYard;
 
+    @Column(name = "TO_YARD_ID")
+    private Long toYardID;
+
+    @Column(name = "FROM_YARD_ID")
+    private Long fromYardID;
+
     @Column(name = "SINGLES")
     private Integer singleHive;
 
@@ -38,7 +44,7 @@ public class Shipment {
     private String status;
 
     private String inactive = "Inactive";
-    private String complete = "Complete";
+    private String complete = "Completed";
     private String inProgress = "In Progress";
 
     public void setId(Long id) {
@@ -117,10 +123,24 @@ public class Shipment {
         return inProgress;
     }
 
+    public void setToYardID(Long toYardID) {
+        this.toYardID = toYardID;
+    }
+
+    public Long getToYardID() {
+        return toYardID;
+    }
+
+    public void setFromYardID(Long fromYardID) {
+        this.fromYardID = fromYardID;
+    }
+
+    public Long getFromYardID() {
+        return fromYardID;
+    }
+
     public void decrementMaxHives(){
         fromYard.setMaxHives(fromYard.getMaxHives() - (this.getSingleHive() + this.getDoubleHive()));
-        //fromYard.setMaxHives( 11 );
-
     }
 
     public void incrementMaxHives(){
@@ -129,6 +149,6 @@ public class Shipment {
 
     @Override
     public String toString() {
-        return "Shipment [id="+this.id+" toYard="+this.toYard.getId()+" fromYard ="+this.fromYard.getId() +" singleHive="+this.singleHive +" doubleHive="+this.doubleHive+"]";
+        return "Shipment [id="+this.id+" singleHive="+this.singleHive +" doubleHive="+this.doubleHive+"]";
     }
 }
