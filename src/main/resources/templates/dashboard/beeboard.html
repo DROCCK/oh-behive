@@ -2,20 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
+    <script type="text/javascript" th:href="@{/js/yard-table.js}" ></script>
     <title>Bee Board</title> <!-- add your title here -->
 </head>
 <body>
-<script>
-    $('.table > tr').click(function () {
-        alert(this.value);
-    });
-
-    $(function () {
-        $(".clickableRow").on("click", function () {
-            alert("abc " + this.value);
-        });
-    });
-</script>
 <header th:replace="fragments/header :: header"></header>
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
@@ -42,9 +32,7 @@
             <h1>This is where the specific yard will go!</h1>
 
             <p id="name"></p>
-
             <p id="status"></p>
-
             <p id="combo"></p>
 
             <p><span id="street"></span> <span id="city"></span> <span id="state"></span> <span id="zip"></span></p>
@@ -77,40 +65,5 @@
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
-<script>
-    function operateFormatter(value, row, index) {
-        return [
-            '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
-            '<i class="material-icons bee-board-icon">create</i>',
-            '</a>',
-            '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
-            ' <i class="material-icons bee-board-icon">delete</i>',
-            '</a>'
-        ].join('');
-    }
-
-    window.operateEvents = {
-        'click .edit': function (e, value, row, index) {
-            location.href = "/yard/update/" + row["id"];
-        },
-        'click .remove': function (e, value, row, index) {
-            location.href = "/yard/delete/" + row["id"];
-        }
-    };
-
-    $(function () {
-        $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
-            //alert('Event: click-row.bs.table, data: ' + JSON.stringify(row));
-            $("#name").text(row["yardName"]);
-            $("#status").text(row["status"]);
-            $("#combo").text(row["combo"]);
-            var address = row["address"];
-            $("#street").text(address["street"]);
-            $("#city").text(address["city"]);
-            $("#state").text(address["state"]);
-            $("zip").text(address["zip"]);
-        });
-    });
-</script>
 </body>
 </html>

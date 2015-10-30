@@ -3,9 +3,9 @@
 
 <head th:include="fragments/head :: head"></head>
 <head>
+    <script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
     <title>Yard Manager</title> <!-- save your title here -->
 </head>
-
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
@@ -31,39 +31,9 @@
             <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">Functions</th>
         </tr>
         </thead>
-
-
     </table>
 </div>
-
 <footer th:replace="fragments/footer :: footer">
 </footer>
-<script>
-    function operateFormatter(value, row, index) {
-        return [
-            '<a class="read ml10" href="javascript:void(0)" title="Read">',
-            '<i class="glyphicon glyphicon-info-sign"></i>',
-            '</a>',
-            '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
-            '<i class="glyphicon glyphicon-edit"></i>',
-            '</a>',
-            '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
-            '<i class="glyphicon glyphicon-remove"></i>',
-            '</a>'
-        ].join('');
-    }
-
-    window.operateEvents = {
-        'click .read': function (e, value, row, index) {
-            location.href = "/yard/read/" + row["id"];
-        },
-        'click .edit': function (e, value, row, index) {
-            location.href = "/yard/update/" + row["id"];
-        },
-        'click .remove': function (e, value, row, index) {
-            location.href = "/yard/delete/" + row["id"];
-        }
-    };
-</script>
 </body>
 </html>
