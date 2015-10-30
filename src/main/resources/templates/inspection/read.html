@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+    <title></title> <!-- save your title here -->
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+
+    <h1>Inspection Info</h1>
+
+    <p th:text="${inspection.id}"></p>
+
+    <p> Number of doubles: <span th:text="${inspection.numDoubles}"></span></p>
+
+    <p> Number of singles: <span th:text="${inspection.numSingles}"></span></p>
+
+    <p> Date of visit: <span th:text="${inspection.visitDate}"></span></p>
+
+    <p> Were the bees fed? <span th:text="${inspection.fed}"></span></p>
+
+    <p> Medication used: <span th:text="${inspection.medication}"></span></p>
+
+    <p> Notes: <span th:text="${inspection.notes}"></span></p>
+
+    <div class="container">
+        <a class="btn" th:href="@{/inspection/list/{id} (id=${inspection.getDropSite().getId()})}">Back to List</a>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

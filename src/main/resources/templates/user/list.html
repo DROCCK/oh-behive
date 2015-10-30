@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Users</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>Users <a class="btn btn-primary btn-md" th:href="@{/user/create}">Create New
+        User</a></h1>
+    <table class="table table-responsive table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody th:each="user : ${users}">
+            <tr>
+                <td th:text="${user.person.name}">Name</td>
+                <td th:text="${user.username}">Username</td>
+                <td th:text="${{user.getRoleAsString()}}">Roles</td>
+                <td th:text="${user.person.contactInfo.email}">Email</td>
+                <td th:text="${user.person.contactInfo.phone}">Phone</td>
+                <td th:text="${user.person.contactInfo.address}">Address</td>
+                <td>
+                    <a class="btn btn-xs btn-warning" th:href="@{/user/update/{id}(id=${user.id})}">Update</a>
+                    <a class="btn btn-xs btn-danger" th:href="@{/user/delete/{id}(id=${user.id})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

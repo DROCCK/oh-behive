@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+    <title>Delete Location</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <form class="form-horizontal" role="form" action="#" th:action="@{/location/delete}" th:object="${location}" method="post">
+
+        <h1>Are you sure you want to delete this Company?</h1>
+        <div>
+            <h3>Name: <label th:text="${location.name}"></label></h3>
+            <h3>Email: <label th:text="${location.contactInfo.email}"></label></h3>
+            <h3>Phone: <label th:text="${location.contactInfo.phone}"></label></h3>
+            <h3>Street: <label th:text="${location.contactInfo.address.street}"></label></h3>
+            <h3>City: <label th:text="${location.contactInfo.address.city}"></label></h3>
+            <h3>State: <label th:text="${location.contactInfo.address.state}"></label></h3>
+            <h3>Zip: <label th:text="${location.contactInfo.address.zip}"></label></h3>
+        </div>
+        <a class="btn btn-danger" th:href="@{/location/confirmedDelete/(id = ${location.id})}">Confirm Delete</a>
+
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

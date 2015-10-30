@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Read Role</title> <!-- add your title here -->
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h1>Shipment</h1>
+    <div>
+        <p> From: <span th:text="${shipment.fromYard.yardName}">from</span> </p>
+        <p> To: <span th:text="${shipment.toYard.yardName}">to</span> </p>
+        <p> Singles Moved <span th:text="${shipment.singles}">singles</span> </p>
+        <p> Doubles Moved <span th:text="${shipment.doubles}">doubles</span> </p>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

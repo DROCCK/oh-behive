@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head">
+    <title></title> <!-- save your title here -->
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+
+    <div class="col-md-6">
+
+        <h1>Drop Info</h1>
+
+        <p th:text="${dropSite.getId()}">ID</p>
+
+        <p th:text="${dropSite.getDate()}">Date</p>
+
+        <p th:text="${dropSite.getLatitude()}">Latitude</p>
+
+        <p th:text="${dropSite.getLongitude()}">Longitude</p>
+
+    </div>
+    <div class = "container">
+        <a class="btn" th:href="@{/dropsite/list}">Back to List</a>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
