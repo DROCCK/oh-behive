@@ -46,14 +46,11 @@ public class Yard implements Serializable {
     @JoinColumn(name = "RENT_RECEIVER_ID")
     private Person rentReceiver;
 
-    @Column(name = "SINGLES")
-    private Integer singles;
-
-    @Column(name = "DOUBLES")
-    private Integer doubles;
-
     @Column(name = "CURRENT_HIVES")
     private Integer currentHives = null;
+
+    private Integer singles;
+    private Integer doubles;
 
     public Integer getDoubles() {
         return doubles;

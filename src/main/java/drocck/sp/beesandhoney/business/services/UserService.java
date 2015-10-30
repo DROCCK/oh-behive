@@ -58,12 +58,12 @@ public class UserService {
 
     public User update(User user) {
         User u = userRepository.findById(user.getId());
-        user.getPerson().setId(u.getId());
+/*        user.getPerson().setId(u.getId());
         user.getPerson().getContactInfo().setId(u.getId());
         user.getPerson().getContactInfo().getAddress().setId(u.getId());
         u.setPerson(user.getPerson());
         u.getPerson().setContactInfo(user.getPerson().getContactInfo());
-        u.getPerson().getContactInfo().setAddress(user.getPerson().getContactInfo().getAddress());
+        u.getPerson().getContactInfo().setAddress(user.getPerson().getContactInfo().getAddress());*/
         return userRepository.save(user);
     }
 }
