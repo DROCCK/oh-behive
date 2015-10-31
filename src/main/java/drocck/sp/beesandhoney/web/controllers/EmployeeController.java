@@ -74,9 +74,9 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "employee/updateEmployee/{id}", method = RequestMethod.POST)
-    public String update(@PathVariable Long id, @ModelAttribute("employee") Employee employee) {
-        employee.setId(id);
-        employeeService.save(employee);
+    public String update(Employee employee) {
+        //employee.setId(id);
+        employeeService.update(employee);
         return "redirect:/employee/list";
     }
 

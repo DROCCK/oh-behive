@@ -22,7 +22,7 @@
             <label for="username" class="col-sm-2 control-label">Username</label>
 
             <div class="col-sm-10">
-                <input th:field="*{user.username}" th:value="${user.username}" type="email" class="form-control"
+                <input th:field="*{user.username}" th:value="${employee.user.username}" type="email" class="form-control"
                        id="username"
                        placeholder="Username (email)"/>
             </div>
@@ -39,7 +39,7 @@
             <label for="email" class="col-sm-2 control-label">Email</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.email}" th:value="${person.contactInfo.email}" type="email"
+                <input th:field="*{person.contactInfo.email}" th:value="${employee.person.contactInfo.email}" type="email"
                        class="form-control" id="email"
                        placeholder="Email"/>
             </div>
@@ -49,7 +49,7 @@
             <label for="phone" class="col-sm-2 control-label">Phone</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.phone}" th:value="${person.contactInfo.phone}" type="tel"
+                <input th:field="*{person.contactInfo.phone}" th:value="${employee.person.contactInfo.phone}" type="tel"
                        class="form-control" id="phone" placeholder="Phone"/>
             </div>
         </div>
@@ -58,7 +58,7 @@
             <label for="street" class="col-sm-2 control-label">Street</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.address.street}" th:value="${person.contactInfo.address.street}"
+                <input th:field="*{person.contactInfo.address.street}" th:value="${employee.person.contactInfo.address.street}"
                        type="text" class="form-control" id="street"
                        placeholder="Street"/>
             </div>
@@ -68,7 +68,7 @@
             <label for="apt" class="col-sm-2 control-label">Suite/Apartment#</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.address.apt}" th:value="${person.contactInfo.address.apt}" type="text"
+                <input th:field="*{person.contactInfo.address.apt}" th:value="${employee.person.contactInfo.address.apt}" type="text"
                        class="form-control" id="apt"
                        placeholder="Suite/Apartment#"/>
             </div>
@@ -78,7 +78,7 @@
             <label for="city" class="col-sm-2 control-label">City</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.address.city}" th:value="${person.contactInfo.address.city}" type="text"
+                <input th:field="*{person.contactInfo.address.city}" th:value="${employee.person.contactInfo.address.city}" type="text"
                        class="form-control" id="city"
                        placeholder="City"/>
             </div>
@@ -88,7 +88,7 @@
             <label for="state" class="col-sm-2 control-label">State</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.address.state}" th:value="${person.contactInfo.address.state}"
+                <input th:field="*{person.contactInfo.address.state}" th:value="${employee.person.contactInfo.address.state}"
                        type="text" class="form-control" id="state"
                        placeholder="State"/>
             </div>
