@@ -22,12 +22,12 @@ public class NucingBoardController {
     @Autowired
     private ShipmentService shipmentService;
 
-    @RequestMapping(value = "/dashboard/nucingboard", method = RequestMethod.GET)
+    @RequestMapping(value = "/dashboard/nucing", method = RequestMethod.GET)
     public String nucingBoard(Model model) {
         NucingBoardDTO nucingBoardDTO = new NucingBoardDTO();
         nucingBoardDTO.setYards(yardService.findAllInUse());
         nucingBoardDTO.setShipments(shipmentService.findAll());
-        model.addAttribute("nucingBoard", nucingBoardDTO);
-        return "/dashboard/nucingboard";
+        model.addAttribute("nucing", nucingBoardDTO);
+        return "/dashboard/nucing";
     }
 }
