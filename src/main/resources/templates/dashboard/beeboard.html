@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
+    <!--<link rel="stylesheet" th:href="@{/css/bee-board.css}" />-->
     <script>
         function editFormatter(value, row, index) {
             return [
@@ -31,10 +31,12 @@
 
         $(function () {
             $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
-                //alert('Event: click-row.bs.table, data: ' + JSON.stringify(row));
-                $("#name").text(row["yardName"]);
-                $("#status").text(row["status"]);
-                $("#combo").text(row["combo"]);
+                (function () {
+                    document.getElementById('yard-prompt').style.display = "none";
+                })();
+                $("#name").text('Yard Name: ' + row["yardName"]);
+                $("#status").text('Status: ' + row["status"]);
+                $("#combo").text('Combo: ' + row["combo"]);
                 var address = row["address"];
                 $("#street").text(address["street"]);
                 $("#city").text(address["city"]);
@@ -42,10 +44,15 @@
                 $("zip").text(address["zip"]);
             });
         });
+
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
     <title>Bee Board</title> <!-- add your title here -->
 </head>
 <body>
+<script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
 <header th:replace="fragments/header :: header"></header>
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
@@ -59,32 +66,53 @@
     </div>
     <div class="col-md-8">
         <div align="center">
-            <i class="material-icons md-36 bee-board-icon">add_circle_outline</i>
-            <i class="material-icons md-36 bee-board-icon">create</i>
-            <i class="material-icons md-36 bee-board-icon">delete</i>
-            <b class="material-icons md-48 bee-board-icon">|</b>
-            <i class="material-icons md-36 bee-board-icon">person_outline</i>
-            <i class="material-icons md-36 bee-board-icon">place</i>
-            <i class="material-icons md-36 bee-board-icon">send</i>
+            <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Add Yard">
+                add_circle_outline
+            </i>
+            <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Edit Yard">
+                create
+            </i>
+            <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Delete Yard">
+                delete
+            </i>
+            <b class="material-icons md-48 bee-board-icon bee-color">|</b>
+            <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Owners">
+                person_outline
+            </i>
+            <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Drops">
+                place
+            </i>
+            <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Shipments">
+                send
+            </i>
         </div>
         <hr/>
+        <div id="yard-prompt">
+            <h1>Select a table row to see all data!</h1>
+        </div>
         <div>
-            <h1>This is where the specific yard will go!</h1>
+            <div>
+                <p id="name"></p>
 
-            <p id="name"></p>
+                <p id="status"></p>
 
-            <p id="status"></p>
+                <p id="combo"></p>
+            </div>
+            <div>
+                <p id="street"></p>
 
-            <p id="combo"></p>
+                <p id="city"></p>
 
-            <p><span id="street"></span> <span id="city"></span> <span id="state"></span> <span id="zip"></span></p>
+                <p id="state"></p>
+
+                <p id="zip"></p>
+            </div>
         </div>
         <hr/>
-        <div>
+        <div class="col-md-12">
             <table class="table table-condensed table-responsive" id="yard-table" data-toggle="table"
-                   data-url="/yard/json" data-cache="false"
-                   data-pagination="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-                   data-search="true">
+                   data-url="/yard/json" data-cache="false" data-pagination="true" data-show-refresh="true"
+                   data-show-toggle="true" data-show-columns="true" data-search="true">
                 <caption align="center">Active Yards</caption>
                 <thead>
                 <tr>

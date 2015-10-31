@@ -6,6 +6,10 @@
     margin-right: 5px;
 }
 
+.bee-color {
+    color: #C9C9C9;
+}
+
 a:hover {
     color: yellow;
 }

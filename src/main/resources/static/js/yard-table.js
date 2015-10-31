@@ -32,6 +32,10 @@ window.operateEvents = {
     }
 };
 
+function hide() {
+    document.getElementById('yard-prompt').style.display = "none";
+}
+
 $(function () {
     $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
         //alert('Event: click-row.bs.table, data: ' + JSON.stringify(row));
