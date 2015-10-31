@@ -49,11 +49,15 @@ public class Yard implements Serializable {
     @Column(name = "CURRENT_HIVES")
     private Integer currentHives = null;
 
+    @Column(name = "SINGLES")
     private Integer singles;
+
+    @Column(name = "DOUBLES")
     private Integer doubles;
 
     public Integer getDoubles() {
-        return doubles;
+        return doubles == null ? 0 : doubles;
+        // return doubles;
     }
 
     public void setDoubles(Integer doubles) {
@@ -61,7 +65,8 @@ public class Yard implements Serializable {
     }
 
     public Integer getSingles() {
-        return singles;
+        return singles == null ? 0 : singles;
+        // return singles;
     }
 
     public void setSingles(Integer singles) {

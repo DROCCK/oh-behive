@@ -4,6 +4,32 @@
 <head th:include="fragments/head :: head"></head>
 <head>
     <script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
+    <script>
+        function editFormatter(value, row, index) {
+            return [
+                '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
+                '<i class="material-icons bee-board-icon">create</i>',
+                '</a>'
+            ].join('');
+        }
+
+        function deleteFormatter(value, row, index) {
+            return [
+                '<a class="remove ml10 bee-board-icon" href="javascript:void(0)" title="Remove">',
+                ' <i class="material-icons bee-board-icon">delete</i>',
+                '</a>'
+            ].join('');
+        }
+
+        window.operateEvents = {
+            'click .edit': function (e, value, row, index) {
+                location.href = "/yard/update/" + row["id"];
+            },
+            'click .remove': function (e, value, row, index) {
+                location.href = "/yard/delete/" + row["id"];
+            }
+        };
+    </script>
     <title>Yard Manager</title> <!-- save your title here -->
 </head>
 <body>
@@ -28,7 +54,8 @@
             <th data-field="maxHives" data-sortable="true">Max Hives</th>
             <th data-field="owner.name">Owner</th>
             <th data-field="rentReceiver.name">Pay Rent To</th>
-            <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">Functions</th>
+            <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents"></th>
+            <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents"></th>
         </tr>
         </thead>
     </table>
