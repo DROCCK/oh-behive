@@ -13,10 +13,6 @@ public class Shipment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @PrimaryKeyJoinColumn(name = "ID")
-//    private Shipment shipment = null;
-
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "TO_YARD")
     private Yard toYard;
@@ -54,14 +50,6 @@ public class Shipment {
     public Long getId() {
         return id;
     }
-
-//    public void setShipment(Shipment shipment) {
-//        this.shipment = shipment;
-//    }
-//
-//    public Shipment getShipment() {
-//        return shipment;
-//    }
 
     public void setSingleHive(Integer singleHive) {
         this.singleHive = singleHive;
