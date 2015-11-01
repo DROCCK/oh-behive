@@ -1,3 +1,18 @@
 hr {
     border: 1px solid #C9C9C9;
 }
+
+a {
+    color: black;
+}
+
+ #mapPlaceholder {
+
+ }
+
+#map-div {
+    display: none;
+    height: 300px;
+    /*width: 300px;*/
+    margin:0 auto;
+}

@@ -34,11 +34,13 @@ window.operateEvents = {
 
 function hide() {
     document.getElementById('yard-prompt').style.display = "none";
+    document.getElementsById('map-div').style.display = "block";
 }
+
+
 
 $(function () {
     $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
-        //alert('Event: click-row.bs.table, data: ' + JSON.stringify(row));
         $("#name").text(row["yardName"]);
         $("#status").text(row["status"]);
         $("#combo").text(row["combo"]);
