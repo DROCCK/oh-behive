@@ -101,4 +101,10 @@ public class ShipmentController {
         model.addAttribute("allShipments", allShipments);
         return "shipment/list";
     }
+
+    @RequestMapping("/list/{yardId}")
+    public String listByYard(@PathVariable Long yardId, Model model) {
+        model.addAttribute("allShipments", shipmentService.findAllByYard(yardService.findById(yardId)));
+        return "shipment/list";
+    }
 }

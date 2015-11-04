@@ -3,6 +3,7 @@
 <head th:include="fragments/head :: head"></head>
 <head>
     <link rel="stylesheet" th:href="@{/css/bee-board.css}" />
+    <script th:src="@{/js/bee-board.js}"></script>
     <script>
         function editFormatter(value, row, index) {
             return [
@@ -35,8 +36,8 @@
                     document.getElementById('yard-prompt').style.display = "none";
                     document.getElementById('map-div').style.display = "block";
                     getLocation();
-                    google.maps.event.trigger(map, 'resize');
                 })();
+                assignHrefs(row["id"]);
                 $("#name").text('Yard Name: ' + row["yardName"]);
                 $("#status").text('Status: ' + row["status"]);
                 $("#combo").text('Combo: ' + row["combo"]);
@@ -44,7 +45,7 @@
                 $("#street").text(address["street"]);
                 $("#city").text(address["city"]);
                 $("#state").text(address["state"]);
-                $("zip").text(address["zip"]);
+                $("#zip").text(address["zip"]);
             });
         });
 
@@ -64,22 +65,22 @@
             <hr/>
             <h4 th:text="'Singles: ' + ${beeBoard.getTotalSingles()}">Singles: </h4>
             <h4 th:text="'Doubles: ' + ${beeBoard.getTotalDoubles()}">Doubles: </h4>
-            <h4 th:text="'Totals: '  + ${beeBoard.getTotalHives()}">Total: </h4>
+            <h4 th:text="'Totals:  ' + ${beeBoard.getTotalHives()}">Total: </h4>
         </div>
     </div>
     <div class="col-md-8">
         <div align="center">
-            <a href="#">
+            <a id="addYard" th:href="@{/yard/create}">
                 <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Add Yard">
                     add_circle_outline
                 </i>
             </a>
-            <a href="#">
+            <a id="editYard" href="#">
                 <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Edit Yard">
                     create
                 </i>
             </a>
-            <a href="#">
+            <a id="deleteYard" href="#">
                 <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Delete Yard">
                     delete
                 </i>
@@ -90,12 +91,12 @@
                     person_outline
                 </i>
             </a>
-            <a href="#">
+            <a id="yardDrops" href="#">
                 <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Drops">
                     place
                 </i>
             </a>
-            <a href="#">
+            <a id="yardShipments" href="#">
                 <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Shipments">
                     send
                 </i>

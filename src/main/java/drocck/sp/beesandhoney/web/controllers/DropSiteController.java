@@ -62,6 +62,12 @@ public class DropSiteController {
         return "/dropsite/list";
     }
 
+    @RequestMapping("/list/{yardId}")
+    public String listByYard(@PathVariable Long yardId, Model model) {
+        model.addAttribute("allDropSites", dropSiteService.findAllByDropYard(yardService.findById(yardId)));
+        return "/dropsite/list";
+    }
+
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long id) {
         model.addAttribute("dropSite", dropSiteService.findById(id));

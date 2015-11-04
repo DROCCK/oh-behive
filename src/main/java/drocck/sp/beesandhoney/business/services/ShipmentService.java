@@ -32,6 +32,12 @@ public class ShipmentService {
         return shipmentRepository.findByToYard(yard);
     }
 
+    public List<Shipment> findAllByYard(Yard yard) {
+        List<Shipment> shipments = shipmentRepository.findAllByFromYard(yard);
+        shipments.addAll(shipmentRepository.findAllByToYard(yard));
+        return shipments;
+    }
+
     public Shipment save(Shipment shipment) {
         return shipmentRepository.save(shipment);
     }

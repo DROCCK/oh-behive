@@ -34,7 +34,7 @@ window.operateEvents = {
 
 function hide() {
     document.getElementById('yard-prompt').style.display = "none";
-    document.getElementsById('map-div').style.display = "block";
+    document.getElementById('map-div').style.display = "block";
 }
 
 

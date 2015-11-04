@@ -14,6 +14,9 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
     Shipment findById(Long id);
     Shipment findByToYard(Yard yard);
     Shipment findByFromYard(Yard yard);
+    List<Shipment> findAllByToYard(Yard yard);
+    List<Shipment> findAllByFromYard(Yard yard);
+
 //    Shipment save(Shipment shipment);
 //    Shipment save(Long id);
 //    void delete(Shipment shipment);

@@ -1,5 +1,6 @@
 package drocck.sp.beesandhoney.business.services;
 import drocck.sp.beesandhoney.business.entities.DropSite;
+import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.entities.repositories.DropSiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ public class DropSiteService {
     public List<DropSite> findAll() {
         return this.dropSiteRepository.findAll();
     }
+
+    public List<DropSite> findAllByDropYard(Yard yard) { return dropSiteRepository.findAllByDropYard(yard); }
 
     public DropSite findById(Long id) {
         DropSite ID = dropSiteRepository.findById(id);
