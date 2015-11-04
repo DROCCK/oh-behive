@@ -24,7 +24,7 @@
     <p> Notes: <span th:text="${inspection.notes}"></span></p>
 
     <div class="container">
-        <a class="btn" th:href="@{/inspection/list/{id} (id=${inspection.getDropSite().getId()})}">Back to List</a>
+        <button onClick="goBack()" class="btn btn-default">Go Back</button>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>

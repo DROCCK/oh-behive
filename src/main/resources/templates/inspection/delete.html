@@ -25,7 +25,7 @@
 
     <div class = "container">
         <a class="btn btn-danger" th:href="@{/inspection/confirmedDelete/{id}(id=${inspection.id})}">Confrim Delete</a>
-        <a class="btn" th:href="@{/inspection/list/{id} (id=${inspection.dropSite.id})}">Back to List</a>
+        <button onClick="goBack()" class="btn btn-default">Cancel</button>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>

@@ -18,6 +18,7 @@
         <h3>State: <label th:text="${person.contactInfo.address.state}"></label></h3>
         <h3>Zip: <label th:text="${person.contactInfo.address.zip}"></label></h3>
     </div>
+    <button onClick="goBack()" class="btn btn-default">Go Back</button>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
