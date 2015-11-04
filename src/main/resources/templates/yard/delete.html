@@ -65,7 +65,7 @@
     </div>
     <div class = "container">
         <a class="btn btn-danger" th:href="@{/yard/confirmedDelete/{id}(id=${yard.id})}">Confirm Delete</a>
-        <a class="btn" th:href="@{/yard/list}">Back to List</a>
+        <button onClick="goBack()" class="btn btn-default">Cancel</button>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
