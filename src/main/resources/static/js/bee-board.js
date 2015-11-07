@@ -13,4 +13,5 @@ function assignHrefs(id) {
 
     link = document.getElementById("yardShipments");
     link.href = "/shipment/list/" + id;
+
 }
