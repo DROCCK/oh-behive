@@ -3,14 +3,17 @@
  */
 function assignHrefs(id) {
     var link = document.getElementById("editYard");
-    link.href = "/yard/edit/" + id;
+    link.href = "/yard/update/" + id;
 
     link = document.getElementById("deleteYard");
     link.href = "/yard/delete/" + id;
 
     link = document.getElementById("yardDrops");
-    link.href = "/dropsite/list/" + id;
+    link.href = "/dropsite/list/" + id; //doesnt use id?
 
     link = document.getElementById("yardShipments");
-    link.href = "/shipment/list/" + id;
+    link.href = "/shipment/list/" + id; //doesnt use id?
+
+    link = document.getElementById("yardOwner");
+    link.href="/owner/read/?id="+id;
 }
