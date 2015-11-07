@@ -12,24 +12,24 @@
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
+            <th th:text="#{name}"></th>
+            <th th:text="#{username}"></th>
+            <th th:text="#{email}"></th>
+            <th th:text="#{phone}"></th>
+            <th th:text="#{address}"></th>
             <th></th>
         </tr>
         </thead>
-        <tbody th:each="e : ${allEmployees}">
+        <tbody th:each="employee : ${allEmployees}">
             <tr>
-                <td th:text="${e.person.name}">Name</td>
-                <td th:text="${e.user.username}">Username</td>
-                <td th:text="${e.person.contactInfo.email}">Email</td>
-                <td th:text="${e.person.contactInfo.phone}">Phone</td>
-                <td th:text="${e.person.contactInfo.address}">Address</td>
+                <td th:text="${employee.person.name}">Name</td>
+                <td th:text="${employee.user.username}">Username</td>
+                <td th:text="${employee.person.contactInfo.email}">Email</td>
+                <td th:text="${employee.person.contactInfo.phone}">Phone</td>
+                <td th:text="${employee.person.contactInfo.address}">Address</td>
                 <td>
-                    <a class="btn btn-xs btn-warning" th:href="@{/employee/update/{id}(id=${e.id})}">Update</a>
-                    <a class="btn btn-xs btn-danger" th:href="@{/employee/delete/{id}(id=${e.id})}">Delete</a>
+                    <a class="btn btn-xs btn-warning" th:href="@{/employee/update/{id}(id=${employee.id})}">Update</a>
+                    <a class="btn btn-xs btn-danger" th:href="@{/employee/delete/{id}(id=${employee.id})}">Delete</a>
                 </td>
             </tr>
         </tbody>
