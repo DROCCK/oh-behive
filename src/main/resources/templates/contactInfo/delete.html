@@ -18,7 +18,7 @@
         <h3>Zip: <label th:text="${contactInfo.address.zip}"></label></h3>
     </div>
     <a class="btn btn-danger" th:href="@{/contactInfo/confirmedDelete/{id}(id = ${contactInfo.id})}">Confirm Delete</a>
-    <button onClick="goBack()" class="btn btn-default">Cancel</button>
+    <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
