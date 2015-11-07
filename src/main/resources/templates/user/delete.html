@@ -13,7 +13,7 @@
         <h3>Username: <label th:text="${user.username}"></label></h3>
     </div>
     <a class="btn btn-danger" th:href="@{/user/confirmedDelete/{id}(id = ${user.id})}">Confirm Delete</a>
-    <button onClick="goBack()" class="btn btn-default">Cancel</button>
+    <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
