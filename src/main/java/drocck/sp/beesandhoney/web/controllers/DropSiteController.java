@@ -34,8 +34,6 @@ public class DropSiteController {
     /**
      * Models
      **/
-
-
     @ModelAttribute("allDropSites")
     public List<DropSite> populateDrops() {
         List<DropSite> allDropSites = dropSiteService.findAll();
