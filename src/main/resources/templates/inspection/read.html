@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
-    <title></title> <!-- save your title here -->
+    <title>Read Inspection</title> <!-- save your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
 
-    <h1>Inspection Info</h1>
+    <h2>Inspection Info</h2>
 
     <p th:text="${inspection.id}"></p>
 
@@ -24,7 +24,7 @@
     <p> Notes: <span th:text="${inspection.notes}"></span></p>
 
     <div class="container">
-        <a class="btn" th:href="@{/inspection/list/{id} (id=${inspection.getDropSite().getId()})}">Back to List</a>
+        <button type="button" onClick="goBack()" class="btn btn-default">Go Back</button>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>

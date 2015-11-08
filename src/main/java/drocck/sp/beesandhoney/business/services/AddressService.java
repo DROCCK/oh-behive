@@ -1,8 +1,8 @@
 package drocck.sp.beesandhoney.business.services;
 
 import drocck.sp.beesandhoney.business.entities.Address;
-import drocck.sp.beesandhoney.business.entities.ContactInfo;
 import drocck.sp.beesandhoney.business.entities.repositories.AddressRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +27,7 @@ public class AddressService {
     }
 
     public Address save(Address address) {
+        Hibernate.initialize(address);
         return addressRepository.save(address);
     }
 

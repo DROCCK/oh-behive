@@ -17,6 +17,7 @@
             <th>State</th>
             <th>Zip</th>
             <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody th:each="address : ${addresses}">
@@ -27,8 +28,18 @@
             <td th:text="${address.state}">State</td>
             <td th:text="${address.zip}">Zip</td>
             <td>
-                <a class="btn btn-xs btn-warning" th:href="@{/address/update/{id}(id=${address.id})}">Update</a>
-                <a class="btn btn-xs btn-danger" th:href="@{/address/delete/{id}(id=${address.id})}">Delete</a>
+                <a th:href="@{/address/update/{id}(id=${address.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Address">
+                        create
+                    </i>
+                </a>
+            <td>
+                <a th:href="@{/address/delete/{id}(id=${address.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Address">
+                        delete
+                    </i>
+                </a>
+            </td>
             </td>
         </tr>
         </tbody>

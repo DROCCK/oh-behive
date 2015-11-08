@@ -3,6 +3,7 @@ package drocck.sp.beesandhoney.business.entities;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -16,9 +17,11 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Column(unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private List<User> users;
 
     public Long getId() {

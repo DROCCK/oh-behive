@@ -7,6 +7,7 @@
 <header th:replace="fragments/header :: header"></header>
 
 <div class="container">
+    <h2>Update Owner</h2>
     <form class="form-horizontal" role="form" action="#" th:action="@{/owner/update}" th:object="${owner}" method="post">
 
         <input type="hidden"  th:field="*{id}" id="id" th:value="${owner.id}"/>
@@ -79,6 +80,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-warning">Submit</button>
+                <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
             </div>
         </div>
     </form>

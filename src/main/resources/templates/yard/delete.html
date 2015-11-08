@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
-    <title></title> <!-- save your title here -->
+    <title>Delete Yard</title> <!-- save your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
+    <h2>Are you sure you want to delete this record?</h2>
 
     <div class="col-md-6">
 
-        <h1>Yard Info</h1>
+        <h2>Yard Info</h2>
 
         <p th:text="${yard.yardName}">name</p>
 
         <p th:text="${yard.status}">status</p>
 
-        <p> Key/Combo: <span th:text="${yard.combo}">combo </span> </p>
+        <p> Key/Combo: <span th:text="${yard.combo}">combo </span></p>
 
         <p th:text="${yard.address}">address</p>
 
         <p th:text="${yard.accessNotes}">access location</p>
 
-        <p> Max Hive Capacity:  <span th:text="${yard.maxHives}">status</span></p>
+        <p> Max Hive Capacity: <span th:text="${yard.maxHives}">status</span></p>
     </div>
 
     <div class="col-md-6">
-        <h1>Yard Owner</h1>
+        <h2>Yard Owner</h2>
 
         <p><a th:text="${yard.owner.name}" th:href="@{/person/read/(id=${yard.owner.id})}"></a></p>
 
@@ -44,7 +45,7 @@
         <p th:text="${yard.owner.contactInfo.address.state}"></p>
 
         <div th:unless="${yard.owner == yard.rentReceiver}">
-            <h1>Info about yard rent receiver</h1>
+            <h2>Info about yard rent receiver</h2>
 
             <p th:text="${yard.rentReceiver.name}">name</p>
 
@@ -63,9 +64,9 @@
             <p th:text="${yard.rentReceiver.contactInfo.address.state}"></p>
         </div>
     </div>
-    <div class = "container">
+    <div class="container">
         <a class="btn btn-danger" th:href="@{/yard/confirmedDelete/{id}(id=${yard.id})}">Confirm Delete</a>
-        <a class="btn" th:href="@{/yard/list}">Back to List</a>
+        <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>

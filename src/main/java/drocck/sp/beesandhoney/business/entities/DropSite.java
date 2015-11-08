@@ -14,13 +14,21 @@ public class DropSite {
     private Double latitude = null;
     private java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "YARD_ID")
-    private Yard yard;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "DROP_YARD")
+    private Yard dropYard;
 
-    public Yard getYard(){ return yard; }
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "DROP_USER")
+    private User dropUser;
 
-    public void setYard(Yard yard){ this.yard = yard; }
+    public User getDropUser() {return dropUser;}
+
+    public void setDropUser(User dropUser) {this.dropUser = dropUser;}
+
+    public Yard getDropYard(){ return dropYard; }
+
+    public void setDropYard(Yard dropYard){ this.dropYard = dropYard; }
 
     public void setDate(java.sql.Date date){
         this.sqlDate = date;
@@ -55,7 +63,6 @@ public class DropSite {
     public void setId(Long id) {
         this.id = id;
     }
-
 
 
 }

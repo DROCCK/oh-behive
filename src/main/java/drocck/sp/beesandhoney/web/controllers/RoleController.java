@@ -61,7 +61,8 @@ public class RoleController {
         return "role/delete";
     }
 
-    public String confirmedDelete(Long id) {
+    @RequestMapping(value = "/role/confirmedDelete/{id}")
+    public String confirmedDelete(@PathVariable Long id) {
         roleService.delete(id);
         return "redirect:/role/list";
     }

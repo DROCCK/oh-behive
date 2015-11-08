@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Rob
@@ -13,10 +14,19 @@ public class Address {
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
     private String street;
+
     private String apt;
+
+    @NotNull
     private String city;
+
+    @NotNull
     private String state;
+
+    @NotNull
     private String zip;
 
     public Long getId() {

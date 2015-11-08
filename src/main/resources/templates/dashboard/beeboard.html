@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <link rel="stylesheet" th:href="@{/css/bee-board.css}" />
+    <script th:src="@{/js/bee-board.js}"></script>
+    <script>
+        function editFormatter(value, row, index) {
+            return [
+                '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
+                '<i class="material-icons bee-board-icon">create</i>',
+                '</a>'
+            ].join('');
+        }
+
+        function deleteFormatter(value, row, index) {
+            return [
+                '<a class="remove ml10 bee-board-icon" href="javascript:void(0)" title="Remove">',
+                ' <i class="material-icons bee-board-icon">delete</i>',
+                '</a>'
+            ].join('');
+        }
+
+        window.operateEvents = {
+            'click .edit': function (e, value, row, index) {
+                location.href = "/yard/update/" + row["id"];
+            },
+            'click .remove': function (e, value, row, index) {
+                location.href = "/yard/delete/" + row["id"];
+            }
+        };
+
+        $(function () {
+            $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
+                (function () {
+                    document.getElementById('yard-prompt').style.display = "none";
+                    document.getElementById('map-div').style.display = "block";
+                    getLocation();
+                })();
+                assignHrefs(row["id"]);
+                $("#name").text('Yard Name: ' + row["yardName"]);
+                $("#status").text('Status: ' + row["status"]);
+                $("#combo").text('Combo: ' + row["combo"]);
+                var address = row["address"];
+                $("#street").text(address["street"]);
+                $("#city").text(address["city"]);
+                $("#state").text(address["state"]);
+                $("#zip").text(address["zip"]);
+            });
+        });
+
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <title>Bee Board</title>
+</head>
+<body>
+<script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
+<header th:replace="fragments/header :: header"></header>
+<div class="row dashboard-row">
+    <div class="col-md-2 hidden-xs hidden-sm">
+        <div class="left-sidebar-div">
+            <h3>Hives</h3>
+            <hr/>
+            <h4 th:text="'Singles: ' + ${beeBoard.getTotalSingles()}">Singles: </h4>
+            <h4 th:text="'Doubles: ' + ${beeBoard.getTotalDoubles()}">Doubles: </h4>
+            <h4 th:text="'Totals:  ' + ${beeBoard.getTotalHives()}">Total: </h4>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div align="center">
+            <a id="addYard" th:href="@{/yard/create}">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Add Yard">
+                    add_circle_outline
+                </i>
+            </a>
+            <a id="editYard" href="#">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Edit Yard">
+                    create
+                </i>
+            </a>
+            <a id="deleteYard" href="#">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Delete Yard">
+                    delete
+                </i>
+            </a>
+            <b class="material-icons md-48 bee-board-icon bee-color">|</b>
+            <a id="yardOwner" href="#">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Owners">
+                    person_outline
+                </i>
+            </a>
+            <a id="yardDrops" href="#">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Drops">
+                    place
+                </i>
+            </a>
+            <a id="yardShipments" href="#">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Shipments">
+                    send
+                </i>
+            </a>
+        </div>
+        <hr/>
+        <div id="yard-prompt">
+            <h1>Select a table row to see all data!</h1>
+        </div>
+        <div class="row dashboard-row">
+            <div class="col-md-6">
+                <div class="col-md-3">
+                    <p id="name"></p>
+
+                    <p id="status"></p>
+
+                    <p id="combo"></p>
+                </div>
+                <div class="col-md-3">
+                    <p id="street"></p>
+
+                    <p id="city"></p>
+
+                    <p id="state"></p>
+
+                    <p id="zip"></p>
+                </div>
+            </div>
+            <div id="map-div" class="col-md-6"></div>
+        </div>
+        <hr/>
+        <div class="col-md-12">
+            <table class="table table-condensed table-responsive" id="yard-table" data-toggle="table"
+                   data-url="/yard/json" data-cache="false" data-pagination="true" data-show-refresh="true"
+                   data-show-toggle="true" data-show-columns="true" data-search="true">
+                <caption align="center">Active Yards</caption>
+                <thead>
+                <tr>
+                    <th data-field="yardName" data-sortable="true">Name</th>
+                    <th data-field="address.street" data-sortable="true">Address</th>
+                    <th data-field="owner.name" data-sortable="true">Owner</th>
+                    <th data-field="rentReceiver.name" data-sortable="true">Pay Rent To</th>
+                    <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents">Edit</th>
+                    <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents">Delete</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-2 hidden-xs hidden-sm">
+        <div class="right-sidebar-div">
+            <h3>Active Shipments</h3>
+            <hr/>
+            <h3 align="center" th:text="${beeBoard.getActiveShipments()}">10</h3>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+    var x = document.getElementById("error");
+    var map;
+    var marker;
+    var prevMarker;
+    var coords;
+    var lat;
+    var lng;
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(setVals, showError);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    function setVals(position) {
+        lat = position.coords.latitude;
+        lng = position.coords.longitude;
+        // document.getElementById("latitude").value = lat;
+        // document.getElementById("longitude").value = lng;
+        coords = new google.maps.LatLng(lat, lng);
+        var mapOptions = {
+            zoom: 15,
+            center: coords,
+            mapTypeControl: true,
+            mapTypeId: google.maps.MapTypeId.HYBRID
+        };
+        map = new google.maps.Map(
+                document.getElementById("map-div"), mapOptions
+        );
+        google.maps.event.addListener(map, 'click', function(event) {
+            placeMarker(event.latLng);
+        });
+        marker = new google.maps.Marker({
+            position: coords,
+            map: map,
+            title: "Current Location"
+        });
+    }
+    function placeMarker(location) {
+        lat = location.lat();
+        lng = location.lng();
+        setMarkerPosition(marker, lat, lng);
+        // document.getElementById("latitude").value = location.lat();
+        // document.getElementById("longitude").value = location.lng();
+        infowindow.open(map,marker);
+    }
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                x.innerHTML = "User denied the request for Geolocation.";
+                break;
+            case error.POSITION_UNAVAILABLE:
+                x.innerHTML = "Location information is unavailable.";
+                break;
+            case error.TIMEOUT:
+                x.innerHTML = "The request to get user location timed out.";
+                break;
+            case error.UNKNOWN_ERROR:
+                x.innerHTML = "An unknown error occurred.";
+                break;
+        }
+    }
+    function setMarkerPosition(marker, lat, lng) {
+        marker.setPosition(
+                new google.maps.LatLng(
+                        lat,
+                        lng)
+        );
+    }
+    google.maps.event.addDomListener(window, 'load', getLocation);
+</script>
+</body>
+</html>

@@ -5,7 +5,6 @@ import javax.persistence.*;
 /**
  * Created by Chai on 10/9/2015.
  */
-
 @Entity
 public class Location {
 
@@ -20,7 +19,6 @@ public class Location {
 
     @Column(name = "Name")
     private String name = null;
-
 
     public void setId(Long id) {
         this.id = id;

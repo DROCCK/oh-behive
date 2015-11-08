@@ -11,11 +11,7 @@ public class Shipment {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = null;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "ID")
-    private Shipment shipment = null;
+    private Long id;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "TO_YARD")
@@ -25,11 +21,27 @@ public class Shipment {
     @JoinColumn(name = "FROM_YARD")
     private Yard fromYard;
 
-    @Column(name = "SINGLEHIVE")
-    private Integer singleHive = null;
+    @Column(name = "TO_YARD_ID")
+    private Long toYardID;
 
-    @Column(name = "DOUBLEHIVE")
-    private Integer doubleHive = null;
+    @Column(name = "FROM_YARD_ID")
+    private Long fromYardID;
+
+    @Column(name = "SINGLES")
+    private Integer singleHive;
+
+    @Column(name = "DOUBLES")
+    private Integer doubleHive;
+
+    @Column(name = "IN_ROUTE")
+    private boolean inRoute = true;
+
+    @Column(name = "STATUS")
+    private String status;
+
+    private String inactive = "Inactive";
+    private String complete = "Completed";
+    private String inProgress = "In Progress";
 
     public void setId(Long id) {
         this.id = id;
@@ -37,14 +49,6 @@ public class Shipment {
 
     public Long getId() {
         return id;
-    }
-
-    public void setShipment(Shipment shipment) {
-        this.shipment = shipment;
-    }
-
-    public Shipment getShipment() {
-        return shipment;
     }
 
     public void setSingleHive(Integer singleHive) {
@@ -79,8 +83,60 @@ public class Shipment {
         return fromYard;
     }
 
+    public boolean isInRoute() {
+        return inRoute;
+    }
+
+    public void setInRoute(boolean inRoute) {
+        this.inRoute = inRoute;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getStatusInactive() {
+        return inactive;
+    }
+
+    public String getStatusComplete() {
+        return complete;
+    }
+
+    public String getStatusInProgress() {
+        return inProgress;
+    }
+
+    public void setToYardID(Long toYardID) {
+        this.toYardID = toYardID;
+    }
+
+    public Long getToYardID() {
+        return toYardID;
+    }
+
+    public void setFromYardID(Long fromYardID) {
+        this.fromYardID = fromYardID;
+    }
+
+    public Long getFromYardID() {
+        return fromYardID;
+    }
+
+    public void decrementMaxHives(){
+        fromYard.setMaxHives(fromYard.getMaxHives() - (this.getSingleHive() + this.getDoubleHive()));
+    }
+
+    public void incrementMaxHives(){
+        toYard.setMaxHives(toYard.getMaxHives() + (this.getSingleHive() + this.getDoubleHive()) );
+    }
+
     @Override
     public String toString() {
-        return "Shipment [id="+this.id+" toYard="+this.toYard.getId()+" fromYard ="+this.fromYard.getId() +" singleHive="+this.singleHive +" doubleHive="+this.doubleHive+"]";
+        return "Shipment [id="+this.id+" singleHive="+this.singleHive +" doubleHive="+this.doubleHive+"]";
     }
 }

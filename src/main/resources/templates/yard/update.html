@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
-    <title></title> <!-- save your title here -->
+    <title>Update Yard</title> <!-- save your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
+    <h2>Update Yard</h2>
 
     <form class="form-horizontal" role="form" action="#" th:action="@{/yard/update}" th:object="${yard}" method="post">
 
-        <input type="hidden"  th:field="*{id}" id="id" th:value="${yard.id}"/>
+        <input type="hidden" th:field="*{id}" id="id" th:value="${yard.id}"/>
+        <input type="hidden" th:field="*{address.id}" id="addressId" th:value="${yard.address.id}"/>
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
@@ -178,7 +180,8 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-warning">Upate</button>
+                <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
             </div>
         </div>
     </form>

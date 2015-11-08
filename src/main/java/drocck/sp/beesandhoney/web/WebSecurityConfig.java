@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -26,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -34,11 +36,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
             .antMatchers(
-                    "/resources/**",
-                    "/",
-                    "/index",
-                    "/user/create").permitAll()
-            .antMatchers("/users/**").hasAuthority("ADMIN")
+                "/resources/**",
+                "/",
+                "/index",
+                "/user/create"
+            ).permitAll()
+            .antMatchers(
+                "/users/**",
+                "/user/**"
+            ).hasAuthority("ADMIN")
             .anyRequest().fullyAuthenticated()
         .and()
             .formLogin()
@@ -58,8 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth)
             throws Exception {
         auth
-                .userDetailsService(userDetailsService);
-           // .passwordEncoder(new BCryptPasswordEncoder());
+          .userDetailsService(userDetailsService)
+          .passwordEncoder(new BCryptPasswordEncoder());
     }
 
     private CsrfTokenRepository csrfTokenRepository() {
