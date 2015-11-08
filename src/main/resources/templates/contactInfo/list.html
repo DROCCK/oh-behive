@@ -2,19 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Contact Info List</title>
+    <title>Contact List</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Contact List <a class="btn btn-primary btn-md" th:href="@{/contactInfo/create}">Create New
-        Contact</a></h1>
+    <h2>Contacts <a class="btn btn-primary btn-md" th:href="@{/contactInfo/create}">Create New
+        Contact</a></h2>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
             <th>Email</th>
             <th>Phone</th>
             <th>Address</th>
+            <th></th>
             <th></th>
         </tr>
         </thead>
@@ -24,8 +25,18 @@
             <td th:text="${contactInfo.phone}">Phone</td>
             <td th:text="${contactInfo.address}">Address</td>
             <td>
-                <a class="btn btn-xs btn-warning" th:href="@{/contactInfo/update/{id}(id=${contactInfo.id})}">Update</a>
-                <a class="btn btn-xs btn-danger" th:href="@{/contactInfo/delete/{id}(id=${contactInfo.id})}">Delete</a>
+                <a th:href="@{/contactInfo/update/{id}(id=${contactInfo.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Contact Info">
+                        create
+                    </i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/contactInfo/delete/{id}(id=${contactInfo.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Contact Info">
+                        delete
+                    </i>
+                </a>
             </td>
         </tr>
         </tbody>

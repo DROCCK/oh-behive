@@ -7,11 +7,12 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Role</h1> <!-- replace with your content -->
+    <h2>Role Info</h2> <!-- replace with your content -->
     <div>
         <h3>Id: <label th:text="${role.id}"></label></h3>
         <h3>Name: <label th:text="${role.name}"></label></h3>
     </div>
+    <button type="button" onClick="goBack()" class="btn btn-default">Go Back</button>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>

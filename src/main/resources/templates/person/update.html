@@ -2,14 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Person</title> <!-- add your title here -->
+    <title>Update Person</title> <!-- add your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Person</h1> <!-- replace with your content -->
-    <form action="#" th:action="@{/person/updatePerson/{id}(id=${person.id})}" th:object="${person}" method="post" class="form-horizontal">
+    <h2>Person</h2> <!-- replace with your content -->
+    <form action="#" th:action="@{/person/updatePerson/{id}(id=${person.id})}" th:object="${person}" method="post"
+          class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">Name</label>
 
@@ -90,6 +92,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-warning">Update</button>
+                <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
             </div>
         </div>
     </form>

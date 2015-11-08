@@ -7,7 +7,7 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Create Address</h1>
+    <h2>Create Address</h2>
 
     <form action="#" th:action="@{/address/create}" th:object="${address}" method="post" class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -60,6 +60,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary">Create</button>
+                <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
             </div>
         </div>
     </form>

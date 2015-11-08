@@ -24,17 +24,27 @@ public class ShipmentService {
         return shipmentRepository.findById(id);
     }
 
-    public Shipment findByYard(Yard yard) {
-        return shipmentRepository.findByYard(yard);
+    public Shipment findByFromYard(Yard yard) {
+        return shipmentRepository.findByFromYard(yard);
     }
 
-    public Shipment save(Long id) {
-        return shipmentRepository.save(id);
+    public Shipment findByToYard(Yard yard) {
+        return shipmentRepository.findByToYard(yard);
+    }
+
+    public List<Shipment> findAllByYard(Yard yard) {
+        List<Shipment> shipments = shipmentRepository.findAllByFromYard(yard);
+        shipments.addAll(shipmentRepository.findAllByToYard(yard));
+        return shipments;
     }
 
     public Shipment save(Shipment shipment) {
         return shipmentRepository.save(shipment);
     }
+
+//    public Shipment save(Shipment shipment) {
+//        return shipmentRepository.save(shipment);
+//    }
 
     public void delete(Shipment shipment) {
         shipmentRepository.delete(shipment);

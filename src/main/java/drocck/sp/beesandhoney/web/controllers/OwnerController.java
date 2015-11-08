@@ -60,7 +60,7 @@ public class OwnerController {
     @RequestMapping(value = "/read", method = RequestMethod.GET)
     public String read(Model model, @RequestParam("id") Long id) {
         model.addAttribute("owner", personService.findById(id));
-        model.addAttribute("yard", ownerService.findYard(id));
+        model.addAttribute("yard", yardService.findById(id));
         return "/owner/read";
     }
 

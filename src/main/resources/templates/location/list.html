@@ -2,13 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Location List</title>
+    <title>List Location</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Location List <a class="btn btn-primary btn-md" th:href="@{/location/create}">Create New
-        Location</a></h1>
+    <h2>Locations<a class="btn btn-primary btn-md" th:href="@{/location/create}">Create New
+        Location</a></h2>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
@@ -17,9 +17,11 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Address</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
-        <tbody th:each="contactInfo : ${locations}">
+        <tbody th:each="location : ${allLocations}">
         <tr>
             <td th:text="${location.id}">ID</td>
             <td th:text="${location.name}">Name</td>
@@ -27,8 +29,18 @@
             <td th:text="${location.contactInfo.phone}">Phone</td>
             <td th:text="${location.contactInfo.address}">Address</td>
             <td>
-                <a class="btn btn-xs btn-warning" th:href="@{/location/update/{id}(id=${location.id})}">Update</a>
-                <a class="btn btn-xs btn-danger" th:href="@{/location/delete/{id}(id=${location.id})}">Delete</a>
+                <a th:href="@{/location/update/{id}(id=${location.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Location">
+                        create
+                    </i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/location/delete/{id}(id=${location.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Location">
+                        delete
+                    </i>
+                </a>
             </td>
         </tr>
         </tbody>

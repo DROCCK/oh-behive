@@ -5,17 +5,16 @@ import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 
 /**
  * @author Connor Elison
@@ -29,25 +28,10 @@ import javax.sql.DataSource;
 public class AppConfig {
 
     @Bean
-    public DataSource dataSource() {
-
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        return builder.setType(EmbeddedDatabaseType.HSQL).build();
-    }
-
-    @Bean
-    public EntityManagerFactory entityManagerFactory() {
-
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setGenerateDdl(true);
-
-        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("drocck.sp.beesandhoney.business.entities.repositories");
-        factory.setDataSource(dataSource());
-        factory.afterPropertiesSet();
-
-        return factory.getObject();
+    public HibernateJpaSessionFactoryBean sessionFactory(EntityManagerFactory emf) {
+        HibernateJpaSessionFactoryBean factory = new HibernateJpaSessionFactoryBean();
+        factory.setEntityManagerFactory(emf);
+        return factory;
     }
 
     @Bean
@@ -115,4 +99,40 @@ public class AppConfig {
 
     @Bean
     public ShipmentService shipmentService() { return new ShipmentService(); }
+    //Language beans
+    @Bean
+    public ReloadableResourceBundleMessageSource messageSource(){
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor(){
+        final LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("lang");
+        return localeChangeInterceptor;
+    }
+    /* Not used at the moment
+    @Bean
+    public CookieLocaleResolver localeResolver(){
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        Locale locale = new Locale("en");
+        localeResolver.setDefaultLocale(locale);
+        return localeResolver;
+    }
+    */
+    @Bean
+    public RequestMappingHandlerMapping handlerMapping(){
+        RequestMappingHandlerMapping handlerMapping = new RequestMappingHandlerMapping();
+        Object[] interceptors = new Object[1];
+        interceptors[0] = localeChangeInterceptor();
+        handlerMapping.setInterceptors(interceptors);
+        return handlerMapping;
+    }
+
+    @Bean
+    public DataInitService dataInitService() {
+        return new DataInitService();
+    }
 }

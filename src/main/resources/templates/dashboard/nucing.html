@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title>Nucing Board</title> <!-- add your title here -->
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="row">
+    <div class="col-md-3" style="background-color: aliceblue;">This is a sidebar</div>
+    <div class="col-md-6">This isn't either
+        <div>This isn't either</div>
+        <div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Combo</th>
+                    <th>Address</th>
+                    <th>Access Notes</th>
+                    <th>Max Hives</th>
+                    <th>Owner</th>
+                    <th>Pay Rent To</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="y : ${allYards}">
+                    <td th:text="${{y.id}}">0</td>
+                    <td><a th:text="${y.yardName}" th:href="@{/yard/read/{id}(id=${y.id})}">Watson</a></td>
+                    <td th:text="${{y.status}}">in use</td>
+                    <td th:text="${{y.combo}}">no key</td>
+                    <td th:text="${y.address}"></td>
+                    <td th:text="${{y.accessNotes}}">driveway</td>
+                    <td th:text="${{y.maxHives}}">80</td>
+                    <td><a th:unless="${y.owner == null}" th:text="${(y.owner.name)}"
+                           th:href="@{/owner/(id=${y.owner.id})}"></a></td>
+                    <td><a th:unless="${y.rentReceiver == null}" th:text="${(y.rentReceiver.name)}"
+                           th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
+                    <td><a class="btn btn-xs btn-warning" th:href="@{/yard/update/{id}(id=${y.id})}">Update</a></td>
+                    <td><a class="btn btn-xs btn-danger" th:href="@{/yard/delete/{id}(id=${y.id})}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-3" style="background-color: aliceblue;">This is a sidebar</div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

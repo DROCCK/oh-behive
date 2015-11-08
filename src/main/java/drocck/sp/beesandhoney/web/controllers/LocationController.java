@@ -1,15 +1,15 @@
 package drocck.sp.beesandhoney.web.controllers;
 
+import drocck.sp.beesandhoney.business.entities.Company;
 import drocck.sp.beesandhoney.business.entities.Location;
 import drocck.sp.beesandhoney.business.services.LocationService;
 import drocck.sp.beesandhoney.business.services.ContactInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Chai
@@ -24,6 +24,12 @@ public class LocationController {
     @ModelAttribute("location")
     public Location construct() {
         return new Location();
+    }
+
+    @ModelAttribute("allLocations")
+    public @ResponseBody
+    List<Location> populateLocations(){
+        return locationService.findAll();
     }
 
     @RequestMapping(value = "/location/create", method = RequestMethod.GET)
@@ -51,7 +57,7 @@ public class LocationController {
 
     @RequestMapping(value = "/location/update/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute("location") Location location) {
-        locationService.save(location);
+        locationService.update(location);
         return "redirect:/location/list";
     }
 
@@ -67,9 +73,8 @@ public class LocationController {
         return "redirect:/location/list";
     }
 
-    @RequestMapping("/location/list")
-    public String list(Model model) {
-        model.addAttribute("location", locationService.findAll());
+    @RequestMapping(value ="/location/list",  method = RequestMethod.GET)
+    public String list() {
         return "location/list";
     }
 }

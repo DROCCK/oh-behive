@@ -3,53 +3,64 @@
 
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Yard Manager</title> <!-- save your title here -->
-</head>
+    <script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
+    <script>
+        function editFormatter(value, row, index) {
+            return [
+                '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
+                '<i class="material-icons bee-board-icon">create</i>',
+                '</a>'
+            ].join('');
+        }
 
+        function deleteFormatter(value, row, index) {
+            return [
+                '<a class="remove ml10 bee-board-icon" href="javascript:void(0)" title="Remove">',
+                ' <i class="material-icons bee-board-icon">delete</i>',
+                '</a>'
+            ].join('');
+        }
+
+        window.operateEvents = {
+            'click .edit': function (e, value, row, index) {
+                location.href = "/yard/update/" + row["id"];
+            },
+            'click .remove': function (e, value, row, index) {
+                location.href = "/yard/delete/" + row["id"];
+            }
+        };
+    </script>
+    <title>List Yards</title> <!-- save your title here -->
+</head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
     <h2>Yards
-        <a class="btn btn-primary" href="/yard/create.html" th:href="@{/yard/create/}">
+        <a class="btn btn-primary" th:href="@{/yard/create/}">
             Create a new yard
         </a>
     </h2>
-    <table class="table table-hover">
+    <table id="table-pagination" class="table table-hover" data-toggle="table" data-url="/yard/json" data-cache="false"
+           data-pagination="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
+           data-search="true">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Combo</th>
-            <th>Address</th>
-            <th>Access Notes</th>
-            <th>Max Hives</th>
-            <th>Owner</th>
-            <th>Pay Rent To</th>
+            <th data-field="id" data-sortable="true">ID</th>
+            <th data-field="yardName" data-sortable="true">Name</th>
+            <th data-field="status" data-sortable="true">Status</th>
+            <th data-field="combo" data-sortable="true">Combo</th>
+            <th data-field="address.street">Address</th>
+            <th data-field="accessNotes" data-sortable="true">Access Notes</th>
+            <th data-field="maxHives" data-sortable="true">Max Hives</th>
+            <th data-field="owner.name">Owner</th>
+            <th data-field="rentReceiver.name">Pay Rent To</th>
+            <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents"></th>
+            <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents"></th>
         </tr>
         </thead>
-
-        <tbody>
-        <tr th:each="y : ${allYards}">
-            <td th:text="${{y.id}}">0</td>
-            <td><a th:text="${y.yardName}" th:href="@{/yard/read/{id}(id=${y.id})}">Watson</a></td>
-            <td th:text="${{y.status}}">in use</td>
-            <td th:text="${{y.combo}}">no key</td>
-            <td th:text="${y.address}"></td>
-            <td th:text="${{y.accessNotes}}">driveway</td>
-            <td th:text="${{y.maxHives}}">80</td>
-            <td><a th:unless="${y.owner == null}" th:text="${(y.owner.name)}"
-                   th:href="@{/owner/(id=${y.owner.id})}"></a></td>
-            <td><a th:unless="${y.rentReceiver == null}" th:text="${(y.rentReceiver.name)}"
-                   th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
-            <td><a class="btn btn-xs btn-warning" th:href="@{/yard/update/{id}(id=${y.id})}">Update</a></td>
-            <td><a class="btn btn-xs btn-danger" th:href="@{/yard/delete/{id}(id=${y.id})}">Delete</a></td>
-        </tr>
-        </tbody>
     </table>
 </div>
-
 <footer th:replace="fragments/footer :: footer">
 </footer>
 </body>
-</html>
+</html>x

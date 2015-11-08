@@ -1,11 +1,17 @@
 package drocck.sp.beesandhoney.business.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import org.hibernate.annotations.FetchProfile;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * Created by Connor on 9/26/2015.
+ * Created by Connor
+ * on 9/26/2015.
  */
 
 @Entity
@@ -17,9 +23,13 @@ public class Yard implements Serializable {
     private Long id = null;
 
     @Column(name = "YARD_NAME")
-    private String yardName = null;
+    @NotNull
+    @NotBlank
+    private String yardName;
 
     @Column(name = "STATUS")
+    @NotNull
+    @NotBlank
     private String status = null;
 
     @Column(name = "COMBO")
@@ -29,25 +39,34 @@ public class Yard implements Serializable {
     private String accessNotes = null;
 
     @Column(name = "MAX_HIVES")
+    @NotNull
     private Integer maxHives = null;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID")
+    @NotNull
     private Address address;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "OWNER_ID")
     private Person owner;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "RENT_RECEIVER_ID")
     private Person rentReceiver;
 
+    @Column(name = "CURRENT_HIVES")
+    private Integer currentHives = null;
+
+    @Column(name = "SINGLES")
     private Integer singles;
+
+    @Column(name = "DOUBLES")
     private Integer doubles;
 
     public Integer getDoubles() {
-        return doubles;
+        return doubles == null ? 0 : doubles;
+        // return doubles;
     }
 
     public void setDoubles(Integer doubles) {
@@ -55,7 +74,8 @@ public class Yard implements Serializable {
     }
 
     public Integer getSingles() {
-        return singles;
+        return singles == null ? 0 : singles;
+        // return singles;
     }
 
     public void setSingles(Integer singles) {
@@ -69,9 +89,6 @@ public class Yard implements Serializable {
     public void setCurrentHives(Integer singles, Integer doubles) {
         this.currentHives = singles+doubles;
     }
-
-    @Column(name = "CURRENT_HIVES")
-    private Integer currentHives = null;
 
     /** Getters and Setters **/
 

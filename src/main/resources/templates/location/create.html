@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="fragments/head :: head">
-    <title>Create a New Location</title>
+    <title>CreateLocation</title>
 </head>
 
 <body>
@@ -10,15 +10,9 @@
 <header th:replace="fragments/header :: header"></header>
 
 <div class="container">
+    <h2>CreateLocation</h2>
     <form class="form-horizontal" role="form" action="#" th:action="@{/location/create}" th:object="${location}" method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="id">ID: </label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{id}" id="id" placeholder="ID"/>
-            </div>
-        </div>
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="name">Location/HQ Name: </label>
@@ -79,7 +73,8 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
             </div>
         </div>
     </form>

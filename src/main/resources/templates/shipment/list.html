@@ -2,13 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>List Roles</title>
+    <title>List Shipment</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
     <h2>Shipments
-        <a class="btn btn-primary" href="/shipment/create" th:href="@{/shipment/create/}">
+        <a class="btn btn-primary" th:href="@{/shipment/create/}">
             Create a new shipment
         </a>
     </h2>
@@ -20,6 +20,7 @@
             <th>To Yard</th>
             <th>Singles</th>
             <th>Doubles</th>
+            <th>Status</th>
             <th></th>
             <th></th>
         </tr>
@@ -27,13 +28,26 @@
 
         <tbody>
         <tr th:each="s : ${allShipments}">
-            <td th:text="${s.id}}">0</td>
+            <td th:text="${s.id}">0</td>
             <td><a th:text="${s.fromYard.yardName}" th:href="@{/yard/read/{id}(id=${s.fromYard.id})}">Watson</a></td>
             <td><a th:text="${s.toYard.yardName}" th:href="@{/yard/read/{id}(id=${s.toYard.id})}">Watson</a></td>
-            <td th:text="${{s.singles}}">in use</td>
-            <td th:text="${{s.doubles}}">no key</td>
-            <td><a class="btn btn-xs btn-warning" th:href="@{/shipment/update/{id}(id=${s.id})}">Update</a></td>
-            <td><a class="btn btn-xs btn-danger" th:href="@{/shipment/delete/{id}(id=${s.id})}">Delete</a></td>
+            <td th:text="${{s.singleHive}}">in use</td>
+            <td th:text="${{s.doubleHive}}">no key</td>
+            <td th:text="${{s.status}}">the status</td>
+            <td>
+                <a th:href="@{/shipment/update/{id}(id=${s.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Shipment">
+                        create
+                    </i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/shipment/delete/{id}(id=${s.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Shipment">
+                        delete
+                    </i>
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>

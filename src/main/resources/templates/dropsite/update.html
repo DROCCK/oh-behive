@@ -7,21 +7,30 @@
 <header th:replace="fragments/header :: header"></header>
 
 <div class="container">
+    <h2>Update Drop Info</h2>
     <form class="form-horizontal" role="form" action="#" th:action="@{/dropsite/update}" th:object="${dropSite}" method="post">
 
         <input type="hidden"  th:field="*{id}" id="id" th:value="${dropSite}"/>
-
+        <input type="hidden" id="principalUser" name="principalUser" th:value="${#httpServletRequest.getUserPrincipal().name}" />
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        <!--Name-->
+        <!--Yard-->
+        <div class="form-group">
+        <label class="control-label col-sm-2" for="date">Yard: </label>
+        <div class="col-sm-10">
+            <select class="form-control" th:field="*{dropYard.id}" id="dropYard">
+                <option th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}">Yard</option>
+            </select>
+        </div>
+        </div>
+        <!--Date-->
         <div class="form-group">
             <label class="control-label col-sm-2" for="date">Drop Date: </label>
-
             <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{date}" id="Date" placeholder="Drop Date"
-                       th:value="${dropSite.getId()}"/>
+                <input type="date" class="form-control" th:field="*{date}" id="date"
+                       placeholder="Drop Creation Date"/>
             </div>
         </div>
-        <!--Phone-->
+        <!--Latitude-->
         <div class="form-group">
             <label class="control-label col-sm-2" for="latitude">Latitude: </label>
 
@@ -30,7 +39,7 @@
                        th:value="${dropSite.getLatitude()}"/>
             </div>
         </div>
-        <!--Email-->
+        <!--Longitude-->
         <div class="form-group">
             <label class="control-label col-sm-2" for="longitude">Longitude: </label>
 
@@ -43,6 +52,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-warning">Submit</button>
+                <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
             </div>
         </div>
     </form>

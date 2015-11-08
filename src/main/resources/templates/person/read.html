@@ -2,22 +2,30 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Person</title> <!-- add your title here -->
+    <title>Read Person</title> <!-- add your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Person</h1> <!-- replace with your content -->
+    <h2>Person</h2> <!-- replace with your content -->
     <div>
         <h3>Name: <label th:text="${person.name}"></label></h3>
+
         <h3>Email: <label th:text="${person.contactInfo.email}"></label></h3>
+
         <h3>Phone: <label th:text="${person.contactInfo.phone}"></label></h3>
+
         <h3>Street: <label th:text="${person.contactInfo.address.street}"></label></h3>
+
         <h3>Suite/Apt#: <label th:text="${person.contactInfo.address.apt}"></label></h3>
+
         <h3>City: <label th:text="${person.contactInfo.address.city}"></label></h3>
+
         <h3>State: <label th:text="${person.contactInfo.address.state}"></label></h3>
+
         <h3>Zip: <label th:text="${person.contactInfo.address.zip}"></label></h3>
     </div>
+    <button type="button" onClick="goBack()" class="btn btn-default">Go Back</button>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
