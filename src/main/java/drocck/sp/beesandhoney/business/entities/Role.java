@@ -18,9 +18,10 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private List<User> users;
 
     public Long getId() {

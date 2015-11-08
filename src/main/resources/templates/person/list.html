@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>People</title>
+    <title>List People</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
@@ -17,19 +17,30 @@
             <th>Phone</th>
             <th>Address</th>
             <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody th:each="person : ${people}">
-            <tr>
-                <td th:text="${person.name}">Name</td>
-                <td th:text="${person.contactInfo.email}">Email</td>
-                <td th:text="${person.contactInfo.phone}">Phone</td>
-                <td th:text="${person.contactInfo.address}">Address</td>
-                <td>
-                    <a class="btn btn-xs btn-warning" th:href="@{/person/update/{id}(id=${person.id})}">Update</a>
-                    <a class="btn btn-xs btn-danger" th:href="@{/person/delete/{id}(id=${person.id})}">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td th:text="${person.name}">Name</td>
+            <td th:text="${person.contactInfo.email}">Email</td>
+            <td th:text="${person.contactInfo.phone}">Phone</td>
+            <td th:text="${person.contactInfo.address}">Address</td>
+            <td>
+                <a th:href="@{/person/update/{id}(id=${person.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Person">
+                        create
+                    </i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/person/delete/{id}(id=${person.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Person">
+                        delete
+                    </i>
+                </a>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>

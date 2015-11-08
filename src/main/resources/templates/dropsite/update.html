@@ -7,6 +7,7 @@
 <header th:replace="fragments/header :: header"></header>
 
 <div class="container">
+    <h2>Update Drop Info</h2>
     <form class="form-horizontal" role="form" action="#" th:action="@{/dropsite/update}" th:object="${dropSite}" method="post">
 
         <input type="hidden"  th:field="*{id}" id="id" th:value="${dropSite}"/>

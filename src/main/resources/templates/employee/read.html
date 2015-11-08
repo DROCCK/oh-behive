@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Employee</title> <!-- add your title here -->
+    <title>Read Employee</title> <!-- add your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Employee</h1> <!-- replace with your content -->
+    <h2>Employee</h2> <!-- replace with your content -->
     <div>
         <h3>Name: <label th:text="${employee.person.name}"></label></h3>
         <h3>Username: <label th:text="${employee.user.username}"></label></h3>

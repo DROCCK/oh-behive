@@ -1,5 +1,6 @@
 /**
- * Created by Robert on 11/3/2015.
+ * Created by Robert
+ * on 11/3/2015.
  */
 function assignHrefs(id) {
     var link = document.getElementById("editYard");
@@ -15,5 +16,5 @@ function assignHrefs(id) {
     link.href = "/shipment/list/" + id; //doesnt use id?
 
     link = document.getElementById("yardOwner");
-    link.href="/owner/read/?id="+id;
+    link.href="/owner/read/" + id;
 }

@@ -3,12 +3,15 @@ package drocck.sp.beesandhoney.business.entities;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.hibernate.annotations.FetchProfile;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * Created by Connor on 9/26/2015.
+ * Created by Connor
+ * on 9/26/2015.
  */
 
 @Entity
@@ -20,9 +23,13 @@ public class Yard implements Serializable {
     private Long id = null;
 
     @Column(name = "YARD_NAME")
-    private String yardName = null;
+    @NotNull
+    @NotBlank
+    private String yardName;
 
     @Column(name = "STATUS")
+    @NotNull
+    @NotBlank
     private String status = null;
 
     @Column(name = "COMBO")
@@ -32,10 +39,12 @@ public class Yard implements Serializable {
     private String accessNotes = null;
 
     @Column(name = "MAX_HIVES")
+    @NotNull
     private Integer maxHives = null;
 
-    @OneToOne(fetch=FetchType.EAGER)
+    @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID")
+    @NotNull
     private Address address;
 
     @ManyToOne(fetch=FetchType.EAGER)

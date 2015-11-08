@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
-    <title>Create a New Drop</title>
+    <title>Create Drop</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
+    <h2>Create Drop</h2>
     <form class="form-horizontal" action="#" th:action="@{/dropsite/create}" th:object="${dropSite}" method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <input type="hidden" id="principalUser" name="principalUser"

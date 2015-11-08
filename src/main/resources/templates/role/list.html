@@ -7,24 +7,39 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Roles</h1>
+    <h2>Roles
+        <a class="btn btn-primary" th:href="@{/role/create/}">
+            Create a new yard
+        </a>
+    </h2>
     <table class="table table-condensed table-responsive table-hover">
         <thead>
         <tr>
             <th>Id</th>
             <th>Name</th>
             <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody th:each="role : ${roles}">
-            <tr>
-                <td th:text="${role.id}">Id</td>
-                <td th:text="${role.name}">Name</td>
-                <td>
-                    <a class="btn btn-xs btn-warning" th:href="@{/role/update/{id}(id=${role.id})}">Update</a>
-                    <a class="btn btn-xs btn-danger" th:href="@{/role/delete/{id}(id=${role.id})}">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td th:text="${role.id}">Id</td>
+            <td th:text="${role.name}">Name</td>
+            <td>
+                <a th:href="@{/role/update/{id}(id=${role.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Role">
+                        create
+                    </i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/role/delete/{id}(id=${role.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Role">
+                        delete
+                    </i>
+                </a>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>

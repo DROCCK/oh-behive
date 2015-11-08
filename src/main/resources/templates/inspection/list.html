@@ -3,14 +3,14 @@
 
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Inspection Report</title> <!-- save your title here -->
+    <title>List Inspection</title> <!-- save your title here -->
 </head>
 
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
     <h2>Inspections for <span th:unless="${dropSite == null}" th:text="${dropSite.id}"></span>
-        <a class="btn btn-primary" href="/inspection/create.html" th:href="@{/inspection/create/}">
+        <a class="btn btn-primary" th:href="@{/inspection/create/}">
             Add a new inspection to <span th:unless="${dropSite == null}" th:text="${dropSite.id}"></span>
         </a>
     </h2>
@@ -38,9 +38,20 @@
             <td th:text="${{i.fed}}"></td>
             <td th:text="${{i.medication}}"></td>
             <td th:text="${{i.notes}}"></td>
-
-            <td><a class="btn btn-xs btn-warning" th:href="@{/inspection/update/{id}(id=${i.id})}">Update</a></td>
-            <td><a class="btn btn-xs btn-danger" th:href="@{/inspection/delete/{id}(id=${i.id})}">Delete</a></td>
+            <td>
+                <a th:href="@{/inspection/update/{id}(id=${i.id})}">
+                    <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Delete Inspection">
+                        create
+                    </i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/inspection/delete/{id}(id=${i.id})}">
+                    <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Delete Inspection">
+                        delete
+                    </i>
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>

@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Connor on 9/26/2015.
+ * Created by Connor
+ * on 9/26/2015.
  */
 @Service
 public class YardService {
@@ -19,7 +20,7 @@ public class YardService {
     private YardRepository yardRepository;
 
     @Autowired
-    AddressService addressService;
+    private AddressService addressService;
 
     public YardService() {
         super();
@@ -38,8 +39,7 @@ public class YardService {
     }
 
     public Yard findById(Long id) {
-        Yard person = yardRepository.findById(id);
-        return person;
+        return yardRepository.findById(id);
     }
 
     public void deleteInBatch(Iterable<Yard> entities) {

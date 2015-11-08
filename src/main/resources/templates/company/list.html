@@ -7,13 +7,15 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Company List <a class="btn btn-primary btn-md" th:href="@{/company/create}">Create New
-        Company</a></h1>
+    <h2>Companies<a class="btn btn-primary btn-md" th:href="@{/company/create}">Create New
+        Company</a></h2>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody th:each="company : ${allCompanies}">
@@ -21,8 +23,18 @@
             <td th:text="${company.id}">ID</td>
             <td th:text="${company.name}">Name</td>
             <td>
-                <a class="btn btn-xs btn-warning" th:href="@{/company/update/{id}(id=${company.id})}">Update</a>
-                <a class="btn btn-xs btn-danger" th:href="@{/company/delete/{id}(id=${company.id})}">Delete</a>
+                <a th:href="@{/company/update/{id}(id=${company.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Company">
+                        create
+                    </i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/company/delete/{id}(id=${company.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Company">
+                        delete
+                    </i>
+                </a>
             </td>
         </tr>
         </tbody>

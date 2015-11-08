@@ -7,9 +7,11 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Are you sure you want to delete this record?</h1>
+    <h2>Are you sure you want to delete this record?</h2>
+
     <div>
         <h3>Id: <label th:text="${role.id}"></label></h3>
+
         <h3>Name: <label th:text="${role.name}"></label></h3>
     </div>
     <a class="btn btn-danger" th:href="@{/role/confirmedDelete/{id}(id = ${role.id})}">Confirm Delete</a>

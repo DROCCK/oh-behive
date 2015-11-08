@@ -1,5 +1,7 @@
 package drocck.sp.beesandhoney.web.controllers;
 
+import drocck.sp.beesandhoney.business.services.DataInitService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +19,15 @@ import java.util.GregorianCalendar;
 @Controller
 public class IndexController {
 
+    private static int many = 0;
+
+    @Autowired
+    private DataInitService dataInitService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, Principal principal) {
-        // Calendar calendar = new GregorianCalendar();
+        if (many++ == 0) dataInitService.init();
+
         String url = "index";
         model.addAttribute("principal", principal);
         int month = new GregorianCalendar().get(Calendar.MONTH);

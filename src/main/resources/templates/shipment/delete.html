@@ -2,13 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Delete Role</title>
+    <title>Delete Shipment</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Are you sure you want to delete this record?</h1>
-    <h1>Shipment</h1> <!-- replace with your content -->
+    <h2>Are you sure you want to delete this record?</h2>
     <div>
         <p> From: <span th:text="${shipment.fromYard.yardName}">from</span> </p>
         <p> To: <span th:text="${shipment.toYard.yardName}">to</span> </p>

@@ -105,6 +105,7 @@ public class UserController {
     @RequestMapping(value = "/user/updateUser/{id}", method = RequestMethod.POST)
     public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user) {
         user.setId(id);
+        user.setRoles(userService.findById(id).getRoles());
         userService.update(user);
         return "redirect:/user/list";
     }

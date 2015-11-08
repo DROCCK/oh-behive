@@ -36,11 +36,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
             .antMatchers(
-                    "/resources/**",
-                    "/",
-                    "/index",
-                    "/user/create").permitAll()
-            .antMatchers("/users/**").hasAuthority("ADMIN")
+                "/resources/**",
+                "/",
+                "/index",
+                "/user/create"
+            ).permitAll()
+            .antMatchers(
+                "/users/**",
+                "/user/**"
+            ).hasAuthority("ADMIN")
             .anyRequest().fullyAuthenticated()
         .and()
             .formLogin()

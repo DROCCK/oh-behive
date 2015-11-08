@@ -30,13 +30,13 @@
             }
         };
     </script>
-    <title>Yard Manager</title> <!-- save your title here -->
+    <title>List Yards</title> <!-- save your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
     <h2>Yards
-        <a class="btn btn-primary" href="/yard/create.html" th:href="@{/yard/create/}">
+        <a class="btn btn-primary" th:href="@{/yard/create/}">
             Create a new yard
         </a>
     </h2>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
-    <title></title> <!-- save your title here -->
+    <title>Read Drop</title> <!-- save your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
@@ -9,7 +9,7 @@
 
     <div class="col-md-6">
 
-        <h1>Drop Info</h1>
+        <h2>Drop Info</h2>
         <p th:text="${dropSite.getDropYard().getYardName()}">Yard</p>
 
         <p th:text="${dropSite.getId()}">ID</p>
@@ -20,7 +20,7 @@
 
         <p th:text="${dropSite.getLongitude()}">Longitude</p>
 
-        <p th:text="${dropSite.getDropUser().getPerson().getName()}">ID</p>
+        <p th:text="${dropSite.getDropUser().getUsername()}">ID</p>
 
     </div>
     <div class = "container">

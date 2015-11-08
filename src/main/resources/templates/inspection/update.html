@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
-    <title></title> <!-- save your title here -->
+    <title>Update Inspection</title> <!-- save your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-
+    <h2>Update Inspection</h2>
     <form class="form-horizontal" role="form" action="#" th:action="@{/inspection/update}" th:object="${inspection}"
           method="post">
         <input type="hidden" th:field="*{id}" th:value="${inspection.id}"/>
@@ -69,7 +69,7 @@
             <label for="notes" class="col-sm-2 control-label">Notes</label>
 
             <div class="col-sm-10">
-                <textarea th:field="*{notes}" type="text" class="form-control" id="notes"
+                <textarea th:field="*{notes}" class="form-control" id="notes"
                        placeholder="Any notes go here"></textarea>
             </div>
         </div>

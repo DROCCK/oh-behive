@@ -7,7 +7,7 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Update Contact Information</h1> <!-- replace with your content -->
+    <h2>Update Contact Information</h2> <!-- replace with your content -->
     <form action="#" th:action="@{/contactInfo/updateContact/{id}(id = ${contactInfo.id})}" th:object="${contactInfo}"
           method="post"
           class="form-horizontal">
@@ -25,7 +25,7 @@
             <label for="phone" class="col-sm-2 control-label">Phone</label>
 
             <div class="col-sm-10">
-                <input th:field="*{phone}" th:value="${contactInfo.phone}" type="password" class="form-control"
+                <input th:field="*{phone}" th:value="${contactInfo.phone}" type="tel" class="form-control"
                        id="phone"
                        placeholder="Phone"/>
             </div>

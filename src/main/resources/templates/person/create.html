@@ -11,6 +11,7 @@
 
     <form action="#" th:action="@{/person/create}" th:object="${person}" method="post" class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">Name</label>
 

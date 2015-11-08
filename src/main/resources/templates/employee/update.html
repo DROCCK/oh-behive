@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Employee</title> <!-- add your title here -->
+    <title>Update Employee</title> <!-- add your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Employee</h1> <!-- replace with your content -->
+    <h2>Employee</h2> <!-- replace with your content -->
     <form action="#" th:action="@{/employee/updateEmployee/{id}(id=${employee.id})}" th:object="${employee}" method="post" class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <div class="form-group">

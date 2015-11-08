@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
-    <title>Owner Info</title>
+    <title>Read Owner</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
     <div class="col-md-6">
 
-        <h1>Owner Info</h1>
+        <h2>Owner Info</h2>
 
         <p th:text="${owner.name}">name</p>
         <p th:text="${{owner.contactInfo.phone}}">555-555-5555</p>
