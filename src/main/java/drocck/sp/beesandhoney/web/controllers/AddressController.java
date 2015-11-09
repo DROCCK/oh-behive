@@ -33,7 +33,7 @@ public class AddressController {
     @RequestMapping(value = "address/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("address") Address address) {
         addressService.save(address);
-        return "redirect:/address/list";
+        return "redirect:address/list";
     }
 
     @RequestMapping(value = "address/read/{id}", method = RequestMethod.GET)
@@ -52,19 +52,19 @@ public class AddressController {
     public String updateAddress(@PathVariable Long id, @ModelAttribute("address") Address address) {
         address.setId(id);
         addressService.update(address);
-        return "redirect:/address/list";
+        return "redirect:address/list";
     }
 
     @RequestMapping(value = "address/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("address", addressService.findById(id));
-        return "/address/delete";
+        return "address/delete";
     }
 
     @RequestMapping(value = "address/confirmedDelete/{id}")
     public String delete(@PathVariable Long id) {
         addressService.delete(id);
-        return "redirect:/address/list";
+        return "redirect:address/list";
     }
 
     @RequestMapping("address/list")

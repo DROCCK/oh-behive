@@ -40,7 +40,7 @@ public class LocationController {
     @RequestMapping(value = "location/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("location") Location location) {
         locationService.save(location);
-        return "redirect:/location/list";
+        return "redirect:location/list";
     }
 
     @RequestMapping(value = "location/read/{id}", method = RequestMethod.GET)
@@ -58,7 +58,7 @@ public class LocationController {
     @RequestMapping(value = "location/update/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute("location") Location location) {
         locationService.update(location);
-        return "redirect:/location/list";
+        return "redirect:location/list";
     }
 
     @RequestMapping(value = "location/delete/{id}", method = RequestMethod.GET)
@@ -70,7 +70,7 @@ public class LocationController {
     @RequestMapping("location/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         locationService.delete(id);
-        return "redirect:/location/list";
+        return "redirect:location/list";
     }
 
     @RequestMapping(value ="location/list",  method = RequestMethod.GET)

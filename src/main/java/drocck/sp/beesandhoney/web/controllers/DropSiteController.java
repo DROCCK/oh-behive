@@ -57,19 +57,19 @@ public class DropSiteController {
 
     @RequestMapping({"/list"})
     public String list() {
-        return "/dropsite/list";
+        return "dropsite/list";
     }
 
     @RequestMapping("/list/{yardId}")
     public String listByYard(@PathVariable Long yardId, Model model) {
         model.addAttribute("allDropSites", dropSiteService.findAllByDropYard(yardService.findById(yardId)));
-        return "/dropsite/list";
+        return "dropsite/list";
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long id) {
         model.addAttribute("dropSite", dropSiteService.findById(id));
-        return "/dropsite/update";
+        return "dropsite/update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -77,19 +77,19 @@ public class DropSiteController {
         Optional<User> u = userService.getUserByUsername(name); // extract user
         dropSite.setDropUser(userService.findById(u.get().getId()));  // set dropsite by finding user by id
         dropSiteService.save(dropSite);
-        return "redirect:/dropsite/list";
+        return "redirect:dropsite/list";
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(Model model, @PathVariable Long id) {
         model.addAttribute("dropSite", dropSiteService.findById(id));
-        return "/dropsite/read";
+        return "dropsite/read";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(Model model, @PathVariable Long id) {
         model.addAttribute("dropSite", dropSiteService.findById(id));
-        return "/dropsite/delete";
+        return "dropsite/delete";
     }
 
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
@@ -97,12 +97,12 @@ public class DropSiteController {
         ArrayList<DropSite> toBeDeleted = new ArrayList<>();
         toBeDeleted.add(dropSiteService.findById(id));
         dropSiteService.deleteInBatch(toBeDeleted);
-        return "redirect:/dropsite/list";
+        return "redirect:dropsite/list";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
-        return "/dropsite/create";
+        return "dropsite/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -110,6 +110,6 @@ public class DropSiteController {
         Optional<User> u = userService.getUserByUsername(name); // extract user
         dropSite.setDropUser(userService.findById(u.get().getId()));  // set dropsite by finding user by id
         dropSiteService.save(dropSite); // insert into db
-        return "redirect:/dropsite/list.html";
+        return "redirect:dropsite/list";
     }
 }

@@ -28,6 +28,6 @@ public class BeeBoardController {
         beeBoardDTO.setYards(yardService.findAllInUse());
         beeBoardDTO.setShipments(shipmentService.findAll());
         model.addAttribute("beeBoard", beeBoardDTO);
-        return "/dashboard/beeboard";
+        return "dashboard/beeboard";
     }
 }

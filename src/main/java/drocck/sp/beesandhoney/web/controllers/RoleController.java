@@ -33,7 +33,7 @@ public class RoleController {
     @RequestMapping(value = "role/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("role") Role role) {
         roleService.save(role);
-        return "redirect:/role/list";
+        return "redirect:role/list";
     }
 
     @RequestMapping(value = "role/read/{id}", method = RequestMethod.GET)
@@ -52,7 +52,7 @@ public class RoleController {
     public String updateRole(@PathVariable Long id, @ModelAttribute("role") Role role) {
         role.setId(id);
         roleService.save(role);
-        return "redirect:/role/list";
+        return "redirect:role/list";
     }
 
     @RequestMapping(value = "role/delete/{id}")
@@ -64,7 +64,7 @@ public class RoleController {
     @RequestMapping(value = "role/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         roleService.delete(id);
-        return "redirect:/role/list";
+        return "redirect:role/list";
     }
 
     @RequestMapping(value = "role/list", method = RequestMethod.GET)

@@ -34,7 +34,7 @@ public class PersonController {
     @RequestMapping(value = "person/create", method = RequestMethod.POST)
     public String create(@ModelAttribute Person person) {
         personService.save(person);
-        return "redirect:/person/list.html";
+        return "redirect:person/list.html";
     }
 
     @RequestMapping(value = "person/read/{id}", method = RequestMethod.GET)
@@ -46,26 +46,26 @@ public class PersonController {
     @RequestMapping(value = "person/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
         model.addAttribute("person", personService.findById(id));
-        return "/person/update";
+        return "person/update";
     }
 
     @RequestMapping(value = "person/updatePerson/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute("person") Person person) {
         person.setId(id);
         personService.update(person);
-        return "redirect:/person/list";
+        return "redirect:person/list";
     }
 
     @RequestMapping(value = "person/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("person", personService.findById(id));
-        return "/person/delete";
+        return "person/delete";
     }
 
     @RequestMapping(value = "person/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         personService.delete(id);
-        return "redirect:/person/list";
+        return "redirect:person/list";
     }
 
     @RequestMapping(value = "person/list", method = RequestMethod.GET)

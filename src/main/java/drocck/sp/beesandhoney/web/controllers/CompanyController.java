@@ -39,7 +39,7 @@ public class CompanyController {
     @RequestMapping(value = "company/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("company") Company company) {
         companyService.save(company);
-        return "redirect:/company/list";
+        return "redirect:company/list";
     }
 
     @RequestMapping(value = "company/read/{id}", method = RequestMethod.GET)
@@ -57,7 +57,7 @@ public class CompanyController {
     @RequestMapping(value = "company/update/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute("company") Company company) {
         companyService.update(company);
-        return "redirect:/company/list";
+        return "redirect:company/list";
     }
 
     @RequestMapping(value = "company/delete/{id}", method = RequestMethod.GET)
@@ -69,7 +69,7 @@ public class CompanyController {
     @RequestMapping("company/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         companyService.delete(id);
-        return "redirect:/company/list";
+        return "redirect:company/list";
     }
 
     @RequestMapping(value ="company/list",  method = RequestMethod.GET)

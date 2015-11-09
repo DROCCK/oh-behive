@@ -28,6 +28,6 @@ public class NucingBoardController {
         nucingBoardDTO.setYards(yardService.findAllInUse());
         nucingBoardDTO.setShipments(shipmentService.findAll());
         model.addAttribute("nucing", nucingBoardDTO);
-        return "/dashboard/nucing";
+        return "dashboard/nucing";
     }
 }

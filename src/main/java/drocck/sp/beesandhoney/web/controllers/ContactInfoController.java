@@ -34,7 +34,7 @@ public class ContactInfoController {
     @RequestMapping(value = "contactInfo/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("contactInfo") ContactInfo contactInfo) {
         contactInfoService.save(contactInfo);
-        return "redirect:/contactInfo/list";
+        return "redirect:contactInfo/list";
     }
 
     @RequestMapping(value = "contactInfo/read/{id}", method = RequestMethod.GET)
@@ -53,7 +53,7 @@ public class ContactInfoController {
     public String update(@PathVariable Long id, @ModelAttribute("contactInfo") ContactInfo contactInfo) {
         contactInfo.setId(id);
         contactInfoService.update(contactInfo);
-        return "redirect:/contactInfo/list";
+        return "redirect:contactInfo/list";
     }
 
     @RequestMapping(value = "contactInfo/delete/{id}", method = RequestMethod.GET)
@@ -65,7 +65,7 @@ public class ContactInfoController {
     @RequestMapping("contactInfo/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         contactInfoService.delete(id);
-        return "redirect:/contactInfo/list";
+        return "redirect:contactInfo/list";
     }
 
     @RequestMapping("contactInfo/list")

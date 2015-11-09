@@ -44,45 +44,45 @@ public class OwnerController {
 
     @RequestMapping(value ="/list",  method = RequestMethod.GET)
     public String list() {
-        return "/owner/list";
+        return "owner/list";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
-        return "/owner/create";
+        return "owner/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Person owner) {
         personService.save(owner);
-        return "redirect:/owner/list";
+        return "redirect:owner/list";
     }
     @RequestMapping(value = "/read", method = RequestMethod.GET)
     public String read(Model model, @RequestParam("id") Long id) {
         model.addAttribute("owner", personService.findById(id));
         model.addAttribute("yard", yardService.findById(id));
-        return "/owner/read";
+        return "owner/read";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String update(Model model, @RequestParam("id") Long id) {
         model.addAttribute("owner", personService.findById(id));
-        return "/owner/update";
+        return "owner/update";
     }
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Person owner) {
         personService.update(owner);
-        return "redirect:/owner/list";
+        return "redirect:owner/list";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String delete(Model model, @RequestParam("id") Long id) {
         model.addAttribute("owner", personService.findById(id));
-        return "/owner/delete";
+        return "owner/delete";
     }
     @RequestMapping(value = "/confirmedDelete")
     public String deleteConfirmed(@RequestParam("id") Long id){
         personService.delete(id);
-        return "redirect:/owner/list";
+        return "redirect:owner/list";
     }
 }

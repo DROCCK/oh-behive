@@ -75,25 +75,25 @@ public class YardController {
 
     @RequestMapping({"/list"})
     public String list() {
-        return "/yard/list";
+        return "yard/list";
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long id) {
         model.addAttribute("yard", yardService.findById(id));
-        return "/yard/update";
+        return "yard/update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Yard yard) {
         yardService.save(yard);
-        return "redirect:/yard/list";
+        return "redirect:yard/list";
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(Model model, @PathVariable Long id) {
         model.addAttribute("yard", yardService.findById(id));
-        return "/yard/read";
+        return "yard/read";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -107,17 +107,17 @@ public class YardController {
         ArrayList<Yard> toBeDeleted = new ArrayList<>();
         toBeDeleted.add(yardService.findById(id));
         yardService.deleteInBatch(toBeDeleted);
-        return "redirect:/yard/list";
+        return "redirect:yard/list";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
-        return "/yard/create";
+        return "yard/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Yard yard) {
         yardService.save(yard);
-        return "redirect:/yard/list.html";
+        return "redirect:yard/list";
     }
 }

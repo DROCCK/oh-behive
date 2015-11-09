@@ -58,7 +58,7 @@ public class EmployeeController {
     @RequestMapping(value = "employee/create", method = RequestMethod.POST)
     public String create(@ModelAttribute Employee employee) {
         employeeService.save(employee);
-        return "redirect:/employee/list.html";
+        return "redirect:employee/list.html";
     }
 
     @RequestMapping(value = "employee/read/{id}", method = RequestMethod.GET)
@@ -70,26 +70,26 @@ public class EmployeeController {
     @RequestMapping(value = "employee/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
         model.addAttribute("employee", employeeService.findById(id));
-        return "/employee/update";
+        return "employee/update";
     }
 
     @RequestMapping(value = "employee/updateEmployee/{id}", method = RequestMethod.POST)
     public String update(Employee employee) {
         //employee.setId(id);
         employeeService.update(employee);
-        return "redirect:/employee/list";
+        return "redirect:employee/list";
     }
 
     @RequestMapping(value = "employee/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("employee", employeeService.findById(id));
-        return "/employee/delete";
+        return "employee/delete";
     }
 
     @RequestMapping(value = "employee/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         employeeService.delete(id);
-        return "redirect:/employee/list";
+        return "redirect:employee/list";
     }
 
     @RequestMapping(value = "employee/list", method = RequestMethod.GET)
