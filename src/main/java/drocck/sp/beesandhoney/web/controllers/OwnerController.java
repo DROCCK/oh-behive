@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping("/owner")
+@RequestMapping("owner")
 public class OwnerController {
     private static final Log logger = LogFactory.getLog(YardController.class);
 

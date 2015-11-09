@@ -50,24 +50,24 @@ public class EmployeeController {
         return new Employee();
     }
 
-    @RequestMapping(value = "/employee/create", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/create", method = RequestMethod.GET)
     public String create() {
         return "employee/create";
     }
 
-    @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
+    @RequestMapping(value = "employee/create", method = RequestMethod.POST)
     public String create(@ModelAttribute Employee employee) {
         employeeService.save(employee);
         return "redirect:/employee/list.html";
     }
 
-    @RequestMapping(value = "/employee/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
         model.addAttribute(employeeService.findById(id));
         return "employee/read";
     }
 
-    @RequestMapping(value = "/employee/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
         model.addAttribute("employee", employeeService.findById(id));
         return "/employee/update";
@@ -80,19 +80,19 @@ public class EmployeeController {
         return "redirect:/employee/list";
     }
 
-    @RequestMapping(value = "/employee/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("employee", employeeService.findById(id));
         return "/employee/delete";
     }
 
-    @RequestMapping(value = "/employee/confirmedDelete/{id}")
+    @RequestMapping(value = "employee/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         employeeService.delete(id);
         return "redirect:/employee/list";
     }
 
-    @RequestMapping(value = "/employee/list", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/list", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("people", employeeService.findAll());
         return "employee/list";

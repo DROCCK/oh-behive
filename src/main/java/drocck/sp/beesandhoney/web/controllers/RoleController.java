@@ -25,49 +25,49 @@ public class RoleController {
         return new Role();
     }
 
-    @RequestMapping(value = "/role/create", method = RequestMethod.GET)
+    @RequestMapping(value = "role/create", method = RequestMethod.GET)
     public String create() {
         return "role/create";
     }
 
-    @RequestMapping(value = "/role/create", method = RequestMethod.POST)
+    @RequestMapping(value = "role/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("role") Role role) {
         roleService.save(role);
         return "redirect:/role/list";
     }
 
-    @RequestMapping(value = "/role/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "role/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
         model.addAttribute("role", roleService.findById(id));
         return "role/read";
     }
 
-    @RequestMapping(value = "/role/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "role/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
         model.addAttribute("role", roleService.findById(id));
         return "role/update";
     }
 
-    @RequestMapping(value = "/role/updateRole/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "role/updateRole/{id}", method = RequestMethod.POST)
     public String updateRole(@PathVariable Long id, @ModelAttribute("role") Role role) {
         role.setId(id);
         roleService.save(role);
         return "redirect:/role/list";
     }
 
-    @RequestMapping(value = "/role/delete/{id}")
+    @RequestMapping(value = "role/delete/{id}")
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("role", roleService.findById(id));
         return "role/delete";
     }
 
-    @RequestMapping(value = "/role/confirmedDelete/{id}")
+    @RequestMapping(value = "role/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         roleService.delete(id);
         return "redirect:/role/list";
     }
 
-    @RequestMapping(value = "/role/list", method = RequestMethod.GET)
+    @RequestMapping(value = "role/list", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("roles", roleService.findAll());
         return "role/list";

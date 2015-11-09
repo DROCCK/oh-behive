@@ -22,7 +22,7 @@ public class NucingBoardController {
     @Autowired
     private ShipmentService shipmentService;
 
-    @RequestMapping(value = "/dashboard/nucing", method = RequestMethod.GET)
+    @RequestMapping(value = "dashboard/nucing", method = RequestMethod.GET)
     public String nucingBoard(Model model) {
         NucingBoardDTO nucingBoardDTO = new NucingBoardDTO();
         nucingBoardDTO.setYards(yardService.findAllInUse());

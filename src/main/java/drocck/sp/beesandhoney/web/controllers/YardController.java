@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Connor on 9/26/2015.
  */
 @Controller
-@RequestMapping("/yard")
+@RequestMapping("yard")
 public class YardController {
     private static final Log logger = LogFactory.getLog(YardController.class);
 

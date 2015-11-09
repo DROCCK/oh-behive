@@ -18,7 +18,7 @@ import java.util.Optional;
  * Created by David on 10/10/2015.
  */
 @Controller
-@RequestMapping("/dropsite")
+@RequestMapping("dropsite")
 public class DropSiteController {
     private static final Log logger = LogFactory.getLog(DropSiteController.class);
 

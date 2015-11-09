@@ -18,7 +18,7 @@ import java.util.List;
  * Created by cjeli_000 on 10/9/2015.
  */
 @Controller
-@RequestMapping("/inspection")
+@RequestMapping("inspection")
 public class InspectionController {
     private static final Log logger = LogFactory.getLog(InspectionController.class);
 

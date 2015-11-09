@@ -8,7 +8,7 @@
     <groupId>drocck.sp.beesandhoney</groupId>
     <artifactId>bees-and-honey</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>bees-and-honey</name>
     <description>Data management system for Miller Honey Farms</description>
@@ -118,6 +118,13 @@
             <version>5.1.6</version>
         </dependency>
 
+
+        <!-- When project is hosted on Amazon Web Service the Tomcat server is provided  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 

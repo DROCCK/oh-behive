@@ -32,11 +32,11 @@ public class IndexController {
         model.addAttribute("principal", principal);
         int month = new GregorianCalendar().get(Calendar.MONTH);
         if (month == Calendar.JANUARY || month == Calendar.FEBRUARY)
-            url = "redirect:/dashboard/pollination";
+            url = "redirect:dashboard/pollination";
         if (month >= Calendar.MAY && month <= Calendar.DECEMBER)
-            url = "redirect:/dashboard/beeboard";
+            url = "redirect:dashboard/beeboard";
         if (month == Calendar.MARCH || month == Calendar.APRIL)
-            url = "redirect:/dashboard/nucing";
+            url = "redirect:dashboard/nucing";
         return url;
     }
 }

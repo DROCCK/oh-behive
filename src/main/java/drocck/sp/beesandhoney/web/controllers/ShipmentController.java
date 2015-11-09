@@ -19,7 +19,7 @@ import java.util.List;
  *         Created on 10/17/2015.
  */
 @Controller
-@RequestMapping("/shipment")
+@RequestMapping("shipment")
 public class ShipmentController {
 
     @Autowired
