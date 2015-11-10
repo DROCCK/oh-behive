@@ -2,7 +2,6 @@ package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Employee;
 import drocck.sp.beesandhoney.business.services.EmployeeService;
-import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.entities.User;
 import drocck.sp.beesandhoney.business.services.UserService;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 /**
@@ -63,26 +61,25 @@ public class EmployeeController {
 
     @RequestMapping(value = "/employee/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute(employeeService.findById(id));
+        model.addAttribute(employeeService.findOne(id));
         return "employee/read";
     }
 
     @RequestMapping(value = "/employee/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("employee", employeeService.findById(id));
+        model.addAttribute("employee", employeeService.findOne(id));
         return "/employee/update";
     }
 
     @RequestMapping(value = "employee/updateEmployee/{id}", method = RequestMethod.POST)
     public String update(Employee employee) {
-        //employee.setId(id);
         employeeService.update(employee);
         return "redirect:/employee/list";
     }
 
     @RequestMapping(value = "/employee/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("employee", employeeService.findById(id));
+        model.addAttribute("employee", employeeService.findOne(id));
         return "/employee/delete";
     }
 

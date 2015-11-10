@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @author Rob
- * Created on 9/29/2015.
+ *         Created on 9/29/2015.
  */
 @Service
 public class ContactInfoService {
@@ -24,8 +24,8 @@ public class ContactInfoService {
         return contactInfoRepository.findAll();
     }
 
-    public ContactInfo findById(Long id) {
-        return contactInfoRepository.findById(id);
+    public ContactInfo findOne(Long id) {
+        return contactInfoRepository.findOne(id);
     }
 
     public ContactInfo save(ContactInfo contactInfo) {
@@ -33,12 +33,7 @@ public class ContactInfoService {
     }
 
     public ContactInfo update(ContactInfo contactInfo) {
-        ContactInfo c = contactInfoRepository.findById(contactInfo.getId());
-        c.setEmail(contactInfo.getEmail());
-        c.setPhone(contactInfo.getPhone());
-        c.setAddress(contactInfo.getAddress());
-        c.getAddress().setId(c.getId());
-        return contactInfoRepository.save(c);
+        return contactInfoRepository.save(contactInfo);
     }
 
     public void delete(Long id) {

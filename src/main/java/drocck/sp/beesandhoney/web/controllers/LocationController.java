@@ -1,9 +1,7 @@
 package drocck.sp.beesandhoney.web.controllers;
 
-import drocck.sp.beesandhoney.business.entities.Company;
 import drocck.sp.beesandhoney.business.entities.Location;
 import drocck.sp.beesandhoney.business.services.LocationService;
-import drocck.sp.beesandhoney.business.services.ContactInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,25 +43,25 @@ public class LocationController {
 
     @RequestMapping(value = "/location/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute("location", locationService.findById(id));
+        model.addAttribute("location", locationService.findOne(id));
         return "location/read";
     }
 
     @RequestMapping(value = "/location/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("location", locationService.findById(id));
+        model.addAttribute("location", locationService.findOne(id));
         return "location/update";
     }
 
     @RequestMapping(value = "/location/update/{id}", method = RequestMethod.POST)
-    public String update(@PathVariable Long id, @ModelAttribute("location") Location location) {
+    public String update(@PathVariable Long id, Location location) {
         locationService.update(location);
         return "redirect:/location/list";
     }
 
     @RequestMapping(value = "/location/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("location", locationService.findById(id));
+        model.addAttribute("location", locationService.findOne(id));
         return "location/delete";
     }
 

@@ -1,7 +1,6 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Person;
-import drocck.sp.beesandhoney.business.entities.repositories.PersonRepository;
 import drocck.sp.beesandhoney.business.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,13 +38,13 @@ public class PersonController {
 
     @RequestMapping(value = "/person/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute(personService.findById(id));
+        model.addAttribute(personService.findOne(id));
         return "person/read";
     }
 
     @RequestMapping(value = "/person/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("person", personService.findById(id));
+        model.addAttribute("person", personService.findOne(id));
         return "/person/update";
     }
 
@@ -58,7 +57,7 @@ public class PersonController {
 
     @RequestMapping(value = "/person/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("person", personService.findById(id));
+        model.addAttribute("person", personService.findOne(id));
         return "/person/delete";
     }
 

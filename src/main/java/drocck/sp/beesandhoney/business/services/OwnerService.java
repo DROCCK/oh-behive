@@ -1,6 +1,6 @@
 package drocck.sp.beesandhoney.business.services;
 
-import drocck.sp.beesandhoney.business.entities.Person;
+import drocck.sp.beesandhoney.business.entities.Owner;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.entities.repositories.OwnerRepository;
 import drocck.sp.beesandhoney.business.entities.repositories.PersonRepository;
@@ -8,7 +8,6 @@ import drocck.sp.beesandhoney.business.entities.repositories.YardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +16,7 @@ import java.util.List;
  */
 @Service
 public class OwnerService {
+
     @Autowired
     private OwnerRepository ownerRepository;
     @Autowired
@@ -28,22 +28,41 @@ public class OwnerService {
     @Autowired
     private AddressService addressService;
 
-    public OwnerService() {super();}
-
-    public List<Person> findAll() {
-        List<Person> people = personRepository.findAll();
+    public List<Owner> findAll() {
+        return ownerRepository.findAll();
+        /*List<Person> people = personRepository.findAll();
         List<Yard> yards = yardRepository.findAll();
         ArrayList<Person> owners = new ArrayList<Person>();
         //O(N^2) WHICH IS SHIT. NEED FIX.
         people.forEach(p -> {
             yards.forEach(y ->{
                 if(p.getId().equals(y.getOwner().getId())){
-                    p.setContactInfo(contactInfoService.findById(p.getId()));
+                    p.setContactInfo(contactInfoService.findOne(p.getId()));
                     owners.add(p);
                 }
             });
         });
-        return owners;
+        return owners;*/
+    }
+
+    public Owner findOne(Long id) {
+        return ownerRepository.findOne(id);
+    }
+
+    public void delete(Owner owner) {
+        ownerRepository.delete(owner);
+    }
+
+    public void delete(Long id) {
+        ownerRepository.delete(id);
+    }
+
+    public Owner save(Owner owner) {
+        return ownerRepository.save(owner);
+    }
+
+    public Owner update(Owner owner) {
+        return ownerRepository.save(owner);
     }
 
     public Yard findYard(Long id){

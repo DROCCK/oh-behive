@@ -1,7 +1,6 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.ContactInfo;
-import drocck.sp.beesandhoney.business.services.AddressService;
 import drocck.sp.beesandhoney.business.services.ContactInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,13 +38,13 @@ public class ContactInfoController {
 
     @RequestMapping(value = "/contactInfo/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute("contactInfo", contactInfoService.findById(id));
+        model.addAttribute("contactInfo", contactInfoService.findOne(id));
         return "contactInfo/read";
     }
 
     @RequestMapping(value = "/contactInfo/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("contactInfo", contactInfoService.findById(id));
+        model.addAttribute("contactInfo", contactInfoService.findOne(id));
         return "contactInfo/update";
     }
 
@@ -58,7 +57,7 @@ public class ContactInfoController {
 
     @RequestMapping(value = "/contactInfo/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("contactInfo", contactInfoService.findById(id));
+        model.addAttribute("contactInfo", contactInfoService.findOne(id));
         return "contactInfo/delete";
     }
 

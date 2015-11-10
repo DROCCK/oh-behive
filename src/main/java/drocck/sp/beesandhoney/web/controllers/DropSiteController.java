@@ -62,7 +62,7 @@ public class DropSiteController {
 
     @RequestMapping("/list/{yardId}")
     public String listByYard(@PathVariable Long yardId, Model model) {
-        model.addAttribute("allDropSites", dropSiteService.findAllByDropYard(yardService.findById(yardId)));
+        model.addAttribute("allDropSites", dropSiteService.findAllByDropYard(yardService.findOne(yardId)));
         return "/dropsite/list";
     }
 
@@ -75,7 +75,7 @@ public class DropSiteController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(DropSite dropSite, @RequestParam(value = "principalUser", required = true) String name) {
         Optional<User> u = userService.getUserByUsername(name); // extract user
-        dropSite.setDropUser(userService.findById(u.get().getId()));  // set dropsite by finding user by id
+        dropSite.setDropUser(userService.findOne(u.get().getId()));  // set dropsite by finding user by id
         dropSiteService.save(dropSite);
         return "redirect:/dropsite/list";
     }
@@ -108,7 +108,7 @@ public class DropSiteController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(DropSite dropSite, @RequestParam(value = "principalUser", required = true) String name) {
         Optional<User> u = userService.getUserByUsername(name); // extract user
-        dropSite.setDropUser(userService.findById(u.get().getId()));  // set dropsite by finding user by id
+        dropSite.setDropUser(userService.findOne(u.get().getId()));  // set dropsite by finding user by id
         dropSiteService.save(dropSite); // insert into db
         return "redirect:/dropsite/list.html";
     }

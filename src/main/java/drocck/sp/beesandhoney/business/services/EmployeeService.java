@@ -16,18 +16,12 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private PersonService personService;
-
-    @Autowired
-    private UserService userService;
-
     public List<Employee> findAll() {
         return employeeRepository.findAll();
     }
 
-    public Employee findById(Long id) {
-        return employeeRepository.findById(id);
+    public Employee findOne(Long id) {
+        return employeeRepository.findOne(id);
     }
 
     public Employee save(Employee employee) {
@@ -35,20 +29,7 @@ public class EmployeeService {
     }
 
     public Employee update(Employee employee) {
-
-        Employee e = employeeRepository.findById(employee.getId());
-        //e.getPerson().setName(e.getPerson().getName());
-        e.getPerson().setName(employee.getPerson().getName());
-        e.getUser().setUsername(employee.getUser().getUsername());
-        e.getUser().setPassword(employee.getUser().getPassword());
-        e.getPerson().setContactInfo(employee.getPerson().getContactInfo());
-        e.getPerson().getContactInfo().setId(e.getId());
-        e.getPerson().getContactInfo().setAddress(e.getPerson().getContactInfo().getAddress());
-        e.getPerson().getContactInfo().getAddress().setId(e.getId());
-
-        //personService.update(employee.getPerson());
-        //userService.update(employee.getUser());
-        return employeeRepository.save(e);
+        return employeeRepository.save(employee);
     }
 
     public void delete(Long id) { employeeRepository.delete(id); }

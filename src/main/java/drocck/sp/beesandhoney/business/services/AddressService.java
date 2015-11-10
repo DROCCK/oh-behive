@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @author Rob
- * Created on 9/29/2015.
+ *         Created on 9/29/2015.
  */
 @Service
 public class AddressService {
@@ -22,23 +22,16 @@ public class AddressService {
         return addressRepository.findAll();
     }
 
-    public Address findById(Long id) {
-        return addressRepository.findById(id);
+    public Address findOne(Long id) {
+        return addressRepository.findOne(id);
     }
 
     public Address save(Address address) {
-        Hibernate.initialize(address);
         return addressRepository.save(address);
     }
 
     public Address update(Address address) {
-        Address a = addressRepository.findById(address.getId());
-        a.setStreet(address.getStreet());
-        a.setApt(address.getApt());
-        a.setCity(address.getCity());
-        a.setState(address.getState());
-        a.setZip(address.getZip());
-        return addressRepository.save(a);
+        return addressRepository.save(address);
     }
 
     public void delete(Long id) {

@@ -6,30 +6,70 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <div class="col-md-6">
+    <div class="col-md-12">
 
         <h2>Owner Info</h2>
 
-        <p th:text="${owner.name}">name</p>
-        <p th:text="${{owner.contactInfo.phone}}">555-555-5555</p>
-        <p th:text="${{owner.contactInfo.email}}">xxxx@gmail.com</p>
-        <p th:text="${{owner.contactInfo.address.street}}">1 Main St</p>
-        <p th:text="${{owner.contactInfo.address.city}}">Sacramento</p>
-        <p th:text="${{owner.contactInfo.address.state}}">CA</p>
-        <p th:text="${{owner.contactInfo.address.zip}}">12345</p>
-    </div>
+        <p th:text="${owner.person.name}">name</p>
 
-    <div class="col-md-6">
-        <h1>Yard Info</h1>
-        <p th:text="${yard.yardName}">name</p>
-        <p th:text="${yard.status}">status</p>
-        <p> Key/Combo: <span th:text="${yard.combo}">combo </span> </p>
-        <p th:text="${yard.address}">address</p>
-        <p th:text="${yard.accessNotes}">access location</p>
-        <p> Max Hive Capacity:  <span th:text="${yard.maxHives}">status</span></p>
-    </div>
+        <p th:text="${{owner.person.contactInfo.phone}}">555-555-5555</p>
 
-    <div class = "container">
+        <p th:text="${{owner.person.contactInfo.email}}">xxxx@gmail.com</p>
+
+        <p th:text="${{owner.person.contactInfo.address.street}}">1 Main St</p>
+
+        <p th:text="${{owner.person.contactInfo.address.city}}">Sacramento</p>
+
+        <p th:text="${{owner.person.contactInfo.address.state}}">CA</p>
+
+        <p th:text="${{owner.person.contactInfo.address.zip}}">12345</p>
+    </div>
+    <div class="container">
+        <button type="button" onClick="goBack()" class="btn btn-default">Go Back</button>
+    </div>
+    <hr/>
+    <div class="col-md-12">
+        <table th:each="yard : ${owner.yards}" class="table table-condensed table-hover">
+            <caption>Owner's yards</caption>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Combo</th>
+                <th>Address</th>
+                <th>Notes</th>
+                <th>Max Hives</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${yard.yardName}">Name</td>
+                <td th:text="${yard.status}">Status</td>
+                <td th:text="${yard.combo}">Combo</td>
+                <td th:text="${yard.address}">Address</td>
+                <td th:text="${yard.accessNotes}">Notes</td>
+                <td th:text="${yard.maxHives}">Max Hives</td>
+                <td>
+                    <a th:href="@{/yard/update/{id}(id=${yard.id})}">
+                        <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Yard">
+                            create
+                        </i>
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/yard/delete/{id}(id=${yard.id})}">
+                        <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Yard">
+                            delete
+                        </i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
         <button type="button" onClick="goBack()" class="btn btn-default">Go Back</button>
     </div>
 </div>

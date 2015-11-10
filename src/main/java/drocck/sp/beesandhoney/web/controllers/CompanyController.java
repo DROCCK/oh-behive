@@ -1,7 +1,6 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Company;
-import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,8 +25,8 @@ public class CompanyController {
     }
 
     @ModelAttribute("allCompanies")
-    public @ResponseBody
-    List<Company> populateCompanies(){
+    @ResponseBody
+    public List<Company> populateCompanies(){
         return companyService.findAll();
     }
 
@@ -44,13 +43,13 @@ public class CompanyController {
 
     @RequestMapping(value = "/company/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute("company", companyService.findById(id));
+        model.addAttribute("company", companyService.findOne(id));
         return "company/read";
     }
 
     @RequestMapping(value = "/company/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("company", companyService.findById(id));
+        model.addAttribute("company", companyService.findOne(id));
         return "company/update";
     }
 
@@ -62,7 +61,7 @@ public class CompanyController {
 
     @RequestMapping(value = "/company/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("company", companyService.findById(id));
+        model.addAttribute("company", companyService.findOne(id));
         return "company/delete";
     }
 

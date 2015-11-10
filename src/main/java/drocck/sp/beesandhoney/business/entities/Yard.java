@@ -1,8 +1,5 @@
 package drocck.sp.beesandhoney.business.entities;
 
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import org.hibernate.annotations.FetchProfile;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -20,7 +17,7 @@ public class Yard implements Serializable {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = null;
+    private Long id;
 
     @Column(name = "YARD_NAME")
     @NotNull
@@ -30,17 +27,17 @@ public class Yard implements Serializable {
     @Column(name = "STATUS")
     @NotNull
     @NotBlank
-    private String status = null;
+    private String status;
 
     @Column(name = "COMBO")
-    private String combo = null;
+    private String combo;
 
     @Column(name = "ACCESS_NOTES")
-    private String accessNotes = null;
+    private String accessNotes;
 
     @Column(name = "MAX_HIVES")
     @NotNull
-    private Integer maxHives = null;
+    private Integer maxHives;
 
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID")
@@ -49,14 +46,14 @@ public class Yard implements Serializable {
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "OWNER_ID")
-    private Person owner;
+    private Owner owner;
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "RENT_RECEIVER_ID")
     private Person rentReceiver;
 
     @Column(name = "CURRENT_HIVES")
-    private Integer currentHives = null;
+    private Integer currentHives;
 
     @Column(name = "SINGLES")
     private Integer singles;
@@ -66,7 +63,6 @@ public class Yard implements Serializable {
 
     public Integer getDoubles() {
         return doubles == null ? 0 : doubles;
-        // return doubles;
     }
 
     public void setDoubles(Integer doubles) {
@@ -75,7 +71,6 @@ public class Yard implements Serializable {
 
     public Integer getSingles() {
         return singles == null ? 0 : singles;
-        // return singles;
     }
 
     public void setSingles(Integer singles) {
@@ -87,16 +82,14 @@ public class Yard implements Serializable {
     }
 
     public void setCurrentHives(Integer singles, Integer doubles) {
-        this.currentHives = singles+doubles;
+        this.currentHives = singles + doubles;
     }
 
     /** Getters and Setters **/
-
     public Long getId() {
         return this.id;
     }
 
-    // Is this needed? possibly delete
     public void setId(Long id) {
         this.id = id;
     }
@@ -149,11 +142,11 @@ public class Yard implements Serializable {
         this.maxHives = maxHives;
     }
 
-    public Person getOwner() {
+    public Owner getOwner() {
         return owner;
     }
 
-    public void setOwner(Person owner) {
+    public void setOwner(Owner owner) {
         this.owner = owner;
     }
 

@@ -8,13 +8,21 @@
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
     <h2>Employee</h2> <!-- replace with your content -->
-    <form action="#" th:action="@{/employee/updateEmployee/{id}(id=${employee.id})}" th:object="${employee}" method="post" class="form-horizontal">
+    <form action="#" th:action="@{/employee/updateEmployee/{id}(id=${employee.id})}" th:object="${employee}"
+          method="post" class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="hidden" th:field="*{person.id}" th:value="${employee.person.id}"/>
+        <input type="hidden" th:field="*{person.contactInfo.id}" th:value="${employee.person.contactInfo.id}"/>
+        <input type="hidden" th:field="*{person.contactInfo.address.id}"
+               th:value="${employee.person.contactInfo.address.id}"/>
+        <input type="hidden" th:field="*{user.id}" th:value="${employee.user.id}"/>
+
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">Name</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.name}" th:value="${employee.person.name}" type="text" class="form-control" id="name"
+                <input th:field="*{person.name}" th:value="${employee.person.name}" type="text" class="form-control"
+                       id="name"
                        placeholder="Name"/>
             </div>
         </div>
@@ -22,7 +30,8 @@
             <label for="username" class="col-sm-2 control-label">Username</label>
 
             <div class="col-sm-10">
-                <input th:field="*{user.username}" th:value="${employee.user.username}" type="email" class="form-control"
+                <input th:field="*{user.username}" th:value="${employee.user.username}" type="email"
+                       class="form-control"
                        id="username"
                        placeholder="Username (email)"/>
             </div>
@@ -39,7 +48,8 @@
             <label for="email" class="col-sm-2 control-label">Email</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.email}" th:value="${employee.person.contactInfo.email}" type="email"
+                <input th:field="*{person.contactInfo.email}" th:value="${employee.person.contactInfo.email}"
+                       type="email"
                        class="form-control" id="email"
                        placeholder="Email"/>
             </div>
@@ -58,7 +68,8 @@
             <label for="street" class="col-sm-2 control-label">Street</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.address.street}" th:value="${employee.person.contactInfo.address.street}"
+                <input th:field="*{person.contactInfo.address.street}"
+                       th:value="${employee.person.contactInfo.address.street}"
                        type="text" class="form-control" id="street"
                        placeholder="Street"/>
             </div>
@@ -68,7 +79,8 @@
             <label for="apt" class="col-sm-2 control-label">Suite/Apartment#</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.address.apt}" th:value="${employee.person.contactInfo.address.apt}" type="text"
+                <input th:field="*{person.contactInfo.address.apt}"
+                       th:value="${employee.person.contactInfo.address.apt}" type="text"
                        class="form-control" id="apt"
                        placeholder="Suite/Apartment#"/>
             </div>
@@ -78,7 +90,8 @@
             <label for="city" class="col-sm-2 control-label">City</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.address.city}" th:value="${employee.person.contactInfo.address.city}" type="text"
+                <input th:field="*{person.contactInfo.address.city}"
+                       th:value="${employee.person.contactInfo.address.city}" type="text"
                        class="form-control" id="city"
                        placeholder="City"/>
             </div>
@@ -88,7 +101,8 @@
             <label for="state" class="col-sm-2 control-label">State</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.address.state}" th:value="${employee.person.contactInfo.address.state}"
+                <input th:field="*{person.contactInfo.address.state}"
+                       th:value="${employee.person.contactInfo.address.state}"
                        type="text" class="form-control" id="state"
                        placeholder="State"/>
             </div>
@@ -98,7 +112,8 @@
             <label for="zip" class="col-sm-2 control-label">Zip</label>
 
             <div class="col-sm-10">
-                <input th:field="*{person.contactInfo.address.zip}" th:value="${employee.person.contactInfo.address.zip}" type="text"
+                <input th:field="*{person.contactInfo.address.zip}"
+                       th:value="${employee.person.contactInfo.address.zip}" type="text"
                        class="form-control" id="zip"
                        placeholder="Zip"/>
             </div>

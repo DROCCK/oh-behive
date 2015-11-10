@@ -38,13 +38,13 @@ public class AddressController {
 
     @RequestMapping(value = "/address/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute("address", addressService.findById(id));
+        model.addAttribute("address", addressService.findOne(id));
         return "address/read";
     }
 
     @RequestMapping(value = "/address/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("address", addressService.findById(id));
+        model.addAttribute("address", addressService.findOne(id));
         return "address/update";
     }
 
@@ -57,7 +57,7 @@ public class AddressController {
 
     @RequestMapping(value = "/address/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("address", addressService.findById(id));
+        model.addAttribute("address", addressService.findOne(id));
         return "/address/delete";
     }
 

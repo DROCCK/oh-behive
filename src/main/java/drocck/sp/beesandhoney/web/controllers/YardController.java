@@ -1,11 +1,9 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Address;
-import drocck.sp.beesandhoney.business.entities.ContactInfo;
 import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.services.AddressService;
-import drocck.sp.beesandhoney.business.services.ContactInfoService;
 import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.commons.logging.Log;
@@ -36,10 +34,7 @@ public class YardController {
     @Autowired
     private AddressService addressService;
 
-    /**
-     * Models
-     **/
-
+    // Models
     @ModelAttribute("allYards")
     public List<Yard> populateYards() {
         List<Yard> allYards = yardService.findAll();
@@ -60,7 +55,6 @@ public class YardController {
     /**
      * Request Mapping
      **/
-
     @RequestMapping("/json")
     @ResponseBody
     public List<Yard> json() {
@@ -80,7 +74,7 @@ public class YardController {
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long id) {
-        model.addAttribute("yard", yardService.findById(id));
+        model.addAttribute("yard", yardService.findOne(id));
         return "/yard/update";
     }
 
@@ -92,20 +86,20 @@ public class YardController {
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(Model model, @PathVariable Long id) {
-        model.addAttribute("yard", yardService.findById(id));
+        model.addAttribute("yard", yardService.findOne(id));
         return "/yard/read";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(Model model, @PathVariable Long id) {
-        model.addAttribute("yard", yardService.findById(id));
+        model.addAttribute("yard", yardService.findOne(id));
         return "yard/delete";
     }
 
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String confirmedDelete(@PathVariable Long id) {
         ArrayList<Yard> toBeDeleted = new ArrayList<>();
-        toBeDeleted.add(yardService.findById(id));
+        toBeDeleted.add(yardService.findOne(id));
         yardService.deleteInBatch(toBeDeleted);
         return "redirect:/yard/list";
     }

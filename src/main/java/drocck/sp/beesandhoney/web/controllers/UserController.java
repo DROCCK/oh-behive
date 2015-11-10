@@ -92,27 +92,27 @@ public class UserController {
 
     @RequestMapping(value = "/user/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userService.findOne(id));
         return "user/read";
     }
 
     @RequestMapping(value = "/user/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("user",userService.findById(id));
+        model.addAttribute("user",userService.findOne(id));
         return "user/update";
     }
 
     @RequestMapping(value = "/user/updateUser/{id}", method = RequestMethod.POST)
     public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user) {
         user.setId(id);
-        user.setRoles(userService.findById(id).getRoles());
+        user.setRoles(userService.findOne(id).getRoles());
         userService.update(user);
         return "redirect:/user/list";
     }
 
     @RequestMapping(value = "/user/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("user", userService.findOne(id));
         return "user/delete";
     }
 

@@ -1,8 +1,8 @@
 package drocck.sp.beesandhoney.business.services;
 
+import drocck.sp.beesandhoney.business.entities.Owner;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.entities.repositories.YardRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +22,6 @@ public class YardService {
     @Autowired
     private AddressService addressService;
 
-    public YardService() {
-        super();
-    }
-
     public List<Yard> findAll() {
         return this.yardRepository.findAll();
     }
@@ -38,8 +34,12 @@ public class YardService {
         return yards;
     }
 
-    public Yard findById(Long id) {
-        return yardRepository.findById(id);
+    public List<Yard> findAllByOwner(Owner owner) {
+        return yardRepository.findAllByOwner(owner);
+    }
+
+    public Yard findOne(Long id) {
+        return yardRepository.findOne(id);
     }
 
     public void deleteInBatch(Iterable<Yard> entities) {

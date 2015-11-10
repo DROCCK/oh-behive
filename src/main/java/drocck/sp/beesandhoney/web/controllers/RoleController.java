@@ -38,26 +38,25 @@ public class RoleController {
 
     @RequestMapping(value = "/role/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute("role", roleService.findById(id));
+        model.addAttribute("role", roleService.findOne(id));
         return "role/read";
     }
 
     @RequestMapping(value = "/role/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("role", roleService.findById(id));
+        model.addAttribute("role", roleService.findOne(id));
         return "role/update";
     }
 
     @RequestMapping(value = "/role/updateRole/{id}", method = RequestMethod.POST)
-    public String updateRole(@PathVariable Long id, @ModelAttribute("role") Role role) {
-        role.setId(id);
+    public String updateRole(@PathVariable Long id, Role role) {
         roleService.save(role);
         return "redirect:/role/list";
     }
 
     @RequestMapping(value = "/role/delete/{id}")
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("role", roleService.findById(id));
+        model.addAttribute("role", roleService.findOne(id));
         return "role/delete";
     }
 

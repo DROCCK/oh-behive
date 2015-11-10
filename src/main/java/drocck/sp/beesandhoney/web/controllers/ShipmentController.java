@@ -50,8 +50,8 @@ public class ShipmentController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Shipment shipment) {
         shipment.setStatus(shipment.getStatusInactive());
-        shipment.setFromYard(yardService.findById(shipment.getFromYardID()));
-        shipment.setToYard(yardService.findById(shipment.getToYardID()));
+        shipment.setFromYard(yardService.findOne(shipment.getFromYardID()));
+        shipment.setToYard(yardService.findOne(shipment.getToYardID()));
 
         shipment.decrementMaxHives();
         shipmentService.save(shipment);
@@ -60,20 +60,20 @@ public class ShipmentController {
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute("shipment", shipmentService.findById(id));
+        model.addAttribute("shipment", shipmentService.findOne(id));
         return "shipment/read";
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
      public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("shipment", shipmentService.findById(id));
+        model.addAttribute("shipment", shipmentService.findOne(id));
         return "shipment/update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Shipment shipment) {
-        shipment.setFromYard(yardService.findById(shipment.getFromYardID()));
-        shipment.setToYard(yardService.findById(shipment.getToYardID()));
+        shipment.setFromYard(yardService.findOne(shipment.getFromYardID()));
+        shipment.setToYard(yardService.findOne(shipment.getToYardID()));
         //System.out.println("status = " + shipment.getStatus() );
         if(shipment.getStatus().equals(shipment.getStatusComplete()) ){
             //System.out.println("status is equal to completed!");
@@ -85,7 +85,7 @@ public class ShipmentController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("shipment", shipmentService.findById(id));
+        model.addAttribute("shipment", shipmentService.findOne(id));
         return "shipment/delete";
     }
 
@@ -104,7 +104,7 @@ public class ShipmentController {
 
     @RequestMapping("/list/{yardId}")
     public String listByYard(@PathVariable Long yardId, Model model) {
-        model.addAttribute("allShipments", shipmentService.findAllByYard(yardService.findById(yardId)));
+        model.addAttribute("allShipments", shipmentService.findAllByYard(yardService.findOne(yardId)));
         return "shipment/list";
     }
 }
