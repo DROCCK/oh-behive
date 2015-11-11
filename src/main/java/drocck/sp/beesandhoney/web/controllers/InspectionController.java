@@ -18,7 +18,7 @@ import java.util.List;
  * Created by cjeli_000 on 10/9/2015.
  */
 @Controller
-@RequestMapping("/inspection")
+@RequestMapping("inspection")
 public class InspectionController {
     private static final Log logger = LogFactory.getLog(InspectionController.class);
 
@@ -51,19 +51,19 @@ public class InspectionController {
         DropSite dropSite = dropSiteService.findById(id); // The drop site being displayed
         model.addAttribute("dropSite", dropSite);
         model.addAttribute("inspections", inspectionService.findByDropsite(dropSite));
-        return "/inspection/list";
+        return "inspection/list";
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(Model model, @PathVariable Long id) {
         model.addAttribute("inspection", inspectionService.findById(id));
-        return "/inspection/read";
+        return "inspection/read";
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long id) {
         model.addAttribute("inspection", inspectionService.findById(id));
-        return "/inspection/update";
+        return "inspection/update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -71,7 +71,7 @@ public class InspectionController {
         long redirect = inspection.getDropSite().getId();
         inspection.setIsFed(fedChecked);
         inspectionService.save(inspection);
-        return "redirect:/inspection/list/" + redirect;
+        return "redirect:inspection/list/" + redirect;
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -85,12 +85,12 @@ public class InspectionController {
         Inspection i = inspectionService.findById(id);
         long redirect = i.getDropSite().getId();
         inspectionService.delete(i);
-        return "redirect:/inspection/list/" + redirect;
+        return "redirect:inspection/list/" + redirect;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
-        return "/inspection/create";
+        return "inspection/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -98,6 +98,6 @@ public class InspectionController {
         long redirect = inspection.getDropSite().getId();
         inspection.setIsFed(fedChecked);
         inspectionService.save(inspection);
-        return "redirect:/inspection/list/" + redirect;
+        return "redirect:inspection/list/" + redirect;
     }
 }

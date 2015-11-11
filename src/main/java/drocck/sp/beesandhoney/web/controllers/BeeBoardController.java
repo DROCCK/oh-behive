@@ -22,12 +22,12 @@ public class BeeBoardController {
     @Autowired
     private ShipmentService shipmentService;
 
-    @RequestMapping(value = "/dashboard/beeboard", method = RequestMethod.GET)
+    @RequestMapping(value = "dashboard/beeboard", method = RequestMethod.GET)
     public String beeBoard(Model model) {
         BeeBoardDTO beeBoardDTO = new BeeBoardDTO();
         beeBoardDTO.setYards(yardService.findAllInUse());
         beeBoardDTO.setShipments(shipmentService.findAll());
         model.addAttribute("beeBoard", beeBoardDTO);
-        return "/dashboard/beeboard";
+        return "dashboard/beeboard";
     }
 }

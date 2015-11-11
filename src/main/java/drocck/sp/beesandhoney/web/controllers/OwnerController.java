@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping("/owner")
+@RequestMapping("owner")
 public class OwnerController {
     private static final Log logger = LogFactory.getLog(YardController.class);
 
@@ -41,44 +41,44 @@ public class OwnerController {
 
     @RequestMapping(value ="/list",  method = RequestMethod.GET)
     public String list() {
-        return "/owner/list";
+        return "owner/list";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
-        return "/owner/create";
+        return "owner/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@ModelAttribute(value = "owner") Owner owner) {
         ownerService.save(owner);
-        return "redirect:/owner/list";
+        return "redirect:owner/list";
     }
 
-    @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "read/{id}", method = RequestMethod.GET)
     public String read(Model model, @PathVariable(value = "id") Long id) {
         Owner owner = ownerService.findOne(id);
         owner.setYards(yardService.findAllByOwner(owner));
         model.addAttribute("owner", owner);
-        return "/owner/read";
+        return "owner/read";
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable("id") Long id) {
         model.addAttribute("owner", ownerService.findOne(id));
-        return "/owner/update";
+        return "owner/update";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(Owner owner) {
         ownerService.update(owner);
-        return "redirect:/owner/list";
+        return "redirect:owner/list";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
     public String delete(Model model, @PathVariable("id") Long id) {
         model.addAttribute("owner", ownerService.findOne(id));
-        return "/owner/delete";
+        return "owner/delete";
     }
     @RequestMapping(value = "/confirmedDelete/{id}")
     public String deleteConfirmed(@PathVariable("id") Long id){
