@@ -94,7 +94,7 @@
 
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{owner.id}" id="owner">
-                    <option th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}">Guy 1</option>
+                    <option th:each="o : ${allOwners}" th:value="${o.id}" th:text="${o.person.name}">Guy 1</option>
                 </select>
             </div>
         </div>

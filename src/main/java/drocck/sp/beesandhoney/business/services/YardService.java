@@ -48,6 +48,6 @@ public class YardService {
 
     public Yard save(final Yard yard) {
         addressService.save(yard.getAddress());
-        return this.yardRepository.save(yard);
+        return yardRepository.save(yard);
     }
 }

@@ -1,9 +1,11 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Address;
+import drocck.sp.beesandhoney.business.entities.Owner;
 import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.services.AddressService;
+import drocck.sp.beesandhoney.business.services.OwnerService;
 import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.commons.logging.Log;
@@ -29,6 +31,9 @@ public class YardController {
     private YardService yardService;
 
     @Autowired
+    public OwnerService ownerService;
+
+    @Autowired
     private PersonService personService;
 
     @Autowired
@@ -39,6 +44,11 @@ public class YardController {
     public List<Yard> populateYards() {
         List<Yard> allYards = yardService.findAll();
         return allYards;
+    }
+
+    @ModelAttribute("allOwners")
+    public List<Owner> populateOwners() {
+        return ownerService.findAll();
     }
 
     @ModelAttribute("allPeople")
@@ -59,11 +69,8 @@ public class YardController {
     @ResponseBody
     public List<Yard> json() {
         List<Yard> yardList = yardService.findAll();
-        Hibernate.initialize(yardList);
         List<Address> addressList = addressService.findAll();
-        Hibernate.initialize(addressList);
         List<Person> personList = personService.findAll();
-        Hibernate.initialize(personList);
         return yardList;
     }
 
