@@ -174,8 +174,6 @@
     function setVals(position) {
         lat = position.coords.latitude;
         lng = position.coords.longitude;
-        // document.getElementById("latitude").value = lat;
-        // document.getElementById("longitude").value = lng;
         coords = new google.maps.LatLng(lat, lng);
         var mapOptions = {
             zoom: 15,
@@ -199,8 +197,6 @@
         lat = location.lat();
         lng = location.lng();
         setMarkerPosition(marker, lat, lng);
-        // document.getElementById("latitude").value = location.lat();
-        // document.getElementById("longitude").value = location.lng();
         infowindow.open(map,marker);
     }
     function showError(error) {
