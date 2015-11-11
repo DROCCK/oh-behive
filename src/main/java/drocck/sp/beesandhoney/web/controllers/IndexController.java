@@ -26,7 +26,7 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, Principal principal) {
-        if (many++ == 0) dataInitService.init();
+        //  if (many++ == 0) dataInitService.init();
 
         String url = "index";
         model.addAttribute("principal", principal);
