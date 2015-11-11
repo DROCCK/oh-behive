@@ -47,7 +47,6 @@ public class YardService {
     }
 
     public Yard save(final Yard yard) {
-        addressService.save(yard.getAddress());
         return yardRepository.save(yard);
     }
 }
