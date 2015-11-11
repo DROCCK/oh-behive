@@ -26,8 +26,10 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, Principal principal) {
-        //  if (many++ == 0) dataInitService.init();
-
+        /*
+        Uncomment if running on local DB.
+        if (many++ == 0) dataInitService.init();
+        */
         String url = "index";
         model.addAttribute("principal", principal);
         int month = new GregorianCalendar().get(Calendar.MONTH);
