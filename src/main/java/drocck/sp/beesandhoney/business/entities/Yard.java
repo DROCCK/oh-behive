@@ -162,7 +162,7 @@ public class Yard implements Serializable {
         this.rentReceiver = rentReceiver;
     }
 
-    public List<DropSite> getDrops() {return drops;}
+    public List<DropSite> getDrops() {return drops; }
 
     public void setDrops(List<DropSite> drops) {this.drops = drops;}
 
