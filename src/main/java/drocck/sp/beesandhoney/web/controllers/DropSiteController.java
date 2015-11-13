@@ -68,7 +68,7 @@ public class DropSiteController {
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long id) {
-        model.addAttribute("dropSite", dropSiteService.findById(id));
+        model.addAttribute("dropSite", dropSiteService.findOne(id));
         return "dropsite/update";
     }
 
@@ -82,20 +82,20 @@ public class DropSiteController {
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(Model model, @PathVariable Long id) {
-        model.addAttribute("dropSite", dropSiteService.findById(id));
+        model.addAttribute("dropSite", dropSiteService.findOne(id));
         return "dropsite/read";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(Model model, @PathVariable Long id) {
-        model.addAttribute("dropSite", dropSiteService.findById(id));
+        model.addAttribute("dropSite", dropSiteService.findOne(id));
         return "dropsite/delete";
     }
 
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String confirmedDelete(@PathVariable Long id) {
         ArrayList<DropSite> toBeDeleted = new ArrayList<>();
-        toBeDeleted.add(dropSiteService.findById(id));
+        toBeDeleted.add(dropSiteService.findOne(id));
         dropSiteService.deleteInBatch(toBeDeleted);
         return "redirect:dropsite/list";
     }

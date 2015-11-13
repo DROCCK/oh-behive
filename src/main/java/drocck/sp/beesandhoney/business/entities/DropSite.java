@@ -12,11 +12,11 @@ public class DropSite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = null;
+    private Long id;
 
-    private Double longitude = null;
+    private Double longitude;
 
-    private Double latitude = null;
+    private Double latitude;
 
     private Date sqlDate = new Date(Calendar.getInstance().getTime().getTime());
 
@@ -30,7 +30,7 @@ public class DropSite {
 
     public User getDropUser() {return dropUser;}
 
-    public void setDropUser(User dropUser) {dropUser = dropUser;}
+    public void setDropUser(User dropUser) {this.dropUser = dropUser;}
 
     public Yard getDropYard(){ return dropYard; }
 

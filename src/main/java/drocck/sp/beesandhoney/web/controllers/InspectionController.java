@@ -47,7 +47,7 @@ public class InspectionController {
 
     @RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
     public String list(Model model, @PathVariable Long id) {
-        DropSite dropSite = dropSiteService.findById(id); // The drop site being displayed
+        DropSite dropSite = dropSiteService.findOne(id); // The drop site being displayed
         model.addAttribute("dropSite", dropSite);
         model.addAttribute("inspections", inspectionService.findByDropsite(dropSite));
         return "inspection/list";
@@ -55,13 +55,13 @@ public class InspectionController {
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(Model model, @PathVariable Long id) {
-        model.addAttribute("inspection", inspectionService.findById(id));
+        model.addAttribute("inspection", inspectionService.findOne(id));
         return "inspection/read";
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long id) {
-        model.addAttribute("inspection", inspectionService.findById(id));
+        model.addAttribute("inspection", inspectionService.findOne(id));
         return "inspection/update";
     }
 
@@ -75,13 +75,13 @@ public class InspectionController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(Model model, @PathVariable Long id) {
-        model.addAttribute("inspection", inspectionService.findById(id));
+        model.addAttribute("inspection", inspectionService.findOne(id));
         return "inspection/delete";
     }
 
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String confirmedDelete(@PathVariable Long id) {
-        Inspection i = inspectionService.findById(id);
+        Inspection i = inspectionService.findOne(id);
         long redirect = i.getDropSite().getId();
         inspectionService.delete(i);
         return "redirect:inspection/list/" + redirect;

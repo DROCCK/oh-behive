@@ -29,15 +29,9 @@ public class DropSiteService {
 
     public List<DropSite> findAllByDropYard(Yard yard) { return dropSiteRepository.findAllByDropYard(yard); }
 
-    public DropSite findById(Long id) {
-        DropSite ID = dropSiteRepository.findById(id);
-        return ID;
+    public DropSite findOne(Long id) {
+        return dropSiteRepository.findOne(id);
     }
-
-    /*public DropSite findByDate(java.sql.Date date){
-        DropSite dropDate = dropSiteRepository.findByDate(date);
-        return dropDate;
-    }*/
 
     public void deleteInBatch(ArrayList<DropSite> entities) {
         dropSiteRepository.deleteInBatch(entities);

@@ -15,8 +15,8 @@ public class InspectionService {
     @Autowired
     private InspectionRepository inspectionRepository;
 
-    public Inspection findById(Long id) {
-        return inspectionRepository.findById(id);
+    public Inspection findOne(Long id) {
+        return inspectionRepository.findOne(id);
     }
 
     public List<Inspection> findByDropsite(DropSite dropsite) {
