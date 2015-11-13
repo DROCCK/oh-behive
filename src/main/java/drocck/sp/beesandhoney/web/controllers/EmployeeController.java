@@ -2,6 +2,7 @@ package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Employee;
 import drocck.sp.beesandhoney.business.services.EmployeeService;
+import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.entities.User;
 import drocck.sp.beesandhoney.business.services.UserService;
@@ -48,48 +49,48 @@ public class EmployeeController {
         return new Employee();
     }
 
-    @RequestMapping(value = "/employee/create", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/create", method = RequestMethod.GET)
     public String create() {
         return "employee/create";
     }
 
-    @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
+    @RequestMapping(value = "employee/create", method = RequestMethod.POST)
     public String create(@ModelAttribute Employee employee) {
         employeeService.save(employee);
-        return "redirect:/employee/list.html";
+        return "redirect:employee/list.html";
     }
 
-    @RequestMapping(value = "/employee/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
         model.addAttribute(employeeService.findOne(id));
         return "employee/read";
     }
 
-    @RequestMapping(value = "/employee/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
         model.addAttribute("employee", employeeService.findOne(id));
-        return "/employee/update";
+        return "employee/update";
     }
 
     @RequestMapping(value = "employee/updateEmployee/{id}", method = RequestMethod.POST)
     public String update(Employee employee) {
         employeeService.update(employee);
-        return "redirect:/employee/list";
+        return "redirect:employee/list";
     }
 
-    @RequestMapping(value = "/employee/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("employee", employeeService.findOne(id));
-        return "/employee/delete";
+        return "employee/delete";
     }
 
-    @RequestMapping(value = "/employee/confirmedDelete/{id}")
+    @RequestMapping(value = "employee/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         employeeService.delete(id);
-        return "redirect:/employee/list";
+        return "redirect:employee/list";
     }
 
-    @RequestMapping(value = "/employee/list", method = RequestMethod.GET)
+    @RequestMapping(value = "employee/list", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("people", employeeService.findAll());
         return "employee/list";

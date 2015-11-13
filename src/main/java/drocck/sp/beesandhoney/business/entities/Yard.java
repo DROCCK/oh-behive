@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Connor
@@ -47,6 +48,9 @@ public class Yard implements Serializable {
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "OWNER_ID")
     private Owner owner;
+
+    @OneToMany(fetch=FetchType.EAGER)
+    private List<DropSite> drops;
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "RENT_RECEIVER_ID")
@@ -157,6 +161,10 @@ public class Yard implements Serializable {
     public void setRentReceiver(Person rentReceiver) {
         this.rentReceiver = rentReceiver;
     }
+
+    public List<DropSite> getDrops() {return drops; }
+
+    public void setDrops(List<DropSite> drops) {this.drops = drops;}
 
     @Override
     public String toString() {

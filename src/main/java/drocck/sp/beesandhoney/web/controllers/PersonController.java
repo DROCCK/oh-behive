@@ -25,49 +25,49 @@ public class PersonController {
         return new Person();
     }
 
-    @RequestMapping(value = "/person/create", method = RequestMethod.GET)
+    @RequestMapping(value = "person/create", method = RequestMethod.GET)
     public String create() {
         return "person/create";
     }
 
-    @RequestMapping(value = "/person/create", method = RequestMethod.POST)
+    @RequestMapping(value = "person/create", method = RequestMethod.POST)
     public String create(@ModelAttribute Person person) {
         personService.save(person);
-        return "redirect:/person/list.html";
+        return "redirect:person/list.html";
     }
 
-    @RequestMapping(value = "/person/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "person/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
         model.addAttribute(personService.findOne(id));
         return "person/read";
     }
 
-    @RequestMapping(value = "/person/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "person/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
         model.addAttribute("person", personService.findOne(id));
-        return "/person/update";
+        return "person/update";
     }
 
     @RequestMapping(value = "person/updatePerson/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute("person") Person person) {
         person.setId(id);
         personService.update(person);
-        return "redirect:/person/list";
+        return "redirect:person/list";
     }
 
-    @RequestMapping(value = "/person/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "person/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("person", personService.findOne(id));
-        return "/person/delete";
+        return "person/delete";
     }
 
-    @RequestMapping(value = "/person/confirmedDelete/{id}")
+    @RequestMapping(value = "person/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         personService.delete(id);
-        return "redirect:/person/list";
+        return "redirect:person/list";
     }
 
-    @RequestMapping(value = "/person/list", method = RequestMethod.GET)
+    @RequestMapping(value = "person/list", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("people", personService.findAll());
         return "person/list";

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Error Page</title>
+</head>
+<body>
+<div class="container jumbotron text-center">
+    <h1>Error: <span th:text="${status}">404</span></h1>
+    <h1 th:text="${message}">Something went wrong!</h1>
+
+    <button class="btn btn-warning" data-toggle="collapse" data-target="#error">Show Error</button>
+    <button class="btn btn-primary" onclick="goBack()">Go Back</button>
+
+    <div id="error" class="collapse">
+        <p>Error Stack Trace:</p>
+        <p th:text="${error}"></p>
+    </div>
+</div>
+</body>
+</html>
