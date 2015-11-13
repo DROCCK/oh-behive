@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,6 +79,8 @@ public class ShipmentController {
         //System.out.println("status = " + shipment.getStatus() );
         if(shipment.getStatus().equals(shipment.getStatusComplete()) ){
             //System.out.println("status is equal to completed!");
+            Date temp = new Date(Calendar.getInstance().getTime().getTime());
+            shipment.setArrivalDate(temp);
             shipment.incrementMaxHives();
         }
         shipmentService.save(shipment);

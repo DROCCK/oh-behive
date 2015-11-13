@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
-    <title>Create Drop</title>
+    <title>Create a New Drop</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Create Drop</h2>
     <form class="form-horizontal" action="#" th:action="@{/dropsite/create}" th:object="${dropSite}" method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <input type="hidden" id="principalUser" name="principalUser"
                th:value="${#httpServletRequest.getUserPrincipal().name}"/>
 
         <div class="form-group">
-            <label class="control-label col-sm-2" for="date"> <th th:text="#{yard}" ></th></label>
+            <label class="control-label col-sm-2" for="date">Yard: </label>
 
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{dropYard}" id="dropYard">
@@ -23,7 +22,7 @@
         </div>
         <!-- Date -->
         <div class="form-group">
-            <label class="control-label col-sm-2" for="date"><th th:text="#{date}" ></th></label>
+            <label class="control-label col-sm-2" for="date">Drop Date: </label>
 
             <div class="col-sm-10">
                 <input type="date" class="form-control" th:field="*{date}" id="date"
@@ -32,7 +31,7 @@
         </div>
         <!--Latitude-->
         <div class="form-group">
-            <label class="control-label col-sm-2" for="latitude"><th th:text="#{latitude}" ></th> </label>
+            <label class="control-label col-sm-2" for="latitude">Latitude: </label>
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{latitude}" id="latitude" placeholder="00.00"/>
@@ -40,7 +39,7 @@
         </div>
         <!--Longitude-->
         <div class="form-group">
-            <label class="control-label col-sm-2" for="longitude" th:text="#{longitude}"></label>
+            <label class="control-label col-sm-2" for="longitude">Longitude: </label>
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{longitude}" id="longitude" placeholder="00.00"/>
@@ -50,12 +49,12 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default">Submit</button>
-                <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
             </div>
         </div>
         <style>
             #mapPlaceholder {
                 height: 500px;
+                width: 300px;
                 margin:0 auto;
             }
         </style>
@@ -63,7 +62,6 @@
     </form>
     <p id="error"></p>
 </div>
-<!--map API-->
 <div th:replace="fragments/footer :: footer"></div>
 <script src="http://maps.googleapis.com/maps/api/js"></script>
 <script>
@@ -74,7 +72,6 @@
     var coords;
     var lat;
     var lng;
-    <!-- Query Device for Location -->
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(setVals, showError);
@@ -82,7 +79,6 @@
             x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
-    <!-- Sets Latitude and Longitude values -->
     function setVals(position) {
         lat = position.coords.latitude;
         lng = position.coords.longitude;
@@ -131,7 +127,6 @@
                 break;
         }
     }
-    <!-- This moves the marker on the map when you click -->
     function setMarkerPosition(marker, lat, lng) {
         marker.setPosition(
                 new google.maps.LatLng(
@@ -139,7 +134,6 @@
                         lng)
         );
     }
-    <!-- Add Event Listener to Map -->
     google.maps.event.addDomListener(window, 'load', getLocation);
 </script>
 </body>

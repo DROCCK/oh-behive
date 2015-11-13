@@ -22,7 +22,7 @@ public class Inspection {
     private Integer numSingles;
 
     @Column(name = "VISIT_DATE")
-    private Date visitDate = new Date(Calendar.getInstance().getTime().getTime());;
+    private Date visitDate = new Date(Calendar.getInstance().getTime().getTime());
 
     @Column(name = "IS_FED")
     private boolean isFed;

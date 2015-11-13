@@ -31,12 +31,17 @@
 
         <tbody>
         <tr th:each="s : ${allShipments}">
-            <td th:text="${s.id}">0</td>
+            <td th:text="${{s.getLoadNum()}}">00</td>
+            <td th:text="${{s.getCarrier()}}">None</td>
             <td><a th:text="${s.fromYard.yardName}" th:href="@{/yard/read/{id}(id=${s.fromYard.id})}">Watson</a></td>
             <td><a th:text="${s.toYard.yardName}" th:href="@{/yard/read/{id}(id=${s.toYard.id})}">Watson</a></td>
-            <td th:text="${{s.singleHive}}">in use</td>
-            <td th:text="${{s.doubleHive}}">no key</td>
-            <td th:text="${{s.status}}">the status</td>
+            <td th:text="${{s.getWeight()}}">00000.00</td>
+            <td th:text="${{s.getDepartDate()}}">00/00/0000</td>
+            <td th:text="${{s.getArrivalDate()}}">00/00/0000</td>
+            <td th:text="${{s.getTruckId()}}">0000000</td>
+            <td th:text="${{s.singleHive}}">0000</td>
+            <td th:text="${{s.doubleHive}}">0000</td>
+            <td th:text="${{s.status}}">status</td>
             <td>
                 <a th:href="@{/shipment/update/{id}(id=${s.id})}">
                     <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Shipment">
