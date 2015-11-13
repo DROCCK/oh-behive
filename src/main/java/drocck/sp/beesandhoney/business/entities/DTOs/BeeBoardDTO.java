@@ -46,10 +46,58 @@ public class BeeBoardDTO {
         return doubles;
     }
 
+    public int getTotalSupers() {
+        int supers = 0;
+        for(Yard y : yards){
+            supers += y.getSupers();
+        }
+        return supers;
+    }
+
+    public int getTotalDuds() {
+        int duds = 0;
+        for(Yard y : yards){
+            duds += y.getDuds();
+        }
+        return duds;
+    }
+
     public int getTotalHives() {
         int total = 0;
         for (Yard y : yards)
-            total += (y.getSingles() + y.getDoubles());
+            total += (y.getSingles() + y.getDoubles() + y.getSupers() - y.getDuds());
         return total;
+    }
+
+    public double getSinglesPercent() {
+        double percent = 0;
+        if(getTotalHives() != 0) {
+            percent = (getTotalSingles() / getTotalHives()) * 100;
+        }
+        return percent;
+    }
+
+    public double getDoublesPercent(){
+        double percent = 0;
+        if(getTotalHives() != 0) {
+            percent = (getTotalDoubles() / getTotalHives()) * 100;
+        }
+        return percent;
+    }
+
+    public double getSupersPercent(){
+        double percent = 0;
+        if(getTotalHives() != 0) {
+            percent = (getTotalSupers() / getTotalHives()) * 100;
+        }
+        return percent;
+    }
+
+    public double getDudsPercent(){
+        double percent = 0;
+        if(getTotalHives() != 0) {
+            percent = (getTotalDuds() / getTotalHives()) * 100;
+        }
+        return percent;
     }
 }
