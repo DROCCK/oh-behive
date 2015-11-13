@@ -1,5 +1,6 @@
 package drocck.sp.beesandhoney.business.services;
 
+import drocck.sp.beesandhoney.business.entities.DropSite;
 import drocck.sp.beesandhoney.business.entities.Owner;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.entities.repositories.YardRepository;
@@ -34,6 +35,10 @@ public class YardService {
 
     public List<Yard> findAllByOwner(Owner owner) {
         return yardRepository.findAllByOwner(owner);
+    }
+
+    public Yard findByDropSite(DropSite dropSite) {
+        return yardRepository.findDropYardByDrops(dropSite);
     }
 
     public Yard findOne(Long id) {

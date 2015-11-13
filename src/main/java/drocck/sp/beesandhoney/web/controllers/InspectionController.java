@@ -49,7 +49,7 @@ public class InspectionController {
     public String list(Model model, @PathVariable Long id) {
         DropSite dropSite = dropSiteService.findOne(id); // The drop site being displayed
         model.addAttribute("dropSite", dropSite);
-        model.addAttribute("inspections", inspectionService.findByDropsite(dropSite));
+        model.addAttribute("inspections", inspectionService.findAllByDropSite(dropSite));
         return "inspection/list";
     }
 

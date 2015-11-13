@@ -1,11 +1,14 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
 
 /**
- * Created by David on 9/29/2015.
+ * Created by David
+ * on 9/29/2015.
  */
 @Entity
 public class DropSite {
@@ -14,34 +17,81 @@ public class DropSite {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private Double longitude;
 
+    @NotNull
     private Double latitude;
 
     private Date sqlDate = new Date(Calendar.getInstance().getTime().getTime());
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DROP_YARD")
     private Yard dropYard;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DROP_USER")
     private User dropUser;
 
-    public User getDropUser() {return dropUser;}
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Inspection> inspections;
 
-    public void setDropUser(User dropUser) {this.dropUser = dropUser;}
+    @NotNull
+    private Integer singles;
 
-    public Yard getDropYard(){ return dropYard; }
+    @NotNull
+    private Integer doubles;
 
-    public void setDropYard(Yard dropYard){ this.dropYard = dropYard; }
-
-    public void setDate(Date date){
-        sqlDate = date;
+    public Integer getSingles() {
+        return singles;
     }
 
-    public Date getDate(){
+    public void setSingles(Integer singles) {
+        this.singles = singles;
+    }
+
+    public Integer getDoubles() {
+        return doubles;
+    }
+
+    public void setDoubles(Integer doubles) {
+        this.doubles = doubles;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Date getSqlDate() {
         return sqlDate;
+    }
+
+    public void setSqlDate(Date sqlDate) {
+        this.sqlDate = sqlDate;
+    }
+
+    public List<Inspection> getInspections() {
+        return inspections;
+    }
+
+    public void setInspections(List<Inspection> inspections) {
+        this.inspections = inspections;
+    }
+
+    public User getDropUser() {
+        return dropUser;
+    }
+
+    public void setDropUser(User dropUser) {
+        this.dropUser = dropUser;
+    }
+
+    public Yard getDropYard(){
+        return dropYard;
+    }
+
+    public void setDropYard(Yard dropYard){
+        this.dropYard = dropYard;
     }
 
     public void setLongitude(Double longitude) {
@@ -69,6 +119,4 @@ public class DropSite {
     public void setId(Long id) {
         this.id = id;
     }
-
-
 }

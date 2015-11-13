@@ -1,5 +1,6 @@
 package drocck.sp.beesandhoney.business.services;
 import drocck.sp.beesandhoney.business.entities.DropSite;
+import drocck.sp.beesandhoney.business.entities.Inspection;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.entities.repositories.DropSiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,13 @@ public class DropSiteService {
     @Autowired
     private DropSiteRepository dropSiteRepository;
 
-    public DropSiteService() {
-        super();
-    }
-
     public List<DropSite> findAll() {
         return this.dropSiteRepository.findAll();
     }
 
-    public List<DropSite> findAllByDropYard(Yard yard) { return dropSiteRepository.findAllByDropYard(yard); }
+    public List<DropSite> findAllByDropYard(Yard yard) {
+        return dropSiteRepository.findAllByDropYard(yard);
+    }
 
     public DropSite findOne(Long id) {
         return dropSiteRepository.findOne(id);
@@ -39,5 +38,9 @@ public class DropSiteService {
 
     public DropSite save(final DropSite dropSite) {
         return this.dropSiteRepository.save(dropSite);
+    }
+
+    public DropSite findByInspection(Inspection inspection) {
+        return dropSiteRepository.findByInspections(inspection);
     }
 }

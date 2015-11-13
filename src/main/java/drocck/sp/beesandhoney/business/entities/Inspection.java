@@ -5,7 +5,8 @@ import java.sql.Date;
 import java.util.Calendar;
 
 /**
- * Created by cjeli_000 on 10/9/2015.
+ * Created by cjeli_000
+ * on 10/9/2015.
  */
 @Entity
 public class Inspection {
@@ -33,7 +34,7 @@ public class Inspection {
     @Column(name = "NOTES")
     private String notes;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "DROP_SITE")
     private DropSite dropSite;
 
