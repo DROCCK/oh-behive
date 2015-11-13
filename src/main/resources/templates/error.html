@@ -7,7 +7,8 @@
 </head>
 <body>
 <div class="container jumbotron text-center">
-    <h1>Something went wrong!</h1>
+    <h1>Error: <span th:text="${status}">404</span></h1>
+    <h1 th:text="${message}">Something went wrong!</h1>
 
     <button class="btn btn-warning" data-toggle="collapse" data-target="#error">Show Error</button>
     <button class="btn btn-primary" onclick="goBack()">Go Back</button>
