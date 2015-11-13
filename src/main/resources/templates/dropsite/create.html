@@ -23,16 +23,16 @@
         </div>
         <!-- Date -->
         <div class="form-group">
-            <label class="control-label col-sm-2" for="date"><th th:text="#{date}" ></th></label>
+            <label class="control-label col-sm-2" for="date" th:text="#{date}"></label>
 
             <div class="col-sm-10">
-                <input type="date" class="form-control" th:field="*{date}" id="date"
+                <input type="date" class="form-control" th:field="*{sqlDate}" id="date"
                        placeholder="Drop Creation Date"/>
             </div>
         </div>
         <!--Latitude-->
         <div class="form-group">
-            <label class="control-label col-sm-2" for="latitude"><th th:text="#{latitude}" ></th> </label>
+            <label class="control-label col-sm-2" for="latitude" th:text="#{latitude}"></label>
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{latitude}" id="latitude" placeholder="00.00"/>

@@ -36,8 +36,7 @@ public class DropSiteController {
      **/
     @ModelAttribute("allDropSites")
     public List<DropSite> populateDrops() {
-        List<DropSite> allDropSites = dropSiteService.findAll();
-        return allDropSites;
+        return dropSiteService.findAll();
     }
 
     @ModelAttribute("dropSite")
@@ -51,10 +50,10 @@ public class DropSiteController {
 
     @ModelAttribute("allYards")
     public List<Yard> createYardList() { return yardService.findAll(); }
+
     /**
      * Request Mapping
      **/
-
     @RequestMapping({"/list"})
     public String list() {
         return "dropsite/list";

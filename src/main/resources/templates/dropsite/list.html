@@ -35,20 +35,20 @@
         <tr th:each="y : ${allDropSites}">
             <td th:text="${{y.getDropYard().getYardName()}}">00.00</td>
             <td th:text="${y.getId()}"></td>
-            <td th:text="${y.getDate()}"></td>
+            <td th:text="${y.getSqlDate()}"></td>
             <td th:text="${{y.getLatitude()}}"></td>
             <td th:text="${{y.getLongitude()}}"></td>
             <td th:text="${{y.getDropUser().getUsername()}}"></td>
             <td>
                 <a th:href="@{/dropsite/update/{id}(id=${y.getId()})}">
-                    <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Edit Drop">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Drop">
                         create
                     </i>
                 </a>
             </td>
             <td>
                 <a th:href="@{/dropsite/delete/{id}(id=${y.getId()})}">
-                    <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Delete Drop">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Drop">
                         delete
                     </i>
                 </a>
