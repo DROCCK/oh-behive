@@ -7,15 +7,21 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Companies<a class="btn btn-primary btn-md" th:href="@{/company/create}">Create New
-        Company</a></h2>
+    <h2>Companies |
+        <a th:href="@{/company/create}">
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+               title="Add Company">
+                add_circle_outline
+            </i>
+        </a>
+    </h2>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th></th>
-            <th></th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody th:each="company : ${allCompanies}">

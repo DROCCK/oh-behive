@@ -7,7 +7,14 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h1>Addresses <a class="btn btn-primary btn-md" th:href="@{/address/create}">Create New Address</a></h1>
+    <h2>Addresses |
+        <a th:href="@{/address/create}">
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+               title="Add Address">
+                add_circle_outline
+            </i>
+        </a>
+    </h2>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
@@ -16,8 +23,8 @@
             <th>City</th>
             <th>State</th>
             <th>Zip</th>
-            <th></th>
-            <th></th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody th:each="address : ${addresses}">

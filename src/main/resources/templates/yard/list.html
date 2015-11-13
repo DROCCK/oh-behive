@@ -35,9 +35,12 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Yards
-        <a class="btn btn-primary" th:href="@{/yard/create/}">
-            Create a new yard
+    <h2>Yards |
+        <a th:href="@{/yard/create/}">
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+               title="Add Yard">
+                add_circle_outline
+            </i>
         </a>
     </h2>
     <table id="table-pagination" class="table table-hover" data-toggle="table" data-url="/yard/json" data-cache="false"
@@ -54,8 +57,8 @@
             <th data-field="maxHives" data-sortable="true">Max Hives</th>
             <th data-field="owner.person.name">Owner</th>
             <th data-field="rentReceiver.name">Pay Rent To</th>
-            <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents"></th>
-            <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents"></th>
+            <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents">Edit</th>
+            <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents">Delete</th>
         </tr>
         </thead>
     </table>
@@ -63,4 +66,4 @@
 <footer th:replace="fragments/footer :: footer">
 </footer>
 </body>
-</html>x
+</html>

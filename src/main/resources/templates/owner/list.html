@@ -9,9 +9,12 @@
 </header>
 
 <div class="container">
-    <h2>Owners
-        <a class="btn btn-primary"  th:href="@{/owner/create}">
-                Create a new owner
+    <h2>Owners |
+        <a th:href="@{/owner/create}">
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+               title="Add Owner">
+                add_circle_outline
+            </i>
         </a>
     </h2>
     <table class="table table-hover">
@@ -25,8 +28,8 @@
             <th th:text="#{city}"></th>
             <th th:text="#{state}"></th>
             <th th:text="#{zip}"></th>
-            <th></th>
-            <th></th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
 

@@ -6,8 +6,8 @@ import drocck.sp.beesandhoney.business.entities.repositories.YardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Connor
@@ -27,11 +27,9 @@ public class YardService {
     }
 
     public List<Yard> findAllInUse() {
-        List<Yard> yards = new ArrayList<>();
-        for (Yard yard : findAll())
-            if (yard.getStatus().equals("IN USE"))
-                yards.add(yard);
-        return yards;
+        return findAll().stream().filter(
+            yard -> yard.getStatus().equals("IN USE")).collect(Collectors.toList()
+        );
     }
 
     public List<Yard> findAllByOwner(Owner owner) {

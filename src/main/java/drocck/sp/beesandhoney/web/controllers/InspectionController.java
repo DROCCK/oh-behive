@@ -32,8 +32,7 @@ public class InspectionController {
      **/
     @ModelAttribute("allDropSites")
     public List<DropSite> populateDrops() {
-        List<DropSite> allDropSites = dropSiteService.findAll();
-        return allDropSites;
+        return dropSiteService.findAll();
     }
 
     @ModelAttribute("inspection")

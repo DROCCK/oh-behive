@@ -13,25 +13,25 @@ public class Inspection {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = null;
+    private Long id;
 
     @Column(name = "NUM_DOUBLES")
-    private Integer numDoubles = null;
+    private Integer numDoubles;
 
     @Column(name = "NUM_SINGLES")
-    private Integer numSingles = null;
+    private Integer numSingles;
 
     @Column(name = "VISIT_DATE")
     private Date visitDate = new Date(Calendar.getInstance().getTime().getTime());;
 
     @Column(name = "IS_FED")
-    private boolean isFed = false;
+    private boolean isFed;
 
     @Column(name = "MEDICATION")
-    private String medication = null;
+    private String medication;
 
     @Column(name = "NOTES")
-    private String notes = null;
+    private String notes;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "DROP_SITE")

@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface InspectionRepository extends JpaRepository<Inspection, Long> {
     Inspection findById(Long id);
-    List<Inspection> findByDropSite(DropSite dropSite);
+    List<Inspection> findAllByDropSite(DropSite dropSite);
 }

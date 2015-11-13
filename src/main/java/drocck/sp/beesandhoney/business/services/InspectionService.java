@@ -15,19 +15,19 @@ public class InspectionService {
     @Autowired
     private InspectionRepository inspectionRepository;
 
-    @Autowired
-    private DropSiteService dropSiteService;
-
     public Inspection findById(Long id) {
         return inspectionRepository.findById(id);
     }
 
     public List<Inspection> findByDropsite(DropSite dropsite) {
-        return inspectionRepository.findByDropSite(dropsite);
+        return inspectionRepository.findAllByDropSite(dropsite);
+    }
+
+    public Inspection update(Inspection inspection) {
+        return inspectionRepository.save(inspection);
     }
 
     public Inspection save(Inspection inspection) {
-        //dropsiteService.save(inspection.getDropsite());
         return inspectionRepository.save(inspection);
     }
 

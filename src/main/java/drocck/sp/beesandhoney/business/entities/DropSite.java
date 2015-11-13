@@ -1,18 +1,24 @@
 package drocck.sp.beesandhoney.business.entities;
+
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Calendar;
+
 /**
  * Created by David on 9/29/2015.
  */
 @Entity
 public class DropSite {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id = null;
+
     private Double longitude = null;
+
     private Double latitude = null;
-    private java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+    private Date sqlDate = new Date(Calendar.getInstance().getTime().getTime());
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "DROP_YARD")
@@ -24,14 +30,14 @@ public class DropSite {
 
     public User getDropUser() {return dropUser;}
 
-    public void setDropUser(User dropUser) {this.dropUser = dropUser;}
+    public void setDropUser(User dropUser) {dropUser = dropUser;}
 
     public Yard getDropYard(){ return dropYard; }
 
     public void setDropYard(Yard dropYard){ this.dropYard = dropYard; }
 
-    public void setDate(java.sql.Date date){
-        this.sqlDate = date;
+    public void setDate(Date date){
+        sqlDate = date;
     }
 
     public Date getDate(){
