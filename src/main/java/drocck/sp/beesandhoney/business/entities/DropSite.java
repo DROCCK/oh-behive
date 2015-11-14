@@ -46,6 +46,9 @@ public class DropSite {
     @NotNull
     private Integer doubles;
 
+    @NotNull
+    private Integer supers;
+
     public Integer getSingles() {
         return singles;
     }
@@ -60,6 +63,14 @@ public class DropSite {
 
     public void setDoubles(Integer doubles) {
         this.doubles = doubles;
+    }
+
+    public Integer getSupers() {
+        return supers;
+    }
+
+    public void setSupers(Integer supers) {
+        this.supers = supers;
     }
 
     public void setLatitude(Double latitude) {
