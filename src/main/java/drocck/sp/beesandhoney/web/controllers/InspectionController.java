@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by cjeli_000 on 10/9/2015.
+ * Created by cjeli_000
+ * on 10/9/2015.
  */
 @Controller
 @RequestMapping("inspection")
@@ -27,6 +28,7 @@ public class InspectionController {
 
     @Autowired
     private DropSiteService dropSiteService;
+
     /**
      * Models
      **/
@@ -36,20 +38,28 @@ public class InspectionController {
     }
 
     @ModelAttribute("inspection")
-    public Inspection createInspectionModel() {return new Inspection(); }
+    public Inspection createInspectionModel() {
+        return new Inspection();
+    }
 
     @ModelAttribute("inspections")
-    public ArrayList<Inspection> createInspectionsModel() {return new ArrayList<Inspection>(); }
+    public ArrayList<Inspection> createInspectionsModel() {
+        return new ArrayList<Inspection>();
+    }
 
-    /**
-     * Request Mapping
-     **/
-
+    // Request Mapping
     @RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
     public String list(Model model, @PathVariable Long id) {
-        DropSite dropSite = dropSiteService.findOne(id); // The drop site being displayed
+        // The drop site being displayed
+        DropSite dropSite = dropSiteService.findOne(id);
         model.addAttribute("dropSite", dropSite);
         model.addAttribute("inspections", inspectionService.findAllByDropSite(dropSite));
+        return "inspection/list";
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(Model model) {
+        model.addAttribute("inspections", inspectionService.findAll());
         return "inspection/list";
     }
 
@@ -89,6 +99,12 @@ public class InspectionController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
+        return "inspection/create";
+    }
+
+    @RequestMapping("create/{dropSiteId")
+    public String create(@PathVariable Long dropSiteId, Model model) {
+        model.addAttribute("dropSite", dropSiteService.findOne(dropSiteId));
         return "inspection/create";
     }
 

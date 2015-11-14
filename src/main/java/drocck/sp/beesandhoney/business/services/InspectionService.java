@@ -26,6 +26,10 @@ public class InspectionService {
         return inspectionRepository.findOne(id);
     }
 
+    public List<Inspection> findAll() {
+        return inspectionRepository.findAll();
+    }
+
     public List<Inspection> findAllByDropSite(DropSite dropsite) {
         return inspectionRepository.findAllByDropSite(dropsite);
     }
