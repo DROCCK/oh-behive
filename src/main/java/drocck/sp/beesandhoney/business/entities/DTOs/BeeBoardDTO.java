@@ -72,7 +72,7 @@ public class BeeBoardDTO {
     public double getSinglesPercent() {
         double percent = 0;
         if(getTotalHives() != 0) {
-            percent = (getTotalSingles() / getTotalHives()) * 100;
+            percent = (this.getTotalSingles() / this.getTotalHives()) * 100;
         }
         return percent;
     }
@@ -80,7 +80,7 @@ public class BeeBoardDTO {
     public double getDoublesPercent(){
         double percent = 0;
         if(getTotalHives() != 0) {
-            percent = (getTotalDoubles() / getTotalHives()) * 100;
+            percent = (this.getTotalDoubles() / this.getTotalHives()) * 100;
         }
         return percent;
     }
@@ -88,7 +88,7 @@ public class BeeBoardDTO {
     public double getSupersPercent(){
         double percent = 0;
         if(getTotalHives() != 0) {
-            percent = (getTotalSupers() / getTotalHives()) * 100;
+            percent = (this.getTotalSupers() / this.getTotalHives()) * 100;
         }
         return percent;
     }
@@ -96,7 +96,7 @@ public class BeeBoardDTO {
     public double getDudsPercent(){
         double percent = 0;
         if(getTotalHives() != 0) {
-            percent = (getTotalDuds() / getTotalHives()) * 100;
+            percent = (this.getTotalDuds() / this.getTotalHives()) * 100;
         }
         return percent;
     }
