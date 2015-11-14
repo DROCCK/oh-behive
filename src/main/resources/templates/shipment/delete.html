@@ -13,6 +13,7 @@
         <p> To: <span th:text="${shipment.toYard.yardName}">to</span> </p>
         <p> Singles Moved <span th:text="${shipment.singleHive}">singles</span> </p>
         <p> Doubles Moved <span th:text="${shipment.doubleHive}">doubles</span> </p>
+        <p> Supers Moved <span th:text="${shipment.superHive}">supers</span> </p>
     </div>
     <a class="btn btn-danger" th:href="@{/shipment/confirmedDelete/{id}(id = ${shipment.id})}">Confirm Delete</a>
     <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>

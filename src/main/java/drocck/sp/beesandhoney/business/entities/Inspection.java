@@ -22,6 +22,12 @@ public class Inspection {
     @Column(name = "NUM_SINGLES")
     private Integer numSingles;
 
+    @Column(name = "NUM_SUPERS")
+    private Integer supers;
+
+    @Column(name = "NUM_DUDS")
+    private Integer duds;
+
     @Column(name = "VISIT_DATE")
     private Date visitDate = new Date(Calendar.getInstance().getTime().getTime());;
 
@@ -60,6 +66,22 @@ public class Inspection {
 
     public void setNumSingles(Integer numSingles) {
         this.numSingles = numSingles;
+    }
+
+    public Integer getSupers() {
+        return supers;
+    }
+
+    public void setSupers(Integer supers) {
+        this.supers = supers;
+    }
+
+    public Integer getDuds() {
+        return duds;
+    }
+
+    public void setDuds(Integer duds) {
+        this.duds = duds;
     }
 
     public Date getVisitDate() {

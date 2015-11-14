@@ -53,7 +53,9 @@ public class ShipmentController {
         shipment.setFromYard(yardService.findOne(shipment.getFromYardID()));
         shipment.setToYard(yardService.findOne(shipment.getToYardID()));
 
-        shipment.decrementMaxHives();
+        shipment.takeFromYardDoubles();
+        shipment.takeFromYardSingles();
+        shipment.takeFromYardSupers();
         shipmentService.save(shipment);
         return "redirect:shipment/list";
     }
@@ -77,7 +79,9 @@ public class ShipmentController {
         //System.out.println("status = " + shipment.getStatus() );
         if(shipment.getStatus().equals(shipment.getStatusComplete()) ){
             //System.out.println("status is equal to completed!");
-            shipment.incrementMaxHives();
+            shipment.giveToYardDoubles();
+            shipment.giveToYardSingles();
+            shipment.giveToYardSupers();
         }
         shipmentService.save(shipment);
         return "shipment/list";

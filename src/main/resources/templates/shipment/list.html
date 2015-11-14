@@ -23,6 +23,7 @@
             <th>To Yard</th>
             <th>Singles</th>
             <th>Doubles</th>
+            <th>Supers</th>
             <th>Status</th>
             <th>Edit</th>
             <th>Delete</th>
@@ -36,6 +37,7 @@
             <td><a th:text="${s.toYard.yardName}" th:href="@{/yard/read/{id}(id=${s.toYard.id})}">Watson</a></td>
             <td th:text="${{s.singleHive}}">in use</td>
             <td th:text="${{s.doubleHive}}">no key</td>
+            <td th:text="${{s.superHive}}">no key</td>
             <td th:text="${{s.status}}">the status</td>
             <td>
                 <a th:href="@{/shipment/update/{id}(id=${s.id})}">
