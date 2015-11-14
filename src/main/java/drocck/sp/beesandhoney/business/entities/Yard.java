@@ -1,5 +1,7 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -47,13 +49,16 @@ public class Yard implements Serializable {
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "OWNER_ID")
+    @JsonManagedReference
     private Owner owner;
 
     @OneToMany(fetch=FetchType.EAGER)
+    @JsonManagedReference
     private List<DropSite> drops;
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "RENT_RECEIVER_ID")
+    @JsonManagedReference
     private Person rentReceiver;
 
     @Column(name = "CURRENT_HIVES")
@@ -195,6 +200,6 @@ public class Yard implements Serializable {
     @Override
     public String toString() {
         return "Yard [id="+this.id+" yardName="+this.yardName +" status="+this.status+" combo="+this.combo+" address="+this.address+
-                 "accessNotes="+this.accessNotes +" maxHives="+this.maxHives+"]";
+                 "accessNotes="+this.accessNotes +" maxHives="+this.maxHives+" drops="+this.getDrops()+"]";
     }
 }

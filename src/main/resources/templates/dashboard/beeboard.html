@@ -35,7 +35,26 @@
                 (function () {
                     document.getElementById('yard-prompt').style.display = "none";
                     document.getElementById('map-div').style.display = "block";
-                    getLocation();
+                    var lat;
+                    var long;
+                    var arrLength;
+                    var labels;
+                    if(row["drops"].length==0){ //prevents errors from empty drops array. IE yard with no drops.
+                        arrLength=0;
+                        lat = 48.8582;  //random lat and long at eiffel tower. Should be changed to yard coordinates. Needs fix.
+                        long = 2.2945;
+                    }
+                    else{
+                        lat = row["drops"][0]["latitude"];  //Sets lat and long for initial map creation/centering.
+                        long = row["drops"][0]["longitude"];
+                        arrLength = row["drops"].length;
+                    }
+                    initialize(long, lat);//sets location of map on first drop location.
+                    //Creates Markers for map
+                    for(var i=0; arrLength>i;i++){
+                        labels = row["drops"][i]["id"];
+                        createMarkers(row["drops"][i]["longitude"],row["drops"][i]["latitude"],labels); //Cycles through drops and places markers
+                    }
                 })();
                 assignHrefs(row["id"]);
                 $("#name").text('Yard Name: ' + row["yardName"]);
@@ -138,7 +157,7 @@
         <hr/>
         <div class="col-md-12">
             <table class="table table-condensed table-responsive" id="yard-table" data-toggle="table"
-                   data-url="/yard/json" data-cache="false" data-pagination="true" data-show-refresh="true"
+                   data-url="/dashboard/beeboard/json" data-cache="false" data-pagination="true" data-show-refresh="true"
                    data-show-toggle="true" data-show-columns="true" data-search="true">
                 <caption align="center">Active Yards</caption>
                 <thead>
@@ -161,6 +180,7 @@
             <h3 align="center" th:text="${beeBoard.getActiveShipments()}">10</h3>
         </div>
     </div>
+
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 <script src="http://maps.googleapis.com/maps/api/js"></script>
@@ -168,20 +188,13 @@
     var x = document.getElementById("error");
     var map;
     var marker;
-    var prevMarker;
     var coords;
     var lat;
     var lng;
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(setVals, showError);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-    }
-    function setVals(position) {
-        lat = position.coords.latitude;
-        lng = position.coords.longitude;
+    //Creates and centers map
+    function initialize( longitude, latitude) { //Passed in longitude and latitude are just the position of the first drop of the yard.
+        lat = latitude;
+        lng = longitude;
         coords = new google.maps.LatLng(lat, lng);
         var mapOptions = {
             zoom: 15,
@@ -192,20 +205,6 @@
         map = new google.maps.Map(
                 document.getElementById("map-div"), mapOptions
         );
-        google.maps.event.addListener(map, 'click', function(event) {
-            placeMarker(event.latLng);
-        });
-        marker = new google.maps.Marker({
-            position: coords,
-            map: map,
-            title: "Current Location"
-        });
-    }
-    function placeMarker(location) {
-        lat = location.lat();
-        lng = location.lng();
-        setMarkerPosition(marker, lat, lng);
-        infowindow.open(map,marker);
     }
     function showError(error) {
         switch (error.code) {
@@ -223,14 +222,17 @@
                 break;
         }
     }
-    function setMarkerPosition(marker, lat, lng) {
-        marker.setPosition(
-                new google.maps.LatLng(
-                        lat,
-                        lng)
-        );
+    //Creates Markers
+    function createMarkers(long, lat, label){
+        var latlng = new google.maps.LatLng(lat,long);
+        var labelString = label.toString(); //labels must be strings. Passed in variable label is = dropId
+        var marker = new google.maps.Marker({
+            position: latlng,
+            label: labelString
+        });
+        marker.setMap(map); //must set its map to the pages' map
     }
-    google.maps.event.addDomListener(window, 'load', getLocation);
+    //google.maps.event.addDomListener(window, 'load', getLocation);
 </script>
 </body>
 </html>

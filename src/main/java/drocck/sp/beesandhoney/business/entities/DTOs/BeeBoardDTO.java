@@ -100,4 +100,13 @@ public class BeeBoardDTO {
         }
         return percent;
     }
+    public Yard getOneYard(long id){
+        Yard yard = new Yard();
+        for(Yard y : yards){
+            if(y.getId().equals(id)){
+                yard = y;
+            }
+        }
+        return yard;    //Returns new yard if IDs don't match
+    }
 }

@@ -1,5 +1,7 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -27,10 +29,12 @@ public class DropSite {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DROP_YARD")
+    @JsonBackReference
     private Yard dropYard;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DROP_USER")
+    @JsonBackReference
     private User dropUser;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -98,9 +102,7 @@ public class DropSite {
         this.longitude = longitude;
     }
 
-    public Double getLongitude() {
-        return longitude;
-    }
+    public Double getLongitude() {return longitude;}
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
@@ -119,4 +121,10 @@ public class DropSite {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Drop [id="+this.id+" longitude="+this.longitude +" latitude="+this.latitude+" yardId="+this.dropYard.getId()+"]";
+    }
+
 }
