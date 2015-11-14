@@ -65,7 +65,15 @@
             <hr/>
             <h4 th:text="'Singles: ' + ${beeBoard.getTotalSingles()}">Singles: </h4>
             <h4 th:text="'Doubles: ' + ${beeBoard.getTotalDoubles()}">Doubles: </h4>
+            <h4 th:text="'Supers: ' + ${beeBoard.getTotalSupers()}">Supers: </h4>
+            <h4 th:text="'Duds: ' + ${beeBoard.getTotalDuds()}">Duds: </h4>
             <h4 th:text="'Totals:  ' + ${beeBoard.getTotalHives()}">Total: </h4>
+            <hr/>
+            <h3>Percent out of Total:</h3>
+            <h4 th:text="'Singles:  ' + ${beeBoard.getSinglesPercent()} + '%'">% of Singels: </h4>
+            <h4 th:text="'Doubles:  ' + ${beeBoard.getDoublesPercent()} + '%'">% of Doubles: </h4>
+            <h4 th:text="'Supers:  ' + ${beeBoard.getSupersPercent()} + '%'">% of Supers: </h4>
+            <h4 th:text="'Duds:  ' + ${beeBoard.getDudsPercent()} + '%'">% of Duds: </h4>
         </div>
     </div>
     <div class="col-md-8">
