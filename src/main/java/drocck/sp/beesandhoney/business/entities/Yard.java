@@ -65,6 +65,14 @@ public class Yard implements Serializable {
     @Column(name = "DOUBLES")
     private Integer doubles;
 
+    @Column(name = "SUPERS")
+    private Integer supers;
+    //number of smaller hives that stack up on top of the singles/doubles.
+
+    @Column(name = "DUDS")
+    private Integer duds;
+    //number of hives with dead queen or all bees dead.
+
     public Integer getDoubles() {
         return doubles == null ? 0 : doubles;
     }
@@ -79,6 +87,22 @@ public class Yard implements Serializable {
 
     public void setSingles(Integer singles) {
         this.singles = singles;
+    }
+
+    public void setSupers(Integer supers) {
+        this.supers = supers;
+    }
+
+    public Integer getSupers() {
+        return supers == null ? 0 : supers;
+    }
+
+    public void setDuds(Integer duds) {
+        this.duds = duds;
+    }
+
+    public Integer getDuds() {
+        return duds == null ? 0 : duds;
     }
 
     public Integer getCurrentHives() {
