@@ -19,7 +19,7 @@ import java.util.List;
  *         Created on 10/17/2015.
  */
 @Controller
-@RequestMapping("/shipment")
+@RequestMapping("shipment")
 public class ShipmentController {
 
     @Autowired
@@ -35,8 +35,7 @@ public class ShipmentController {
 
     @ModelAttribute("allShipments")
     public List<Shipment> populateShipments() {
-        List<Shipment> allShipments = shipmentService.findAll();
-        return allShipments;
+        return shipmentService.findAll();
     }
 
     @ModelAttribute("allYards")
@@ -50,34 +49,38 @@ public class ShipmentController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Shipment shipment) {
         shipment.setStatus(shipment.getStatusInactive());
-        shipment.setFromYard(yardService.findById(shipment.getFromYardID()));
-        shipment.setToYard(yardService.findById(shipment.getToYardID()));
+        shipment.setFromYard(yardService.findOne(shipment.getFromYardID()));
+        shipment.setToYard(yardService.findOne(shipment.getToYardID()));
 
-        shipment.decrementMaxHives();
+        shipment.takeFromYardDoubles();
+        shipment.takeFromYardSingles();
+        shipment.takeFromYardSupers();
         shipmentService.save(shipment);
-        return "redirect:/shipment/list";
+        return "redirect:shipment/list";
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute("shipment", shipmentService.findById(id));
+        model.addAttribute("shipment", shipmentService.findOne(id));
         return "shipment/read";
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
      public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("shipment", shipmentService.findById(id));
+        model.addAttribute("shipment", shipmentService.findOne(id));
         return "shipment/update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Shipment shipment) {
-        shipment.setFromYard(yardService.findById(shipment.getFromYardID()));
-        shipment.setToYard(yardService.findById(shipment.getToYardID()));
+        shipment.setFromYard(yardService.findOne(shipment.getFromYardID()));
+        shipment.setToYard(yardService.findOne(shipment.getToYardID()));
         //System.out.println("status = " + shipment.getStatus() );
         if(shipment.getStatus().equals(shipment.getStatusComplete()) ){
             //System.out.println("status is equal to completed!");
-            shipment.incrementMaxHives();
+            shipment.giveToYardDoubles();
+            shipment.giveToYardSingles();
+            shipment.giveToYardSupers();
         }
         shipmentService.save(shipment);
         return "shipment/list";
@@ -85,14 +88,14 @@ public class ShipmentController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("shipment", shipmentService.findById(id));
+        model.addAttribute("shipment", shipmentService.findOne(id));
         return "shipment/delete";
     }
 
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         shipmentService.delete(id);
-        return "redirect:/shipment/list";
+        return "redirect:shipment/list";
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -104,7 +107,7 @@ public class ShipmentController {
 
     @RequestMapping("/list/{yardId}")
     public String listByYard(@PathVariable Long yardId, Model model) {
-        model.addAttribute("allShipments", shipmentService.findAllByYard(yardService.findById(yardId)));
+        model.addAttribute("allShipments", shipmentService.findAllByYard(yardService.findOne(yardId)));
         return "shipment/list";
     }
 }

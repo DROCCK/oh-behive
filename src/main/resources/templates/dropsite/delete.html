@@ -12,7 +12,7 @@
         <div>
             <h3>Yard: <label th:text="${dropSite.getDropYard().getYardName()}"></label></h3>
             <h3>Drop ID: <label th:text="${dropSite.getId()}"></label></h3>
-            <h3>Date: <label th:text="${dropSite.getDate()}"></label></h3>
+            <h3>Date: <label th:text="${dropSite.getSqlDate()}"></label></h3>
             <h3>Latitude: <label th:text="${dropSite.getLatitude()}"></label></h3>
             <h3>Longitude: <label th:text="${dropSite.getLongitude()}"></label></h3>
             <h3>Drop Creator: <label th:text="${dropSite.getDropUser().getUsername()}"></label></h3>

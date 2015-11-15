@@ -9,9 +9,12 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Inspections for <span th:unless="${dropSite == null}" th:text="${dropSite.id}"></span>
-        <a class="btn btn-primary" th:href="@{/inspection/create/}">
-            Add a new inspection to <span th:unless="${dropSite == null}" th:text="${dropSite.id}"></span>
+    <h2>Inspections | <span th:unless="${dropSite == null}" th:text="${dropSite.id}"></span>
+        <a th:href="@{/inspection/create/}">
+            <span th:unless="${dropSite == null}" th:text="${dropSite.id}"></span>
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip" title="Add Inspection">
+                add_circle_outline
+            </i>
         </a>
     </h2>
     <table class="table table-hover">
@@ -24,8 +27,8 @@
             <th>Fed</th>
             <th>Medication Used</th>
             <th>Notes</th>
-            <th></th>
-            <th></th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
 

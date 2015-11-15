@@ -9,9 +9,12 @@
 </header>
 
 <div class="container">
-    <h2>Owners
-        <a class="btn btn-primary"  th:href="@{/owner/create}">
-                Create a new owner
+    <h2>Owners |
+        <a th:href="@{/owner/create}">
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+               title="Add Owner">
+                add_circle_outline
+            </i>
         </a>
     </h2>
     <table class="table table-hover">
@@ -25,31 +28,31 @@
             <th th:text="#{city}"></th>
             <th th:text="#{state}"></th>
             <th th:text="#{zip}"></th>
-            <th></th>
-            <th></th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
 
         <tbody>
         <tr th:each="owner : ${allOwners}">
             <td th:text="${{owner.id}}">0</td>
-            <td><a th:text="${(owner.name)}" th:href="@{/owner/read/(id=${owner.id})}"></a></td>
-            <td th:text="${{owner.contactInfo.phone}}">555-555-5555</td>
-            <td th:text="${{owner.contactInfo.email}}">xxxx@gmail.com</td>
-            <td th:text="${{owner.contactInfo.address.street}}">1 Main St</td>
-            <td th:text="${{owner.contactInfo.address.city}}">Sacramento</td>
-            <td th:text="${{owner.contactInfo.address.state}}">CA</td>
-            <td th:text="${{owner.contactInfo.address.zip}}">12345</td>
+            <td><a th:text="${(owner.person.name)}" th:href="@{/owner/read/(id=${owner.id})}"></a></td>
+            <td th:text="${{owner.person.contactInfo.phone}}">555-555-5555</td>
+            <td th:text="${{owner.person.contactInfo.email}}">xxxx@gmail.com</td>
+            <td th:text="${{owner.person.contactInfo.address.street}}">1 Main St</td>
+            <td th:text="${{owner.person.contactInfo.address.city}}">Sacramento</td>
+            <td th:text="${{owner.person.contactInfo.address.state}}">CA</td>
+            <td th:text="${{owner.person.contactInfo.address.zip}}">12345</td>
             <td>
-                <a th:href="@{/owner/update/(id=${owner.id})}" th:text="#{update}">
-                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Owner">
+                <a th:href="@{/owner/update/{id} (id=${owner.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="#{update}">
                         create
                     </i>
                 </a>
             </td>
             <td>
-                <a th:href="@{/owner/delete/(id=${owner.id})}" th:text="#{delete}">
-                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Owner">
+                <a th:href="@{/owner/delete/{id} (id=${owner.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="#{delete}">
                         delete
                     </i>
                 </a>

@@ -28,21 +28,21 @@
     <div class="col-md-6">
         <h2>Yard Owner</h2>
 
-        <p><a th:text="${yard.owner.name}" th:href="@{/person/read/(id=${yard.owner.id})}"></a></p>
+        <p><a th:text="${yard.owner.person.name}" th:href="@{/person/read/(id=${yard.owner.id})}"></a></p>
 
-        <p th:text="${yard.owner.contactInfo.email}"></p>
+        <p th:text="${yard.owner.person.contactInfo.email}"></p>
 
-        <p th:text="${yard.owner.contactInfo.phone}"></p>
+        <p th:text="${yard.owner.person.contactInfo.phone}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.street}"></p>
+        <p th:text="${yard.owner.person.contactInfo.address.street}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.zip}"></p>
+        <p th:text="${yard.owner.person.contactInfo.address.zip}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.city}"></p>
+        <p th:text="${yard.owner.person.contactInfo.address.city}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.zip}"></p>
+        <p th:text="${yard.owner.person.contactInfo.address.zip}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.state}"></p>
+        <p th:text="${yard.owner.person.contactInfo.address.state}"></p>
 
         <div th:unless="${yard.owner == yard.rentReceiver}">
             <h2>Info about yard rent receiver</h2>

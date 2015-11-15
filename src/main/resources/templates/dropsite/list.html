@@ -9,9 +9,12 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Drops
-        <a class="btn btn-primary" th:href="@{/dropsite/create/}">
-            Create a New Drop
+    <h2>Drops |
+        <a th:href="@{/dropsite/create/}">
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+               title="Add Drop">
+                add_circle_outline
+            </i>
         </a>
     </h2>
     <table class="table table-hover">
@@ -23,30 +26,38 @@
             <th>Latitude</th>
             <th>Longitude</th>
             <th>Drop Creator</th>
-            <th></th>
-            <th></th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Inspect</th>
         </tr>
         </thead>
 
         <tbody>
-        <tr th:each="y : ${allDropSites}">
-            <td th:text="${{y.getDropYard().getYardName()}}">00.00</td>
-            <td th:text="${y.getId()}"></td>
-            <td th:text="${y.getDate()}"></td>
-            <td th:text="${{y.getLatitude()}}"></td>
-            <td th:text="${{y.getLongitude()}}"></td>
-            <td th:text="${{y.getDropUser().getUsername()}}"></td>
+        <tr th:each="ds : ${allDropSites}">
+            <td th:text="${{ds.getDropYard().getYardName()}}">00.00</td>
+            <td th:text="${ds.getId()}"></td>
+            <td th:text="${ds.getSqlDate()}"></td>
+            <td th:text="${{ds.getLatitude()}}"></td>
+            <td th:text="${{ds.getLongitude()}}"></td>
+            <td th:text="${{ds.getDropUser().getUsername()}}"></td>
             <td>
-                <a th:href="@{/dropsite/update/{id}(id=${y.getId()})}">
-                    <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Edit Drop">
+                <a th:href="@{/dropsite/update/{id}(id=${ds.getId()})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Drop">
                         create
                     </i>
                 </a>
             </td>
             <td>
-                <a th:href="@{/dropsite/delete/{id}(id=${y.getId()})}">
-                    <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Delete Drop">
+                <a th:href="@{/dropsite/delete/{id}(id=${ds.getId()})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Drop">
                         delete
+                    </i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/inspection/create/{id}(id = ${ds.getId()})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Inspect">
+                        visibility
                     </i>
                 </a>
             </td>

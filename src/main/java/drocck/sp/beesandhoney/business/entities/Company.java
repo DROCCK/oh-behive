@@ -11,14 +11,14 @@ public class Company {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = null;
+    private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID")
-    private Location location = null;
+    private Location location;
 
     @Column(name = "Name")
-    private String name = null;
+    private String name;
 
     public void setId(Long id) {
         this.id = id;
@@ -46,6 +46,6 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company [id="+this.id+" Company Name="+this.name +"]";
+        return "Company [id=" + this.id + " Company Name=" + this.name + "]";
     }
 }

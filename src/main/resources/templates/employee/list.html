@@ -7,8 +7,14 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Employees <a class="btn btn-primary btn-md" th:href="@{/employee/create}">Create New
-        Employee</a></h2>
+    <h2>Employees |
+        <a th:href="@{/employee/create}">
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+               title="Add Employee">
+                add_circle_outline
+            </i>
+        </a>
+    </h2>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
@@ -17,8 +23,8 @@
             <th th:text="#{email}"></th>
             <th th:text="#{phone}"></th>
             <th th:text="#{address}"></th>
-            <th></th>
-            <th></th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody th:each="employee : ${allEmployees}">

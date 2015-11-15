@@ -1,50 +1,119 @@
 package drocck.sp.beesandhoney.business.entities;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
+import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
+
 /**
- * Created by David on 9/29/2015.
+ * Created by David
+ * on 9/29/2015.
  */
 @Entity
 public class DropSite {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = null;
-    private Double longitude = null;
-    private Double latitude = null;
-    private java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+    private Long id;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @NotNull
+    private Double longitude;
+
+    @NotNull
+    private Double latitude;
+
+    private Date sqlDate = new Date(Calendar.getInstance().getTime().getTime());
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DROP_YARD")
+    @JsonBackReference
     private Yard dropYard;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DROP_USER")
+    @JsonBackReference
     private User dropUser;
 
-    public User getDropUser() {return dropUser;}
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Inspection> inspections;
 
-    public void setDropUser(User dropUser) {this.dropUser = dropUser;}
+    @NotNull
+    private Integer singles;
 
-    public Yard getDropYard(){ return dropYard; }
+    @NotNull
+    private Integer doubles;
 
-    public void setDropYard(Yard dropYard){ this.dropYard = dropYard; }
+    @NotNull
+    private Integer supers;
 
-    public void setDate(java.sql.Date date){
-        this.sqlDate = date;
+    public Integer getSingles() {
+        return singles;
     }
 
-    public Date getDate(){
+    public void setSingles(Integer singles) {
+        this.singles = singles;
+    }
+
+    public Integer getDoubles() {
+        return doubles;
+    }
+
+    public void setDoubles(Integer doubles) {
+        this.doubles = doubles;
+    }
+
+    public Integer getSupers() {
+        return supers;
+    }
+
+    public void setSupers(Integer supers) {
+        this.supers = supers;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Date getSqlDate() {
         return sqlDate;
+    }
+
+    public void setSqlDate(Date sqlDate) {
+        this.sqlDate = sqlDate;
+    }
+
+    public List<Inspection> getInspections() {
+        return inspections;
+    }
+
+    public void setInspections(List<Inspection> inspections) {
+        this.inspections = inspections;
+    }
+
+    public User getDropUser() {
+        return dropUser;
+    }
+
+    public void setDropUser(User dropUser) {
+        this.dropUser = dropUser;
+    }
+
+    public Yard getDropYard(){
+        return dropYard;
+    }
+
+    public void setDropYard(Yard dropYard){
+        this.dropYard = dropYard;
     }
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public Double getLongitude() {
-        return longitude;
-    }
+    public Double getLongitude() {return longitude;}
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
@@ -64,5 +133,9 @@ public class DropSite {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Drop [id="+this.id+" longitude="+this.longitude +" latitude="+this.latitude+" yardId="+this.dropYard.getId()+"]";
+    }
 
 }

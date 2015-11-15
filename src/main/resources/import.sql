@@ -1,8 +1,8 @@
 -- # Complete Users
 -- INSERT INTO address(id, street, apt, city, state, zip) VALUES (0, '3878 Shawn Way', '#153', 'Loomis', 'CA', '95663');
--- INSERT INTO contact_Info(id, email, phone) VALUES (0, '', '(916) 704-4718');
+-- INSERT INTO contact_Info(id, email, phone) VALUES (0, 'me@me.com', '(916) 704-4718');
 -- INSERT INTO person (id, name) VALUES (0, 'Esther Andrews Lytton');
--- INSERT INTO user (id, username, password) VALUES (0, 'user@user.com', 'password');
+-- INSERT INTO user (id, username, password) VALUES (0, 'user@user.com', '$2a$10$KST6QYRGfS7U3AkVMua56OchNPEM4X/1env/h8hTEVjtdvNWIrG1e');
 --
 -- # Roles
 -- INSERT INTO role(id, name) VALUES (0, 'ADMIN');

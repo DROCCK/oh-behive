@@ -9,10 +9,16 @@
 <div class="container">
     <h2>Shipment</h2>
     <div>
-        <h3> From: <label th:text="${shipment.fromYard.yardName}">from</label> </h3>
-        <h3> To: <label th:text="${shipment.toYard.yardName}">to</label> </h3>
-        <h3> Singles Moved: <label th:text="${shipment.singleHive}">singles</label> </h3>
-        <h3> Doubles Moved: <label th:text="${shipment.doubleHive}">doubles</label> </h3>
+        <p> Load Number: <span th:text="${shipment.getLoadNum()}">Load Number</span> </p>
+        <p> Carrier: <span th:text="${shipment.getCarrier()}">Carrier</span> </p>
+        <p> Departure Date: <span th:text="${shipment.getDepartDate()}">Depart Date</span> </p>
+        <p> Arrival Date: <span th:text="${shipment.getArrivalDate()}">Arrival Date</span> </p>
+        <p> From: <span th:text="${shipment.fromYard.yardName}">from</span> </p>
+        <p> To: <span th:text="${shipment.toYard.yardName}">to</span> </p>
+        <p> Weight: <span th:text="${shipment.getWeight()}">Weight</span> </p>
+        <p> Truck Number: <span th:text="${shipment.getTruckId()}">Truck Id</span> </p>
+        <p> Singles Moved <span th:text="${shipment.singleHive}">singles</span> </p>
+        <p> Doubles Moved <span th:text="${shipment.doubleHive}">doubles</span> </p>
     </div>
     <button type="button" onClick="goBack()" class="btn btn-default">Go Back</button>
 </div>

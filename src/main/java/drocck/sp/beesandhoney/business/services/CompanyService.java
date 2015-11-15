@@ -20,11 +20,11 @@ public class CompanyService {
         return companyRepository.findAll();
     }
 
-    public Company findById(Long id) {
-        return companyRepository.findById(id);
+    public Company findOne(Long id) {
+        return companyRepository.findOne(id);
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         companyRepository.delete(id);
     }
 
@@ -33,7 +33,7 @@ public class CompanyService {
     }
 
     public Company update(Company company) {
-        Company c = companyRepository.findById(company.getId());
+        Company c = companyRepository.findOne(company.getId());
         c.setName(company.getName());
         return companyRepository.save(c);
     }

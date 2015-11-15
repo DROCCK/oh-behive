@@ -26,8 +26,8 @@ public class LocationService {
         return this.locationRepository.findAll();
     }
 
-    public Location findById(Long id) {
-        Location location = locationRepository.findById(id);
+    public Location findOne(Long id) {
+        Location location = locationRepository.findOne(id);
         return location;
     }
 
@@ -45,7 +45,7 @@ public class LocationService {
     }
 
     public Location update(Location location) {
-        Location l = locationRepository.findById(location.getId());
+        Location l = locationRepository.findOne(location.getId());
         l.setName(location.getName());
         l.setContactInfo(location.getContactInfo());
         l.getContactInfo().setId(l.getId());

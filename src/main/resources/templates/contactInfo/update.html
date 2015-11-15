@@ -12,6 +12,7 @@
           method="post"
           class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="hidden" th:field="*{address.id}" th:value="${contactInfo.address.id}"/>
 
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Email</label>
