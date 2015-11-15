@@ -12,6 +12,23 @@
     <form action="#" th:action="@{/shipment/update}" th:object="${shipment}" method="post" class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <input type="hidden" th:field="*{id}" th:value="${shipment.id}"/>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="loadNum">Load Num: </label>
+
+            <div class="col-sm-10">
+                <input type="number" class="form-control" th:field="*{loadNum}" id="loadNum" placeholder="00" th:value="${shipment.getLoadNum()}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="carrier">Carrier: </label>
+
+            <div class="col-sm-10">
+                <input type="number" class="form-control" th:field="*{carrier}" id="carrier" placeholder="00" th:value="${shipment.getCarrier()}"/>
+            </div>
+        </div>
+
         <div class="form-group">
             <label class="control-label col-sm-2" for="from_yard_id">Where are the bees coming from?</label>
 
@@ -39,6 +56,42 @@
                             th:unless="${y.id != shipment.toYard.id}">Guy 1
                     </option>
                 </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="weight">Weight: </label>
+
+            <div class="col-sm-10">
+                <input type="number" class="form-control" th:field="*{weight}" id="weight" placeholder="0000.00" th:value="${shipment.getWeight()}"/>
+            </div>
+        </div>
+
+        <!-- Departure Date -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="departDate">Departure Date: </label>
+
+            <div class="col-sm-10">
+                <input type="date" class="form-control" th:field="*{departDate}" id="departDate"
+                       placeholder="Shipment Depature Date" th:value="${shipment.getDepartDate()}" />
+            </div>
+        </div>
+
+        <!-- Arrival Date -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="arrivalDate">Arrival Date </label>
+
+            <div class="col-sm-10">
+                <input type="date" class="form-control" th:field="*{departDate}" id="arrivalDate"
+                       placeholder="00/00/0000" th:value="${shipment.getArrivalDate()}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="truckId">Truck Number: </label>
+
+            <div class="col-sm-10">
+                <input type="number" class="form-control" th:field="*{truckId}" id="truckId" placeholder="80" th:value="${shipment.getTruckId()}"/>
             </div>
         </div>
 

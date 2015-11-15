@@ -1,6 +1,8 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by Chai on 10/9/2015.
@@ -42,9 +44,51 @@ public class Shipment {
     @Column(name = "STATUS")
     private String status;
 
+    @Column(name = "TRUCK_ID")
+    private String truckId;
+
+    @Column(name = "LOAD_NUM")
+    private Integer loadNum;
+
+    @Column(name = "WEIGHT")
+    private Double weight;
+
+    @Column(name = "DEPART_DATE")
+    private Date departDate = new Date(Calendar.getInstance().getTime().getTime());
+
+    @Column(name = "ARRIVAL_DATE")
+    private Date arrivalDate;
+
+    @Column(name = "CARRIER")
+    private String carrier;
+
     private String inactive = "Inactive";
     private String complete = "Completed";
     private String inProgress = "In Progress";
+
+    public String getCarrier() {return carrier;}
+
+    public void setCarrier(String carrier) {this.carrier = carrier;}
+
+    public Date getArrivalDate() {return arrivalDate;}
+
+    public void setArrivalDate(Date arrivalDate) {this.arrivalDate = arrivalDate;}
+
+    public Date getDepartDate() {return departDate;}
+
+    public void setDepartDate(Date departDate) {this.departDate = departDate;}
+
+    public Double getWeight() {return weight;}
+
+    public void setWeight(Double weight) {this.weight = weight;}
+
+    public Integer getLoadNum() {return loadNum;}
+
+    public void setLoadNum(Integer loadNum) {this.loadNum = loadNum;}
+
+    public String getTruckId() {return truckId;}
+
+    public void setTruckId(String truckId) { this.truckId = truckId;}
 
     public void setId(Long id) {
         this.id = id;
