@@ -42,13 +42,14 @@ public class InspectionService {
         // Get the old drop site and associated yard
         DropSite dropSite = inspection.getDropSite();
         Yard yard = dropSite.getDropYard();
-        // Subtract the old hive values from the yard count
-        yard.setSingles(yard.getSingles() - dropSite.getSingles());
-        yard.setDoubles(yard.getDoubles() - dropSite.getDoubles());
-        yard.setSupers(yard.getSupers() - dropSite.getSupers());
 
         int oldSingles = yard.getSingles();
         int oldDoubles = yard.getDoubles();
+
+        // Subtract the old hive values from the yard count
+        yard.setSingles(oldSingles - dropSite.getSingles());
+        yard.setDoubles(oldDoubles - dropSite.getDoubles());
+        yard.setSupers(yard.getSupers() - dropSite.getSupers());
 
         // Update the drop site from the inspection
         dropSite.setSingles(inspection.getNumSingles());

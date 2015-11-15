@@ -57,6 +57,8 @@
                     }
                 })();
                 assignHrefs(row["id"]);
+                var owner = row["owner"];
+                assignOwnerHrefs(owner["id"]);
                 $("#name").html('<b>Yard Name: </b>' + row["yardName"]);
                 $("#status").html('<b>Status: </b>' + row["status"]);
                 $("#combo").html('<b>Combo: </b>' + row["combo"]);

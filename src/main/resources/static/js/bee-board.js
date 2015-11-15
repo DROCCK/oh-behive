@@ -14,7 +14,9 @@ function assignHrefs(id) {
 
     link = document.getElementById("yardShipments");
     link.href = "/shipment/list/" + id; //doesnt use id?
+}
 
-    link = document.getElementById("yardOwner");
-    link.href="/owner/read/" + id;
+function assignOwnerHrefs(ownerId) {
+    var link = document.getElementById("yardOwner");
+    link.href ="/owner/read/" + ownerId;
 }
