@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.Calendar;
 
 /**
- * Created by Chai on 10/9/2015.
+ * Created by Chai
+ * on 10/9/2015.
  */
 @Entity
 public class Shipment {

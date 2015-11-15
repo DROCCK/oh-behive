@@ -35,8 +35,7 @@ public class ShipmentController {
 
     @ModelAttribute("allShipments")
     public List<Shipment> populateShipments() {
-        List<Shipment> allShipments = shipmentService.findAll();
-        return allShipments;
+        return shipmentService.findAll();
     }
 
     @ModelAttribute("allYards")
