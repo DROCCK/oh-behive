@@ -9,7 +9,9 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Drops |  <a th:unless="${yard == null}"  th:href="@{/yard/read/{id}(id=${yard.id})}" th:text="${yard.yardName}"></a>
+    <h2>Drops |
+        <a th:unless="${yard == null}"  th:href="@{/yard/read/{id}(id=${yard.id})}" th:text="${yard.yardName}"></a>
+        <span th:unless="${yard != null}">All Yards</span>
         <a th:unless="${yard == null}" th:href="@{/dropsite/create/{id}(id=${yard.id})}">
             <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
                title="Add Drop">
