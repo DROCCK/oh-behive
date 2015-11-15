@@ -12,6 +12,7 @@
 
         <input type="hidden" th:field="*{id}" id="id" th:value="${yard.id}"/>
         <input type="hidden" th:field="*{address.id}" id="addressId" th:value="${yard.address.id}"/>
+        <input type="hidden" th:field="*{owner.id}" id="ownerId" th:value="${yard.owner.id}"/>
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 

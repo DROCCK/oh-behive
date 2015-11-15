@@ -11,6 +11,9 @@
     <form action="#" th:action="@{/person/updatePerson/{id}(id=${person.id})}" th:object="${person}" method="post"
           class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="hidden" th:field="*{contactInfo.id}" th:value="${person.contactInfo.id}" id="contactId"/>
+        <input type="hidden" th:field="*{contactInfo.address.id}" th:value="${person.contactInfo.address.id}"
+               id="addressId"/>
 
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">Name</label>

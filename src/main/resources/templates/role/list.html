@@ -7,9 +7,12 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Roles
-        <a class="btn btn-primary" th:href="@{/role/create/}">
-            Create a new yard
+    <h2>Roles |
+        <a th:href="@{/role/create/}">
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+               title="Add Role">
+                add_circle_outline
+            </i>
         </a>
     </h2>
     <table class="table table-condensed table-responsive table-hover">
@@ -17,8 +20,8 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th></th>
-            <th></th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody th:each="role : ${roles}">

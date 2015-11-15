@@ -1,6 +1,5 @@
 package drocck.sp.beesandhoney.business.services;
 
-import drocck.sp.beesandhoney.business.entities.Address;
 import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,7 @@ import java.util.List;
 
 /**
  * @author Rob
- * Created on 9/29/2015.
+ *         Created on 9/29/2015.
  */
 @Service
 public class PersonService {
@@ -25,8 +24,8 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person findById(Long id) {
-        return personRepository.findById(id);
+    public Person findOne(Long id) {
+        return personRepository.findOne(id);
     }
 
     public Person save(Person person) {
@@ -34,13 +33,7 @@ public class PersonService {
     }
 
     public Person update(Person person) {
-        Person p = personRepository.findById(person.getId());
-        p.setName(person.getName());
-        p.setContactInfo(person.getContactInfo());
-        p.getContactInfo().setId(p.getId());
-        p.getContactInfo().setAddress(person.getContactInfo().getAddress());
-        p.getContactInfo().getAddress().setId(p.getId());
-        return personRepository.save(p);
+        return personRepository.save(person);
     }
 
     public void delete(Long id) {

@@ -1,5 +1,7 @@
 package drocck.sp.beesandhoney.business.entities.repositories;
 
+import drocck.sp.beesandhoney.business.entities.DropSite;
+import drocck.sp.beesandhoney.business.entities.Owner;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,5 +16,6 @@ import java.util.List;
 
 public interface YardRepository extends JpaRepository<Yard, Long> {
     List<Yard> findByYardName(String yardName);
-    Yard findById(Long id);
+    List<Yard> findAllByOwner(Owner owner);
+    Yard findDropYardByDrops(DropSite dropSite);
 }

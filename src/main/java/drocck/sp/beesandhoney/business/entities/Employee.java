@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Kyle on 10/1/2015.
@@ -13,12 +14,14 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "PERSON_ID")
+    @NotNull
     private Person person;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "USER_ID")
+    @NotNull
     private User user;
 
     public Long getId() {

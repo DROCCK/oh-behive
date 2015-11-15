@@ -9,7 +9,4 @@ import java.util.List;
  * @author Robert Wilk
  *         Created on 10/10/2015.
  */
-public interface RoleRepository extends JpaRepository<Role, Long> {
-    List<Role> findAll();
-    Role findById(Long id);
-}
+public interface RoleRepository extends JpaRepository<Role, Long> { }

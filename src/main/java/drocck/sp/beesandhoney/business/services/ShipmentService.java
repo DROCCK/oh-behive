@@ -20,8 +20,8 @@ public class ShipmentService {
         return shipmentRepository.findAll();
     }
 
-    public Shipment findById(Long id) {
-        return shipmentRepository.findById(id);
+    public Shipment findOne(Long id) {
+        return shipmentRepository.findOne(id);
     }
 
     public Shipment findByFromYard(Yard yard) {
@@ -41,10 +41,6 @@ public class ShipmentService {
     public Shipment save(Shipment shipment) {
         return shipmentRepository.save(shipment);
     }
-
-//    public Shipment save(Shipment shipment) {
-//        return shipmentRepository.save(shipment);
-//    }
 
     public void delete(Shipment shipment) {
         shipmentRepository.delete(shipment);

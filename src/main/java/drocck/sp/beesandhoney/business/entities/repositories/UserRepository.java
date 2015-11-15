@@ -11,11 +11,5 @@ import java.util.Optional;
  *         Created on 9/30/2015.
  */
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findAll();
-    User findById(Long id);
-    // User findByUsername(String username);
     Optional<User> findByUsername(String username);
-    User save(User user);
-    void delete(Long id);
-    void delete(User user);
 }

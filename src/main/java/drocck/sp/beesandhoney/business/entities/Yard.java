@@ -1,13 +1,13 @@
 package drocck.sp.beesandhoney.business.entities;
 
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import org.hibernate.annotations.FetchProfile;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Connor
@@ -20,7 +20,7 @@ public class Yard implements Serializable {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = null;
+    private Long id;
 
     @Column(name = "YARD_NAME")
     @NotNull
@@ -30,17 +30,17 @@ public class Yard implements Serializable {
     @Column(name = "STATUS")
     @NotNull
     @NotBlank
-    private String status = null;
+    private String status;
 
     @Column(name = "COMBO")
-    private String combo = null;
+    private String combo;
 
     @Column(name = "ACCESS_NOTES")
-    private String accessNotes = null;
+    private String accessNotes;
 
     @Column(name = "MAX_HIVES")
     @NotNull
-    private Integer maxHives = null;
+    private Integer maxHives;
 
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID")
@@ -49,20 +49,34 @@ public class Yard implements Serializable {
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "OWNER_ID")
-    private Person owner;
+    @JsonManagedReference
+    private Owner owner;
+
+    @OneToMany(fetch=FetchType.EAGER)
+    @JsonManagedReference
+    private List<DropSite> drops;
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "RENT_RECEIVER_ID")
+    @JsonManagedReference
     private Person rentReceiver;
 
     @Column(name = "CURRENT_HIVES")
-    private Integer currentHives = null;
+    private Integer currentHives;
 
     @Column(name = "SINGLES")
     private Integer singles;
 
     @Column(name = "DOUBLES")
     private Integer doubles;
+
+    @Column(name = "SUPERS")
+    private Integer supers;
+    //number of smaller hives that stack up on top of the singles/doubles.
+
+    @Column(name = "DUDS")
+    private Integer duds;
+    //number of hives with dead queen or all bees dead.
 
     public Integer getDoubles() {
         return doubles == null ? 0 : doubles;
@@ -82,21 +96,35 @@ public class Yard implements Serializable {
         this.singles = singles;
     }
 
+    public void setSupers(Integer supers) {
+        this.supers = supers;
+    }
+
+    public Integer getSupers() {
+        return supers == null ? 0 : supers;
+    }
+
+    public void setDuds(Integer duds) {
+        this.duds = duds;
+    }
+
+    public Integer getDuds() {
+        return duds == null ? 0 : duds;
+    }
+
     public Integer getCurrentHives() {
         return currentHives;
     }
 
     public void setCurrentHives(Integer singles, Integer doubles) {
-        this.currentHives = singles+doubles;
+        this.currentHives = singles + doubles;
     }
 
     /** Getters and Setters **/
-
     public Long getId() {
         return this.id;
     }
 
-    // Is this needed? possibly delete
     public void setId(Long id) {
         this.id = id;
     }
@@ -149,11 +177,11 @@ public class Yard implements Serializable {
         this.maxHives = maxHives;
     }
 
-    public Person getOwner() {
+    public Owner getOwner() {
         return owner;
     }
 
-    public void setOwner(Person owner) {
+    public void setOwner(Owner owner) {
         this.owner = owner;
     }
 
@@ -165,9 +193,13 @@ public class Yard implements Serializable {
         this.rentReceiver = rentReceiver;
     }
 
+    public List<DropSite> getDrops() {return drops; }
+
+    public void setDrops(List<DropSite> drops) {this.drops = drops;}
+
     @Override
     public String toString() {
         return "Yard [id="+this.id+" yardName="+this.yardName +" status="+this.status+" combo="+this.combo+" address="+this.address+
-                 "accessNotes="+this.accessNotes +" maxHives="+this.maxHives+"]";
+                 "accessNotes="+this.accessNotes +" maxHives="+this.maxHives+" drops="+this.getDrops()+"]";
     }
 }

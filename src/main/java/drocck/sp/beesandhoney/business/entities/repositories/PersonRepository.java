@@ -12,11 +12,4 @@ import java.util.List;
  * Created on 9/29/2015.
  */
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Long> {
-    List<Person> findAll();
-    Person findById(Long id);
-    Person findByContactInfo(ContactInfo contactInfo);
-    Person save(Person person);
-    void delete(Long id);
-    void delete(Person person);
-}
+public interface PersonRepository extends JpaRepository<Person, Long> { }

@@ -20,6 +20,7 @@ public class Person {
 
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "CONTACT_ID")
+    @NotNull
     private ContactInfo contactInfo;
 
     public Long getId() {

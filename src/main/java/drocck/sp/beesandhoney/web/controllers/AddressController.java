@@ -25,49 +25,49 @@ public class AddressController {
         return new Address();
     }
 
-    @RequestMapping(value = "/address/create", method = RequestMethod.GET)
+    @RequestMapping(value = "address/create", method = RequestMethod.GET)
     public String create() {
         return "address/create";
     }
 
-    @RequestMapping(value = "/address/create", method = RequestMethod.POST)
+    @RequestMapping(value = "address/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("address") Address address) {
         addressService.save(address);
-        return "redirect:/address/list";
+        return "redirect:address/list";
     }
 
-    @RequestMapping(value = "/address/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "address/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute("address", addressService.findById(id));
+        model.addAttribute("address", addressService.findOne(id));
         return "address/read";
     }
 
-    @RequestMapping(value = "/address/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "address/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
-        model.addAttribute("address", addressService.findById(id));
+        model.addAttribute("address", addressService.findOne(id));
         return "address/update";
     }
 
-    @RequestMapping(value = "/address/updateAddress/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "address/updateAddress/{id}", method = RequestMethod.POST)
     public String updateAddress(@PathVariable Long id, @ModelAttribute("address") Address address) {
         address.setId(id);
         addressService.update(address);
-        return "redirect:/address/list";
+        return "redirect:address/list";
     }
 
-    @RequestMapping(value = "/address/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "address/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute("address", addressService.findById(id));
-        return "/address/delete";
+        model.addAttribute("address", addressService.findOne(id));
+        return "address/delete";
     }
 
-    @RequestMapping(value = "/address/confirmedDelete/{id}")
+    @RequestMapping(value = "address/confirmedDelete/{id}")
     public String delete(@PathVariable Long id) {
         addressService.delete(id);
-        return "redirect:/address/list";
+        return "redirect:address/list";
     }
 
-    @RequestMapping("/address/list")
+    @RequestMapping("address/list")
     public String list(Model model) {
         model.addAttribute("addresses", addressService.findAll());
         return "address/list";

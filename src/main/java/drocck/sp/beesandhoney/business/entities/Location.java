@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Chai on 10/9/2015.
@@ -11,13 +12,15 @@ public class Location {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = null;
+    private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "ID")
-    private ContactInfo contactInfo = null;
+    @JoinColumn(name = "ID")
+    @NotNull
+    private ContactInfo contactInfo;
 
     @Column(name = "Name")
+    @NotNull
     private String name = null;
 
     public void setId(Long id) {

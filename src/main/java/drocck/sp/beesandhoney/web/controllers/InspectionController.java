@@ -15,10 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by cjeli_000 on 10/9/2015.
+ * Created by cjeli_000
+ * on 10/9/2015.
  */
 @Controller
-@RequestMapping("/inspection")
+@RequestMapping("inspection")
 public class InspectionController {
     private static final Log logger = LogFactory.getLog(InspectionController.class);
 
@@ -27,43 +28,51 @@ public class InspectionController {
 
     @Autowired
     private DropSiteService dropSiteService;
+
     /**
      * Models
      **/
     @ModelAttribute("allDropSites")
     public List<DropSite> populateDrops() {
-        List<DropSite> allDropSites = dropSiteService.findAll();
-        return allDropSites;
+        return dropSiteService.findAll();
     }
 
     @ModelAttribute("inspection")
-    public Inspection createInspectionModel() {return new Inspection(); }
+    public Inspection createInspectionModel() {
+        return new Inspection();
+    }
 
     @ModelAttribute("inspections")
-    public ArrayList<Inspection> createInspectionsModel() {return new ArrayList<Inspection>(); }
+    public ArrayList<Inspection> createInspectionsModel() {
+        return new ArrayList<Inspection>();
+    }
 
-    /**
-     * Request Mapping
-     **/
-
+    // Request Mapping
     @RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
     public String list(Model model, @PathVariable Long id) {
-        DropSite dropSite = dropSiteService.findById(id); // The drop site being displayed
+        // The drop site being displayed
+        DropSite dropSite = dropSiteService.findOne(id);
         model.addAttribute("dropSite", dropSite);
-        model.addAttribute("inspections", inspectionService.findByDropsite(dropSite));
-        return "/inspection/list";
+        model.addAttribute("inspections", inspectionService.findAllByDropSite(dropSite));
+        return "inspection/list";
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(Model model) {
+        model.addAttribute("inspections", inspectionService.findAll());
+        return "inspection/list";
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(Model model, @PathVariable Long id) {
-        model.addAttribute("inspection", inspectionService.findById(id));
-        return "/inspection/read";
+        model.addAttribute("inspection", inspectionService.findOne(id));
+        return "inspection/read";
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable Long id) {
-        model.addAttribute("inspection", inspectionService.findById(id));
-        return "/inspection/update";
+        model.addAttribute("inspection", inspectionService.findOne(id));
+        return "inspection/update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -71,26 +80,32 @@ public class InspectionController {
         long redirect = inspection.getDropSite().getId();
         inspection.setIsFed(fedChecked);
         inspectionService.save(inspection);
-        return "redirect:/inspection/list/" + redirect;
+        return "redirect:inspection/list/" + redirect;
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(Model model, @PathVariable Long id) {
-        model.addAttribute("inspection", inspectionService.findById(id));
+        model.addAttribute("inspection", inspectionService.findOne(id));
         return "inspection/delete";
     }
 
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String confirmedDelete(@PathVariable Long id) {
-        Inspection i = inspectionService.findById(id);
+        Inspection i = inspectionService.findOne(id);
         long redirect = i.getDropSite().getId();
         inspectionService.delete(i);
-        return "redirect:/inspection/list/" + redirect;
+        return "redirect:inspection/list/" + redirect;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
-        return "/inspection/create";
+        return "inspection/create";
+    }
+
+    @RequestMapping("create/{dropSiteId")
+    public String create(@PathVariable Long dropSiteId, Model model) {
+        model.addAttribute("dropSite", dropSiteService.findOne(dropSiteId));
+        return "inspection/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -98,6 +113,6 @@ public class InspectionController {
         long redirect = inspection.getDropSite().getId();
         inspection.setIsFed(fedChecked);
         inspectionService.save(inspection);
-        return "redirect:/inspection/list/" + redirect;
+        return "redirect:inspection/list/" + redirect;
     }
 }

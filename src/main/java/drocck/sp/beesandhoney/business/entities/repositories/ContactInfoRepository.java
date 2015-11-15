@@ -13,10 +13,4 @@ import java.util.List;
  * Created on 9/29/2015.
  */
 @Repository
-public interface ContactInfoRepository extends JpaRepository<ContactInfo, Long> {
-    List<ContactInfo> findAll();
-    ContactInfo findById(Long id);
-    ContactInfo save(ContactInfo contactInfo);
-    void delete(Long id);
-    void delete(ContactInfo contactInfo);
-}
+public interface ContactInfoRepository extends JpaRepository<ContactInfo, Long> { }

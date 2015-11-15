@@ -12,11 +12,6 @@ import java.util.List;
  * Created by Kyle on 10/9/2015.
  */
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    List<Employee> findAll();
-    Employee findById(Long id);
     Employee findByPerson(Person person);
     Employee findByUser(User user);
-    Employee save(Employee employee);
-    void delete(Long id);
-    void delete(Employee employee);
 }

@@ -21,7 +21,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public Optional<User> getUserById(Long id) {
-        return Optional.ofNullable(userRepository.findById(id));
+        return Optional.ofNullable(userRepository.findOne(id));
     }
 
     public Optional<User> getUserByUsername(String username) {
@@ -32,8 +32,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findById(Long id) {
-        return userRepository.findById(id);
+    public User findOne(Long id) {
+        return userRepository.findOne(id);
     }
 
     public User create(UserCreateForm form) {
@@ -57,13 +57,6 @@ public class UserService {
     }
 
     public User update(User user) {
-        User u = userRepository.findById(user.getId());
-/*        user.getPerson().setId(u.getId());
-        user.getPerson().getContactInfo().setId(u.getId());
-        user.getPerson().getContactInfo().getAddress().setId(u.getId());
-        u.setPerson(user.getPerson());
-        u.getPerson().setContactInfo(user.getPerson().getContactInfo());
-        u.getPerson().getContactInfo().setAddress(user.getPerson().getContactInfo().getAddress());*/
         return userRepository.save(user);
     }
 }
