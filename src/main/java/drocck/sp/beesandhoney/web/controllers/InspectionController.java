@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by cjeli_000
+ * Created by Connor
  * on 10/9/2015.
  */
 @Controller
@@ -29,9 +29,8 @@ public class InspectionController {
     @Autowired
     private DropSiteService dropSiteService;
 
-    /**
-     * Models
-     **/
+    // Models
+
     @ModelAttribute("allDropSites")
     public List<DropSite> populateDrops() {
         return dropSiteService.findAll();
@@ -94,25 +93,28 @@ public class InspectionController {
         Inspection i = inspectionService.findOne(id);
         long redirect = i.getDropSite().getId();
         inspectionService.delete(i);
-        return "redirect:inspection/list/" + redirect;
+        return "redirect:/list/" + redirect;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create")
     public String create() {
         return "inspection/create";
     }
 
-    @RequestMapping("create/{dropSiteId")
+    @RequestMapping(value = "create/{dropSiteId}", method = RequestMethod.GET)
     public String create(@PathVariable Long dropSiteId, Model model) {
         model.addAttribute("dropSite", dropSiteService.findOne(dropSiteId));
         return "inspection/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(Inspection inspection, @RequestParam(value = "fedChecked", required = false) boolean fedChecked) {
-        long redirect = inspection.getDropSite().getId();
+    public String create(Inspection inspection,
+                         @RequestParam(value = "fedChecked", required = false) boolean fedChecked,
+                         @RequestParam(value = "dropsiteid", required = true) long dropsiteid) {
+        inspection.setDropSite(dropSiteService.findOne(dropsiteid));
         inspection.setIsFed(fedChecked);
         inspectionService.save(inspection);
-        return "redirect:inspection/list/" + redirect;
+        long redirect = inspection.getDropSite().getId();
+        return "redirect:list/" + redirect;
     }
 }

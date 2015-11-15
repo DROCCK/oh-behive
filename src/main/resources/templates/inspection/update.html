@@ -29,6 +29,14 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-sm-2" for="numSupers">Number of Supers: </label>
+
+            <div class="col-sm-10">
+                <input type="number" class="form-control" th:field="*{supers}" id="numSupers" th:value="${inspection.getSupers()}"
+                       placeholder="Number of Supers"/>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-sm-2" for="visitDate">Date of Visit: </label>
 
             <div class="col-sm-10">

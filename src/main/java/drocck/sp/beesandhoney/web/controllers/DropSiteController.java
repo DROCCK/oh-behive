@@ -61,7 +61,9 @@ public class DropSiteController {
 
     @RequestMapping("/list/{yardId}")
     public String listByYard(@PathVariable Long yardId, Model model) {
-        model.addAttribute("allDropSites", dropSiteService.findAllByDropYard(yardService.findOne(yardId)));
+        Yard yardDisplayed = yardService.findOne(yardId);
+        model.addAttribute("yard", yardDisplayed);
+        model.addAttribute("allDropSites", dropSiteService.findAllByDropYard(yardDisplayed));
         return "dropsite/list";
     }
 
@@ -76,7 +78,8 @@ public class DropSiteController {
         Optional<User> u = userService.getUserByUsername(name); // extract user
         dropSite.setDropUser(userService.findOne(u.get().getId()));  // set dropsite by finding user by id
         dropSiteService.save(dropSite);
-        return "redirect:dropsite/list";
+        long yardId = dropSite.getDropYard().getId();
+        return "redirect:list/" + yardId;
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
@@ -94,21 +97,32 @@ public class DropSiteController {
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String confirmedDelete(@PathVariable Long id) {
         ArrayList<DropSite> toBeDeleted = new ArrayList<>();
-        toBeDeleted.add(dropSiteService.findOne(id));
+        DropSite drop = dropSiteService.findOne(id);
+        long yardId = drop.getDropYard().getId();
+        toBeDeleted.add(drop);
         dropSiteService.deleteInBatch(toBeDeleted);
-        return "redirect:dropsite/list";
+        return "redirect:list/" +yardId;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create")
     public String create() {
         return "dropsite/create";
     }
 
+    @RequestMapping(value = "/create/{yardId}", method = RequestMethod.GET)
+    public String create(Model model, @PathVariable("yardId") Long yardID) {
+        model.addAttribute("yard", yardService.findOne(yardID));
+        return "dropsite/create";
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(DropSite dropSite, @RequestParam(value = "principalUser", required = true) String name) {
+    public String create(DropSite dropSite,
+                         @RequestParam(value = "principalUser", required = true) String name,
+                         @RequestParam(value = "yardid", required = true) long yardId) {
         Optional<User> u = userService.getUserByUsername(name); // extract user
         dropSite.setDropUser(userService.findOne(u.get().getId()));  // set dropsite by finding user by id
+        dropSite.setDropYard(yardService.findOne(yardId));
         dropSiteService.save(dropSite); // insert into db
-        return "redirect:dropsite/list";
+        return "redirect:list/" + yardId;
     }
 }

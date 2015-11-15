@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
     <title>Create Drop</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Create Drop</h2>
+    <h2>Create Drop<span th:unless="${yard == null}"> at <span th:text="${yard.yardName}"></span></span></h2>
+
     <form class="form-horizontal" action="#" th:action="@{/dropsite/create}" th:object="${dropSite}" method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <input type="hidden" id="principalUser" name="principalUser"
                th:value="${#httpServletRequest.getUserPrincipal().name}"/>
+        <input type="hidden" th:unless="${yard == null}" th:value="${yard.id}" name="yardid"/>
 
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="date"> <th th:text="#{yard}" ></th></label>
+        <div th:unless="${yard != null}">
+        <!-- Only shows up because redirected without parent yard-->
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="date"> <span th:text="#{yard}"></span></label>
 
-            <div class="col-sm-10">
-                <select class="form-control" th:field="*{dropYard}" id="dropYard">
-                    <option th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}">Yard</option>
-                </select>
+                <div class="col-sm-10">
+                    <select class="form-control" th:field="*{dropYard}" id="yardid" name="yardid">
+                        <option th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}">Yard</option>
+                    </select>
+                </div>
             </div>
         </div>
         <!-- Date -->
@@ -56,7 +61,7 @@
         <style>
             #mapPlaceholder {
                 height: 500px;
-                margin:0 auto;
+                margin: 0 auto;
             }
         </style>
         <div id="mapPlaceholder"></div>
@@ -98,7 +103,7 @@
         map = new google.maps.Map(
                 document.getElementById("mapPlaceholder"), mapOptions
         );
-        google.maps.event.addListener(map, 'click', function(event) {
+        google.maps.event.addListener(map, 'click', function (event) {
             placeMarker(event.latLng);
         });
         marker = new google.maps.Marker({
@@ -113,7 +118,7 @@
         setMarkerPosition(marker, lat, lng);
         document.getElementById("latitude").value = location.lat();
         document.getElementById("longitude").value = location.lng();
-        infowindow.open(map,marker);
+        infowindow.open(map, marker);
     }
     function showError(error) {
         switch (error.code) {

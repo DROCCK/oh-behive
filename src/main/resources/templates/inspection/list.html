@@ -9,9 +9,13 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Inspections | <span th:unless="${dropSite == null}" th:text="${dropSite.id}"></span>
-        <a th:href="@{/inspection/create/}">
-            <span th:unless="${dropSite == null}" th:text="${dropSite.id}"></span>
+    <h2>Inspections | <a th:unless="${dropSite == null}" th:href="@{/dropsite/list/{id}(id=${dropSite.id})}" th:text="${dropSite.dropYard.yardName}"></a>
+        <a th:unless="${dropSite != null}" th:href="@{/inspection/create/}">
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip" title="Add Inspection">
+                add_circle_outline
+            </i>
+        </a>
+        <a th:unless="${dropSite == null}" th:href="@{/inspection/create/{id}(id=${dropSite.id})}">
             <i class="material-icons md-36 add-list-icon" data-toggle="tooltip" title="Add Inspection">
                 add_circle_outline
             </i>

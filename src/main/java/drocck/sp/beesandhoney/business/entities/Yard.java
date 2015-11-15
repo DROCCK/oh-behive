@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -60,6 +61,12 @@ public class Yard implements Serializable {
     @JoinColumn(name = "RENT_RECEIVER_ID")
     @JsonManagedReference
     private Person rentReceiver;
+
+    @Column(name = "LAST_VISIT")
+    private Date lastVisit;
+
+    @Column(name = "LAST_FED_DATE")
+    private Date lastFedDate;
 
     @Column(name = "CURRENT_HIVES")
     private Integer currentHives;
@@ -201,5 +208,21 @@ public class Yard implements Serializable {
     public String toString() {
         return "Yard [id="+this.id+" yardName="+this.yardName +" status="+this.status+" combo="+this.combo+" address="+this.address+
                  "accessNotes="+this.accessNotes +" maxHives="+this.maxHives+" drops="+this.getDrops()+"]";
+    }
+
+    public Date getLastVisit() {
+        return lastVisit;
+    }
+
+    public void setLastVisit(Date lastVisit) {
+        this.lastVisit = lastVisit;
+    }
+
+    public Date getLastFedDate() {
+        return lastFedDate;
+    }
+
+    public void setLastFedDate(Date lastFedDate) {
+        this.lastFedDate = lastFedDate;
     }
 }

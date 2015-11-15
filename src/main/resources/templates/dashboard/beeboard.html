@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <link rel="stylesheet" th:href="@{/css/bee-board.css}" />
+    <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
     <script th:src="@{/js/bee-board.js}"></script>
     <script>
         function editFormatter(value, row, index) {
@@ -39,32 +39,45 @@
                     var long;
                     var arrLength;
                     var labels;
-                    if(row["drops"].length==0){ //prevents errors from empty drops array. IE yard with no drops.
-                        arrLength=0;
+                    if (row["drops"].length == 0) { //prevents errors from empty drops array. IE yard with no drops.
+                        arrLength = 0;
                         lat = 48.8582;  //random lat and long at eiffel tower. Should be changed to yard coordinates. Needs fix.
                         long = 2.2945;
                     }
-                    else{
+                    else {
                         lat = row["drops"][0]["latitude"];  //Sets lat and long for initial map creation/centering.
                         long = row["drops"][0]["longitude"];
                         arrLength = row["drops"].length;
                     }
                     initialize(long, lat);//sets location of map on first drop location.
                     //Creates Markers for map
-                    for(var i=0; arrLength>i;i++){
+                    for (var i = 0; arrLength > i; i++) {
                         labels = row["drops"][i]["id"];
-                        createMarkers(row["drops"][i]["longitude"],row["drops"][i]["latitude"],labels); //Cycles through drops and places markers
+                        createMarkers(row["drops"][i]["longitude"], row["drops"][i]["latitude"], labels); //Cycles through drops and places markers
                     }
                 })();
                 assignHrefs(row["id"]);
-                $("#name").text('Yard Name: ' + row["yardName"]);
-                $("#status").text('Status: ' + row["status"]);
-                $("#combo").text('Combo: ' + row["combo"]);
+                $("#name").html('<b>Yard Name: </b>' + row["yardName"]);
+                $("#status").html('<b>Status: </b>' + row["status"]);
+                $("#combo").html('<b>Combo: </b>' + row["combo"]);
                 var address = row["address"];
-                $("#street").text(address["street"]);
+                $("#street").html('<b>Address: </b>' + address["street"]);
                 $("#city").text(address["city"]);
                 $("#state").text(address["state"]);
                 $("#zip").text(address["zip"]);
+                $("#singles").html('<b>Singles: </b>' + row["singles"]);
+                $("#doubles").html('<b>Doubles: </b>' + row["doubles"]);
+                $("#supers").html('<b>Supers: </b>' + row["supers"]);
+                $("#duds").html('<b>Duds: </b>' + row["duds"]);
+
+                if (row["lastVisit"] != null)
+                    $("#lastVisit").html('<b>Last Visit: </b>' + row["lastVisit"]);
+                else
+                    $("#lastVisit").html('<b>No Inspections Recorded </b>');
+                if (row["lastFedDate"] != null)
+                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"])
+                else
+                    $("#lastFedDate").html('<b>No Feed Date Recorded </b>');
             });
         });
 
@@ -87,12 +100,6 @@
             <h4 th:text="'Supers: ' + ${beeBoard.getTotalSupers()}">Supers: </h4>
             <h4 th:text="'Duds: ' + ${beeBoard.getTotalDuds()}">Duds: </h4>
             <h4 th:text="'Totals:  ' + ${beeBoard.getTotalHives()}">Total: </h4>
-            <hr/>
-            <h3>Percent out of Total:</h3>
-            <h4 th:text="'Singles:  ' + ${beeBoard.getSinglesPercent()} + '%'">% of Singels: </h4>
-            <h4 th:text="'Doubles:  ' + ${beeBoard.getDoublesPercent()} + '%'">% of Doubles: </h4>
-            <h4 th:text="'Supers:  ' + ${beeBoard.getSupersPercent()} + '%'">% of Supers: </h4>
-            <h4 th:text="'Duds:  ' + ${beeBoard.getDudsPercent()} + '%'">% of Duds: </h4>
             <hr/>
             <h3>Percent out of Total:</h3>
             <h4 th:text="'Singles:  ' + ${beeBoard.getSinglesPercent()} + '%'">% of Singels: </h4>
@@ -142,37 +149,63 @@
         </div>
         <div class="row dashboard-row">
             <div class="col-md-6">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <p id="name"></p>
 
                     <p id="status"></p>
 
                     <p id="combo"></p>
+
+                    <p id="singles"></p>
+
+                    <p id="doubles"></p>
+
+                    <p id="supers"></p>
+
+                    <p id="duds"></p>
                 </div>
-                <div class="col-md-3">
-                    <p id="street"></p>
+                <div class="col-md-6">
+                    <p>
+                        <span id="street"></span>,
 
-                    <p id="city"></p>
+                        <span id="city"></span>,
 
-                    <p id="state"></p>
+                        <span id="state"></span>
 
-                    <p id="zip"></p>
+                        <span id="zip"></span>
+                    </p>
+
+                    <p id="lastVisit"></p>
+
+                    <p id="lastFedDate"></p>
                 </div>
             </div>
             <div id="map-div" class="col-md-6"></div>
         </div>
         <hr/>
         <div class="col-md-12">
-            <table class="table table-condensed table-responsive" id="yard-table" data-toggle="table"
-                   data-url="/dashboard/beeboard/json" data-cache="false" data-pagination="true" data-show-refresh="true"
-                   data-show-toggle="true" data-show-columns="true" data-search="true">
+            <table class="table table-condensed table-responsive"
+                   id="yard-table"
+                   data-toggle="table"
+                   data-url="/dashboard/beeboard/json"
+                   data-cache="false"
+                   data-pagination="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+                   data-search="true">
                 <caption align="center">Active Yards</caption>
                 <thead>
                 <tr>
-                    <th data-field="yardName" data-sortable="true">Name</th>
-                    <th data-field="address.street" data-sortable="true">Address</th>
-                    <th data-field="owner.person.name" data-sortable="true">Owner</th>
-                    <th data-field="rentReceiver.name" data-sortable="true">Pay Rent To</th>
+                    <th data-field="yardName" data-sortable="true" data-visible="true">Yard Name</th>
+                    <th data-field="address.street" data-sortable="true" data-visible="false">Address</th>
+                    <th data-field="singles" data-sortable="true" data-visible="true">Singles</th>
+                    <th data-field="doubles" data-sortable="true" data-visible="true">Doubles</th>
+                    <th data-field="supers" data-sortable="true" data-visible="false">Supers</th>
+                    <th data-field="lastVisit" data-sortable="true" data-visible="false">Last Visit</th>
+                    <th data-field="lastFedDate" data-sortable="true" data-visible="false">Last Fed</th>
+                    <th data-field="owner.person.name" data-sortable="true" data-visible="false">Owner</th>
+                    <th data-field="rentReceiver.name" data-sortable="true" data-visible="false">Pay Rent To</th>
                     <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents">Edit</th>
                     <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents">Delete</th>
                 </tr>
@@ -198,7 +231,7 @@
     var lat;
     var lng;
     //Creates and centers map
-    function initialize( longitude, latitude) { //Passed in longitude and latitude are just the position of the first drop of the yard.
+    function initialize(longitude, latitude) { //Passed in longitude and latitude are just the position of the first drop of the yard.
         lat = latitude;
         lng = longitude;
         coords = new google.maps.LatLng(lat, lng);
@@ -229,8 +262,8 @@
         }
     }
     //Creates Markers
-    function createMarkers(long, lat, label){
-        var latlng = new google.maps.LatLng(lat,long);
+    function createMarkers(long, lat, label) {
+        var latlng = new google.maps.LatLng(lat, long);
         var labelString = label.toString(); //labels must be strings. Passed in variable label is = dropId
         var marker = new google.maps.Marker({
             position: latlng,
