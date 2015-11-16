@@ -95,20 +95,21 @@
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="left-sidebar-div">
-            <h3>Hives</h3>
+            <h3><b>Hives</b></h3>
             <hr/>
             <h4 th:text="'Singles: ' + ${beeBoard.getTotalSingles()}">Singles: </h4>
             <h4 th:text="'Doubles: ' + ${beeBoard.getTotalDoubles()}">Doubles: </h4>
             <h4 th:text="'Supers: ' + ${beeBoard.getTotalSupers()}">Supers: </h4>
             <h4 th:text="'Duds: ' + ${beeBoard.getTotalDuds()}">Duds: </h4>
             <h4 th:text="'Totals:  ' + ${beeBoard.getTotalHives()}">Total: </h4>
+        </div>
+        <div class="left-sidebar-div">
+            <h3><b>Percent out of Total</b></h3>
             <hr/>
-            <h3>Percent out of Total:</h3>
             <h4 th:text="'Singles:  ' + ${beeBoard.getSinglesPercent()} + '%'">% of Singels: </h4>
             <h4 th:text="'Doubles:  ' + ${beeBoard.getDoublesPercent()} + '%'">% of Doubles: </h4>
             <h4 th:text="'Supers:  ' + ${beeBoard.getSupersPercent()} + '%'">% of Supers: </h4>
             <h4 th:text="'Duds:  ' + ${beeBoard.getDudsPercent()} + '%'">% of Duds: </h4>
-            <hr/>
         </div>
     </div>
     <div class="col-md-8">
@@ -217,7 +218,7 @@
     </div>
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="right-sidebar-div">
-            <h3>Active Shipments</h3>
+            <h3><b>Active Shipments</b></h3>
             <hr/>
             <h3 align="center" th:text="${beeBoard.getActiveShipments()}">10</h3>
         </div>
