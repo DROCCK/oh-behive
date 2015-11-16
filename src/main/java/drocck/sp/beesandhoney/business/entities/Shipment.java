@@ -2,7 +2,9 @@ package drocck.sp.beesandhoney.business.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Chai
@@ -161,6 +163,14 @@ public class Shipment {
 
     public String getStatus() {
         return status;
+    }
+
+    public static List<String> getStatusNames() {
+        List<String> names = new ArrayList<>();
+        names.add(Shipment.COMPLETE);
+        names.add(Shipment.IN_PROGRESS);
+        names.add(Shipment.INACTIVE);
+        return names;
     }
 
     @Override

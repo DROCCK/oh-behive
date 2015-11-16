@@ -41,11 +41,7 @@ public class ShipmentController {
 
     @ModelAttribute("statusNames")
     public List<String> statusNames() {
-        List<String> names = new ArrayList<>();
-        names.add(Shipment.COMPLETE);
-        names.add(Shipment.IN_PROGRESS);
-        names.add(Shipment.INACTIVE);
-        return names;
+        return Shipment.getStatusNames();
     }
 
     @ModelAttribute("allYards")
