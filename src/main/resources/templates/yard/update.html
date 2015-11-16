@@ -13,6 +13,12 @@
         <input type="hidden" th:field="*{id}" id="id" th:value="${yard.id}"/>
         <input type="hidden" th:field="*{address.id}" id="addressId" th:value="${yard.address.id}"/>
         <input type="hidden" th:field="*{owner.id}" id="ownerId" th:value="${yard.owner.id}"/>
+        <input type="hidden" th:field="*{singles}" id="singles" th:value="${yard.singles}"/>
+        <input type="hidden" th:field="*{doubles}" id="lastDoubles" th:value="${yard.doubles}"/>
+        <input type="hidden" th:field="*{supers}" id="lastSupers" th:value="${yard.supers}"/>
+        <input type="hidden" th:field="*{duds}" id="duds" th:value="${yard.duds}"/>
+        <input type="hidden" th:unless="${yard.lastFedDate == null}" th:field="*{lastFedDate}" id="lastFedDate" th:value="${yard.lastFedDate}"/>
+        <input type="hidden" th:unless="${yard.lastVisit == null}" th:field="*{lastVisit}" id="lastVisit" th:value="${yard.lastVisit}"/>
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
@@ -156,10 +162,10 @@
 
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{owner.id}" id="owner">
-                    <option th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}"
+                    <option th:each="p : ${allOwners}" th:value="${p.id}" th:text="${p.person.name}"
                             th:unless="${p.id == yard.owner.id}">Guy 1
                     </option>
-                    <option selected="selected" th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}"
+                    <option selected="selected" th:each="p : ${allOwners}" th:value="${p.id}" th:text="${p.person.name}"
                             th:unless="${p.id != yard.owner.id}">Guy 1
                     </option>
                 </select>
