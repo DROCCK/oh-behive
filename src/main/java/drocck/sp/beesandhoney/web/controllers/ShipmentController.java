@@ -76,7 +76,7 @@ public class ShipmentController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Shipment shipment) {
-        shipmentService.save(shipment);
+        shipmentService.update(shipment);
         return "shipment/list";
     }
 

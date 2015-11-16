@@ -7,6 +7,7 @@ import java.util.Calendar;
 /**
  * Created by Chai
  * on 10/9/2015.
+ * @author Robert Wilk
  */
 @Entity
 public class Shipment {
