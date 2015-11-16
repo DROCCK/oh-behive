@@ -33,7 +33,7 @@
             <label class="control-label col-sm-2" for="from_yard_id">Where are the bees coming from?</label>
 
             <div class="col-sm-10">
-                <select class="form-control" th:field="*{fromYardID}" id="from_yard_id">
+                <select class="form-control" th:field="*{fromYard.id}" id="from_yard_id">
                     <option th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}"
                             th:unless="${y.id == shipment.fromYard.id}">Guy 1
                     </option>
@@ -48,7 +48,7 @@
             <label class="control-label col-sm-2" for="to_yard_id">Where are the bees going to?</label>
 
             <div class="col-sm-10">
-                <select class="form-control" th:field="*{toYardID}" id="to_yard_id">
+                <select class="form-control" th:field="*{toYard.id}" id="to_yard_id">
                     <option th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}"
                             th:unless="${y.id == shipment.toYard.id}">Guy 1
                     </option>
@@ -99,7 +99,7 @@
             <label class="control-label col-sm-2" for="singles">Number of single hives: </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{singleHive}" id="singles" placeholder="80" th:value="${shipment.singleHive}"/>
+                <input type="number" class="form-control" th:field="*{singles}" id="singles" placeholder="80" th:value="${shipment.singles}"/>
             </div>
         </div>
 
@@ -107,7 +107,7 @@
             <label class="control-label col-sm-2" for="doubles">Number of double hives: </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{doubleHive}" id="doubles" placeholder="80" th:value="${shipment.doubleHive}"/>
+                <input type="number" class="form-control" th:field="*{doubles}" id="doubles" placeholder="80" th:value="${shipment.doubles}"/>
             </div>
         </div>
 
@@ -115,7 +115,7 @@
             <label class="control-label col-sm-2" for="supers">Number of super hives: </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{superHive}" id="Supers" placeholder="80" th:value="${shipment.superHive}"/>
+                <input type="number" class="form-control" th:field="*{supers}" id="Supers" placeholder="80" th:value="${shipment.supers}"/>
             </div>
         </div>
 
@@ -124,18 +124,7 @@
 
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{status}" id="status">
-                    <option th:value="${shipment.getStatusInactive()}" th:text="${shipment.getStatusInactive()}"
-                            th:unless="${shipment.id == shipment.status}">Guy 1
-                    </option>
-                    <option th:value="${shipment.getStatusInProgress()}" th:text="${shipment.getStatusInProgress()}"
-                            th:unless="${shipment.id == shipment.status}">Guy 1
-                    </option>
-                    <option th:value="${shipment.getStatusComplete()}" th:text="${shipment.getStatusComplete()}"
-                            th:unless="${shipment.id == shipment.status}">Guy 1
-                    </option>
-                    <option selected="selected" th:value="${shipment.status}" th:text="${shipment.status}"
-                            th:unless="${shipment.id != shipment.status}">Guy 1
-                    </option>
+                    <option th:each="s : ${statusNames}" th:value="${s}" th:text="${{s}}"></option>
                 </select>
             </div>
         </div>

@@ -39,6 +39,18 @@ public class ShipmentService {
     }
 
     public Shipment save(Shipment shipment) {
+
+        Yard from = shipment.getToYard();
+
+        if (shipment.getStatus().equals(Shipment.COMPLETE)) {
+            Yard to = shipment.getToYard();
+            to.setSingles(to.getSingles() + shipment.getSingles());
+            to.setDoubles(to.getDoubles() + shipment.getDoubles());
+            to.setSupers(to.getSupers() + shipment.getSupers());
+        }
+        from.setSingles(from.getSingles() - shipment.getSingles());
+        from.setDoubles(from.getDoubles() - shipment.getDoubles());
+        from.setSupers(from.getSupers() - shipment.getSupers());
         return shipmentRepository.save(shipment);
     }
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +39,15 @@ public class ShipmentController {
         return shipmentService.findAll();
     }
 
+    @ModelAttribute("statusNames")
+    public List<String> statusNames() {
+        List<String> names = new ArrayList<>();
+        names.add(Shipment.COMPLETE);
+        names.add(Shipment.IN_PROGRESS);
+        names.add(Shipment.INACTIVE);
+        return names;
+    }
+
     @ModelAttribute("allYards")
     public List<Yard> createYardList() { return yardService.findAll(); }
 
@@ -48,13 +58,6 @@ public class ShipmentController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Shipment shipment) {
-        shipment.setStatus(shipment.getStatusInactive());
-        shipment.setFromYard(yardService.findOne(shipment.getFromYardID()));
-        shipment.setToYard(yardService.findOne(shipment.getToYardID()));
-
-        shipment.takeFromYardDoubles();
-        shipment.takeFromYardSingles();
-        shipment.takeFromYardSupers();
         shipmentService.save(shipment);
         return "redirect:shipment/list";
     }
@@ -73,15 +76,6 @@ public class ShipmentController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Shipment shipment) {
-        shipment.setFromYard(yardService.findOne(shipment.getFromYardID()));
-        shipment.setToYard(yardService.findOne(shipment.getToYardID()));
-        //System.out.println("status = " + shipment.getStatus() );
-        if(shipment.getStatus().equals(shipment.getStatusComplete()) ){
-            //System.out.println("status is equal to completed!");
-            shipment.giveToYardDoubles();
-            shipment.giveToYardSingles();
-            shipment.giveToYardSupers();
-        }
         shipmentService.save(shipment);
         return "shipment/list";
     }
