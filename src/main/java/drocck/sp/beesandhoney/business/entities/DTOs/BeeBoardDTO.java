@@ -30,7 +30,9 @@ public class BeeBoardDTO {
         this.shipments = shipments;
     }
 
-    public int getActiveShipments() { return shipments.size(); }
+    public int getActiveShipments() {
+        return shipments.size();
+    }
 
     public int getTotalSingles() {
         int singles = 0;
@@ -71,41 +73,42 @@ public class BeeBoardDTO {
 
     public double getSinglesPercent() {
         double percent = 0;
-        if(getTotalHives() != 0) {
-            percent = (this.getTotalSingles() / this.getTotalHives()) * 100;
-        }
+        int totalHives = getTotalHives();
+        if (totalHives > 0)
+            percent = (getTotalSingles() / totalHives) * 100;
         return percent;
     }
 
     public double getDoublesPercent(){
         double percent = 0;
-        if(getTotalHives() != 0) {
-            percent = (this.getTotalDoubles() / this.getTotalHives()) * 100;
-        }
+        int totalHives = getTotalHives();
+        if (totalHives > 0)
+            percent = (getTotalDoubles() / totalHives) * 100;
         return percent;
     }
 
     public double getSupersPercent(){
         double percent = 0;
-        if(getTotalHives() != 0) {
-            percent = (this.getTotalSupers() / this.getTotalHives()) * 100;
-        }
+        int totalHives = getTotalHives();
+        if (totalHives > 0)
+            percent = (getTotalSupers() / totalHives) * 100;
         return percent;
     }
 
     public double getDudsPercent(){
         double percent = 0;
-        if(getTotalHives() != 0) {
-            percent = (this.getTotalDuds() / this.getTotalHives()) * 100;
+        int totalHives = getTotalHives();
+        if(totalHives > 0) {
+            percent = (getTotalDuds() / totalHives) * 100;
         }
         return percent;
     }
+
     public Yard getOneYard(long id){
         Yard yard = new Yard();
-        for(Yard y : yards){
-            if(y.getId().equals(id)){
+        for (Yard y : yards){
+            if(y.getId().equals(id))
                 yard = y;
-            }
         }
         return yard;    //Returns new yard if IDs don't match
     }
