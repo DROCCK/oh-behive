@@ -71,7 +71,7 @@ public class BeeBoardDTO {
     public int getTotalHives() {
         int total = 0;
         for (Yard y : yards)
-            total += (y.getSingles() + y.getDoubles() + y.getSupers() - y.getDuds());
+            total += (y.getSingles() + y.getDoubles() + y.getSupers() + y.getDuds());
         return total;
     }
 
