@@ -3,6 +3,7 @@ package drocck.sp.beesandhoney.business.entities.DTOs;
 import drocck.sp.beesandhoney.business.entities.Shipment;
 import drocck.sp.beesandhoney.business.entities.Yard;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -10,6 +11,9 @@ import java.util.List;
  *         Created on 10/24/2015.
  */
 public class BeeBoardDTO {
+
+    private DecimalFormat df = new DecimalFormat("0.00");
+
     private List<Yard> yards;
 
     private List<Shipment> shipments;
@@ -72,43 +76,36 @@ public class BeeBoardDTO {
     }
 
     public double getSinglesPercent() {
-        double percent = 0;
-        int totalHives = getTotalHives();
-        if (totalHives > 0)
-            percent = (getTotalSingles() / totalHives) * 100;
-        return percent;
+        return getPercentage(getTotalSingles(), getTotalHives());
     }
 
     public double getDoublesPercent(){
-        double percent = 0;
-        int totalHives = getTotalHives();
-        if (totalHives > 0)
-            percent = (getTotalDoubles() / totalHives) * 100;
-        return percent;
+        return getPercentage(getTotalDoubles(), getTotalHives());
     }
 
     public double getSupersPercent(){
-        double percent = 0;
-        int totalHives = getTotalHives();
-        if (totalHives > 0)
-            percent = (getTotalSupers() / totalHives) * 100;
-        return percent;
+        return getPercentage(getTotalSupers(), getTotalHives());
     }
 
     public double getDudsPercent(){
-        double percent = 0;
-        int totalHives = getTotalHives();
-        if(totalHives > 0) {
-            percent = (getTotalDuds() / totalHives) * 100;
-        }
-        return percent;
+        return getPercentage(getTotalDuds(), getTotalHives());
+    }
+
+    private double getPercentage(int num, int total) {
+        return total > 0 ? getFormattedPercent(num, total) : 0.0;
+    }
+
+    private double getFormattedPercent(int num, int total) {
+        return Double.parseDouble(df.format((num / total) * 100));
     }
 
     public Yard getOneYard(long id){
         Yard yard = new Yard();
         for (Yard y : yards){
-            if(y.getId().equals(id))
+            if(y.getId().equals(id)) {
                 yard = y;
+                break;
+            }
         }
         return yard;    //Returns new yard if IDs don't match
     }
