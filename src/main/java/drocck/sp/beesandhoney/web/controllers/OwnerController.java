@@ -1,7 +1,6 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Owner;
-import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.services.OwnerService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.juli.logging.Log;
@@ -14,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Created by Oscar on 9/27/2015.
+ * Created by Oscar
+ * on 9/27/2015.
  */
 
 @Controller
@@ -52,7 +52,7 @@ public class OwnerController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@ModelAttribute(value = "owner") Owner owner) {
         ownerService.save(owner);
-        return "redirect:owner/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "read/{id}", method = RequestMethod.GET)
@@ -72,7 +72,7 @@ public class OwnerController {
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(Owner owner) {
         ownerService.update(owner);
-        return "redirect:owner/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
@@ -83,6 +83,6 @@ public class OwnerController {
     @RequestMapping(value = "/confirmedDelete/{id}")
     public String deleteConfirmed(@PathVariable("id") Long id){
         ownerService.delete(id);
-        return "redirect:/owner/list";
+        return "redirect:list";
     }
 }

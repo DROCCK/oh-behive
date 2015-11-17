@@ -55,7 +55,7 @@ public class ShipmentController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Shipment shipment) {
         shipmentService.save(shipment);
-        return "redirect:shipment/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
@@ -85,7 +85,7 @@ public class ShipmentController {
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         shipmentService.delete(id);
-        return "redirect:shipment/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

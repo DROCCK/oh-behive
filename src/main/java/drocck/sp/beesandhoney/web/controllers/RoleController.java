@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *         Created on 10/10/2015.
  */
 @Controller
+@RequestMapping("role")
 public class RoleController {
 
     @Autowired
@@ -33,7 +34,7 @@ public class RoleController {
     @RequestMapping(value = "role/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("role") Role role) {
         roleService.save(role);
-        return "redirect:role/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "role/read/{id}", method = RequestMethod.GET)
@@ -51,7 +52,7 @@ public class RoleController {
     @RequestMapping(value = "role/updateRole/{id}", method = RequestMethod.POST)
     public String updateRole(@PathVariable Long id, Role role) {
         roleService.save(role);
-        return "redirect:role/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "role/delete/{id}")
@@ -63,7 +64,7 @@ public class RoleController {
     @RequestMapping(value = "role/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         roleService.delete(id);
-        return "redirect:role/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "role/list", method = RequestMethod.GET)

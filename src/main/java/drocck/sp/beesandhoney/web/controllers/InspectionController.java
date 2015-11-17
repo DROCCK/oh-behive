@@ -79,7 +79,7 @@ public class InspectionController {
         long redirect = inspection.getDropSite().getId();
         inspection.setIsFed(fedChecked);
         inspectionService.save(inspection);
-        return "redirect:inspection/list/" + redirect;
+        return "redirect:list/" + redirect;
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -93,7 +93,7 @@ public class InspectionController {
         Inspection i = inspectionService.findOne(id);
         long redirect = i.getDropSite().getId();
         inspectionService.delete(i);
-        return "redirect:/list/" + redirect;
+        return "redirect:list/" + redirect;
     }
 
     @RequestMapping(value = "/create")

@@ -20,6 +20,7 @@ import java.util.List;
  * Created by Kyle on 10/10/2015.
  */
 @Controller
+@RequestMapping("employee")
 public class EmployeeController {
 
     @Autowired
@@ -33,14 +34,12 @@ public class EmployeeController {
 
     @ModelAttribute("allEmployees")
     public List<Employee> populateEmployees() {
-        List<Employee> allEmployees = employeeService.findAll();
-        return allEmployees;
+        return employeeService.findAll();
     }
 
     @ModelAttribute("allUsers")
     public Collection<User> populateUsers() {
-        Collection<User> allUsers = userService.findAll();
-        return allUsers;
+        return userService.findAll();
     }
 
 
@@ -57,7 +56,7 @@ public class EmployeeController {
     @RequestMapping(value = "employee/create", method = RequestMethod.POST)
     public String create(@ModelAttribute Employee employee) {
         employeeService.save(employee);
-        return "redirect:employee/list.html";
+        return "redirect:list.html";
     }
 
     @RequestMapping(value = "employee/read/{id}", method = RequestMethod.GET)
@@ -75,7 +74,7 @@ public class EmployeeController {
     @RequestMapping(value = "employee/updateEmployee/{id}", method = RequestMethod.POST)
     public String update(Employee employee) {
         employeeService.update(employee);
-        return "redirect:employee/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "employee/delete/{id}", method = RequestMethod.GET)
@@ -87,7 +86,7 @@ public class EmployeeController {
     @RequestMapping(value = "employee/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         employeeService.delete(id);
-        return "redirect:employee/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "employee/list", method = RequestMethod.GET)

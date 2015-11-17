@@ -39,7 +39,6 @@ public class ShipmentService {
     }
 
     public Shipment save(Shipment shipment) {
-
         Yard from = shipment.getFromYard();
 
         if (shipment.getStatus().equals(Shipment.COMPLETE))

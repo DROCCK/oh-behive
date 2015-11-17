@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *         Created on 10/6/2015.
  */
 @Controller
+@RequestMapping("contactInfo")
 public class ContactInfoController {
 
     @Autowired
@@ -33,7 +34,7 @@ public class ContactInfoController {
     @RequestMapping(value = "contactInfo/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("contactInfo") ContactInfo contactInfo) {
         contactInfoService.save(contactInfo);
-        return "redirect:contactInfo/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "contactInfo/read/{id}", method = RequestMethod.GET)
@@ -52,7 +53,7 @@ public class ContactInfoController {
     public String update(@PathVariable Long id, @ModelAttribute("contactInfo") ContactInfo contactInfo) {
         contactInfo.setId(id);
         contactInfoService.update(contactInfo);
-        return "redirect:contactInfo/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "contactInfo/delete/{id}", method = RequestMethod.GET)
@@ -64,7 +65,7 @@ public class ContactInfoController {
     @RequestMapping("contactInfo/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         contactInfoService.delete(id);
-        return "redirect:contactInfo/list";
+        return "redirect:list";
     }
 
     @RequestMapping("contactInfo/list")

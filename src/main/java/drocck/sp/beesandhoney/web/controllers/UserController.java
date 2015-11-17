@@ -25,6 +25,7 @@ import java.util.NoSuchElementException;
  *         Created on 10/3/2015.
  */
 @Controller
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -75,7 +76,7 @@ public class UserController {
             result.reject("email.exists", "Email already exists!");
             return "create";
         }
-        return "redirect:user/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "user/create", method = RequestMethod.GET)
@@ -87,7 +88,7 @@ public class UserController {
     @RequestMapping(value = "user/create", method = RequestMethod.POST)
     public String create(@ModelAttribute User user, BindingResult result, Model model) {
         userService.save(user);
-        return "redirect:user/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "user/read/{id}", method = RequestMethod.GET)
@@ -107,7 +108,7 @@ public class UserController {
         user.setId(id);
         user.setRoles(userService.findOne(id).getRoles());
         userService.update(user);
-        return "redirect:user/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "user/delete/{id}", method = RequestMethod.GET)
@@ -120,7 +121,7 @@ public class UserController {
     public String confirmedDelete(@PathVariable Long id, @ModelAttribute("user") User user) {
         user.setId(id);
         userService.delete(id);
-        return "redirect:user/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "user/list", method = RequestMethod.GET)
