@@ -79,31 +79,31 @@ public class UserController {
         return "redirect:list";
     }
 
-    @RequestMapping(value = "user/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model) {
         model.addAttribute("currentRoles", roleService.findAll());
         return "user/create";
     }
 
-    @RequestMapping(value = "user/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@ModelAttribute User user, BindingResult result, Model model) {
         userService.save(user);
         return "redirect:list";
     }
 
-    @RequestMapping(value = "user/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
         model.addAttribute("user", userService.findOne(id));
         return "user/read";
     }
 
-    @RequestMapping(value = "user/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
         model.addAttribute("user",userService.findOne(id));
         return "user/update";
     }
 
-    @RequestMapping(value = "user/updateUser/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateUser/{id}", method = RequestMethod.POST)
     public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user) {
         user.setId(id);
         user.setRoles(userService.findOne(id).getRoles());
@@ -111,20 +111,20 @@ public class UserController {
         return "redirect:list";
     }
 
-    @RequestMapping(value = "user/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("user", userService.findOne(id));
         return "user/delete";
     }
 
-    @RequestMapping(value = "user/confirmedDelete/{id}")
+    @RequestMapping(value = "/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id, @ModelAttribute("user") User user) {
         user.setId(id);
         userService.delete(id);
         return "redirect:list";
     }
 
-    @RequestMapping(value = "user/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("users", userService.findAll());
         return "user/list";

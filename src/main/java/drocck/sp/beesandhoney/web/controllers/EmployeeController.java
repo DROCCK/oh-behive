@@ -48,48 +48,48 @@ public class EmployeeController {
         return new Employee();
     }
 
-    @RequestMapping(value = "employee/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
         return "employee/create";
     }
 
-    @RequestMapping(value = "employee/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@ModelAttribute Employee employee) {
         employeeService.save(employee);
         return "redirect:list.html";
     }
 
-    @RequestMapping(value = "employee/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
         model.addAttribute(employeeService.findOne(id));
         return "employee/read";
     }
 
-    @RequestMapping(value = "employee/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
         model.addAttribute("employee", employeeService.findOne(id));
         return "employee/update";
     }
 
-    @RequestMapping(value = "employee/updateEmployee/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateEmployee/{id}", method = RequestMethod.POST)
     public String update(Employee employee) {
         employeeService.update(employee);
         return "redirect:list";
     }
 
-    @RequestMapping(value = "employee/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("employee", employeeService.findOne(id));
         return "employee/delete";
     }
 
-    @RequestMapping(value = "employee/confirmedDelete/{id}")
+    @RequestMapping(value = "/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         employeeService.delete(id);
         return "redirect:list";
     }
 
-    @RequestMapping(value = "employee/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("people", employeeService.findAll());
         return "employee/list";
