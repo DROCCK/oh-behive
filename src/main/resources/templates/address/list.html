@@ -2,29 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Addresses</title>
+    <title th:text="|#{list} #{addresses}|">Addresses</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Addresses |
+    <h2 class="list-header" th:text="|#{addresses} #{pipe} |"></h2>
         <a th:href="@{/address/create}">
             <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
                title="Add Address">
                 add_circle_outline
             </i>
         </a>
-    </h2>
+
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
-            <th>Street</th>
-            <th>Suite/Apt</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Zip</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th th:text="#{street}">Street</th>
+            <th th:text="#{apartment}">Suite/Apt</th>
+            <th th:text="#{city}">City</th>
+            <th th:text="#{state}">State</th>
+            <th th:text="#{zip}">Zip</th>
+            <th th:text="#{edit}">Edit</th>
+            <th th:text="#{delete}">Delete</th>
         </tr>
         </thead>
         <tbody th:each="address : ${addresses}">

@@ -2,27 +2,26 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Contact List</title>
+    <title th:text="|#{list} #{contacts}|">Contact List</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Contacts |
-        <a th:href="@{/contactInfo/create}">
-            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
-               title="Add Contact">
-                add_circle_outline
-            </i>
-        </a>
-    </h2>
+    <h2 class="list-header" th:text="|#{contacts} #{pipe}|"></h2>
+    <a th:href="@{/contactInfo/create}">
+        <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+           title="Add Contact">
+            add_circle_outline
+        </i>
+    </a>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th th:text="#{email}"></th>
+            <th th:text="#{phone}"></th>
+            <th th:text="#{address}"></th>
+            <th th:text="#{edit}"></th>
+            <th th:text="#{delete}"></th>
         </tr>
         </thead>
         <tbody th:each="contactInfo : ${contactInfos}">

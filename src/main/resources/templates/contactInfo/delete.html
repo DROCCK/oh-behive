@@ -2,23 +2,31 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Delete ContactInfo</title> <!-- add your title here -->
+    <title th:text="|#{delete} #{contact}|">Delete ContactInfo</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Are you sure you want to delete this record?</h2> <!-- replace with your content -->
+    <h2 th:text="#{areYouSure}"></h2>
+
     <div>
-        <h3>Email: <label th:text="${contactInfo.email}"></label></h3>
-        <h3>Phone: <label th:text="${contactInfo.phone}"></label></h3>
-        <h3>Street: <label th:text="${contactInfo.address.street}"></label></h3>
-        <h3>Suite/Apt#: <label th:text="${contactInfo.address.apt}"></label></h3>
-        <h3>City: <label th:text="${contactInfo.address.city}"></label></h3>
-        <h3>State: <label th:text="${contactInfo.address.state}"></label></h3>
-        <h3>Zip: <label th:text="${contactInfo.address.zip}"></label></h3>
+        <h3 th:text="|#{email}: ${contactInfo.email}|"></h3>
+
+        <h3 th:text="|#{phone}: ${contactInfo.phone}|"></h3>
+
+        <h3 th:text="|#{street}: ${contactInfo.address.street}|"></h3>
+
+        <h3 th:text="|#{apartment}: ${contactInfo.address.apt}|"></h3>
+
+        <h3 th:text="|#{city}: ${contactInfo.address.city}|"></h3>
+
+        <h3 th:text="|#{state}: ${contactInfo.address.state}|"></h3>
+
+        <h3 th:text="|#{zip}: ${contactInfo.address.zip}|"></h3>
     </div>
-    <a class="btn btn-danger" th:href="@{/contactInfo/confirmedDelete/{id}(id = ${contactInfo.id})}">Confirm Delete</a>
-    <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
+    <a class="btn btn-danger" th:href="@{/contactInfo/confirmedDelete/{id}(id = ${contactInfo.id})}"
+       th:text="|#{confirm} #{delete}|"></a>
+    <button type="button" onClick="goBack()" class="btn btn-default" th:text="#{cancel}">Cancel</button>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>

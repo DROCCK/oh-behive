@@ -46,7 +46,7 @@ public class Address {
     }
 
     public String getApt() {
-        return apt;
+        return apt == null ? "" : apt;
     }
 
     public void setApt(String apt) {
