@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title th:text="|#{read} #{region}|"></title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h2 th:text="#{region}"></h2>
+
+    <div>
+        <h3 th:text="|Id: ${region.id}|"></h3>
+
+        <h3 th:text="|#{name}: ${region.name}|"></h3>
+    </div>
+    <button type="button" onClick="goBack()" class="btn btn-default" th:text="#{goBack}">Go Back</button>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

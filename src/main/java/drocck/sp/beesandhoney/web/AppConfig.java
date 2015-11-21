@@ -86,6 +86,9 @@ public class AppConfig {
     }
 
     @Bean
+    public RegionService regionService() { return new RegionService(); }
+
+    @Bean
     public RoleService roleService() { return new RoleService(); }
 
     @Bean

@@ -2,11 +2,13 @@ package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Owner;
 import drocck.sp.beesandhoney.business.entities.Person;
+import drocck.sp.beesandhoney.business.entities.Region;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.services.AddressService;
 import drocck.sp.beesandhoney.business.services.OwnerService;
 import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.YardService;
+import drocck.sp.beesandhoney.business.services.RegionService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class YardController {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private RegionService regionService;
 
     // Helper Methods
 
@@ -65,6 +70,11 @@ public class YardController {
     @ModelAttribute("allPeople")
     public List<Person> populatePeople() {
         return personService.findAll();
+    }
+
+    @ModelAttribute("allRegions")
+    public @ResponseBody List<Region> allRegions() {
+        return regionService.findAll();
     }
 
     @ModelAttribute("yard")
