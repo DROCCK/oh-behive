@@ -8,13 +8,35 @@
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
     <h2 class="list-header" th:text="|#{addresses} #{pipe} |"></h2>
-        <a th:href="@{/address/create}">
-            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
-               title="Add Address">
-                add_circle_outline
-            </i>
-        </a>
+    <a th:href="@{/address/create}">
+        <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+           title="Add Address">
+            add_circle_outline
+        </i>
+    </a>
 
+    <div class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" th:each="address : ${addresses}" th:id="'dm-' + ${address.id}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" th:text="|#{delete} #{address}|"></h4>
+                </div>
+                <div class="modal-body">
+                    <p th:text="#{areYouSure}"></p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-danger"
+                       th:href="@{/address/confirmedDelete/{id}(id = ${address.id})}"
+                       th:text="|#{confirm} #{delete}|"></a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            th:text="#{cancel}"></button>
+                </div>
+            </div>
+        </div>
+    </div>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
@@ -42,7 +64,7 @@
                 </a>
             </td>
             <td>
-                <a th:href="@{/address/delete/{id}(id=${address.id})}">
+                <a data-toggle="modal" th:attr="data-target='#dm-' + ${address.id}">
                     <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Address">
                         delete
                     </i>

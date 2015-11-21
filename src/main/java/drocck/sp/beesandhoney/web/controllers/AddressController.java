@@ -65,7 +65,7 @@ public class AddressController {
     @RequestMapping(value = "/confirmedDelete/{id}")
     public String delete(@PathVariable Long id) {
         addressService.delete(id);
-        return "redirect:list";
+        return "redirect:/address/list";
     }
 
     @RequestMapping("/list")
