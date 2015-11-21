@@ -17,10 +17,10 @@
         <div th:unless="${yard != null}">
         <!-- Only shows up because redirected without parent yard-->
             <div class="form-group">
-                <label class="control-label col-sm-2" for="date"> <span th:text="#{yard}"></span></label>
+                <label class="control-label col-sm-2" for="yardid"> <span th:text="#{yard}"></span></label>
 
                 <div class="col-sm-10">
-                    <select class="form-control" th:field="*{dropYard}" id="yardid" name="yardid">
+                    <select class="form-control" th:field="*{dropYard.id}" id="yardid" name="yardid">
                         <option th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}">Yard</option>
                     </select>
                 </div>
@@ -33,6 +33,22 @@
             <div class="col-sm-10">
                 <input type="date" class="form-control" th:field="*{sqlDate}" id="date"
                        placeholder="Drop Creation Date"/>
+            </div>
+        </div>
+        <!-- Singles -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="singles" th:text="#{singles}"></label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{singles}" id="singles" placeholder="0"/>
+            </div>
+        </div>
+        <!--Doubles-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="doubles" th:text="#{doubles}"></label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{doubles}" id="doubles" placeholder="0"/>
             </div>
         </div>
         <!--Latitude-->
