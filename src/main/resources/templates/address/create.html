@@ -7,7 +7,7 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2 th:text="#{address}">Create Address</h2>
+    <h2 th:text="|#{create} #{address}|">Create Address</h2>
 
     <form action="#" th:action="@{/address/create}" th:object="${address}" method="post" class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>

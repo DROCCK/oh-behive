@@ -13,8 +13,8 @@
 
             <form class="form-horizontal" action="#" th:action="@{/login}" method="post">
                 <div class="container">
-                    <div th:if="${param.error}" th:text="#{loginError}"></div>
-                    <div th:if="${param.logout}" th:text="#{loggedOut}"></div>
+                    <div class="col-sm-offset-4" th:if="${param.error}" th:text="#{loginError}"></div>
+                    <div class="col-sm-offset-4" th:if="${param.logout}" th:text="#{loggedOut}"></div>
                 </div>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
