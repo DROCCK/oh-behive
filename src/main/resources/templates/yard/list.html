@@ -30,12 +30,12 @@
             }
         };
     </script>
-    <title>List Yards</title> <!-- save your title here -->
+    <title th:title="|#{list} #{yards}|">List Yards</title> <!-- save your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Yards |
+    <h2><span th:text="#{yards}">Yards</span> |
         <a th:href="@{/yard/create/}">
             <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
                title="Add Yard">
@@ -49,16 +49,16 @@
         <thead>
         <tr>
             <th data-field="id" data-sortable="true">ID</th>
-            <th data-field="yardName" data-sortable="true">Name</th>
-            <th data-field="status" data-sortable="true">Status</th>
-            <th data-field="combo" data-sortable="true">Combo</th>
-            <th data-field="address.street">Address</th>
-            <th data-field="accessNotes" data-sortable="true">Access Notes</th>
-            <th data-field="maxHives" data-sortable="true">Max Hives</th>
-            <th data-field="owner.person.name">Owner</th>
-            <th data-field="rentReceiver.name">Pay Rent To</th>
-            <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents">Edit</th>
-            <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents">Delete</th>
+            <th data-field="yardName" data-sortable="true" th:text="#{name}">Name</th>
+            <th data-field="status" data-sortable="true" th:text="#{status}">Status</th>
+            <th data-field="combo" data-sortable="true" th:text="#{key}">Combo</th>
+            <th data-field="address.street" th:text="#{address}">Address</th>
+            <th data-field="accessNotes" data-sortable="true" th:text="#{accessNotes}">Access Notes</th>
+            <th data-field="maxHives" data-sortable="true" th:text="#{maxHives}">Max Hives</th>
+            <th data-field="owner.person.name" th:text="#{owner}">Owner</th>
+            <th data-field="rentReceiver.name" th:text="#{rentPayee}">Pay Rent To</th>
+            <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents" th:text="#{edit}">Edit</th>
+            <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents" th:text="#{delete}">Delete</th>
         </tr>
         </thead>
     </table>

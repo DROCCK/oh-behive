@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
-    <title>Create Yard</title>
+    <title th:text="|#{create} #{yard}|">Create Yard</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Create Bee Yard</h2>
+    <h2 th:text="|#{create} #{yard}|">Create Bee Yard</h2>
     <form class="form-horizontal" role="form" action="#" th:action="@{/yard/create}" th:object="${yard}" method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="yardName">Yard Name: </label>
+            <label class="control-label col-sm-2" for="yardName" th:text="|#{yard} #{name}|">Yard Name: </label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{yardName}" id="yardName" placeholder="Yard Name"/>
+                <input type="text" class="form-control" th:field="*{yardName}" id="yardName" placeholder=""/>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="status">Status: </label>
+            <label class="control-label col-sm-2" for="status" th:text="#{status}">Status: </label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" th:field="*{status}" id="status" placeholder="Status"/>
+                <input type="text" class="form-control" th:field="*{status}" id="status" placeholder=""/>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="combo">Combination or Key: </label>
+            <label class="control-label col-sm-2" for="combo" th:text="#{key}">Combination or Key: </label>
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{combo}" id="combo" placeholder="Key or Combo"/>
             </div>
         </div>
         <div class="form-group">
-            <label for="street" class="col-sm-2 control-label">Street</label>
+            <label for="street" class="col-sm-2 control-label" th:text="#{street}">Street</label>
 
             <div class="col-sm-10">
                 <input th:field="*{address.street}" type="text" class="form-control" id="street"
@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group">
-            <label for="apt" class="col-sm-2 control-label">Suite/Apartment#</label>
+            <label for="apt" class="col-sm-2 control-label" th:text="#{apartment}">Suite/Apartment#</label>
 
             <div class="col-sm-10">
                 <input th:field="*{address.apt}" type="text" class="form-control" id="apt"
@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            <label for="city" class="col-sm-2 control-label">City</label>
+            <label for="city" class="col-sm-2 control-label" th:text="#{city}">City</label>
 
             <div class="col-sm-10">
                 <input th:field="*{address.city}" type="text" class="form-control" id="city"
@@ -58,7 +58,7 @@
         </div>
 
         <div class="form-group">
-            <label for="state" class="col-sm-2 control-label">State</label>
+            <label for="state" class="col-sm-2 control-label" th:text="#{state}">State</label>
 
             <div class="col-sm-10">
                 <input th:field="*{address.state}" type="text" class="form-control" id="state"
@@ -67,7 +67,7 @@
         </div>
 
         <div class="form-group">
-            <label for="zip" class="col-sm-2 control-label">Zip</label>
+            <label for="zip" class="col-sm-2 control-label" th:text="#{zip}">Zip</label>
 
             <div class="col-sm-10">
                 <input th:field="*{address.zip}" type="text" class="form-control" id="zip"
@@ -75,7 +75,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="accessNotes">Access Notes: </label>
+            <label class="control-label col-sm-2" for="accessNotes" th:text="#{accessNotes}">Access Notes: </label>
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{accessNotes}" id="accessNotes"
@@ -83,14 +83,14 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="maxHives">Max number of hives: </label>
+            <label class="control-label col-sm-2" for="maxHives" th:text="#{maxHives}">Max number of hives: </label>
 
             <div class="col-sm-10">
                 <input type="number" class="form-control" th:field="*{maxHives}" id="maxHives" placeholder="80"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="owner">Who owns the land?</label>
+            <label class="control-label col-sm-2" for="owner" th:text="#{owner}">Who owns the land?</label>
 
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{owner.id}" id="owner">
@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="rentReceiver">Who is the rent paid too for this land?</label>
+            <label class="control-label col-sm-2" for="rentReceiver" th:text="#{rentPayee}">Who is the rent paid too for this land?</label>
 
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{rentReceiver.id}" id="rentReceiver">
@@ -109,8 +109,8 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Create</button>
-                <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-primary" th:text="#{create}">Create</button>
+                <button type="button" onClick="goBack()" class="btn btn-default" th:text="#{cancel}">Cancel</button>
             </div>
         </div>
     </form>

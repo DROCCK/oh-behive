@@ -3,13 +3,13 @@
 
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>List Inspection</title> <!-- save your title here -->
+    <title th:text="|#{list} #{inspections}">List Inspection</title>
 </head>
 
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Inspections | <a th:unless="${dropSite == null}" th:href="@{/dropsite/list/{id}(id=${dropSite.id})}" th:text="${dropSite.dropYard.yardName}"></a>
+    <h2> <span th:text="#{inspections}">Inspections</span> | <a th:unless="${dropSite == null}" th:href="@{/dropsite/list/{id}(id=${dropSite.id})}" th:text="${dropSite.dropYard.yardName}"></a>
         <a th:unless="${dropSite != null}" th:href="@{/inspection/create/}">
             <i class="material-icons md-36 add-list-icon" data-toggle="tooltip" title="Add Inspection">
                 add_circle_outline
@@ -25,14 +25,14 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Doubles</th>
-            <th>Singles</th>
-            <th>Visit Date</th>
-            <th>Fed</th>
-            <th>Medication Used</th>
-            <th>Notes</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th th:text="#{doubles}">Doubles</th>
+            <th th:text="#{singles}">Singles</th>
+            <th th:text="#{date}">Visit Date</th>
+            <th th:text="#{fed}">Fed</th>
+            <th th:text="#{medication}">Medication Used</th>
+            <th th:text="#{notes}">Notes</th>
+            <th th:text="#{edit}">Edit</th>
+            <th th:text="#{delete}">Delete</th>
         </tr>
         </thead>
 

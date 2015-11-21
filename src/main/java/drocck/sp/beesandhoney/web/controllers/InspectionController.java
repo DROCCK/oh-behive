@@ -75,7 +75,8 @@ public class InspectionController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(Inspection inspection, @RequestParam(value = "fedChecked", required = false) boolean fedChecked) {
+    public String update(Inspection inspection,
+                         @RequestParam(value = "fedChecked", required = false) boolean fedChecked) {
         long redirect = inspection.getDropSite().getId();
         inspection.setIsFed(fedChecked);
         inspectionService.save(inspection);

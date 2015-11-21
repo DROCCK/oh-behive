@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head">
-    <title>Read Yard</title> <!-- save your title here -->
+    <title th:text="|#{read} #{yard}|">Read Yard</title> <!-- save your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Yard Info</h2>
+    <h2 th:text="|#{yard} #{information}|">Yard Info</h2>
 
     <div class="col-md-6">
 
-        <h2>Yard Info</h2>
+        <h2 th:text="|#{yard} #{information}|">Yard Info</h2>
 
         <p th:text="${yard.yardName}">name</p>
 
@@ -22,11 +22,11 @@
 
         <p th:text="${yard.accessNotes}">access location</p>
 
-        <p> Max Hive Capacity: <span th:text="${yard.maxHives}">status</span></p>
+        <p> <span th:text="#{maxHives}">Max Hive Capacity:</span> <span th:text="${yard.maxHives}">status</span></p>
     </div>
 
     <div class="col-md-6">
-        <h2>Yard Owner</h2>
+        <h2 th:text="|#{yard} #{owner}|">Yard Owner</h2>
 
         <p><a th:text="${yard.owner.person.name}" th:href="@{/person/read/{id}(id=${yard.owner.id})}"></a></p>
 
@@ -45,7 +45,7 @@
         <p th:text="${yard.owner.person.contactInfo.address.state}"></p>
 
         <div th:unless="${yard.owner == yard.rentReceiver}">
-            <h2>Info about yard rent receiver</h2>
+            <h2 th:text="#{rentPayee}">Info about yard rent receiver</h2>
 
             <p><a th:text="${yard.rentReceiver.name}"
                   th:href="@{/person/read/{id}(id=${yard.rentReceiver.id})}">name</a></p>
@@ -66,7 +66,7 @@
         </div>
     </div>
     <div class="container">
-        <button type="button" onClick="goBack()" class="btn btn-default">Go Back</button>
+        <button type="button" onClick="goBack()" class="btn btn-default" th:text="#{goBack}">Go Back</button>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
