@@ -96,7 +96,7 @@ public class BeeBoardDTO {
     }
 
     private double getFormattedPercent(int num, int total) {
-        return Double.parseDouble(df.format((num / total) * 100));
+        return Double.parseDouble(df.format(((double) num / (double) total) * 100));
     }
 
     public Yard getOneYard(long id){
