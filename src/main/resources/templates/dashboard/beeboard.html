@@ -6,6 +6,7 @@
     <script th:src="@{/js/bee-board.js}"></script>
     <script>
         function editFormatter(value, row, index) {
+            var modelId = row["id"];
             return [
                 '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
                 '<i class="material-icons bee-board-icon">create</i>',
@@ -39,7 +40,6 @@
                     var long;
                     var arrLength;
                     var labels;
-                    var yardId = row["id"];//Used for map note hyperlink
                     if (row["drops"].length == 0) { //prevents errors from empty drops array. IE yard with no drops.
                         arrLength = 0;
                         lat = 48.8582;  //random lat and long at eiffel tower. Should be changed to yard coordinates. Needs fix.
@@ -53,15 +53,7 @@
                     initialize(long, lat);//sets location of map on first drop location.
                     //Creates Markers for map
                     for (var i = 0; arrLength > i; i++) {
-                        labels = '<div id="mapNote">'+
-                                '<h2 id="Drop Info">Drop Info</h2>'+
-                                '<p>Singles: '+row["drops"][i]["singles"]+'<br/>'+
-                                'Doubles: '+row["drops"][i]["doubles"]+'<br/>'+
-                                'Supers: '+row["drops"][i]["supers"]+'<br/>'+
-                                '<a href="/inspection/list/'+yardId+'">' +
-                                'Check Inspections</a>'+
-                                '</p>'+
-                                '</div>';
+                        labels = row["drops"][i]["id"];
                         createMarkers(row["drops"][i]["longitude"], row["drops"][i]["latitude"], labels); //Cycles through drops and places markers
                     }
                 })();
@@ -86,7 +78,7 @@
                 else
                     $("#lastVisit").html('<b>No Inspections Recorded </b>');
                 if (row["lastFedDate"] != null)
-                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"])
+                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"]);
                 else
                     $("#lastFedDate").html('<b>No Feed Date Recorded </b>');
             });
@@ -248,8 +240,6 @@
     var coords;
     var lat;
     var lng;
-    var markerImage;
-    var shape;
     //Creates and centers map
     function initialize(longitude, latitude) { //Passed in longitude and latitude are just the position of the first drop of the yard.
         lat = latitude;
@@ -264,17 +254,6 @@
         map = new google.maps.Map(
                 document.getElementById("map-div"), mapOptions
         );
-        //generate the bee marker image
-        markerImage = {
-            url: 'http://i.imgur.com/ALU8OuA.png',
-            size: new google.maps.Size(45,45),
-            origin: new google.maps.Point(0,0),
-            anchor: new google.maps.Point(23,45)
-        };
-        shape = {
-            coords:[1,1,1,45,45,45,45,1],
-            type: 'poly'
-        };
     }
     function showError(error) {
         switch (error.code) {
@@ -293,23 +272,16 @@
         }
     }
     //Creates Markers
-    function createMarkers(long, lat, windowLabel) {
-        var infoWindow = new google.maps.InfoWindow({
-            content: windowLabel.toString(),
-            maxWidth:200
-        });
+    function createMarkers(long, lat, label) {
         var latlng = new google.maps.LatLng(lat, long);
+        var labelString = label.toString(); //labels must be strings. Passed in variable label is = dropId
         var marker = new google.maps.Marker({
             position: latlng,
-            icon: markerImage,
-            shape: shape
+            label: labelString
         });
         marker.setMap(map); //must set its map to the pages' map
-        //adds listener to each marker during creation
-        marker.addListener('click', function(){
-            infoWindow.open(map, marker);
-        });
     }
+    //google.maps.event.addDomListener(window, 'load', getLocation);
 </script>
 </body>
 </html>
