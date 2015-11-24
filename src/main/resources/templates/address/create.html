@@ -18,6 +18,7 @@
             <div class="col-sm-10">
                 <input th:field="*{street}" type="text" class="form-control" id="street"
                        placeholder=""/>
+                <td th:if="${#fields.hasErrors('street')}" th:errors="*{street}">Street Error</td>
             </div>
         </div>
 
@@ -36,6 +37,7 @@
             <div class="col-sm-10">
                 <input th:field="*{city}" type="text" class="form-control" id="city"
                        placeholder="City"/>
+                <td th:if="${#fields.hasErrors('city')}" th:errors="*{city}">City Error</td>
             </div>
         </div>
 
@@ -45,15 +47,17 @@
             <div class="col-sm-10">
                 <input th:field="*{state}" type="text" class="form-control" id="state"
                        placeholder="State"/>
+                <td th:if="${#fields.hasErrors('state')}" th:errors="*{state}">State Error</td>
             </div>
         </div>
 
         <div class="form-group">
             <label for="zip" class="col-sm-2 control-label" th:text="#{zip}">Zip</label>
 
-            <div class="col-sm-10">
+            <div class="col-sm-5">
                 <input th:field="*{zip}" type="text" class="form-control" id="zip"
                        placeholder="Zip"/>
+                <td th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}">Zip Error</td>
             </div>
         </div>
 
