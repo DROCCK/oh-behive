@@ -1,6 +1,9 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,12 +46,15 @@ public class Shipment {
     @Column(name = "STATUS")
     private String status;
 
+    @NotBlank
     @Column(name = "TRUCK_ID")
     private String truckId;
 
+    @NotBlank
     @Column(name = "LOAD_NUM")
     private Integer loadNum;
 
+    @NotBlank
     @Column(name = "WEIGHT")
     private Double weight;
 
@@ -58,6 +64,7 @@ public class Shipment {
     @Column(name = "ARRIVAL_DATE")
     private Date arrivalDate;
 
+    @NotBlank
     @Column(name = "CARRIER")
     private String carrier;
 

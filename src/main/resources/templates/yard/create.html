@@ -15,6 +15,7 @@
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{yardName}" id="yardName" placeholder=""/>
+                <td th:if="${#fields.hasErrors('yardName')}" th:errors="*{yardName}">Yard Name Error</td>
             </div>
         </div>
         <div class="form-group">
@@ -22,6 +23,7 @@
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{status}" id="status" placeholder=""/>
+                <td th:if="${#fields.hasErrors('status')}" th:errors="*{status}">Status Error</td>
             </div>
         </div>
         <div class="form-group">

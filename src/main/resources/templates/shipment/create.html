@@ -17,6 +17,7 @@
 
             <div class="col-sm-10">
                 <input type="number" class="form-control" th:field="*{loadNum}" id="loadNum" placeholder="00"/>
+                <td th:if="${#fields.hasErrors('loadNum')}" th:errors="*{loadNum}">Load Number Error</td>
             </div>
         </div>
 
@@ -25,6 +26,7 @@
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{carrier}" id="carrier" placeholder="None"/>
+                <td th:if="${#fields.hasErrors('carrier')}" th:errors="*{carrier}">Carrier Error</td>
             </div>
         </div>
 
@@ -53,6 +55,7 @@
 
             <div class="col-sm-10">
                 <input type="number" class="form-control" th:field="*{weight}" id="weight" placeholder="80"/>
+                <td th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}">Weight Error</td>
             </div>
         </div>
 
@@ -61,6 +64,7 @@
 
             <div class="col-sm-10">
                 <input type="number" class="form-control" th:field="*{truckId}" id="truckId" placeholder="80"/>
+                <td th:if="${#fields.hasErrors('truckId')}" th:errors="*{truckId}">TruckID Error</td>
             </div>
         </div>
 

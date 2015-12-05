@@ -14,12 +14,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 
 /**
  * Created by Connor on 9/26/2015.
@@ -142,8 +144,13 @@ public class YardController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(Yard yard) {
-        yardService.save(yard);
-        return referer;
+    public String create(@Valid Yard yard, BindingResult br) {
+        if(br.hasErrors()){
+            return "yard/create";
+        }
+        else {
+            yardService.save(yard);
+            return referer;
+        }
     }
 }

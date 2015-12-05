@@ -54,7 +54,7 @@
         <div class="form-group">
             <label for="zip" class="col-sm-2 control-label" th:text="#{zip}">Zip</label>
 
-            <div class="col-sm-5">
+            <div class="col-sm-10">
                 <input th:field="*{zip}" type="text" class="form-control" id="zip"
                        placeholder="Zip"/>
                 <td th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}">Zip Error</td>
