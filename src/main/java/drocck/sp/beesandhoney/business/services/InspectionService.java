@@ -66,6 +66,8 @@ public class InspectionService {
 
         // update duds
         int diff = (oldSingles + oldDoubles) - (newSingles + newDoubles);
+        if (yard.getLastVisit() == null)
+            diff = 0;
         yard.setDuds(yard.getDuds() + diff);
         // Update last visit date
         yard.setLastVisit(inspection.getVisitDate());

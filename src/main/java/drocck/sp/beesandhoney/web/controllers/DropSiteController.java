@@ -1,7 +1,11 @@
 package drocck.sp.beesandhoney.web.controllers;
 
-import drocck.sp.beesandhoney.business.entities.*;
-import drocck.sp.beesandhoney.business.services.*;
+import drocck.sp.beesandhoney.business.entities.DropSite;
+import drocck.sp.beesandhoney.business.entities.User;
+import drocck.sp.beesandhoney.business.entities.Yard;
+import drocck.sp.beesandhoney.business.services.DropSiteService;
+import drocck.sp.beesandhoney.business.services.UserService;
+import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +49,15 @@ public class DropSiteController {
     }
 
     @ModelAttribute("allUsers")
-    public Collection<User> createUserList() {return userService.findAll();}
+    public Collection<User> createUserList() {
+        return userService.findAll();
+    }
 
 
     @ModelAttribute("allYards")
-    public List<Yard> createYardList() { return yardService.findAll(); }
+    public List<Yard> createYardList() {
+        return yardService.findAll();
+    }
 
     /**
      * Request Mapping
@@ -63,7 +71,10 @@ public class DropSiteController {
     public String listByYard(@PathVariable Long yardId, Model model) {
         Yard yardDisplayed = yardService.findOne(yardId);
         model.addAttribute("yard", yardDisplayed);
-        model.addAttribute("allDropSites", dropSiteService.findAllByDropYard(yardDisplayed));
+        if (yardDisplayed != null)
+            model.addAttribute("allDropSites", dropSiteService.findAllByDropYard(yardDisplayed));
+        else
+            model.addAttribute("allDropSites", dropSiteService.findAll());
         return "dropsite/list";
     }
 

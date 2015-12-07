@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title th:text="|#{create} #{inspecion}|">Create Inspection</title>
+    <title th:text="|#{create} #{inspection}|">Create Inspection</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2> <span th:text="|#{create} #{inspecion}|">Create Inspection</span> <span th:unless="${dropSite == null}"> | <a th:href="@{/dropsite/list/{id}(id=${dropSite.dropYard.id})}" th:text="${dropSite.dropYard.yardName}" ></a></span></h2>
+    <h2> <span th:text="|#{create} #{inspection}|">Create Inspection</span> <span th:unless="${dropSite == null}"> | <a th:href="@{/dropsite/list/{id}(id=${dropSite.dropYard.id})}" th:text="${dropSite.dropYard.yardName}" ></a></span></h2>
     <form class="form-horizontal" role="form" action="#" th:action="@{/inspection/create}" th:object="${inspection}"
           method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
