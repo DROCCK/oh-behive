@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Login</title>
+    <title th:text="#{login}"></title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
@@ -11,37 +11,34 @@
         <div class="container">
             <h1><b>Miller Honey Farms</b></h1>
 
-            <form class="form-horizontal col-md-6" action="#" th:action="@{/login}" method="post">
+            <form class="form-horizontal" action="#" th:action="@{/login}" method="post">
                 <div class="container">
-                    <div th:if="${param.error}">
-                        Invalid email and/or password.
-                    </div>
-                    <div th:if="${param.logout}">
-                        You have been logged out.
-                    </div>
+                    <div class="col-sm-offset-4" th:if="${param.error}" th:text="#{loginError}"></div>
+                    <div class="col-sm-offset-4" th:if="${param.logout}" th:text="#{loggedOut}"></div>
                 </div>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                 <div class="form-group">
-                    <label for="username" class="col-sm-2 control-label">Username</label>
+                    <label for="username" class="col-sm-4 control-label" th:text="#{username}"></label>
 
-                    <div class="col-sm-10">
-                        <input type="text" id="username" name="username" class="form-control" placeholder="Username"/>
+                    <div class="col-sm-4">
+                        <input type="text" id="username" name="username" class="form-control"
+                               th:placeholder="#{username}"/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="password" class="col-sm-2 control-label">Password</label>
+                    <label for="password" class="col-sm-4 control-label" th:text="#{password}"></label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-4">
                         <input type="password" id="password" name="password" class="form-control"
-                               placeholder="Password"/>
+                               th:placeholder="#{password}"/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-black">Sign In</button>
+                    <div class="col-sm-offset-4 col-sm-10">
+                        <button type="submit" class="btn btn-black" th:text="#{signIn}"></button>
                     </div>
                 </div>
             </form>

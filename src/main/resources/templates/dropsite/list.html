@@ -3,14 +3,22 @@
 
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>List Drops</title> <!-- save your title here -->
+    <title>List Drops</title> <!-- TODO: Internationalization -->
 </head>
 
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
     <h2>Drops |
-        <a th:href="@{/dropsite/create/}">
+        <a th:unless="${yard == null}"  th:href="@{/yard/read/{id}(id=${yard.id})}" th:text="${yard.yardName}"></a>
+        <span th:unless="${yard != null}">All Yards</span>
+        <a th:unless="${yard == null}" th:href="@{/dropsite/create/{id}(id=${yard.id})}">
+            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+               title="Add Drop">
+                add_circle_outline
+            </i>
+        </a>
+        <a th:unless="${yard != null}" th:href="@{/dropsite/create}">
             <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
                title="Add Drop">
                 add_circle_outline
@@ -55,7 +63,7 @@
                 </a>
             </td>
             <td>
-                <a th:href="@{/inspection/create/{id}(id = ${ds.getId()})}">
+                <a th:href="@{/inspection/list/{id}(id = ${ds.getId()})}">
                     <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Inspect">
                         visibility
                     </i>

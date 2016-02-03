@@ -1,7 +1,11 @@
 package drocck.sp.beesandhoney.web.controllers;
 
-import drocck.sp.beesandhoney.business.entities.*;
-import drocck.sp.beesandhoney.business.services.*;
+import drocck.sp.beesandhoney.business.entities.DropSite;
+import drocck.sp.beesandhoney.business.entities.User;
+import drocck.sp.beesandhoney.business.entities.Yard;
+import drocck.sp.beesandhoney.business.services.DropSiteService;
+import drocck.sp.beesandhoney.business.services.UserService;
+import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +49,15 @@ public class DropSiteController {
     }
 
     @ModelAttribute("allUsers")
-    public Collection<User> createUserList() {return userService.findAll();}
+    public Collection<User> createUserList() {
+        return userService.findAll();
+    }
 
 
     @ModelAttribute("allYards")
-    public List<Yard> createYardList() { return yardService.findAll(); }
+    public List<Yard> createYardList() {
+        return yardService.findAll();
+    }
 
     /**
      * Request Mapping
@@ -61,7 +69,12 @@ public class DropSiteController {
 
     @RequestMapping("/list/{yardId}")
     public String listByYard(@PathVariable Long yardId, Model model) {
-        model.addAttribute("allDropSites", dropSiteService.findAllByDropYard(yardService.findOne(yardId)));
+        Yard yardDisplayed = yardService.findOne(yardId);
+        model.addAttribute("yard", yardDisplayed);
+        if (yardDisplayed != null)
+            model.addAttribute("allDropSites", dropSiteService.findAllByDropYard(yardDisplayed));
+        else
+            model.addAttribute("allDropSites", dropSiteService.findAll());
         return "dropsite/list";
     }
 
@@ -76,7 +89,8 @@ public class DropSiteController {
         Optional<User> u = userService.getUserByUsername(name); // extract user
         dropSite.setDropUser(userService.findOne(u.get().getId()));  // set dropsite by finding user by id
         dropSiteService.save(dropSite);
-        return "redirect:dropsite/list";
+        long yardId = dropSite.getDropYard().getId();
+        return "redirect:list/" + yardId;
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
@@ -94,21 +108,32 @@ public class DropSiteController {
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String confirmedDelete(@PathVariable Long id) {
         ArrayList<DropSite> toBeDeleted = new ArrayList<>();
-        toBeDeleted.add(dropSiteService.findOne(id));
+        DropSite drop = dropSiteService.findOne(id);
+        long yardId = drop.getDropYard().getId();
+        toBeDeleted.add(drop);
         dropSiteService.deleteInBatch(toBeDeleted);
-        return "redirect:dropsite/list";
+        return "redirect:list/" +yardId;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create")
     public String create() {
         return "dropsite/create";
     }
 
+    @RequestMapping(value = "/create/{yardId}", method = RequestMethod.GET)
+    public String create(Model model, @PathVariable("yardId") Long yardID) {
+        model.addAttribute("yard", yardService.findOne(yardID));
+        return "dropsite/create";
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(DropSite dropSite, @RequestParam(value = "principalUser", required = true) String name) {
+    public String create(DropSite dropSite,
+                         @RequestParam(value = "principalUser", required = true) String name,
+                         @RequestParam(value = "yardid", required = true) long yardId) {
         Optional<User> u = userService.getUserByUsername(name); // extract user
         dropSite.setDropUser(userService.findOne(u.get().getId()));  // set dropsite by finding user by id
+        dropSite.setDropYard(yardService.findOne(yardId));
         dropSiteService.save(dropSite); // insert into db
-        return "redirect:dropsite/list";
+        return "redirect:list/" + yardId;
     }
 }

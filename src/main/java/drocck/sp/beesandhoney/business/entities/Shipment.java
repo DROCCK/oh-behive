@@ -1,56 +1,60 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
-import java.util.Date;
+import javax.validation.constraints.Size;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Chai
  * on 10/9/2015.
+ * @author Robert Wilk
  */
 @Entity
 public class Shipment {
+
+    public static final String COMPLETE = "Complete";
+    public static final String INACTIVE = "Inactive";
+    public static final String IN_PROGRESS = "In Progress";
 
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "TO_YARD")
     private Yard toYard;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "FROM_YARD")
     private Yard fromYard;
 
-    @Column(name = "TO_YARD_ID")
-    private Long toYardID;
-
-    @Column(name = "FROM_YARD_ID")
-    private Long fromYardID;
-
     @Column(name = "SINGLES")
-    private Integer singleHive;
+    private Integer singles;
 
     @Column(name = "DOUBLES")
-    private Integer doubleHive;
+    private Integer doubles;
 
     @Column(name = "SUPERS")
-    private Integer superHive;
-
-    @Column(name = "IN_ROUTE")
-    private boolean inRoute = true;
+    private Integer supers;
 
     @Column(name = "STATUS")
     private String status;
 
+    @NotBlank
     @Column(name = "TRUCK_ID")
     private String truckId;
 
+    @NotBlank
     @Column(name = "LOAD_NUM")
     private Integer loadNum;
 
+    @NotBlank
     @Column(name = "WEIGHT")
     private Double weight;
 
@@ -60,36 +64,57 @@ public class Shipment {
     @Column(name = "ARRIVAL_DATE")
     private Date arrivalDate;
 
+    @NotBlank
     @Column(name = "CARRIER")
     private String carrier;
 
-    private String inactive = "Inactive";
-    private String complete = "Completed";
-    private String inProgress = "In Progress";
+    public String getCarrier() {
+        return carrier;
+    }
 
-    public String getCarrier() {return carrier;}
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
+    }
 
-    public void setCarrier(String carrier) {this.carrier = carrier;}
+    public Date getArrivalDate() {
+        return arrivalDate;
+    }
 
-    public Date getArrivalDate() {return arrivalDate;}
+    public void setArrivalDate(Date arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
 
-    public void setArrivalDate(Date arrivalDate) {this.arrivalDate = arrivalDate;}
+    public Date getDepartDate() {
+        return departDate;
+    }
 
-    public Date getDepartDate() {return departDate;}
+    public void setDepartDate(Date departDate) {
+        this.departDate = departDate;
+    }
 
-    public void setDepartDate(Date departDate) {this.departDate = departDate;}
+    public Double getWeight() {
+        return weight;
+    }
 
-    public Double getWeight() {return weight;}
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
 
-    public void setWeight(Double weight) {this.weight = weight;}
+    public Integer getLoadNum() {
+        return loadNum;
+    }
 
-    public Integer getLoadNum() {return loadNum;}
+    public void setLoadNum(Integer loadNum) {
+        this.loadNum = loadNum;
+    }
 
-    public void setLoadNum(Integer loadNum) {this.loadNum = loadNum;}
+    public String getTruckId() {
+        return truckId;
+    }
 
-    public String getTruckId() {return truckId;}
-
-    public void setTruckId(String truckId) { this.truckId = truckId;}
+    public void setTruckId(String truckId) {
+        this.truckId = truckId;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -99,28 +124,28 @@ public class Shipment {
         return id;
     }
 
-    public void setSingleHive(Integer singleHive) {
-        this.singleHive = singleHive;
+    public void setSingles(Integer singles) {
+        this.singles = singles;
     }
 
-    public Integer getSingleHive() {
-        return singleHive;
+    public Integer getSingles() {
+        return singles;
     }
 
-    public void setDoubleHive(Integer doubleHive) {
-        this.doubleHive = doubleHive;
+    public void setDoubles(Integer doubles) {
+        this.doubles = doubles;
     }
 
-    public Integer getDoubleHive() {
-        return doubleHive;
+    public Integer getDoubles() {
+        return doubles;
     }
 
-    public void setSuperHive(Integer superHive) {
-        this.superHive = superHive;
+    public void setSupers(Integer supers) {
+        this.supers = supers;
     }
 
-    public Integer getSuperHive() {
-        return superHive;
+    public Integer getSupers() {
+        return supers;
     }
 
     public void setToYard(Yard toYard) {
@@ -139,14 +164,6 @@ public class Shipment {
         return fromYard;
     }
 
-    public boolean isInRoute() {
-        return inRoute;
-    }
-
-    public void setInRoute(boolean inRoute) {
-        this.inRoute = inRoute;
-    }
-
     public void setStatus(String status) {
         this.status = status;
     }
@@ -155,70 +172,16 @@ public class Shipment {
         return status;
     }
 
-    public String getStatusInactive() {
-        return inactive;
+    public static List<String> getStatusNames() {
+        List<String> names = new ArrayList<>();
+        names.add(Shipment.COMPLETE);
+        names.add(Shipment.IN_PROGRESS);
+        names.add(Shipment.INACTIVE);
+        return names;
     }
-
-    public String getStatusComplete() {
-        return complete;
-    }
-
-    public String getStatusInProgress() {
-        return inProgress;
-    }
-
-    public void setToYardID(Long toYardID) {
-        this.toYardID = toYardID;
-    }
-
-    public Long getToYardID() {
-        return toYardID;
-    }
-
-    public void setFromYardID(Long fromYardID) {
-        this.fromYardID = fromYardID;
-    }
-
-    public Long getFromYardID() {
-        return fromYardID;
-    }
-
-    public void takeFromYardSingles(){
-        fromYard.setSingles(fromYard.getSingles() - this.getSingleHive());
-    }
-
-    public void takeFromYardDoubles(){
-        fromYard.setDoubles(fromYard.getDoubles() - this.getDoubleHive());
-    }
-
-    public void takeFromYardSupers(){
-        fromYard.setSupers(fromYard.getSupers() - this.getSuperHive());
-    }
-
-    public void giveToYardSingles(){
-        toYard.setSingles(toYard.getSingles() + this.getSingleHive());
-    }
-
-    public void giveToYardDoubles(){
-        toYard.setDoubles(toYard.getDoubles() + this.getDoubleHive());
-    }
-
-    public void giveToYardSupers(){
-        toYard.setSupers(toYard.getSupers() + this.getSuperHive());
-    }
-
-    /*
-    public void decrementMaxHives(){
-        fromYard.setMaxHives(fromYard.getMaxHives() - (this.getSingleHive() + this.getDoubleHive()));
-    }
-
-    public void incrementMaxHives(){
-        toYard.setMaxHives(toYard.getMaxHives() + (this.getSingleHive() + this.getDoubleHive()) );
-    }
-    */
 
     @Override
     public String toString() {
-        return "Shipment [id="+this.id+" singleHive="+this.singleHive +" doubleHive="+this.doubleHive+"]";
+        return "Shipment [id="+this.id+" singles="+this.singles +" doubles="+this.doubles +"]";
     }
 }

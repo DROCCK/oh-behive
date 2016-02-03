@@ -2,17 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Read Role</title> <!-- add your title here -->
+    <title th:text="|#{read} #{role}|"></title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Role Info</h2> <!-- replace with your content -->
+    <h2 th:text="#{role}"></h2>
+
     <div>
-        <h3>Id: <label th:text="${role.id}"></label></h3>
-        <h3>Name: <label th:text="${role.name}"></label></h3>
+        <h3 th:text="|Id: ${role.id}|"></h3>
+
+        <h3 th:text="|#{name}: ${role.name}|"></h3>
     </div>
-    <button type="button" onClick="goBack()" class="btn btn-default">Go Back</button>
+    <button type="button" onClick="goBack()" class="btn btn-default" th:text="#{goBack}">Go Back</button>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>

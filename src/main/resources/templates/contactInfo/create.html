@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Create Contact</title> <!-- add your title here -->
+    <title th:text="|#{create} #{contact}|"></title> <!-- add your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Create Contact Information</h2>
+    <h2 th:text="|#{create} #{contact}|"></h2>
 
     <form action="#" th:action="@{/contactInfo/create}" th:object="${contactInfo}" method="post"
           class="form-horizontal">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">Email</label>
+            <label for="email" class="col-sm-2 control-label" th:text="#{email}"></label>
 
             <div class="col-sm-10">
                 <input th:field="*{email}" type="email" class="form-control" id="email"
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="phone" class="col-sm-2 control-label">Phone</label>
+            <label for="phone" class="col-sm-2 control-label" th:text="#{phone}"></label>
 
             <div class="col-sm-10">
                 <input th:field="*{phone}" type="text" class="form-control" id="phone"
@@ -30,7 +30,7 @@
         </div>
 
         <div class="form-group">
-            <label for="street" class="col-sm-2 control-label">Street</label>
+            <label for="street" class="col-sm-2 control-label" th:text="#{street}"></label>
 
             <div class="col-sm-10">
                 <input th:field="*{address.street}" type="text" class="form-control" id="street"
@@ -39,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            <label for="apt" class="col-sm-2 control-label">Suite/Apartment#</label>
+            <label for="apt" class="col-sm-2 control-label" th:text="#{apartment}"></label>
 
             <div class="col-sm-10">
                 <input th:field="*{address.apt}" type="text" class="form-control" id="apt"
@@ -48,7 +48,7 @@
         </div>
 
         <div class="form-group">
-            <label for="city" class="col-sm-2 control-label">City</label>
+            <label for="city" class="col-sm-2 control-label" th:text="#{city}"></label>
 
             <div class="col-sm-10">
                 <input th:field="*{address.city}" type="text" class="form-control" id="city"
@@ -57,7 +57,7 @@
         </div>
 
         <div class="form-group">
-            <label for="state" class="col-sm-2 control-label">State</label>
+            <label for="state" class="col-sm-2 control-label" th:text="#{state}"></label>
 
             <div class="col-sm-10">
                 <input th:field="*{address.state}" type="text" class="form-control" id="state"
@@ -66,7 +66,7 @@
         </div>
 
         <div class="form-group">
-            <label for="zip" class="col-sm-2 control-label">Zip</label>
+            <label for="zip" class="col-sm-2 control-label" th:text="#{zip}">Zip</label>
 
             <div class="col-sm-10">
                 <input th:field="*{address.zip}" type="text" class="form-control" id="zip"
@@ -76,8 +76,8 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Create</button>
-                <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-primary" th:text="#{create}">Create</button>
+                <button type="button" onClick="goBack()" class="btn btn-default" th:text="#{cancel}">Cancel</button>
             </div>
         </div>
     </form>

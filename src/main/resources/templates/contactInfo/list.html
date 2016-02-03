@@ -2,51 +2,73 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Contact List</title>
+    <title th:text="|#{list} #{contacts}|">Contact List</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Contacts |
-        <a th:href="@{/contactInfo/create}">
-            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
-               title="Add Contact">
-                add_circle_outline
-            </i>
-        </a>
-    </h2>
+    <h2 class="list-header" th:text="|#{contacts} #{pipe}|"></h2>
+    <a th:href="@{/contactInfo/create}">
+        <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+           title="Add Contact">
+            add_circle_outline
+        </i>
+    </a>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th th:text="#{email}"></th>
+            <th th:text="#{phone}"></th>
+            <th th:text="#{address}"></th>
+            <th th:text="#{edit}"></th>
+            <th th:text="#{delete}"></th>
         </tr>
         </thead>
         <tbody th:each="contactInfo : ${contactInfos}">
         <tr>
-            <td th:text="${contactInfo.email}">Email</td>
-            <td th:text="${contactInfo.phone}">Phone</td>
-            <td th:text="${contactInfo.address}">Address</td>
+            <td th:text="${contactInfo.email}"></td>
+            <td th:text="${contactInfo.phone}"></td>
+            <td th:text="${contactInfo.address}"></td>
             <td>
                 <a th:href="@{/contactInfo/update/{id}(id=${contactInfo.id})}">
-                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Contact Info">
+                    <span data-toggle="tooltip" th:title="|#{edit} #{contact}|">
+                    <i class="material-icons md-24 bee-board-icon">
                         create
                     </i>
+                    </span>
                 </a>
             </td>
             <td>
-                <a th:href="@{/contactInfo/delete/{id}(id=${contactInfo.id})}">
-                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Contact Info">
+                <a th:href="@{/contactInfo/delete/{id}(id=${contactInfo.id})}" data-toggle="modal" data-target="">
+                    <span data-toggle="tooltip" th:title="|#{delete} #{contact}|">
+                    <i class="material-icons md-24 bee-board-icon">
                         delete
                     </i>
+                    </span>
                 </a>
             </td>
         </tr>
         </tbody>
     </table>
+</div>
+<div class="modal fade delete-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" th:text="|#{delete} #{contact}|"></h4>
+            </div>
+            <div class="modal-body">
+                <p th:text="#{areYouSure}"></p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" th:href="@{/contact/confirmedDelete/{id}(id = ${contactInfo.id})}"
+                   th:text="|#{confirm} #{delete}|"></a>
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{cancel}"></button>
+            </div>
+        </div>
+    </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>

@@ -2,10 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <link rel="stylesheet" th:href="@{/css/bee-board.css}" />
+    <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
     <script th:src="@{/js/bee-board.js}"></script>
     <script>
         function editFormatter(value, row, index) {
+            var modelId = row["id"];
             return [
                 '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
                 '<i class="material-icons bee-board-icon">create</i>',
@@ -39,32 +40,56 @@
                     var long;
                     var arrLength;
                     var labels;
-                    if(row["drops"].length==0){ //prevents errors from empty drops array. IE yard with no drops.
-                        arrLength=0;
+                    var yardId = row["id"];//Used for map note hyperlink
+                    if (row["drops"].length == 0) { //prevents errors from empty drops array. IE yard with no drops.
+                        arrLength = 0;
                         lat = 48.8582;  //random lat and long at eiffel tower. Should be changed to yard coordinates. Needs fix.
                         long = 2.2945;
                     }
-                    else{
+                    else {
                         lat = row["drops"][0]["latitude"];  //Sets lat and long for initial map creation/centering.
                         long = row["drops"][0]["longitude"];
                         arrLength = row["drops"].length;
                     }
                     initialize(long, lat);//sets location of map on first drop location.
                     //Creates Markers for map
-                    for(var i=0; arrLength>i;i++){
-                        labels = row["drops"][i]["id"];
-                        createMarkers(row["drops"][i]["longitude"],row["drops"][i]["latitude"],labels); //Cycles through drops and places markers
+                    for (var i = 0; arrLength > i; i++) {
+                        labels = '<div id="mapNote">'+
+                                '<h2 id="Drop Info">Drop Info</h2>'+
+                                '<p>Singles: '+row["drops"][i]["singles"]+'<br/>'+
+                                'Doubles: '+row["drops"][i]["doubles"]+'<br/>'+
+                                'Supers: '+row["drops"][i]["supers"]+'<br/>'+
+                                '<a href="/inspection/list/'+yardId+'">' +
+                                'Check Inspections</a>'+
+                                '</p>'+
+                                '</div>';
+                        createMarkers(row["drops"][i]["longitude"], row["drops"][i]["latitude"], labels); //Cycles through drops and places markers
                     }
                 })();
                 assignHrefs(row["id"]);
-                $("#name").text('Yard Name: ' + row["yardName"]);
-                $("#status").text('Status: ' + row["status"]);
-                $("#combo").text('Combo: ' + row["combo"]);
+                var owner = row["owner"];
+                assignOwnerHrefs(owner["id"]);
+                $("#name").html('<b>Yard Name: </b>' + row["yardName"]);
+                $("#status").html('<b>Status: </b>' + row["status"]);
+                $("#combo").html('<b>Combo: </b>' + row["combo"]);
                 var address = row["address"];
-                $("#street").text(address["street"]);
+                $("#street").html('<b>Address: </b>' + address["street"]);
                 $("#city").text(address["city"]);
                 $("#state").text(address["state"]);
                 $("#zip").text(address["zip"]);
+                $("#singles").html('<b>Singles: </b>' + row["singles"]);
+                $("#doubles").html('<b>Doubles: </b>' + row["doubles"]);
+                $("#supers").html('<b>Supers: </b>' + row["supers"]);
+                $("#duds").html('<b>Duds: </b>' + row["duds"]);
+
+                if (row["lastVisit"] != null)
+                    $("#lastVisit").html('<b>Last Visit: </b>' + row["lastVisit"]);
+                else
+                    $("#lastVisit").html('<b>No Inspections Recorded </b>');
+                if (row["lastFedDate"] != null)
+                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"])
+                else
+                    $("#lastFedDate").html('<b>No Feed Date Recorded </b>');
             });
         });
 
@@ -72,7 +97,7 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
-    <title>Bee Board</title>
+    <title th:text="#{beeBoard}"></title>
 </head>
 <body>
 <script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
@@ -80,101 +105,128 @@
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="left-sidebar-div">
-            <h3>Hives</h3>
+            <h3><b th:text="#{hives}"></b></h3>
             <hr/>
-            <h4 th:text="'Singles: ' + ${beeBoard.getTotalSingles()}">Singles: </h4>
-            <h4 th:text="'Doubles: ' + ${beeBoard.getTotalDoubles()}">Doubles: </h4>
-            <h4 th:text="'Supers: ' + ${beeBoard.getTotalSupers()}">Supers: </h4>
-            <h4 th:text="'Duds: ' + ${beeBoard.getTotalDuds()}">Duds: </h4>
-            <h4 th:text="'Totals:  ' + ${beeBoard.getTotalHives()}">Total: </h4>
+            <h4 th:text="|#{singles}: ${beeBoard.getTotalSingles()}|"></h4>
+            <h4 th:text="|#{doubles}: ${beeBoard.getTotalDoubles()}|"></h4>
+            <h4 th:text="|Supers: ${beeBoard.getTotalSupers()}|"></h4>
+            <h4 th:text="|#{duds}: ${beeBoard.getTotalDuds()}|"></h4>
+            <h4 th:text="|#{totals}: ${beeBoard.getTotalHives()}|"></h4>
+        </div>
+        <div class="left-sidebar-div">
+            <h3><b th:text="#{percentages}"></b></h3>
             <hr/>
-            <h3>Percent out of Total:</h3>
-            <h4 th:text="'Singles:  ' + ${beeBoard.getSinglesPercent()} + '%'">% of Singels: </h4>
-            <h4 th:text="'Doubles:  ' + ${beeBoard.getDoublesPercent()} + '%'">% of Doubles: </h4>
-            <h4 th:text="'Supers:  ' + ${beeBoard.getSupersPercent()} + '%'">% of Supers: </h4>
-            <h4 th:text="'Duds:  ' + ${beeBoard.getDudsPercent()} + '%'">% of Duds: </h4>
-            <hr/>
-            <h3>Percent out of Total:</h3>
-            <h4 th:text="'Singles:  ' + ${beeBoard.getSinglesPercent()} + '%'">% of Singels: </h4>
-            <h4 th:text="'Doubles:  ' + ${beeBoard.getDoublesPercent()} + '%'">% of Doubles: </h4>
-            <h4 th:text="'Supers:  ' + ${beeBoard.getSupersPercent()} + '%'">% of Supers: </h4>
-            <h4 th:text="'Duds:  ' + ${beeBoard.getDudsPercent()} + '%'">% of Duds: </h4>
-            <hr/>
+            <h4 th:text="|#{singles}: ${beeBoard.getSinglesPercent()} #{percent}|"></h4>
+            <h4 th:text="|#{doubles}: ${beeBoard.getDoublesPercent()} #{percent}|"></h4>
+            <h4 th:text="|Supers: ${beeBoard.getSupersPercent()} #{percent}|"></h4>
+            <h4 th:text="|#{duds}: ${beeBoard.getDudsPercent()} #{percent}|"></h4>
         </div>
     </div>
     <div class="col-md-8">
         <div align="center">
             <a id="addYard" th:href="@{/yard/create}">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Add Yard">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{add} #{yard}|">
                     add_circle_outline
                 </i>
             </a>
             <a id="editYard" href="#">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Edit Yard">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{edit} #{yard}|">
                     create
                 </i>
             </a>
             <a id="deleteYard" href="#">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Delete Yard">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{delete} #{yard}|">
                     delete
                 </i>
             </a>
             <b class="material-icons md-48 bee-board-icon bee-color">|</b>
             <a id="yardOwner" href="#">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Owners">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{owner}|">
                     person_outline
                 </i>
             </a>
             <a id="yardDrops" href="#">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Drops">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{dropSites}|">
                     place
                 </i>
             </a>
             <a id="yardShipments" href="#">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" title="Goto Shipments">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{shipments}|">
                     send
                 </i>
             </a>
         </div>
         <hr/>
         <div id="yard-prompt">
-            <h1>Select a table row to see all data!</h1>
+            <h1 th:text="#{chooseRow}"></h1>
         </div>
         <div class="row dashboard-row">
             <div class="col-md-6">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <p id="name"></p>
 
                     <p id="status"></p>
 
                     <p id="combo"></p>
+
+                    <p id="singles"></p>
+
+                    <p id="doubles"></p>
+
+                    <p id="supers"></p>
+
+                    <p id="duds"></p>
                 </div>
-                <div class="col-md-3">
-                    <p id="street"></p>
+                <div class="col-md-6">
+                    <p>
+                        <span id="street"></span>,
 
-                    <p id="city"></p>
+                        <span id="city"></span>,
 
-                    <p id="state"></p>
+                        <span id="state"></span>
 
-                    <p id="zip"></p>
+                        <span id="zip"></span>
+                    </p>
+
+                    <p id="lastVisit"></p>
+
+                    <p id="lastFedDate"></p>
                 </div>
             </div>
             <div id="map-div" class="col-md-6"></div>
         </div>
         <hr/>
         <div class="col-md-12">
-            <table class="table table-condensed table-responsive" id="yard-table" data-toggle="table"
-                   data-url="/dashboard/beeboard/json" data-cache="false" data-pagination="true" data-show-refresh="true"
-                   data-show-toggle="true" data-show-columns="true" data-search="true">
-                <caption align="center">Active Yards</caption>
+            <table class="table table-condensed table-responsive"
+                   id="yard-table"
+                   data-toggle="table"
+                   data-url="/dashboard/beeboard/json"
+                   data-cache="false"
+                   data-pagination="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+                   data-search="true">
+                <caption align="center" th:text="#{activeYards}"></caption>
                 <thead>
                 <tr>
-                    <th data-field="yardName" data-sortable="true">Name</th>
-                    <th data-field="address.street" data-sortable="true">Address</th>
-                    <th data-field="owner.person.name" data-sortable="true">Owner</th>
-                    <th data-field="rentReceiver.name" data-sortable="true">Pay Rent To</th>
-                    <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents">Edit</th>
-                    <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents">Delete</th>
+                    <th data-field="yardName" data-sortable="true" data-visible="true" th:text="#{name}"></th>
+                    <th data-field="address.street" data-sortable="true" data-visible="false" th:text="#{address}"></th>
+                    <th data-field="singles" data-sortable="true" data-visible="true" th:text="#{singles}"></th>
+                    <th data-field="doubles" data-sortable="true" data-visible="true" th:text="#{doubles}"></th>
+                    <th data-field="supers" data-sortable="true" data-visible="false">Supers</th>
+                    <th data-field="lastVisit" data-sortable="true" data-visible="false"
+                        th:text="|#{last} #{visit}|"></th>
+                    <th data-field="lastFedDate" data-sortable="true" data-visible="false"
+                        th:text="|#{last} #{feed}|"></th>
+                    <th data-field="owner.person.name" data-sortable="true" data-visible="false"
+                        th:text="#{owner}"></th>
+                    <th data-field="rentReceiver.name" data-sortable="true" data-visible="false"
+                        th:text="#{rentPayee}"></th>
+                    <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents"
+                        th:text="#{edit}"></th>
+                    <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents"
+                        th:text="#{delete}"></th>
                 </tr>
                 </thead>
             </table>
@@ -182,7 +234,7 @@
     </div>
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="right-sidebar-div">
-            <h3>Active Shipments</h3>
+            <h3><b th:text="#{activeShipments}"></b></h3>
             <hr/>
             <h3 align="center" th:text="${beeBoard.getActiveShipments()}">10</h3>
         </div>
@@ -197,8 +249,10 @@
     var coords;
     var lat;
     var lng;
+    var markerImage;
+    var shape;
     //Creates and centers map
-    function initialize( longitude, latitude) { //Passed in longitude and latitude are just the position of the first drop of the yard.
+    function initialize(longitude, latitude) { //Passed in longitude and latitude are just the position of the first drop of the yard.
         lat = latitude;
         lng = longitude;
         coords = new google.maps.LatLng(lat, lng);
@@ -211,6 +265,17 @@
         map = new google.maps.Map(
                 document.getElementById("map-div"), mapOptions
         );
+        //generate the bee marker image
+        markerImage = {
+            url: 'http://i.imgur.com/ALU8OuA.png',
+            size: new google.maps.Size(45,45),
+            origin: new google.maps.Point(0,0),
+            anchor: new google.maps.Point(23,45)
+        };
+        shape = {
+            coords:[1,1,1,45,45,45,45,1],
+            type: 'poly'
+        };
     }
     function showError(error) {
         switch (error.code) {
@@ -229,16 +294,23 @@
         }
     }
     //Creates Markers
-    function createMarkers(long, lat, label){
-        var latlng = new google.maps.LatLng(lat,long);
-        var labelString = label.toString(); //labels must be strings. Passed in variable label is = dropId
+    function createMarkers(long, lat, windowLabel) {
+        var infoWindow = new google.maps.InfoWindow({
+            content: windowLabel.toString(),
+            maxWidth:200
+        });
+        var latlng = new google.maps.LatLng(lat, long);
         var marker = new google.maps.Marker({
             position: latlng,
-            label: labelString
+            icon: markerImage,
+            shape: shape
         });
         marker.setMap(map); //must set its map to the pages' map
+        //adds listener to each marker during creation
+        marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+        });
     }
-    //google.maps.event.addDomListener(window, 'load', getLocation);
 </script>
 </body>
 </html>

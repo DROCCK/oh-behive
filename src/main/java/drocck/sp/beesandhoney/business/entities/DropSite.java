@@ -41,13 +41,13 @@ public class DropSite {
     private List<Inspection> inspections;
 
     @NotNull
-    private Integer singles;
+    private Integer singles = 0;
 
     @NotNull
-    private Integer doubles;
+    private Integer doubles = 0;
 
     @NotNull
-    private Integer supers;
+    private Integer supers = 0;
 
     public Integer getSingles() {
         return singles;
@@ -135,7 +135,7 @@ public class DropSite {
 
     @Override
     public String toString() {
-        return "Drop [id="+this.id+" longitude="+this.longitude +" latitude="+this.latitude+" yardId="+this.dropYard.getId()+"]";
+        return "Drop [id="+this.id+" longitude="+this.longitude +" latitude="+this.latitude+" yard="+this.dropYard+"]";
     }
 
 }

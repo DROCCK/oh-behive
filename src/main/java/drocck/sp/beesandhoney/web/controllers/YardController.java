@@ -2,22 +2,26 @@ package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Owner;
 import drocck.sp.beesandhoney.business.entities.Person;
+import drocck.sp.beesandhoney.business.entities.Region;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.services.AddressService;
 import drocck.sp.beesandhoney.business.services.OwnerService;
 import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.YardService;
+import drocck.sp.beesandhoney.business.services.RegionService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 
 /**
  * Created by Connor on 9/26/2015.
@@ -35,6 +39,9 @@ public class YardController {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private RegionService regionService;
 
     // Helper Methods
 
@@ -65,6 +72,11 @@ public class YardController {
     @ModelAttribute("allPeople")
     public List<Person> populatePeople() {
         return personService.findAll();
+    }
+
+    @ModelAttribute("allRegions")
+    public @ResponseBody List<Region> allRegions() {
+        return regionService.findAll();
     }
 
     @ModelAttribute("yard")
@@ -132,8 +144,13 @@ public class YardController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(Yard yard) {
-        yardService.save(yard);
-        return referer;
+    public String create(@Valid Yard yard, BindingResult br) {
+        if(br.hasErrors()){
+            return "yard/create";
+        }
+        else {
+            yardService.save(yard);
+            return referer;
+        }
     }
 }

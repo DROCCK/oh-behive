@@ -2,17 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Bee Company</title>
+    <title th:text="|#{read} #{company}|"></title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Bee Company Information</h2>
+    <h2 th:text="|#{create} #{company}|"></h2>
     <div>
-        <h3>ID: <label th:text="${company.id}"></label></h3>
-        <h3>Name: <label th:text="${company.name}"></label></h3>
+        <h3 th:text="|ID: ${company.id}|"></h3>
+        <h3 th:text="|#{name}: ${company.name}|"></h3>
     </div>
-    <button type="button" onClick="goBack()" class="btn btn-default">Go Back</button>
+    <button type="button" onClick="goBack()" class="btn btn-default" th:text="#{goBack}"></button>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>

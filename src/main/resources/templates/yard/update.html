@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: head">
-    <title>Update Yard</title> <!-- save your title here -->
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title th:text="|#{update} #{yard}|">Update Yard</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Update Yard</h2>
+    <h2 th:text="|#{update} #{yard}|">Update Yard</h2>
 
     <form class="form-horizontal" role="form" action="#" th:action="@{/yard/update}" th:object="${yard}" method="post">
 
         <input type="hidden" th:field="*{id}" id="id" th:value="${yard.id}"/>
         <input type="hidden" th:field="*{address.id}" id="addressId" th:value="${yard.address.id}"/>
         <input type="hidden" th:field="*{owner.id}" id="ownerId" th:value="${yard.owner.id}"/>
+        <input type="hidden" th:field="*{singles}" id="singles" th:value="${yard.singles}"/>
+        <input type="hidden" th:field="*{doubles}" id="lastDoubles" th:value="${yard.doubles}"/>
+        <input type="hidden" th:field="*{supers}" id="lastSupers" th:value="${yard.supers}"/>
+        <input type="hidden" th:field="*{duds}" id="duds" th:value="${yard.duds}"/>
+        <input type="hidden" th:unless="${yard.lastFedDate == null}" th:field="*{lastFedDate}" id="lastFedDate" th:value="${yard.lastFedDate}"/>
+        <input type="hidden" th:unless="${yard.lastVisit == null}" th:field="*{lastVisit}" id="lastVisit" th:value="${yard.lastVisit}"/>
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
         <div class="form-group">
-            <label class="control-label col-sm-2" for="yardName">Yard Name: </label>
+            <label class="control-label col-sm-2" for="yardName" th:text="|#{yard} #{name}|">Yard Name: </label>
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{yardName}" id="yardName" placeholder="Yard Name"
@@ -25,7 +32,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="status">Status: </label>
+            <label class="control-label col-sm-2" for="status" th:text="#{status}">Status: </label>
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{status}" id="status" placeholder="In Use"
@@ -33,7 +40,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="combo">Combination or Key: </label>
+            <label class="control-label col-sm-2" for="combo" th:text="#{key}">Combination or Key: </label>
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{combo}" id="combo" placeholder="mhf key"
@@ -42,7 +49,7 @@
         </div>
         <div th:unless="${yard.address == null}">
             <div class="form-group">
-                <label for="street" class="col-sm-2 control-label">Street</label>
+                <label for="street" class="col-sm-2 control-label" th:text="#{street}">Street</label>
 
                 <div class="col-sm-10">
                     <input th:field="*{address.street}" type="text" class="form-control" id="street"
@@ -51,7 +58,7 @@
             </div>
 
             <div class="form-group">
-                <label for="apt" class="col-sm-2 control-label">Suite/Apartment#</label>
+                <label for="apt" class="col-sm-2 control-label" th:text="#{apartment}">Suite/Apartment#</label>
 
                 <div class="col-sm-10">
                     <input th:field="*{address.apt}" type="text" class="form-control" id="apt"
@@ -60,7 +67,7 @@
             </div>
 
             <div class="form-group">
-                <label for="city" class="col-sm-2 control-label">City</label>
+                <label for="city" class="col-sm-2 control-label" th:text="#{apartment}">City</label>
 
                 <div class="col-sm-10">
                     <input th:field="*{address.city}" type="text" class="form-control" id="city"
@@ -69,7 +76,7 @@
             </div>
 
             <div class="form-group">
-                <label for="state" class="col-sm-2 control-label">State</label>
+                <label for="state" class="col-sm-2 control-label" th:text="#{state}">State</label>
 
                 <div class="col-sm-10">
                     <input th:field="*{address.state}" type="text" class="form-control" id="state"
@@ -78,7 +85,7 @@
             </div>
 
             <div class="form-group">
-                <label for="zip" class="col-sm-2 control-label">Zip</label>
+                <label for="zip" class="col-sm-2 control-label" th:text="#{zip}">Zip</label>
 
                 <div class="col-sm-10">
                     <input th:field="*{address.zip}" type="text" class="form-control" id="zip"
@@ -89,7 +96,7 @@
 
         <div th:unless="${yard.address != null}">
             <div class="form-group">
-                <label for="street" class="col-sm-2 control-label">Street</label>
+                <label for="street" class="col-sm-2 control-label" th:text="#{street}">Street</label>
 
                 <div class="col-sm-10">
                     <input th:field="*{address.street}" type="text" class="form-control" id="street"
@@ -98,7 +105,7 @@
             </div>
 
             <div class="form-group">
-                <label for="apt" class="col-sm-2 control-label">Suite/Apartment#</label>
+                <label for="apt" class="col-sm-2 control-label" th:text="#{apartment}">Suite/Apartment#</label>
 
                 <div class="col-sm-10">
                     <input th:field="*{address.apt}" type="text" class="form-control" id="apt"
@@ -107,7 +114,7 @@
             </div>
 
             <div class="form-group">
-                <label for="city" class="col-sm-2 control-label">City</label>
+                <label for="city" class="col-sm-2 control-label" th:text="#{city}">City</label>
 
                 <div class="col-sm-10">
                     <input th:field="*{address.city}" type="text" class="form-control" id="city"
@@ -116,7 +123,7 @@
             </div>
 
             <div class="form-group">
-                <label for="state" class="col-sm-2 control-label">State</label>
+                <label for="state" class="col-sm-2 control-label" th:text="#{state}">State</label>
 
                 <div class="col-sm-10">
                     <input th:field="*{address.state}" type="text" class="form-control" id="state"
@@ -125,7 +132,7 @@
             </div>
 
             <div class="form-group">
-                <label for="zip" class="col-sm-2 control-label">Zip</label>
+                <label for="zip" class="col-sm-2 control-label" th:text="#{zip}">Zip</label>
 
                 <div class="col-sm-10">
                     <input th:field="*{address.zip}" type="text" class="form-control" id="zip"
@@ -136,7 +143,7 @@
 
 
         <div class="form-group">
-            <label class="control-label col-sm-2" for="accessNotes">Access Notes: </label>
+            <label class="control-label col-sm-2" for="accessNotes" th:text="#{accessNotes}">Access Notes: </label>
 
             <div class="col-sm-10">
                 <input type="text" class="form-control" th:field="*{accessNotes}" id="accessNotes" placeholder=""
@@ -144,7 +151,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="maxHives">Max number of hives: </label>
+            <label class="control-label col-sm-2" for="maxHives" th:text="#{maxHives}">Max number of hives: </label>
 
             <div class="col-sm-10">
                 <input type="number" class="form-control" th:field="*{maxHives}" id="maxHives" placeholder="80"
@@ -152,21 +159,21 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="owner">Who owns the land?</label>
+            <label class="control-label col-sm-2" for="owner" th:text="#{owner}">Who owns the land?</label>
 
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{owner.id}" id="owner">
-                    <option th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}"
+                    <option th:each="p : ${allOwners}" th:value="${p.id}" th:text="${p.person.name}"
                             th:unless="${p.id == yard.owner.id}">Guy 1
                     </option>
-                    <option selected="selected" th:each="p : ${allPeople}" th:value="${p.id}" th:text="${p.name}"
+                    <option selected="selected" th:each="p : ${allOwners}" th:value="${p.id}" th:text="${p.person.name}"
                             th:unless="${p.id != yard.owner.id}">Guy 1
                     </option>
                 </select>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="rentReceiver">Who is the rent paid too for this land?</label>
+            <label class="control-label col-sm-2" for="rentReceiver" th:text="#{rentPayee}">Who is the rent paid too for this land?</label>
 
             <div class="col-sm-10">
                 <select class="form-control" th:field="*{rentReceiver.id}" id="rentReceiver">
@@ -181,8 +188,8 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-warning">Upate</button>
-                <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-warning" th:text="#{update}">Update</button>
+                <button type="button" onClick="goBack()" class="btn btn-default" th:text="#{cancel}">Cancel</button>
             </div>
         </div>
     </form>

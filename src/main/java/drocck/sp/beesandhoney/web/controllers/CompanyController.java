@@ -14,6 +14,7 @@ import java.util.List;
  *         Created on 10/9/2015.
  */
 @Controller
+@RequestMapping("company")
 public class CompanyController {
 
     @Autowired
@@ -30,48 +31,48 @@ public class CompanyController {
         return companyService.findAll();
     }
 
-    @RequestMapping(value = "company/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
         return "company/create";
     }
 
-    @RequestMapping(value = "company/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("company") Company company) {
         companyService.save(company);
-        return "redirect:company/list";
+        return "redirect:list";
     }
 
-    @RequestMapping(value = "company/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
         model.addAttribute("company", companyService.findOne(id));
         return "company/read";
     }
 
-    @RequestMapping(value = "company/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable Long id, Model model) {
         model.addAttribute("company", companyService.findOne(id));
         return "company/update";
     }
 
-    @RequestMapping(value = "company/update/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     public String update(@PathVariable Long id, @ModelAttribute("company") Company company) {
         companyService.update(company);
-        return "redirect:company/list";
+        return "redirect:list";
     }
 
-    @RequestMapping(value = "company/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute("company", companyService.findOne(id));
         return "company/delete";
     }
 
-    @RequestMapping("company/confirmedDelete/{id}")
+    @RequestMapping("/confirmedDelete/{id}")
     public String confirmedDelete(@PathVariable Long id) {
         companyService.delete(id);
-        return "redirect:company/list";
+        return "redirect:list";
     }
 
-    @RequestMapping(value ="company/list",  method = RequestMethod.GET)
+    @RequestMapping(value ="/list",  method = RequestMethod.GET)
     public String list() {
         return "company/list";
     }

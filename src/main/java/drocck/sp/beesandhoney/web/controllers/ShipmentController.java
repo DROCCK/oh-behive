@@ -7,11 +7,14 @@ import drocck.sp.beesandhoney.business.services.YardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import javax.validation.Valid;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +41,11 @@ public class ShipmentController {
         return shipmentService.findAll();
     }
 
+    @ModelAttribute("statusNames")
+    public List<String> statusNames() {
+        return Shipment.getStatusNames();
+    }
+
     @ModelAttribute("allYards")
     public List<Yard> createYardList() { return yardService.findAll(); }
 
@@ -47,16 +55,14 @@ public class ShipmentController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(Shipment shipment) {
-        shipment.setStatus(shipment.getStatusInactive());
-        shipment.setFromYard(yardService.findOne(shipment.getFromYardID()));
-        shipment.setToYard(yardService.findOne(shipment.getToYardID()));
-
-        shipment.takeFromYardDoubles();
-        shipment.takeFromYardSingles();
-        shipment.takeFromYardSupers();
-        shipmentService.save(shipment);
-        return "redirect:shipment/list";
+    public String create(@Valid Shipment shipment, BindingResult br) {
+        if(br.hasErrors()){
+            return "shipment/create";
+        }
+        else {
+            shipmentService.save(shipment);
+            return "redirect:list";
+        }
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
@@ -73,16 +79,7 @@ public class ShipmentController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Shipment shipment) {
-        shipment.setFromYard(yardService.findOne(shipment.getFromYardID()));
-        shipment.setToYard(yardService.findOne(shipment.getToYardID()));
-        //System.out.println("status = " + shipment.getStatus() );
-        if(shipment.getStatus().equals(shipment.getStatusComplete()) ){
-            //System.out.println("status is equal to completed!");
-            shipment.giveToYardDoubles();
-            shipment.giveToYardSingles();
-            shipment.giveToYardSupers();
-        }
-        shipmentService.save(shipment);
+        shipmentService.update(shipment);
         return "shipment/list";
     }
 
@@ -95,7 +92,7 @@ public class ShipmentController {
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         shipmentService.delete(id);
-        return "redirect:shipment/list";
+        return "redirect:list";
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

@@ -20,12 +20,13 @@
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                 <div class="form-group">
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username"/>
+                    <input type="text" id="username" name="username" class="form-control" th:placeholder="#{username}"/>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password"/>
+                    <input type="password" id="password" name="password" class="form-control"
+                           th:placeholder="#{password}"/>
                 </div>
-                <button type="submit" class="btn btn-yellow">Sign in</button>
+                <button type="submit" class="btn btn-yellow" th:text="#{signIn}"></button>
             </form>
             <form th:if="${ #httpServletRequest.userPrincipal != null }" th:action="@{/logout}" action="#" method="post"
                   class="navbar-form navbar-right">
@@ -33,30 +34,32 @@
                     <!--<label th:text="${ #httpServletRequest.userPrincipal.name }"></label>-->
                 </a>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <button class="btn btn-yellow btn-xs" type="submit"><i class="material-icons">power_settings_new</i></button>
+                <button class="btn btn-yellow btn-xs" type="submit"><i class="material-icons">power_settings_new</i>
+                </button>
             </form>
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Main Menu
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="#{mainMenu}">
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a th:href="@{/person/list}">People</a></li>
-                        <li><a th:href="@{/address/list}">Addresses</a></li>
-                        <li><a th:href="@{/contactInfo/list}">Contact Info</a></li>
-                        <li><a th:href="@{/employee/list}">Employees</a></li>
-                        <li><a th:href="@{/owner/list}">Owners</a></li>
-                        <li><a th:href="@{/role/list}">Roles</a></li>
-                        <li><a th:href="@{/user/list}">Users</a></li>
-                        <li><a th:href="@{/yard/list}">Yard List</a></li>
-                        <li><a th:href="@{/dropsite/list}">Drop Sites</a></li>
-                        <li><a th:href="@{/inspection/list}">Inspections</a></li>
-                        <li><a th:href="@{/company/list}">Companies</a></li>
-                        <li><a th:href="@{/location/list}">Locations</a></li>
-                        <li><a th:href="@{/shipment/list}">Shipment List</a></li>
+                        <li><a th:href="@{/person/list}" th:text="#{people}"></a></li>
+                        <li><a th:href="@{/address/list}" th:text="#{addresses}"></a></li>
+                        <li><a th:href="@{/contactInfo/list}" th:text="#{contacts}"></a></li>
+                        <li><a th:href="@{/employee/list}" th:text="#{employees}"></a></li>
+                        <li><a th:href="@{/owner/list}" th:text="#{owners}"></a></li>
+                        <li><a th:href="@{/role/list}" th:text="#{roles}"></a></li>
+                        <li><a th:href="@{/region/list}" th:text="#{regions}"></a></li>
+                        <li><a th:href="@{/user/list}" th:text="#{users}"></a></li>
+                        <li><a th:href="@{/yard/list}" th:text="#{yards}">Yard List</a></li>
+                        <li><a th:href="@{/dropsite/list}" th:text="#{dropSites}"></a></li>
+                        <li><a th:href="@{/inspection/list}" th:text="#{inspections}"></a></li>
+                        <!--<li><a th:href="@{/company/list}">Companies</a></li>-->
+                        <!--<li><a th:href="@{/location/list}">Locations</a></li>-->
+                        <li><a th:href="@{/shipment/list}" th:text="#{shipments}"></a></li>
                     </ul>
                 </li>
-                <li><a th:href="@{/dashboard/beeboard}">Bee Board</a></li>
-                <li><a th:href="@{/dashboard/nucing}">Nucing Board</a></li>
+                <li><a th:href="@{/dashboard/beeboard}" th:text="#{beeBoard}"></a></li>
+                <!--<li><a th:href="@{/dashboard/nucing}">Nucing Board</a></li>-->
             </ul>
         </div>
         <!--/.navbar-collapse -->

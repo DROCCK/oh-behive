@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title th:text="|#{list} #{regions}|"></title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container">
+    <h2 class="list-header" th:text="|#{regions} #{pipe}|"></h2>
+    <a th:href="@{/region/create/}">
+        <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+           title="Add Region">
+            add_circle_outline
+        </i>
+    </a>
+    <table class="table table-condensed table-responsive table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th th:text="#{name}">Name</th>
+            <th th:text="#{edit}">Edit</th>
+            <th th:text="#{delete}">Delete</th>
+        </tr>
+        </thead>
+        <tbody th:each="region : ${regions}">
+        <tr>
+            <td th:text="${region.id}">Id</td>
+            <td th:text="${region.name}">Name</td>
+            <td>
+                <a th:href="@{/region/update/{id}(id=${region.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Region">
+                        create
+                    </i>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/region/delete/{id}(id=${region.id})}">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Region">
+                        delete
+                    </i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -2,26 +2,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>List Users</title>
+    <title th:text="|#{list} #{user}|"></title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Users |
-        <a th:href="@{/user/create}">
-            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
-               title="Add User">
-                add_circle_outline
-            </i>
-        </a>
-    </h2>
+    <h2 class="list-header" th:text="|#{users} #{pipe}|"></h2>
+    <a th:href="@{/user/create}">
+        <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+           title="Add User">
+            add_circle_outline
+        </i>
+    </a>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
-            <th>Username</th>
-            <th>Roles</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th th:text="#{username}">Username</th>
+            <th th:text="#{roles}">Roles</th>
+            <th th:text="#{edit}">Edit</th>
+            <th th:text="#{delete}">Delete</th>
         </tr>
         </thead>
         <tbody th:each="user : ${users}">

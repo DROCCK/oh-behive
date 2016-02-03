@@ -6,8 +6,11 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Created by Connor
@@ -60,6 +63,19 @@ public class Yard implements Serializable {
     @JoinColumn(name = "RENT_RECEIVER_ID")
     @JsonManagedReference
     private Person rentReceiver;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "yards_regions",
+            joinColumns={@JoinColumn(name="YARD_ID", referencedColumnName="ID")},
+            inverseJoinColumns={@JoinColumn(name="REGION_ID", referencedColumnName="ID")})
+    @JsonManagedReference
+    private List<Region> regions;
+
+    @Column(name = "LAST_VISIT")
+    private Date lastVisit;
+
+    @Column(name = "LAST_FED_DATE")
+    private Date lastFedDate;
 
     @Column(name = "CURRENT_HIVES")
     private Integer currentHives;
@@ -201,5 +217,48 @@ public class Yard implements Serializable {
     public String toString() {
         return "Yard [id="+this.id+" yardName="+this.yardName +" status="+this.status+" combo="+this.combo+" address="+this.address+
                  "accessNotes="+this.accessNotes +" maxHives="+this.maxHives+" drops="+this.getDrops()+"]";
+    }
+
+    public Date getLastVisit() {
+        return lastVisit;
+    }
+
+    public void setLastVisit(Date lastVisit) {
+        this.lastVisit = lastVisit;
+    }
+
+    public Date getLastFedDate() {
+        return lastFedDate;
+    }
+
+    public void setLastFedDate(Date lastFedDate) {
+        this.lastFedDate = lastFedDate;
+    }
+
+    public List<Region> getRegions() {
+        return regions;
+    }
+    
+    public String[] getRegionsAsStrings() {
+        String[] regionStrings = new String[regions.size()];
+        IntStream.iterate(0, i -> i++)
+                .limit(regions.size())
+                .forEach(x -> regionStrings[x] = regions.get(x).getName());
+        return regionStrings;
+    }
+
+    public String getRegionAsString() {
+        if (!regions.isEmpty()) {
+            StringBuilder builder = new StringBuilder(regions.get(0).getName());
+            IntStream.iterate(1, i -> i++)
+                    .limit(regions.size() - 1)
+                    .forEach(i -> builder.append(", ").append(regions.get(i).getName()));
+            return builder.toString();
+        }
+        return "NONE";
+    }
+
+    public void setRegions(List<Region> regions) {
+        this.regions = regions;
     }
 }

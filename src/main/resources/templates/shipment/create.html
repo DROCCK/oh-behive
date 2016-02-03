@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Create Shipment</title> <!-- add your title here -->
+    <title>Create Shipment</title> <!-- TODO: Internationalization -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
@@ -17,6 +17,7 @@
 
             <div class="col-sm-10">
                 <input type="number" class="form-control" th:field="*{loadNum}" id="loadNum" placeholder="00"/>
+                <td th:if="${#fields.hasErrors('loadNum')}" th:errors="*{loadNum}">Load Number Error</td>
             </div>
         </div>
 
@@ -24,7 +25,8 @@
             <label class="control-label col-sm-2" for="carrier">Carrier </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{carrier}" id="carrier" placeholder="None"/>
+                <input type="text" class="form-control" th:field="*{carrier}" id="carrier" placeholder="None"/>
+                <td th:if="${#fields.hasErrors('carrier')}" th:errors="*{carrier}">Carrier Error</td>
             </div>
         </div>
 
@@ -32,7 +34,7 @@
             <label class="control-label col-sm-2" for="from_yard_id">Where are the bees coming from?</label>
 
             <div class="col-sm-10">
-                <select class="form-control" th:field="*{fromYardID}" id="from_yard_id">
+                <select class="form-control" th:field="*{fromYard.id}" id="from_yard_id">
                     <option th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}">Guy 1</option>
                 </select>
             </div>
@@ -42,7 +44,7 @@
             <label class="control-label col-sm-2" for="to_yard_id">Where are the bees going to?</label>
 
             <div class="col-sm-10">
-                <select class="form-control" th:field="*{toYardID}" id="to_yard_id">
+                <select class="form-control" th:field="*{toYard.id}" id="to_yard_id">
                     <option th:each="y : ${allYards}" th:value="${y.id}" th:text="${y.yardName}">Guy 1</option>
                 </select>
             </div>
@@ -53,6 +55,7 @@
 
             <div class="col-sm-10">
                 <input type="number" class="form-control" th:field="*{weight}" id="weight" placeholder="80"/>
+                <td th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}">Weight Error</td>
             </div>
         </div>
 
@@ -61,16 +64,27 @@
 
             <div class="col-sm-10">
                 <input type="number" class="form-control" th:field="*{truckId}" id="truckId" placeholder="80"/>
+                <td th:if="${#fields.hasErrors('truckId')}" th:errors="*{truckId}">TruckID Error</td>
             </div>
         </div>
 
-        <!-- Date -->
+        <!-- Departure Date -->
         <div class="form-group">
             <label class="control-label col-sm-2" for="departDate">Departure Date </label>
 
             <div class="col-sm-10">
                 <input type="date" class="form-control" th:field="*{departDate}" id="departDate"
-                       placeholder="Shipment Depature Date"/>
+                       placeholder="Shipment Departure Date"/>
+            </div>
+        </div>
+
+        <!-- Arrival Date -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="departDate">Arrival Date </label>
+
+            <div class="col-sm-10">
+                <input type="date" class="form-control" th:field="*{arrivalDate}" id="arrivalDate"
+                       placeholder="Shipment Arrival Date"/>
             </div>
         </div>
 
@@ -78,7 +92,7 @@
             <label class="control-label col-sm-2" for="singles">Number of Singles </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{singleHive}" id="singles" placeholder="80"/>
+                <input type="number" class="form-control" th:field="*{singles}" id="singles" placeholder="80"/>
             </div>
         </div>
 
@@ -86,7 +100,7 @@
             <label class="control-label col-sm-2" for="doubles">Number of Doubles </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{doubleHive}" id="doubles" placeholder="80"/>
+                <input type="number" class="form-control" th:field="*{doubles}" id="doubles" placeholder="80"/>
             </div>
         </div>
 
@@ -94,7 +108,17 @@
             <label class="control-label col-sm-2" for="supers">Number of Supers: </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{superHive}" id="supers" placeholder="80"/>
+                <input type="number" class="form-control" th:field="*{supers}" id="supers" placeholder="80"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="status">Choose Shipment Status</label>
+
+            <div class="col-sm-10">
+                <select class="form-control" th:field="*{status}" id="status">
+                    <option th:each="s : ${statusNames}" th:value="${s}" th:text="${{s}}"></option>
+                </select>
             </div>
         </div>
 

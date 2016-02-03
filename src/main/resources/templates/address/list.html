@@ -2,29 +2,50 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Addresses</title>
+    <title th:text="|#{list} #{addresses}|">Addresses</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Addresses |
-        <a th:href="@{/address/create}">
-            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
-               title="Add Address">
-                add_circle_outline
-            </i>
-        </a>
-    </h2>
+    <h2 class="list-header" th:text="|#{addresses} #{pipe} |"></h2>
+    <a th:href="@{/address/create}">
+        <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+           title="Add Address">
+            add_circle_outline
+        </i>
+    </a>
+    <div class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" th:each="address : ${addresses}" th:id="'dm-' + ${address.id}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" th:text="|#{delete} #{address}|"></h4>
+                </div>
+                <div class="modal-body">
+                    <p th:text="#{areYouSure}"></p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-danger"
+                       th:href="@{/address/confirmedDelete/{id}(id = ${address.id})}"
+                       th:text="|#{confirm} #{delete}|"></a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            th:text="#{cancel}"></button>
+                </div>
+            </div>
+        </div>
+    </div>
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
-            <th>Street</th>
-            <th>Suite/Apt</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Zip</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th th:text="#{street}">Street</th>
+            <th th:text="#{apartment}">Suite/Apt</th>
+            <th th:text="#{city}">City</th>
+            <th th:text="#{state}">State</th>
+            <th th:text="#{zip}">Zip</th>
+            <th th:text="#{edit}">Edit</th>
+            <th th:text="#{delete}">Delete</th>
         </tr>
         </thead>
         <tbody th:each="address : ${addresses}">
@@ -42,7 +63,7 @@
                 </a>
             </td>
             <td>
-                <a th:href="@{/address/delete/{id}(id=${address.id})}">
+                <a data-toggle="modal" th:attr="data-target='#dm-' + ${address.id}">
                     <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Address">
                         delete
                     </i>

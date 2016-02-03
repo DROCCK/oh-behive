@@ -2,26 +2,26 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Company List</title>
+    <title th:text="|#{list} #{company}|"></title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Companies |
-        <a th:href="@{/company/create}">
-            <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
-               title="Add Company">
-                add_circle_outline
-            </i>
-        </a>
-    </h2>
+    <h2 class="list-header" th:text="|#{companies} #{pipe}|"></h2>
+    <a th:href="@{/company/create}">
+        <i class="material-icons md-36 add-list-icon" data-toggle="tooltip"
+           title="Add Company">
+            add_circle_outline
+        </i>
+    </a>
+
     <table class="table table-responsive table-condensed table-hover">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th th:text="#{name}"></th>
+            <th th:text="#{edit}"></th>
+            <th th:text="#{delete}"></th>
         </tr>
         </thead>
         <tbody th:each="company : ${allCompanies}">
@@ -30,14 +30,16 @@
             <td th:text="${company.name}">Name</td>
             <td>
                 <a th:href="@{/company/update/{id}(id=${company.id})}">
-                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Edit Company">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"
+                       th:title="|#{edit} #{company}|">
                         create
                     </i>
                 </a>
             </td>
             <td>
                 <a th:href="@{/company/delete/{id}(id=${company.id})}">
-                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" title="Delete Company">
+                    <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"
+                       th:title="|#{delete} #{company}|">
                         delete
                     </i>
                 </a>

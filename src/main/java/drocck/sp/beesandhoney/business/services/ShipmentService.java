@@ -39,6 +39,14 @@ public class ShipmentService {
     }
 
     public Shipment save(Shipment shipment) {
+        Yard from = shipment.getFromYard();
+
+        if (shipment.getStatus().equals(Shipment.COMPLETE))
+            completeShipment(shipment);
+
+        from.setSingles(from.getSingles() - shipment.getSingles());
+        from.setDoubles(from.getDoubles() - shipment.getDoubles());
+        from.setSupers(from.getSupers() - shipment.getSupers());
         return shipmentRepository.save(shipment);
     }
 
@@ -48,5 +56,18 @@ public class ShipmentService {
 
     public void delete(Long id) {
         shipmentRepository.delete(id);
+    }
+
+    public Shipment update(Shipment shipment) {
+        if (shipment.getStatus().equals(Shipment.COMPLETE))
+            completeShipment(shipment);
+        return shipmentRepository.save(shipment);
+    }
+
+    private void completeShipment(Shipment shipment) {
+        Yard to = shipment.getToYard();
+        to.setSingles(to.getSingles() + shipment.getSingles());
+        to.setDoubles(to.getDoubles() + shipment.getDoubles());
+        to.setSupers(to.getSupers() + shipment.getSupers());
     }
 }

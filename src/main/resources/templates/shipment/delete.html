@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title>Delete Shipment</title>
+    <title>Delete Shipment</title> <!-- TODO: Internationalization -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
@@ -17,9 +17,9 @@
         <p> To: <span th:text="${shipment.toYard.yardName}">to</span> </p>
         <p> Weight: <span th:text="${shipment.getWeight()}">Weight</span> </p>
         <p> Truck Number: <span th:text="${shipment.getTruckId()}">Truck Id</span> </p>
-        <p> Singles Moved <span th:text="${shipment.singleHive}">singles</span> </p>
-        <p> Doubles Moved <span th:text="${shipment.doubleHive}">doubles</span> </p>
-        <p> Supers Moved <span th:text="${shipment.superHive}">supers</span> </p>
+        <p> Singles Moved <span th:text="${shipment.singles}">singles</span> </p>
+        <p> Doubles Moved <span th:text="${shipment.doubles}">doubles</span> </p>
+        <p> Supers Moved <span th:text="${shipment.supers}">supers</span> </p>
     </div>
     <a class="btn btn-danger" th:href="@{/shipment/confirmedDelete/{id}(id = ${shipment.id})}">Confirm Delete</a>
     <button type="button" onClick="goBack()" class="btn btn-default">Cancel</button>

@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: head">
-    <title>Read Yard</title> <!-- save your title here -->
+<head th:include="fragments/head :: head"></head>
+<head>
+    <title th:text="|#{read} #{yard}|">Read Yard</title> <!-- save your title here -->
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h2>Yard Info</h2>
+    <h2 th:text="|#{yard} #{information}|">Yard Info</h2>
 
     <div class="col-md-6">
 
-        <h2>Yard Info</h2>
+        <h2 th:text="|#{yard} #{information}|">Yard Info</h2>
 
         <p th:text="${yard.yardName}">name</p>
 
         <p th:text="${yard.status}">status</p>
 
-        <p> Key/Combo: <span th:text="${yard.combo}">combo </span></p>
+        <p> <span th:text="#{key}">Key/Combo:</span> <span th:text="${yard.combo}">combo </span></p>
 
         <p th:text="${yard.address}">address</p>
 
         <p th:text="${yard.accessNotes}">access location</p>
 
-        <p> Max Hive Capacity: <span th:text="${yard.maxHives}">status</span></p>
+        <p> <span th:text="#{maxHives}">Max Hive Capacity:</span> <span th:text="${yard.maxHives}">status</span></p>
     </div>
 
     <div class="col-md-6">
-        <h2>Yard Owner</h2>
+        <h2 th:text="|#{yard} #{owner}|">Yard Owner</h2>
 
-        <p><a th:text="${yard.owner.name}" th:href="@{/person/read/{id}(id=${yard.owner.id})}"></a></p>
+        <p><a th:text="${yard.owner.person.name}" th:href="@{/person/read/{id}(id=${yard.owner.id})}"></a></p>
 
-        <p th:text="${yard.owner.contactInfo.email}"></p>
+        <p th:text="${yard.owner.person.contactInfo.email}"></p>
 
-        <p th:text="${yard.owner.contactInfo.phone}"></p>
+        <p th:text="${yard.owner.person.contactInfo.phone}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.street}"></p>
+        <p th:text="${yard.owner.person.contactInfo.address.street}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.apt}"></p>
+        <p th:text="${yard.owner.person.contactInfo.address.apt}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.city}"></p>
+        <p th:text="${yard.owner.person.contactInfo.address.city}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.zip}"></p>
+        <p th:text="${yard.owner.person.contactInfo.address.zip}"></p>
 
-        <p th:text="${yard.owner.contactInfo.address.state}"></p>
+        <p th:text="${yard.owner.person.contactInfo.address.state}"></p>
 
         <div th:unless="${yard.owner == yard.rentReceiver}">
-            <h2>Info about yard rent receiver</h2>
+            <h2 th:text="#{rentPayee}">Info about yard rent receiver</h2>
 
             <p><a th:text="${yard.rentReceiver.name}"
                   th:href="@{/person/read/{id}(id=${yard.rentReceiver.id})}">name</a></p>
@@ -66,7 +67,7 @@
         </div>
     </div>
     <div class="container">
-        <button type="button" onClick="goBack()" class="btn btn-default">Go Back</button>
+        <button type="button" onClick="goBack()" class="btn btn-default" th:text="#{goBack}">Go Back</button>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
