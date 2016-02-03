@@ -24,27 +24,27 @@ public class Orchard {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<ContactInfo> contacts;
 
-    public Long createId() {
+    public Long getId() {
         return id;
     }
 
-    public void createId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Yard createYard() {
+    public Yard getYard() {
         return yard;
     }
 
-    public void createYard(Yard yard) {
+    public void setYard(Yard yard) {
         this.yard = yard;
     }
 
-    public List<ContactInfo> createContacts() {
+    public List<ContactInfo> getContacts() {
         return contacts;
     }
 
-    public void createContacts(List<ContactInfo> contacts) {
+    public void setContacts(List<ContactInfo> contacts) {
         this.contacts = contacts;
     }
 }

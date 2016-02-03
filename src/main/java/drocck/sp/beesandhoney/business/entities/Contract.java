@@ -30,51 +30,51 @@ public class Contract {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Orchard orchard;
 
-    public Long createId() {
+    public Long getId() {
         return id;
     }
 
-    public void createId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Date createMoveInDate() {
+    public Date getMoveInDate() {
         return moveInDate;
     }
 
-    public void createMoveInDate(Date moveInDate) {
+    public void setMoveInDate(Date moveInDate) {
         this.moveInDate = moveInDate;
     }
 
-    public Date createMoveOutDate() {
+    public Date getMoveOutDate() {
         return moveOutDate;
     }
 
-    public void createMoveOutDate(Date moveOutDate) {
+    public void setMoveOutDate(Date moveOutDate) {
         this.moveOutDate = moveOutDate;
     }
 
-    public Double createAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void createAmount(Double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
-    public Person createBroker() {
+    public Person getBroker() {
         return broker;
     }
 
-    public void createBroker(Person broker) {
+    public void setBroker(Person broker) {
         this.broker = broker;
     }
 
-    public Orchard createOrchard() {
+    public Orchard getOrchard() {
         return orchard;
     }
 
-    public void createOrchard(Orchard orchard) {
+    public void setOrchard(Orchard orchard) {
         this.orchard = orchard;
     }
 }
