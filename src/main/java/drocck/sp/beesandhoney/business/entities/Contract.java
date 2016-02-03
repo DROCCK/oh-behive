@@ -24,10 +24,10 @@ public class Contract {
     @Column(name = "AMOUNT")
     Double amount;
 
-    @Column(name = "BROKER")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Person broker;
 
-    @Column(name = "ORCHARD")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Orchard orchard;
 
     public Long createId() {

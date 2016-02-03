@@ -1,9 +1,7 @@
 package drocck.sp.beesandhoney.business.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -14,11 +12,16 @@ import java.util.List;
 public class Orchard {
 
     @Id
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "YARD_ID")
+    @NotNull
     Yard yard;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<ContactInfo> contacts;
 
     public Long createId() {
