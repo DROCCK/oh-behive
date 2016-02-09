@@ -39,31 +39,36 @@
                     var lat;
                     var long;
                     var arrLength;
+                    var json = $.getJSON('/dashboard/beeboard/json');
+                    //console.log(Object.keys(json));
+                    //console.log(json);
                     var labels;
                     var yardId = row["id"];//Used for map note hyperlink
-                    if (row["drops"].length == 0) { //prevents errors from empty drops array. IE yard with no drops.
-                        arrLength = 0;
+                    if (row["longitude"].length == 0|| row["latitude"].length==0) { //prevents errors from empty drops array. IE yard with no drops.
+                       // arrLength = 0;
                         lat = 48.8582;  //random lat and long at eiffel tower. Should be changed to yard coordinates. Needs fix.
                         long = 2.2945;
                     }
                     else {
-                        lat = row["drops"][0]["latitude"];  //Sets lat and long for initial map creation/centering.
-                        long = row["drops"][0]["longitude"];
-                        arrLength = row["drops"].length;
+                        lat = row["latitude"];  //Sets lat and long for initial map creation/centering.
+                        long = row["longitude"];
+                        //arrLength = row["latitude"].length;
                     }
                     initialize(long, lat);//sets location of map on first drop location.
                     //Creates Markers for map
+                    arrLength= 1;
+                    console.log(arrLength);
                     for (var i = 0; arrLength > i; i++) {
                         labels = '<div id="mapNote">'+
-                                '<h2 id="Drop Info">Drop Info</h2>'+
-                                '<p>Singles: '+row["drops"][i]["singles"]+'<br/>'+
-                                'Doubles: '+row["drops"][i]["doubles"]+'<br/>'+
-                                'Supers: '+row["drops"][i]["supers"]+'<br/>'+
+                                '<h2 id="Yard Info">Yard Info</h2>'+
+                                '<p>Singles: '+row["singles"]+'<br/>'+
+                                'Doubles: '+row["doubles"]+'<br/>'+
+                                'Supers: '+row["supers"]+'<br/>'+
                                 '<a href="/inspection/list/'+yardId+'">' +
                                 'Check Inspections</a>'+
                                 '</p>'+
                                 '</div>';
-                        createMarkers(row["drops"][i]["longitude"], row["drops"][i]["latitude"], labels); //Cycles through drops and places markers
+                        createMarkers(row["longitude"], row["latitude"], labels); //Cycles through drops and places markers
                     }
                 })();
                 assignHrefs(row["id"]);
