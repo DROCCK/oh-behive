@@ -22,7 +22,7 @@ public class Contract {
     Date moveOutDate;
 
     @Column(name = "AMOUNT")
-    Double amount;
+    Integer amount;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Person broker;
@@ -54,11 +54,11 @@ public class Contract {
         this.moveOutDate = moveOutDate;
     }
 
-    public Double getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 

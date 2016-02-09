@@ -139,6 +139,7 @@ public class AppConfig {
         localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
+
     /* Not used at the moment
     @Bean
     public CookieLocaleResolver localeResolver(){
@@ -148,6 +149,7 @@ public class AppConfig {
         return localeResolver;
     }
     */
+
     @Bean
     public RequestMappingHandlerMapping handlerMapping(){
         RequestMappingHandlerMapping handlerMapping = new RequestMappingHandlerMapping();

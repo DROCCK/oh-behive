@@ -18,6 +18,7 @@ import java.util.stream.IntStream;
  */
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Yard implements Serializable {
 
     @Id
