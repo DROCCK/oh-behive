@@ -11,8 +11,10 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -26,6 +28,15 @@ import javax.persistence.EntityManagerFactory;
 @EntityScan("drocck.sp.beesandhoney.business.entities")
 @EnableTransactionManagement
 public class AppConfig {
+
+    @Bean
+    public ViewResolver myViewResolver() {
+        InternalResourceViewResolver internalResourceViewResolver =
+          new InternalResourceViewResolver();
+        internalResourceViewResolver.setSuffix(".html");
+        // .. further setup
+        return internalResourceViewResolver;
+    }
 
     @Bean
     public HibernateJpaSessionFactoryBean sessionFactory(EntityManagerFactory emf) {
@@ -99,6 +110,17 @@ public class AppConfig {
 
     @Bean
     public ShipmentService shipmentService() { return new ShipmentService(); }
+
+    @Bean
+    public ContractService contractService() {
+        return new ContractService();
+    }
+
+    @Bean
+    public OrchardService orchardService() {
+        return new OrchardService();
+    }
+
     //Language beans
     @Bean
     public ReloadableResourceBundleMessageSource messageSource(){
@@ -107,12 +129,14 @@ public class AppConfig {
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
+
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor(){
         final LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
+
     /* Not used at the moment
     @Bean
     public CookieLocaleResolver localeResolver(){
@@ -122,6 +146,7 @@ public class AppConfig {
         return localeResolver;
     }
     */
+
     @Bean
     public RequestMappingHandlerMapping handlerMapping(){
         RequestMappingHandlerMapping handlerMapping = new RequestMappingHandlerMapping();
