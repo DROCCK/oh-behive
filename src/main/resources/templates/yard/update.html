@@ -18,6 +18,10 @@
         <input type="hidden" th:field="*{doubles}" id="lastDoubles" th:value="${yard.doubles}"/>
         <input type="hidden" th:field="*{supers}" id="lastSupers" th:value="${yard.supers}"/>
         <input type="hidden" th:field="*{duds}" id="duds" th:value="${yard.duds}"/>
+        <!--
+        <input type="hidden" th:field="*{longitude}" id="longitude" th:value="${yard.longitude}"/>
+        <input type="hidden" th:field="*{latitude}" id="latitude" th:value="${yard.latitude}"/>
+        -->
         <input type="hidden" th:unless="${yard.lastFedDate == null}" th:field="*{lastFedDate}" id="lastFedDate" th:value="${yard.lastFedDate}"/>
         <input type="hidden" th:unless="${yard.lastVisit == null}" th:field="*{lastVisit}" id="lastVisit" th:value="${yard.lastVisit}"/>
 
@@ -186,6 +190,26 @@
                 </select>
             </div>
         </div>
+
+        <!--longitude-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="longitude" th:text="#{longitude}"></label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{longitude}" id="longitude" placeholder="00.00"/>
+            </div>
+        </div>
+        <!--latitude-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="latitude" th:text="#{latitude}"></label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" th:field="*{latitude}" id="latitude" placeholder="00.00"/>
+            </div>
+        </div>
+        <!--map-->
+        <div id="mapPlaceholder" style="height: 500px; margin: 20px;"></div>
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-warning" th:text="#{update}">Update</button>
@@ -195,5 +219,87 @@
     </form>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+    var x = document.getElementById("error");
+    var map;
+    var marker;
+    var prevMarker;
+    var coords;
+    var lat;
+    var lng;
+    var markerImage;
+    <!-- Query Device for Location -->
+    function getLocation() {
+        markerImage = {
+            url: 'http://i.imgur.com/ALU8OuA.png',
+            size: new google.maps.Size(45,45),
+            origin: new google.maps.Point(0,0),
+            anchor: new google.maps.Point(23,45)
+        };
+        lat = document.getElementById("latitude").value;
+        lng = document.getElementById("longitude").value;
+        setVals(lat, lng)
+    }
+    <!-- Sets Latitude and Longitude values -->
+    function setVals(lat, lng) {
+        document.getElementById("latitude").value = lat;
+        document.getElementById("longitude").value = lng;
+        coords = new google.maps.LatLng(lat, lng);
+        var mapOptions = {
+            zoom: 15,
+            center: coords,
+            mapTypeControl: true,
+            mapTypeId: google.maps.MapTypeId.HYBRID
+        };
+        map = new google.maps.Map(
+                document.getElementById("mapPlaceholder"), mapOptions
+        );
+        google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng);
+        });
+
+        marker = new google.maps.Marker({
+            position: coords,
+            map: map,
+            icon: markerImage,
+            title: "Current Location"
+        });
+    }
+    function placeMarker(location) {
+        lat = location.lat();
+        lng = location.lng();
+        setMarkerPosition(marker, lat, lng);
+        document.getElementById("latitude").value = location.lat();
+        document.getElementById("longitude").value = location.lng();
+        infowindow.open(map, marker);
+    }
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                x.innerHTML = "User denied the request for Geolocation.";
+                break;
+            case error.POSITION_UNAVAILABLE:
+                x.innerHTML = "Location information is unavailable.";
+                break;
+            case error.TIMEOUT:
+                x.innerHTML = "The request to get user location timed out.";
+                break;
+            case error.UNKNOWN_ERROR:
+                x.innerHTML = "An unknown error occurred.";
+                break;
+        }
+    }
+    <!-- This moves the marker on the map when you click -->
+    function setMarkerPosition(marker, lat, lng) {
+        marker.setPosition(
+                new google.maps.LatLng(
+                        lat,
+                        lng)
+        );
+    }
+    <!-- Add Event Listener to Map -->
+    google.maps.event.addDomListener(window, 'load', getLocation);
+</script>
 </body>
 </html>

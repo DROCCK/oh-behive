@@ -1,9 +1,9 @@
 package drocck.sp.beesandhoney.web.controllers;
 
-import drocck.sp.beesandhoney.business.entities.DropSite;
 import drocck.sp.beesandhoney.business.entities.Inspection;
-import drocck.sp.beesandhoney.business.services.DropSiteService;
+import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.services.InspectionService;
+import drocck.sp.beesandhoney.business.services.YardService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +27,13 @@ public class InspectionController {
     private InspectionService inspectionService;
 
     @Autowired
-    private DropSiteService dropSiteService;
+    private YardService yardService;
 
     // Models
 
-    @ModelAttribute("allDropSites")
-    public List<DropSite> populateDrops() {
-        return dropSiteService.findAll();
+    @ModelAttribute("allYards")
+    public List<Yard> populateYards() {
+        return yardService.findAll();
     }
 
     @ModelAttribute("inspection")
@@ -50,9 +50,9 @@ public class InspectionController {
     @RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
     public String list(Model model, @PathVariable Long id) {
         // The drop site being displayed
-        DropSite dropSite = dropSiteService.findOne(id);
-        model.addAttribute("dropSite", dropSite);
-        model.addAttribute("inspections", inspectionService.findAllByDropSite(dropSite));
+        Yard yard = yardService.findOne(id);
+        model.addAttribute("yard", yard);
+        model.addAttribute("inspections", inspectionService.findAllByYard(yard));
         return "inspection/list";
     }
 
@@ -77,7 +77,7 @@ public class InspectionController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Inspection inspection,
                          @RequestParam(value = "fedChecked", required = false) boolean fedChecked) {
-        long redirect = inspection.getDropSite().getId();
+        long redirect = inspection.getYard().getId();
         inspection.setIsFed(fedChecked);
         inspectionService.save(inspection);
         return "redirect:list/" + redirect;
@@ -92,7 +92,7 @@ public class InspectionController {
     @RequestMapping(value = "/confirmedDelete/{id}", method = RequestMethod.GET)
     public String confirmedDelete(@PathVariable Long id) {
         Inspection i = inspectionService.findOne(id);
-        long redirect = i.getDropSite().getId();
+        long redirect = i.getYard().getId();
         inspectionService.delete(i);
         return "redirect:list/" + redirect;
     }
@@ -102,20 +102,20 @@ public class InspectionController {
         return "inspection/create";
     }
 
-    @RequestMapping(value = "create/{dropSiteId}", method = RequestMethod.GET)
-    public String create(@PathVariable Long dropSiteId, Model model) {
-        model.addAttribute("dropSite", dropSiteService.findOne(dropSiteId));
+    @RequestMapping(value = "create/{yardId}", method = RequestMethod.GET)
+    public String create(@PathVariable Long yardId, Model model) {
+        model.addAttribute("yard", yardService.findOne(yardId));
         return "inspection/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Inspection inspection,
                          @RequestParam(value = "fedChecked", required = false) boolean fedChecked,
-                         @RequestParam(value = "dropsiteid", required = true) long dropsiteid) {
-        inspection.setDropSite(dropSiteService.findOne(dropsiteid));
+                         @RequestParam(value = "yardId", required = true) long yardId) {
+        inspection.setYard(yardService.findOne(yardId));
         inspection.setIsFed(fedChecked);
         inspectionService.save(inspection);
-        long redirect = inspection.getDropSite().getId();
+        long redirect = inspection.getYard().getId();
         return "redirect:list/" + redirect;
     }
 }

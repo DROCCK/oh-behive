@@ -10,10 +10,10 @@ function assignHrefs(id) {
     link.href = "/yard/delete/" + id;
 
     link = document.getElementById("yardDrops");
-    link.href = "/dropsite/list/" + id; //doesnt use id?
+    link.href = "/dropsite/list/" + id;
 
     link = document.getElementById("yardShipments");
-    link.href = "/shipment/list/" + id; //doesnt use id?
+    link.href = "/shipment/list/" + id;
 }
 
 function assignOwnerHrefs(ownerId) {

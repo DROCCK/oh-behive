@@ -11,8 +11,6 @@
 
     <div class="col-md-6">
 
-        <h2 th:text="|#{yard} #{information}|">Yard Info</h2>
-
         <p th:text="${yard.yardName}">name</p>
 
         <p th:text="${yard.status}">status</p>
@@ -24,6 +22,10 @@
         <p th:text="${yard.accessNotes}">access location</p>
 
         <p> <span th:text="#{maxHives}">Max Hive Capacity:</span> <span th:text="${yard.maxHives}">status</span></p>
+
+        <p th:text="|#{longitude} ${yard.longitude}|"></p>
+
+        <p th:text="|#{latitude} ${yard.latitude}|"></p>
     </div>
 
     <div class="col-md-6">

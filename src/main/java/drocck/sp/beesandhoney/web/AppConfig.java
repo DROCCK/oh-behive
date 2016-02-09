@@ -92,9 +92,6 @@ public class AppConfig {
     public RoleService roleService() { return new RoleService(); }
 
     @Bean
-    public DropSiteService dropSiteService() { return new DropSiteService(); }
-
-    @Bean
     public CompanyService companyService() { return new CompanyService(); }
 
     @Bean

@@ -1,9 +1,7 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.DTOs.BeeBoardDTO;
-import drocck.sp.beesandhoney.business.entities.DropSite;
 import drocck.sp.beesandhoney.business.entities.Yard;
-import drocck.sp.beesandhoney.business.services.DropSiteService;
 import drocck.sp.beesandhoney.business.services.ShipmentService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +27,6 @@ public class BeeBoardController {
     @Autowired
     private ShipmentService shipmentService;
 
-    @Autowired
-    private DropSiteService dropSiteService;
 
     private List<Yard> activeYards;
 
@@ -49,9 +45,6 @@ public class BeeBoardController {
     public String beeBoard(Model model) {
         BeeBoardDTO beeBoardDTO = new BeeBoardDTO();
         activeYards=yardService.findAllInUse();
-        for(Yard y : activeYards) {
-            y.setDrops(dropSiteService.findAllByDropYard(y));
-        }
         beeBoardDTO.setYards(activeYards);
         beeBoardDTO.setShipments(shipmentService.findAll());
         model.addAttribute("beeBoard", beeBoardDTO);
