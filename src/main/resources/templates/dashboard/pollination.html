@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: head"></head>
-<head>
-    <title>Bee Board</title> <!-- add your title here -->
+<head th:include="fragments/head :: head">
+    <script type="text/javascript" th:href="@{/js/pollination-board.js}"></script>
+    <title>Pollination Board</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
@@ -14,30 +14,19 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Combo</th>
-                    <th>Address</th>
-                    <th>Access Notes</th>
-                    <th>Max Hives</th>
-                    <th>Owner</th>
-                    <th>Pay Rent To</th>
+                    <th>Orchard Name</th>
+                    <th>Progress</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr th:each="y : ${allYards}">
-                    <td th:text="${{y.id}}">0</td>
-                    <td><a th:text="${y.yardName}" th:href="@{/yard/read/{id}(id=${y.id})}">Watson</a></td>
-                    <td th:text="${{y.status}}">in use</td>
-                    <td th:text="${{y.combo}}">no key</td>
-                    <td th:text="${y.address}"></td>
-                    <td th:text="${{y.accessNotes}}">driveway</td>
-                    <td th:text="${{y.maxHives}}">80</td>
-                    <td><a th:unless="${y.owner == null}" th:text="${(y.owner.name)}"
-                           th:href="@{/owner/(id=${y.owner.id})}"></a></td>
-                    <td><a th:unless="${y.rentReceiver == null}" th:text="${(y.rentReceiver.name)}"
-                           th:href="@{/owner/(id=${y.rentReceiver.id})}"></a></td>
+                <!--/*@thymesVar id="contracts" type="java.util.ArrayList"*/-->
+                <tr th:each="c : ${contracts}">
+                    <td th:text="${c.id}">0</td>
+                    <td th:text="${c.yardName}"></td>
+                    <td th:text="${c.progress}">in use</td>
                     <td><a class="btn btn-xs btn-warning" th:href="@{/yard/update/{id}(id=${y.id})}">Update</a></td>
                     <td><a class="btn btn-xs btn-danger" th:href="@{/yard/delete/{id}(id=${y.id})}">Delete</a></td>
                 </tr>

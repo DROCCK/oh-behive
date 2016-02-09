@@ -3,7 +3,6 @@ package drocck.sp.beesandhoney.web.controllers;
 import drocck.sp.beesandhoney.business.entities.ContactInfo;
 import drocck.sp.beesandhoney.business.entities.Contract;
 import drocck.sp.beesandhoney.business.entities.DTOs.ContractDTO;
-import drocck.sp.beesandhoney.business.entities.Orchard;
 import drocck.sp.beesandhoney.business.entities.Shipment;
 import drocck.sp.beesandhoney.business.services.ContractService;
 import drocck.sp.beesandhoney.business.services.OrchardService;
@@ -46,8 +45,7 @@ public class PollinationBoardRestController {
 
     @RequestMapping(value = "pollination/contractShipments/{id}", method = RequestMethod.GET)
     public List<Shipment> shipments(@PathVariable("id") Long id) {
-        return null;
-        // return shipmentService.findAllByYard(orchardService.findOne(id));
+        return shipmentService.findAllByYard(orchardService.findOne(id));
     }
 
     @RequestMapping(value = "pollination/contacts/{id}", method = RequestMethod.GET)
