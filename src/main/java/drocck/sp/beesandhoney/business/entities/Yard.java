@@ -18,6 +18,7 @@ import java.util.stream.IntStream;
  */
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Yard implements Serializable {
 
     @Id
@@ -55,14 +56,21 @@ public class Yard implements Serializable {
     @JsonManagedReference
     private Owner owner;
 
-    @OneToMany(fetch=FetchType.EAGER)
-    @JsonManagedReference
-    private List<DropSite> drops;
-
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "RENT_RECEIVER_ID")
     @JsonManagedReference
     private Person rentReceiver;
+
+    @NotNull
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @NotNull
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Inspection> inspections;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "yards_regions",
@@ -209,14 +217,38 @@ public class Yard implements Serializable {
         this.rentReceiver = rentReceiver;
     }
 
-    public List<DropSite> getDrops() {return drops; }
+    public Double getLongitude() {
+        return longitude;
+    }
 
-    public void setDrops(List<DropSite> drops) {this.drops = drops;}
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setInspections(List<Inspection> inspections) {
+        this.inspections = inspections;
+    }
+
+    public void setCurrentHives(Integer currentHives) {
+        this.currentHives = currentHives;
+    }
+
+    public List<Inspection> getInspections() {
+        return inspections;
+    }
 
     @Override
     public String toString() {
         return "Yard [id="+this.id+" yardName="+this.yardName +" status="+this.status+" combo="+this.combo+" address="+this.address+
-                 "accessNotes="+this.accessNotes +" maxHives="+this.maxHives+" drops="+this.getDrops()+"]";
+                 "accessNotes="+this.accessNotes +" maxHives="+this.maxHives+"]";
     }
 
     public Date getLastVisit() {
