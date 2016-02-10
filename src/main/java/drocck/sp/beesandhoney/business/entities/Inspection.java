@@ -41,8 +41,8 @@ public class Inspection {
     private String notes;
 
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "DROP_SITE")
-    private DropSite dropSite;
+    @JoinColumn(name = "INSPECTED_YARD")
+    private Yard yard;
 
     public Long getId() {
         return id;
@@ -116,11 +116,11 @@ public class Inspection {
         this.notes = notes;
     }
 
-    public DropSite getDropSite() {
-        return dropSite;
+    public Yard getYard() {
+        return yard;
     }
 
-    public void setDropSite(DropSite dropSite) {
-        this.dropSite = dropSite;
+    public void setYard(Yard yard) {
+        this.yard = yard;
     }
 }

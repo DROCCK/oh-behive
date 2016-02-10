@@ -39,7 +39,10 @@
                     }
                 });
                 $('#calendar').fullCalendar('refetchEvents');
+                $('#count').val("");
             });
+
+            $('#date').val(getTodaysDate);
 
             $('#calendar').fullCalendar({
                 events: '/nucing/events',
@@ -47,6 +50,23 @@
                 droppable: true
             });
         });
+
+        function getTodaysDate() {
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth();
+            var yyyy = today.getFullYear();
+            var format = yyyy + '-' + addZero(mm + 1) + '-' + addZero(dd);
+
+            return format;
+        }
+
+        function addZero(s) {
+            s = s + '';
+            if (s.length === 1) s = '0' + s;
+            return s;
+        }
+
         function getCSRFTokenValue() {
             return $('#csrf-token').val();
         }
@@ -125,20 +145,34 @@
     <!-- End Center Panel -->
 
     <!-- Start Right Side Bar-->
-    <div class="col-md-3" style="background-color: aliceblue;">
-        <h2>Order Queens</h2>
-        <form id="testform">
-            <input id="csrf-token" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-            <label for="date">Date</label>
-            <input type="date" id="date"/>
+    <div class="col-md-3 panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    <a data-toggle="collapse" href="#new">Order Queens</a>
+                </h2>
+            </div>
+            <div id="new" class="panel-collapse collapse">
+                <form id="testform" class="form-horizontal">
+                    <input id="csrf-token" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
-            <label for="count">Count</label>
-            <input type="number" id="count"/>
-        </form>
-        <input id="createButton" type="button" value="Create"/>
-        <!-- End Right Side Bar -->
+                    <div class="form-group col-sm-12">
+                        <label class="col-sm-2 control-label" for="date">Date</label>
+                        <input class="form-control" type="date" id="date"/>
+                    </div>
+
+                    <div class="form-group col-sm-12">
+                        <label class="col-sm-2 control-label" for="count">Count</label>
+                        <input class="form-control" type="number" id="count"/>
+                    </div>
+                </form>
+                <input class="btn btn-default" id="createButton" type="button" value="Create"/>
+            </div>
+        </div>
     </div>
+    <!-- End Right Side Bar -->
 </div>
+
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
