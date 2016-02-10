@@ -1,41 +1,302 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: head">
-    <script type="text/javascript" th:href="@{/js/pollination-board.js}"></script>
-    <title>Pollination Board</title>
+<head th:include="fragments/head :: head"></head>
+<head>
+    <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
+    <script th:src="@{/js/bee-board.js}"></script>
+    <script>
+        function editFormatter(value, row, index) {
+            var modelId = row["id"];
+            return [
+                '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
+                '<i class="material-icons bee-board-icon">create</i>',
+                '</a>'
+            ].join('');
+        }
+
+        function deleteFormatter(value, row, index) {
+            return [
+                '<a class="remove ml10 bee-board-icon" href="javascript:void(0)" title="Remove">',
+                ' <i class="material-icons bee-board-icon">delete</i>',
+                '</a>'
+            ].join('');
+        }
+
+        window.operateEvents = {
+            'click .edit': function (e, value, row, index) {
+                location.href = "/yard/update/" + row["id"];
+            },
+            'click .remove': function (e, value, row, index) {
+                location.href = "/yard/delete/" + row["id"];
+            }
+        };
+
+        $(function () {
+            $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
+                (function () {
+                    document.getElementById('yard-prompt').style.display = "none";
+                    document.getElementById('map-div').style.display = "block";
+                    var lat;
+                    var long;
+                    var arrLength;
+                    var labels;
+                    var yardId = row["id"];//Used for map note hyperlink
+                    if (row["drops"].length == 0) { //prevents errors from empty drops array. IE yard with no drops.
+                        arrLength = 0;
+                        lat = 48.8582;  //random lat and long at eiffel tower. Should be changed to yard coordinates. Needs fix.
+                        long = 2.2945;
+                    }
+                    else {
+                        lat = row["drops"][0]["latitude"];  //Sets lat and long for initial map creation/centering.
+                        long = row["drops"][0]["longitude"];
+                        arrLength = row["drops"].length;
+                    }
+                    initialize(long, lat);//sets location of map on first drop location.
+                    //Creates Markers for map
+                    for (var i = 0; arrLength > i; i++) {
+                        labels = '<div id="mapNote">'+
+                                '<h2 id="Drop Info">Drop Info</h2>'+
+                                '<p>Singles: '+row["drops"][i]["singles"]+'<br/>'+
+                                'Doubles: '+row["drops"][i]["doubles"]+'<br/>'+
+                                'Supers: '+row["drops"][i]["supers"]+'<br/>'+
+                                '<a href="/inspection/list/'+yardId+'">' +
+                                'Check Inspections</a>'+
+                                '</p>'+
+                                '</div>';
+                        createMarkers(row["drops"][i]["longitude"], row["drops"][i]["latitude"], labels); //Cycles through drops and places markers
+                    }
+                })();
+                assignHrefs(row["id"]);
+                var owner = row["owner"];
+                assignOwnerHrefs(owner["id"]);
+                $("#name").html('<b>Yard Name: </b>' + row["yardName"]);
+                $("#status").html('<b>Status: </b>' + row["status"]);
+                $("#combo").html('<b>Combo: </b>' + row["combo"]);
+                var address = row["address"];
+                $("#street").html('<b>Address: </b>' + address["street"]);
+                $("#city").text(address["city"]);
+                $("#state").text(address["state"]);
+                $("#zip").text(address["zip"]);
+                $("#singles").html('<b>Singles: </b>' + row["singles"]);
+                $("#doubles").html('<b>Doubles: </b>' + row["doubles"]);
+                $("#supers").html('<b>Supers: </b>' + row["supers"]);
+                $("#duds").html('<b>Duds: </b>' + row["duds"]);
+
+                if (row["lastVisit"] != null)
+                    $("#lastVisit").html('<b>Last Visit: </b>' + row["lastVisit"]);
+                else
+                    $("#lastVisit").html('<b>No Inspections Recorded </b>');
+                if (row["lastFedDate"] != null)
+                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"])
+                else
+                    $("#lastFedDate").html('<b>No Feed Date Recorded </b>');
+            });
+        });
+
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <title th:text="#{beeBoard}"></title>
 </head>
 <body>
+<script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
 <header th:replace="fragments/header :: header"></header>
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-        <div>
-            <table class="table table-hover">
+<div class="row dashboard-row">
+    <div class="col-md-2 hidden-xs hidden-sm">
+        <div class="left-sidebar-div">
+            <h3><b th:text="#{counts}"></b></h3>
+            <hr/>
+            <h4 th:text="|#{current}: ${1}|"></h4>
+            <h4 th:text="|#{contract}: ${1}|"></h4>
+        </div>
+        <div class="left-sidebar-div">
+            <h3><b th:text="#{progress}"></b></h3>
+            <hr/>
+            <progress value="22" max="100">
+            </progress>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div align="center">
+            <a id="addYard" th:href="@{/yard/create}">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{add} #{contract}|">
+                    add_circle_outline
+                </i>
+            </a>
+            <a id="editYard" href="#">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{edit} #{contract}|">
+                    create
+                </i>
+            </a>
+            <a id="deleteYard" href="#">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{delete} #{contract}|">
+                    delete
+                </i>
+            </a>
+            <b class="material-icons md-48 bee-board-icon bee-color">|</b>
+            <a id="yardOwner" href="#">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{owner}|">
+                    person_outline
+                </i>
+            </a>
+            <a id="yardDrops" href="#">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{dropSites}|">
+                    place
+                </i>
+            </a>
+            <a id="yardShipments" href="#">
+                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{shipments}|">
+                    send
+                </i>
+            </a>
+        </div>
+        <hr/>
+        <div id="yard-prompt">
+            <h1 th:text="#{chooseRow}"></h1>
+        </div>
+        <div class="row dashboard-row">
+            <div class="col-md-6">
+                <div class="col-md-6">
+                    <p id="name"></p>
+
+                    <p id="status"></p>
+
+                    <p id="combo"></p>
+
+                    <p id="singles"></p>
+
+                    <p id="doubles"></p>
+
+                    <p id="supers"></p>
+
+                    <p id="duds"></p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <span id="street"></span>
+
+                        <span id="city"></span>
+
+                        <span id="state"></span>
+
+                        <span id="zip"></span>
+                    </p>
+
+                    <p id="lastVisit"></p>
+
+                    <p id="lastFedDate"></p>
+                </div>
+            </div>
+            <div id="map-div" class="col-md-6"></div>
+        </div>
+        <hr/>
+        <div class="col-md-12">
+            <table class="table table-condensed table-responsive"
+                   id="yard-table"
+                   data-toggle="table"
+                   data-url="/dashboard/beeboard/json"
+                   data-cache="false"
+                   data-pagination="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+                   data-search="true">
+                <caption align="center" th:text="#{activeContracts}"></caption>
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Orchard Name</th>
-                    <th>Progress</th>
-                    <th></th>
-                    <th></th>
+                    <th data-field="yardName" data-sortable="true" data-visible="true" th:text="#{orchardName}"></th>
+                    <th data-field="address.street" data-sortable="true" data-visible="true" th:text="#{progress}"></th>
+                    <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents"
+                        th:text="#{edit}"></th>
+                    <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents"
+                        th:text="#{delete}"></th>
                 </tr>
                 </thead>
-
-                <tbody>
-                <!--/*@thymesVar id="contracts" type="java.util.ArrayList"*/-->
-                <tr th:each="c : ${contracts}">
-                    <td th:text="${c.id}">0</td>
-                    <td th:text="${c.yardName}"></td>
-                    <td th:text="${c.progress}">in use</td>
-                    <td><a class="btn btn-xs btn-warning" th:href="@{/yard/update/{id}(id=${y.id})}">Update</a></td>
-                    <td><a class="btn btn-xs btn-danger" th:href="@{/yard/delete/{id}(id=${y.id})}">Delete</a></td>
-                </tr>
-                </tbody>
             </table>
         </div>
-        <div class="col-md-1"></div>
+    </div>
+    <div class="col-md-2 hidden-xs hidden-sm">
+        <div class="right-sidebar-div">
+            <h3><b th:text="#{dates}"></b></h3>
+            <hr/>
+            <h4 th:text="|#{in}: ${1}|"></h4>
+            <h4 th:text="|#{out}: ${1}|"></h4>
+            <h4 th:text="|#{fed}: ${1}|"></h4>
+        </div>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+    var x = document.getElementById("error");
+    var map;
+    var marker;
+    var coords;
+    var lat;
+    var lng;
+    var markerImage;
+    var shape;
+    //Creates and centers map
+    function initialize(longitude, latitude) { //Passed in longitude and latitude are just the position of the first drop of the yard.
+        lat = latitude;
+        lng = longitude;
+        coords = new google.maps.LatLng(lat, lng);
+        var mapOptions = {
+            zoom: 15,
+            center: coords,
+            mapTypeControl: true,
+            mapTypeId: google.maps.MapTypeId.HYBRID
+        };
+        map = new google.maps.Map(
+                document.getElementById("map-div"), mapOptions
+        );
+        //generate the bee marker image
+        markerImage = {
+            url: 'http://i.imgur.com/ALU8OuA.png',
+            size: new google.maps.Size(45,45),
+            origin: new google.maps.Point(0,0),
+            anchor: new google.maps.Point(23,45)
+        };
+        shape = {
+            coords:[1,1,1,45,45,45,45,1],
+            type: 'poly'
+        };
+    }
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                x.innerHTML = "User denied the request for Geolocation.";
+                break;
+            case error.POSITION_UNAVAILABLE:
+                x.innerHTML = "Location information is unavailable.";
+                break;
+            case error.TIMEOUT:
+                x.innerHTML = "The request to get user location timed out.";
+                break;
+            case error.UNKNOWN_ERROR:
+                x.innerHTML = "An unknown error occurred.";
+                break;
+        }
+    }
+    //Creates Markers
+    function createMarkers(long, lat, windowLabel) {
+        var infoWindow = new google.maps.InfoWindow({
+            content: windowLabel.toString(),
+            maxWidth:200
+        });
+        var latlng = new google.maps.LatLng(lat, long);
+        var marker = new google.maps.Marker({
+            position: latlng,
+            icon: markerImage,
+            shape: shape
+        });
+        marker.setMap(map); //must set its map to the pages' map
+        //adds listener to each marker during creation
+        marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+        });
+    }
+</script>
 </body>
 </html>
