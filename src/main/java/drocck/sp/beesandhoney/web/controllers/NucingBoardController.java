@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.DTOs.NucingBoardDTO;
+import drocck.sp.beesandhoney.business.entities.Event;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.services.ShipmentService;
 import drocck.sp.beesandhoney.business.services.YardService;
@@ -65,7 +66,7 @@ public class NucingBoardController {
         List<Yard> yardList = yardService.findAllInUse();
         return yardList;
     }
-
+/*
     @RequestMapping(value = "nucing/test", method = RequestMethod.POST)
     public @ResponseBody Event test(@RequestBody final String event) {
         Map<String, String> m = parseString(event);
@@ -77,7 +78,7 @@ public class NucingBoardController {
         try {
             d = sdf.parse(m.get("start"));
         } catch (ParseException pe) {
-            System.err.println("Parsing Date Failed" + pe.getMessage());
+            System.err.println("Parsing Date Failed " + pe.getMessage());
         }
         e.setStart(d);
         eventList.add(e);
@@ -97,7 +98,7 @@ public class NucingBoardController {
 
         return e;
     }
-
+*/
     private Map<String, String> parseString(String s) {
         Map<String, String> m = new HashMap();
         String key = "";
@@ -130,44 +131,5 @@ public class NucingBoardController {
             i++;
         }
         return m;
-    }
-
-    public class Event {
-        private String title;
-        private Date start;
-        private boolean allDay = true;
-        private String color;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public Date getStart() {
-            return start;
-        }
-
-        public void setStart(Date start) {
-            this.start = start;
-        }
-
-        public boolean isAllDay() {
-            return allDay;
-        }
-
-        public void setAllDay(boolean allDay) {
-            this.allDay = allDay;
-        }
-
-        public String getColor() {
-            return color;
-        }
-
-        public void setColor(String color) {
-            this.color = color;
-        }
     }
 }
