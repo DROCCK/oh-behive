@@ -17,14 +17,32 @@ function getContract(id) {
 
 function getContacts(id) {
     var contactsUrl = contacts + id;
-    alert(contactsUrl);
+    $('#table-modal-title').text("Orchard's Contacts");
+    $('#t-body').text("Loading...");
     $.getJSON(contactsUrl, function(data) {
         loadContactListModal(data);
     });
 }
 
 function loadContactListModal(data) {
-    alert(data);
+    var tableHead = $('#t-head');
+    tableHead.empty();
+    var head = $('<tr>').append(
+        $('<td>').text('Name'),
+        $('<td>').text('Email'),
+        $('<td>').text('Phone')
+    );
+    tableHead.append(head);
+    var tableBody = $('#t-body');
+    tableBody.empty();
+    $.each(data, function(i, e) {
+        var row = $('<tr>').append(
+            $('<td>').text("Person's name"),
+            $('<td>').text(e.email),
+            $('<td>').text(e.phone)
+        );
+        tableBody.append(row);
+    });
     // Load modal window with list of contacts.
 }
 
@@ -50,3 +68,11 @@ function updateTable(data) {
         }
     });
 }
+
+$(function () {
+    $('#contract-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
+        (function () {
+            getContract()
+        })();
+    });
+});

@@ -3,7 +3,7 @@
 <head th:include="fragments/head :: head"></head>
 <head>
     <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
-    <script th:src="@{/js/bee-board.js}"></script>
+    <script th:src="@{/js/pollination-board.js}"></script>
     <script>
         function editFormatter(value, row, index) {
             var modelId = row["id"];
@@ -87,7 +87,7 @@
                 else
                     $("#lastVisit").html('<b>No Inspections Recorded </b>');
                 if (row["lastFedDate"] != null)
-                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"])
+                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"]);
                 else
                     $("#lastFedDate").html('<b>No Feed Date Recorded </b>');
             });
@@ -102,6 +102,11 @@
 <body>
 <script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
 <header th:replace="fragments/header :: header"></header>
+<div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div>
+<div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
+|<a data-toggle="modal" data-target="#table-modal" onclick="getContacts(0)">Test list modal</a>
+|<a data-toggle="modal" data-target="#form-modal">Test form modal</a>
+|
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="left-sidebar-div">
@@ -213,6 +218,16 @@
                         th:text="#{delete}"></th>
                 </tr>
                 </thead>
+                <tbody>
+                <!--/*@thymesVar id="contracts" type="java.util.ArrayList"*/-->
+                <tr th:each="c : ${contracts}" th:id="|contract-row- ${c.id}|">
+                    <td th:text="${c.id}">0</td>
+                    <td th:text="${c.yardName}"></td>
+                    <td th:text="${c.progress}">in use</td>
+                    <td><a class="btn btn-xs btn-warning" th:href="@{/yard/update/{id}(id=${y.id})}">Update</a></td>
+                    <td><a class="btn btn-xs btn-danger" th:href="@{/yard/delete/{id}(id=${y.id})}">Delete</a></td>
+                </tr>
+                </tbody>
             </table>
         </div>
     </div>

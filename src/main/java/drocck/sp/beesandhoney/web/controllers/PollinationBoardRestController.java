@@ -4,6 +4,7 @@ import drocck.sp.beesandhoney.business.entities.ContactInfo;
 import drocck.sp.beesandhoney.business.entities.Contract;
 import drocck.sp.beesandhoney.business.entities.DTOs.ContractDTO;
 import drocck.sp.beesandhoney.business.entities.Shipment;
+import drocck.sp.beesandhoney.business.services.ContactInfoService;
 import drocck.sp.beesandhoney.business.services.ContractService;
 import drocck.sp.beesandhoney.business.services.OrchardService;
 import drocck.sp.beesandhoney.business.services.ShipmentService;
@@ -21,6 +22,9 @@ public class PollinationBoardRestController {
 
     @Autowired
     ContractService contractService;
+
+    @Autowired
+    ContactInfoService contactInfoService;
 
     @Autowired
     OrchardService orchardService;
@@ -50,6 +54,7 @@ public class PollinationBoardRestController {
 
     @RequestMapping(value = "pollination/contacts/{id}", method = RequestMethod.GET)
     public List<ContactInfo> contacts(@PathVariable("id") Long id) {
-        return orchardService.findOne(id).getContacts();
+        // return orchardService.findOne(id).getContacts();
+        return contactInfoService.findAll();
     }
 }
