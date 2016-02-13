@@ -3,11 +3,9 @@ package drocck.sp.beesandhoney.web.controllers;
 import drocck.sp.beesandhoney.business.entities.ContactInfo;
 import drocck.sp.beesandhoney.business.entities.Contract;
 import drocck.sp.beesandhoney.business.entities.DTOs.ContractDTO;
+import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.Shipment;
-import drocck.sp.beesandhoney.business.services.ContactInfoService;
-import drocck.sp.beesandhoney.business.services.ContractService;
-import drocck.sp.beesandhoney.business.services.OrchardService;
-import drocck.sp.beesandhoney.business.services.ShipmentService;
+import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,16 +19,16 @@ import java.util.List;
 public class PollinationBoardRestController {
 
     @Autowired
-    ContractService contractService;
+    private ContractService contractService;
 
     @Autowired
-    ContactInfoService contactInfoService;
+    private PersonService personService;
 
     @Autowired
-    OrchardService orchardService;
+    private OrchardService orchardService;
 
     @Autowired
-    ShipmentService shipmentService;
+    private ShipmentService shipmentService;
 
     @RequestMapping(value = "pollination/contracts", method = RequestMethod.GET)
     public List<ContractDTO> contracts() {
@@ -53,8 +51,8 @@ public class PollinationBoardRestController {
     }
 
     @RequestMapping(value = "pollination/contacts/{id}", method = RequestMethod.GET)
-    public List<ContactInfo> contacts(@PathVariable("id") Long id) {
+    public List<Person> contacts(@PathVariable("id") Long id) {
         // return orchardService.findOne(id).getContacts();
-        return contactInfoService.findAll();
+        return personService.findAll();
     }
 }
