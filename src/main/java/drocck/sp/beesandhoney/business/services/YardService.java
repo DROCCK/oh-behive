@@ -1,7 +1,9 @@
 package drocck.sp.beesandhoney.business.services;
 
 import drocck.sp.beesandhoney.business.entities.Owner;
+import drocck.sp.beesandhoney.business.entities.Region;
 import drocck.sp.beesandhoney.business.entities.Yard;
+import drocck.sp.beesandhoney.business.entities.repositories.RegionRepository;
 import drocck.sp.beesandhoney.business.entities.repositories.YardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class YardService {
     private YardRepository yardRepository;
 
     @Autowired
+    private RegionService regionService;
+
+    @Autowired
     private AddressService addressService;
 
     public List<Yard> findAll() {
@@ -36,6 +41,10 @@ public class YardService {
         return yardRepository.findAllByOwner(owner);
     }
 
+    public List<Yard> findAllByRegion(Region region){
+        return yardRepository.findAllByRegion(region);
+    }
+
     public Yard findOne(Long id) {
         return yardRepository.findOne(id);
     }
@@ -45,6 +54,9 @@ public class YardService {
     }
 
     public Yard save(final Yard yard) {
+        //Region region=regionService.findOne(yard.getRegion().getId());
+        //region.setYards(yardRepository.findAllByRegion(region));
+        //regionService.save(region);
         return yardRepository.save(yard);
     }
 }

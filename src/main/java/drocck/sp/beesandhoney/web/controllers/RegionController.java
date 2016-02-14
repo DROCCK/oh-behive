@@ -2,6 +2,7 @@ package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Region;
 import drocck.sp.beesandhoney.business.services.RegionService;
+import drocck.sp.beesandhoney.business.services.YardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,9 @@ public class RegionController {
 
     @Autowired
     private RegionService regionService;
+
+    @Autowired
+    private YardService yardService;
 
     @ModelAttribute("region")
     public Region construct() {
@@ -38,7 +42,9 @@ public class RegionController {
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
     public String read(@PathVariable Long id, Model model) {
-        model.addAttribute("region", regionService.findOne(id));
+        Region region = regionService.findOne(id);
+        region.setYards(yardService.findAllByRegion(region));
+        model.addAttribute("region", region);
         return "region/read";
     }
 
