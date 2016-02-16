@@ -35,50 +35,43 @@
             //sets array length for the map markers
             var arrLength=0;
             var jsonArray;
+            var labels;
             var json = $.getJSON('/dashboard/beeboard/json', function(data) {
-                arrLength=data.length;  //sets Arrlength to the length of the json array
                 jsonArray=data; //moves data array to var
+                arrLength = jsonArray[0]["yards"].length;
+
+                initialize();
+                for (var i = 0; arrLength > i ; i++){
+                    labels = '<div id="mapNote">'+
+                            '<h2 id="Yard Info">Yard Info</h2>'+
+                            '<p>Singles: '+jsonArray[0]["yards"][i]["singles"]+'<br/>'+
+                            'Doubles: '+jsonArray[0]["yards"][i]["doubles"]+'<br/>'+
+                            'Supers: '+jsonArray[0]["yards"][i]["supers"]+'<br/>'+
+                            '<a href="/inspection/list/'+jsonArray[0]['yards'][i]['id']+'">' +
+                            'Check Inspections</a>'+
+                            '</p>'+
+                            '</div>';
+                    createMarker(jsonArray[0]['yards'][i]['longitude'], jsonArray[0]['yards'][i]['latitude'], labels); //Cycles through drops and places markers
+                }
             });
 
             $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
                 (function () {
                     document.getElementById('yard-prompt').style.display = "none";
                     document.getElementById('map-div').style.display = "block";
-                    var lat;
-                    var long;
-                    var labels;
-                    var yardId = row["id"];//Used for map note hyperlink
-                    if (row["longitude"].length == 0|| row["latitude"].length==0) {
-                        lat = 48.8582;  //random lat and long at eiffel tower. Should be changed to yard coordinates. Needs fix.
-                        long = 2.2945;
-                    }
-                    else {
-                        lat = row["latitude"];  //Sets lat and long for initial map creation/centering.
-                        long = row["longitude"];
-                    }
-                    initialize(long, lat);//sets location of map on first drop location.
-
-                    //console.log(arrLength);
-                    //Creates Markers for map
-                    for (var i = 0; arrLength > i; i++) {
-                        labels = '<div id="mapNote">'+
-                                '<h2 id="Yard Info">Yard Info</h2>'+
-                                '<p>Singles: '+row["singles"]+'<br/>'+
-                                'Doubles: '+row["doubles"]+'<br/>'+
-                                'Supers: '+row["supers"]+'<br/>'+
-                                '<a href="/inspection/list/'+yardId+'">' +
-                                'Check Inspections</a>'+
-                                '</p>'+
-                                '</div>';
-                        createMarkers(row["longitude"], row["latitude"], labels); //Cycles through drops and places markers
-                    }
+                    //Recenters map
+                    var yardId = row["id"];
+                    var lat = jsonArray[0]['yards'][yardId-1]['latitude'];
+                    var long = jsonArray[0]['yards'][yardId-1]['longitude'];
+                    console.log(jsonArray[0]['yards'][yardId-1]); //<--- Look into this further. Why is this yardId-1?
+                    recenter(lat,long);
                 })();
                 assignHrefs(row["id"]);
                 var owner = row["owner"];
                 assignOwnerHrefs(owner["id"]);
-                $("#name").html('<b>Yard Name: </b>' + ["yardName"]);
-                $("#status").html('<b>Status: </b>' + ["status"]);
-                $("#combo").html('<b>Combo: </b>' + ["combo"]);
+                $("#name").html('<b>Yard Name: </b>' + row["yardName"]);
+                $("#status").html('<b>Status: </b>' + row["status"]);
+                $("#combo").html('<b>Combo: </b>' + row["combo"]);
                 var address = row["address"];
                 $("#street").html('<b>Address: </b>' + address["street"]);
                 $("#city").text(address["city"]);
@@ -200,9 +193,21 @@
                     <p id="lastFedDate"></p>
                 </div>
             </div>
-            <div id="map-div" class="col-md-6"></div>
+            <div id="map-div" class="col-md-6" style="display:block"></div>
         </div>
         <hr/>
+        <!--Region Dropdown-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="region" th:text="#{region}"></label>
+
+            <div class="col-sm-10">
+                <select class="form-control" id="region">
+                    <option value="ALL" th:text="#{all}"></option>
+                    <option th:each="r : ${beeBoard.getRegions()}" th:value="${r.id}" th:text="${r.name}"></option>
+                </select>
+            </div>
+        </div>
+        <!--Yard table-->
         <div class="col-md-12">
             <table class="table table-condensed table-responsive"
                    id="yard-table"
@@ -252,28 +257,19 @@
 <script src="http://maps.googleapis.com/maps/api/js"></script>
 <script>
     var x = document.getElementById("error");
-    var map;
-    var mapOptions;
     var marker;
     var coords;
     var lat;
     var lng;
     var markerImage;
     var shape;
+    var markers=[];
+    var bounds;
+    var map;
+    var mapOptions;
+
     //Creates and centers map
-    function initialize(longitude, latitude) { //Passed in longitude and latitude are just the position of the first drop of the yard.
-        lat = latitude;
-        lng = longitude;
-        coords = new google.maps.LatLng(lat, lng);
-        mapOptions = {
-            zoom: 15,
-            center: coords,
-            mapTypeControl: true,
-            mapTypeId: google.maps.MapTypeId.HYBRID
-        };
-        map = new google.maps.Map(
-                document.getElementById("map-div"), mapOptions
-        );
+    function initialize() { //Passed in longitude and latitude are just the position of the first drop of the yard.
         //generate the bee marker image
         markerImage = {
             url: 'http://i.imgur.com/ALU8OuA.png',
@@ -285,16 +281,20 @@
             coords:[1,1,1,45,45,45,45,1],
             type: 'poly'
         };
-    }
-
-    function recenter(longitude, latitude){ //used to recenter the map whenever a new row is clicked
-        coords = new google.maps.LatLng(latitude,longitude);
-        mapOptions = {
-            zoom: 15,
-            center: coords,
+        bounds = new google.maps.LatLngBounds();
+        mapOptions= {
             mapTypeControl: true,
             mapTypeId: google.maps.MapTypeId.HYBRID
-        }
+        };
+        map = new google.maps.Map(
+                document.getElementById("map-div"), mapOptions
+        );
+    }
+
+    function recenter(latitude, longitude){ //used to recenter the map whenever a new row is clicked
+        coords = new google.maps.LatLng(latitude,longitude);
+        map.setZoom(15);
+        map.panTo(coords);
     }
 
     function showError(error) {
@@ -314,7 +314,8 @@
         }
     }
     //Creates Markers
-    function createMarkers(long, lat, windowLabel) {
+    function createMarker(long, lat, windowLabel) {
+        //create info window
         var infoWindow = new google.maps.InfoWindow({
             content: windowLabel.toString(),
             maxWidth:200
@@ -330,6 +331,8 @@
         marker.addListener('click', function(){
             infoWindow.open(map, marker);
         });
+        bounds.extend(marker.getPosition());
+        map.fitBounds(bounds);
     }
 </script>
 </body>
