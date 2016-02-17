@@ -15,7 +15,7 @@ public class NucYard extends Yard {
         this.nuked = nuked;
     }
 
-    public boolean wasCheckedAfter3Weeks() {
+    public boolean getCheckedAfter3Weeks() {
         return checkedAfter3Weeks;
     }
 

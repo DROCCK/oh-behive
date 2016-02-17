@@ -7,22 +7,11 @@ import java.util.List;
  */
 public class NucReport {
 
-    private List<Yard> yards;
-    private int initialCount;
-    private int postNucCount;;
-    private int postCheckCount;
-    private boolean postCheck;
-
-    public NucReport(){
-
-    }
-
-    public NucReport(int ic, int pnc, int pcc, boolean pc){
-        setInitialCount(ic);
-        setPostCheckCount(pnc);
-        setPostCheckCount(pcc);
-        setPostCheck(pc);
-    }
+    private List<Yard> yards; //Later this will be specifc nucing yard.
+    private int initialCount; //Number of hives of a specific nucing yard before nucing.
+    private int postNucCount; //Number of hives of a specific nucingyard after nucing.
+    private int postNucQueenCount; //Number of Queens accepted at specific nucing yard.
+    private boolean postNucCheck = false; //Nucing yard status that a nucing yard has been checked after 3 weeks.
 
     public List<Yard> getYards() {
         return yards;
@@ -31,6 +20,7 @@ public class NucReport {
     public void setYards(List<Yard> yards) {
         this.yards = yards;
     }
+
 
     public int getInitialCount() {
         return initialCount;
@@ -48,19 +38,19 @@ public class NucReport {
         this.postNucCount = postNuc;
     }
 
-    public int getPostCheckCount() {
-        return postCheckCount;
+    public int getPostNucQueenCount() {
+        return postNucQueenCount;
     }
 
-    public void setPostCheckCount(int postCheck) {
-        this.postCheckCount = postCheck;
+    public void setPostNucQueenCount(int newQueenCount) {
+        this.postNucQueenCount = newQueenCount;
     }
 
-    public void setPostCheck(boolean postCheck) {
-        this.postCheck = postCheck;
+    public void setPostNucCheck(boolean postNucCheck) {
+        this.postNucCheck = postNucCheck;
     }
 
-    public boolean isPostCheck() {
-        return postCheck;
+    public boolean isPostNucCheck() {
+        return postNucCheck;
     }
 }
