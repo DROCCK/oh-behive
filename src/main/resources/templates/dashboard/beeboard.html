@@ -59,19 +59,21 @@
                 (function () {
                     document.getElementById('yard-prompt').style.display = "none";
                     document.getElementById('map-div').style.display = "block";
+                    document.getElementById('infoPanel').style.display = "block";
                     //Recenters map
                     var yardId = row["id"];
                     var lat = jsonArray[0]['yards'][yardId-1]['latitude'];
                     var long = jsonArray[0]['yards'][yardId-1]['longitude'];
-                    console.log(jsonArray[0]['yards'][yardId-1]); //<--- Look into this further. Why is this yardId-1?
+                    console.log(jsonArray[0]['yards'][yardId-1]); //--- Look into this further. Why is this yardId-1?
                     recenter(lat,long);
                 })();
                 assignHrefs(row["id"]);
                 var owner = row["owner"];
-                assignOwnerHrefs(owner["id"]);
+
                 $("#name").html('<b>Yard Name: </b>' + row["yardName"]);
                 $("#status").html('<b>Status: </b>' + row["status"]);
                 $("#combo").html('<b>Combo: </b>' + row["combo"]);
+                $("#owner").html('<b>Owner: </b>' + '<a id="yardOwner" href="#">' + owner["person"]["name"] + '</a>');
                 var address = row["address"];
                 $("#street").html('<b>Address: </b>' + address["street"]);
                 $("#city").text(address["city"]);
@@ -81,6 +83,7 @@
                 $("#doubles").html('<b>Doubles: </b>' + row["doubles"]);
                 $("#supers").html('<b>Supers: </b>' + row["supers"]);
                 $("#duds").html('<b>Duds: </b>' + row["duds"]);
+                assignOwnerHrefs(owner["id"]);
 
                 if (row["lastVisit"] != null)
                     $("#lastVisit").html('<b>Last Visit: </b>' + row["lastVisit"]);
@@ -124,46 +127,17 @@
     </div>
     <div class="col-md-8">
         <div align="center">
-            <a id="addYard" th:href="@{/yard/create}">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{add} #{yard}|">
-                    add_circle_outline
-                </i>
-            </a>
-            <a id="editYard" href="#">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{edit} #{yard}|">
-                    create
-                </i>
-            </a>
-            <a id="deleteYard" href="#">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{delete} #{yard}|">
-                    delete
-                </i>
-            </a>
-            <b class="material-icons md-48 bee-board-icon bee-color">|</b>
-            <a id="yardOwner" href="#">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{owner}|">
-                    person_outline
-                </i>
-            </a>
-            <a id="yardDrops" href="#">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{dropSites}|">
-                    place
-                </i>
-            </a>
-            <a id="yardShipments" href="#">
-                <i class="material-icons md-36 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{shipments}|">
-                    send
-                </i>
-            </a>
         </div>
         <hr/>
-        <div id="yard-prompt">
-            <h1 th:text="#{chooseRow}"></h1>
-        </div>
-        <div class="row dashboard-row">
-            <div class="col-md-6">
+        <div class="row dashboard-row" >
+            <div class="col-md-6" id="yard-prompt">
+                <h1 th:text="#{chooseRow}"></h1>
+            </div>
+            <div id = "infoPanel"  class="col-md-6" style="display:none">
                 <div class="col-md-6">
                     <p id="name"></p>
+
+                    <p id="owner"></p>
 
                     <p id="status"></p>
 
@@ -191,9 +165,32 @@
                     <p id="lastVisit"></p>
 
                     <p id="lastFedDate"></p>
+                    <div>
+                        <div class="col-sm-4">
+                        <a id="editYard" href="#">
+                            <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="|#{edit} #{yard}|">
+                                create
+                            </i>
+                        </a>
+                        </div>
+                        <div class="col-sm-4">
+                        <a id="deleteYard" href="#">
+                            <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="|#{delete} #{yard}|">
+                                delete
+                            </i>
+                        </a>
+                        </div>
+                        <div class="col-sm-4">
+                        <a id="yardShipments" href="#">
+                            <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{shipments}|">
+                                send
+                            </i>
+                        </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div id="map-div" class="col-md-6" style="display:block"></div>
+            <div id="map-div" class="col-md-6" style="display:block" th:align="right"></div>
         </div>
         <hr/>
         <!--Region Dropdown-->
@@ -219,7 +216,14 @@
                    data-show-toggle="true"
                    data-show-columns="true"
                    data-search="true">
-                <caption align="center" th:text="#{activeYards}"></caption>
+                <caption align="center">
+                    <div class="col-sm-2" th:text="#{activeYards}"></div>
+                    <a id="addYard" class="col-sm-10" th:href="@{/yard/create}" th:align="left">
+                        <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="|#{add} #{yard}|">
+                            add_circle_outline
+                        </i>
+                    </a>
+                 </caption>
                 <thead>
                 <tr>
                     <th data-field="yardName" data-sortable="true" data-visible="true" th:text="#{name}"></th>
