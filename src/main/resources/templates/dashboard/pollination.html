@@ -97,16 +97,19 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
-    <title th:text="#{beeBoard}"></title>
+    <title th:text="#{pollinationBoard}"></title>
 </head>
 <body>
 <script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
 <header th:replace="fragments/header :: header"></header>
+
+<!-- List and edit Modals -->
 <div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div>
 <div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
 |<a data-toggle="modal" data-target="#table-modal" onclick="getContacts(0)">Test list modal</a>
 |<a data-toggle="modal" data-target="#form-modal">Test form modal</a>
 |
+
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="left-sidebar-div">
