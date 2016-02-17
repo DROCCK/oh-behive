@@ -67,9 +67,9 @@
                     }
                 })();
                 assignHrefs(row["id"]);
-                $("#contacts").html('<b>Contacts: </b> <a data-toggle="modal" data-target="#table-modal"onclick="getContacts(0)">Test list modal</a>');
-                $("#shipments").html('<b>Contacts: </b> <a data-toggle="modal" data-target="#table-modal"onclick="getContacts(0)">Test list modal</a>');
-                $("#inspections").html('<b>Contacts: </b> <a data-toggle="modal" data-target="#table-modal"onclick="getContacts(0)">Test list modal</a>');
+                $("#contacts").html('<div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div><a data-toggle="modal" data-target="#table-modal" onclick="getContacts(0)">Contacts</a>');
+                $("#shipments").html('<div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div><a data-toggle="modal" data-target="#table-modal" onclick="getShipments(0)">Shipments</a>');
+                $("#inspections").html('<div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div><a data-toggle="modal" data-target="#table-modal" onclick="getInspections(0)">Inspections</a>');
             });
         });
 
