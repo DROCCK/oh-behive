@@ -7,6 +7,18 @@ var contractDtoList = url + "contracts";
 var contract = url + "contract/";
 var contacts = url + "contacts/";
 
+function getEmptyTableHead() {
+    var tableHead = $('#t-head');
+    tableHead.empty();
+    return tableHead;
+}
+
+function getEmptyTableBody() {
+    var tableBody = $('#t-body');
+    tableBody.empty();
+    return tableBody;
+}
+
 function getContract(id) {
     var contractUrl = contract + id;
     alert(contractUrl);
@@ -17,15 +29,51 @@ function getContract(id) {
 
 function getContacts(id) {
     var contactsUrl = contacts + id;
-    alert(contactsUrl);
+    $('#table-modal-title').text("Orchard's Contacts");
+    $('#t-body').text("Loading...");
     $.getJSON(contactsUrl, function(data) {
         loadContactListModal(data);
     });
 }
 
+function loadListModal(data, headFunc, rowFunc) {
+    getEmptyTableHead().append(headFunc());
+    var tableBody = getEmptyTableBody();
+    $.each(data, function(i, e) {
+        tableBody.append(rowFunc(e));
+    });
+}
+
 function loadContactListModal(data) {
-    alert(data);
-    // Load modal window with list of contacts.
+    loadListModal(data, getContactHead, getContactRow);
+}
+
+function getContactRow(e) {
+    return $('<tr>').append(
+        $('<td>').text(e.name),
+        $('<td>').text(e.contactInfo.email),
+        $('<td>').text(e.contactInfo.phone)
+    );
+}
+
+function getContactHead() {
+    return $('<tr>').append(
+        $('<td>').text('Name'),
+        $('<td>').text('Email'),
+        $('<td>').text('Phone')
+    );
+}
+
+function loadShipmentListModal(data) {
+    loadListModal(data, getShipmentHead, getShipmentRow);
+}
+
+function getShipmentHead() {
+    // TODO add html for shipment head.
+}
+
+function getShipmentRow(e) {
+    // TODO add html for shipment row.
 }
 
 function loadTableData(data) {
@@ -50,3 +98,11 @@ function updateTable(data) {
         }
     });
 }
+
+$(function () {
+    $('#contract-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
+        (function () {
+            getContract()
+        })();
+    });
+});

@@ -1,12 +1,11 @@
 package drocck.sp.beesandhoney.web.controllers;
 
-import drocck.sp.beesandhoney.business.entities.ContactInfo;
 import drocck.sp.beesandhoney.business.entities.Contract;
 import drocck.sp.beesandhoney.business.entities.DTOs.ContractDTO;
+import drocck.sp.beesandhoney.business.entities.Inspection;
+import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.Shipment;
-import drocck.sp.beesandhoney.business.services.ContractService;
-import drocck.sp.beesandhoney.business.services.OrchardService;
-import drocck.sp.beesandhoney.business.services.ShipmentService;
+import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +19,29 @@ import java.util.List;
 public class PollinationBoardRestController {
 
     @Autowired
-    ContractService contractService;
+    private ContractService contractService;
 
     @Autowired
-    OrchardService orchardService;
+    private PersonService personService;
 
     @Autowired
-    ShipmentService shipmentService;
+    private OrchardService orchardService;
+
+    @Autowired
+    private ShipmentService shipmentService;
+
+    @Autowired
+    private InspectionService inspectionService;
+
+    @ModelAttribute("shipment")
+    public Shipment constructShipment() {
+        return new Shipment();
+    }
+
+    @ModelAttribute("contract")
+    public Contract constructContract() {
+        return new Contract();
+    }
 
     @RequestMapping(value = "pollination/contracts", method = RequestMethod.GET)
     public List<ContractDTO> contracts() {
@@ -36,6 +51,11 @@ public class PollinationBoardRestController {
     @RequestMapping(value = "pollination/contract/{id}", method = RequestMethod.GET)
     public Contract contract(@PathVariable("id") Long id) {
         return contractService.findOne(id);
+    }
+
+    @RequestMapping(value = "pollination/addContract", method = RequestMethod.POST)
+    public void addContract(@ModelAttribute("contract") Contract contract) {
+        contractService.save(contract);
     }
 
     @RequestMapping(value = "pollination/contract/update", method = RequestMethod.POST)
@@ -48,8 +68,20 @@ public class PollinationBoardRestController {
         return shipmentService.findAllByYard(orchardService.findOne(id));
     }
 
+    @RequestMapping(value = "pollination/addShipment", method = RequestMethod.POST)
+    public void addShipment(@ModelAttribute("shipment") Shipment shipment) {
+        shipmentService.save(shipment);
+    }
+
     @RequestMapping(value = "pollination/contacts/{id}", method = RequestMethod.GET)
-    public List<ContactInfo> contacts(@PathVariable("id") Long id) {
-        return orchardService.findOne(id).getContacts();
+    public List<Person> contacts(@PathVariable("id") Long id) {
+        // return orchardService.findOne(id).getContacts();
+        return personService.findAll();
+    }
+
+    @RequestMapping(value = "pollination/orchardInspections/{id}")
+    public List<Inspection> inspections(@PathVariable("id") Long id) {
+        // return inspectionService.
+        return null;
     }
 }
