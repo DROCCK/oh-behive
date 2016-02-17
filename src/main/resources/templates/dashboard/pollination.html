@@ -67,29 +67,9 @@
                     }
                 })();
                 assignHrefs(row["id"]);
-                var owner = row["owner"];
-                assignOwnerHrefs(owner["id"]);
-                $("#name").html('<b>Yard Name: </b>' + row["yardName"]);
-                $("#status").html('<b>Status: </b>' + row["status"]);
-                $("#combo").html('<b>Combo: </b>' + row["combo"]);
-                var address = row["address"];
-                $("#street").html('<b>Address: </b>' + address["street"]);
-                $("#city").text(address["city"]);
-                $("#state").text(address["state"]);
-                $("#zip").text(address["zip"]);
-                $("#singles").html('<b>Singles: </b>' + row["singles"]);
-                $("#doubles").html('<b>Doubles: </b>' + row["doubles"]);
-                $("#supers").html('<b>Supers: </b>' + row["supers"]);
-                $("#duds").html('<b>Duds: </b>' + row["duds"]);
-
-                if (row["lastVisit"] != null)
-                    $("#lastVisit").html('<b>Last Visit: </b>' + row["lastVisit"]);
-                else
-                    $("#lastVisit").html('<b>No Inspections Recorded </b>');
-                if (row["lastFedDate"] != null)
-                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"]);
-                else
-                    $("#lastFedDate").html('<b>No Feed Date Recorded </b>');
+                $("#contacts").html('<b>Contacts: </b> <a data-toggle="modal" data-target="#table-modal"onclick="getContacts(0)">Test list modal</a>');
+                $("#shipments").html('<b>Contacts: </b> <a data-toggle="modal" data-target="#table-modal"onclick="getContacts(0)">Test list modal</a>');
+                $("#inspections").html('<b>Contacts: </b> <a data-toggle="modal" data-target="#table-modal"onclick="getContacts(0)">Test list modal</a>');
             });
         });
 
@@ -166,34 +146,9 @@
         <div class="row dashboard-row">
             <div class="col-md-6">
                 <div class="col-md-6">
-                    <p id="name"></p>
-
-                    <p id="status"></p>
-
-                    <p id="combo"></p>
-
-                    <p id="singles"></p>
-
-                    <p id="doubles"></p>
-
-                    <p id="supers"></p>
-
-                    <p id="duds"></p>
-                </div>
-                <div class="col-md-6">
-                    <p>
-                        <span id="street"></span>
-
-                        <span id="city"></span>
-
-                        <span id="state"></span>
-
-                        <span id="zip"></span>
-                    </p>
-
-                    <p id="lastVisit"></p>
-
-                    <p id="lastFedDate"></p>
+                    <p id="contacts"></p>
+                    <p id="shipments"></p>
+                    <p id="inspections"></p>
                 </div>
             </div>
             <div id="map-div" class="col-md-6"></div>
