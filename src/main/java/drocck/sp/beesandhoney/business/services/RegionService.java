@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.services;
 
 import drocck.sp.beesandhoney.business.entities.Region;
+import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.entities.repositories.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,6 +21,10 @@ public class RegionService {
 
     public Region findOne(Long id) {
         return regionRepository.findOne(id);
+    }
+
+    public Region findByYards(Yard yard){
+        return regionRepository.findByYards(yard);
     }
 
     public void delete(Long id) {

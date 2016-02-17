@@ -1,5 +1,6 @@
 package drocck.sp.beesandhoney.business.entities.DTOs;
 
+import drocck.sp.beesandhoney.business.entities.Region;
 import drocck.sp.beesandhoney.business.entities.Shipment;
 import drocck.sp.beesandhoney.business.entities.Yard;
 
@@ -15,6 +16,8 @@ public class BeeBoardDTO {
     private DecimalFormat df = new DecimalFormat("0.00");
 
     private List<Yard> yards;
+
+    private List<Region> regions;
 
     private List<Shipment> shipments;
 
@@ -73,6 +76,14 @@ public class BeeBoardDTO {
         for (Yard y : yards)
             total += (y.getSingles() + y.getDoubles() + y.getSupers() + y.getDuds());
         return total;
+    }
+
+    public List<Region> getRegions() {
+        return regions;
+    }
+
+    public void setRegions(List<Region> regions) {
+        this.regions = regions;
     }
 
     public double getSinglesPercent() {

@@ -13,6 +13,21 @@
         <h3 th:text="|Id: ${region.id}|"></h3>
 
         <h3 th:text="|#{name}: ${region.name}|"></h3>
+
+        <h3 th:text="|#{list}:|"></h3>
+        <!--table to show current yards in region -->
+        <table class="table table-condensed table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{yards}"></th>
+            </tr>
+            </thead>
+            <tbody th:each="y : ${region.yards}">
+            <tr>
+                <td th:text="${y.yardName}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
     <button type="button" onClick="goBack()" class="btn btn-default" th:text="#{goBack}">Go Back</button>
 </div>

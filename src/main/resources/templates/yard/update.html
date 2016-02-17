@@ -190,7 +190,21 @@
                 </select>
             </div>
         </div>
+        <!--Regions list-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="region" th:text="#{region}">Region</label>
 
+            <div class="col-sm-10">
+                <select class="form-control" th:field="*{region.id}" id="region">
+                    <option th:each="r : ${allRegions}" th:value="${r.id}" th:text="${r.name}"
+                            th:unless="${r.id == yard.region.id}">Region 1
+                    </option>
+                    <option selected="selected" th:each="r : ${allRegions}" th:value="${r.id}" th:text="${r.name}"
+                            th:unless="${r.id != yard.region.id}">Region 1
+                    </option>
+                </select>
+            </div>
+        </div>
         <!--longitude-->
         <div class="form-group">
             <label class="control-label col-sm-2" for="longitude" th:text="#{longitude}"></label>

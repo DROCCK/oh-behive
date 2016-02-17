@@ -9,9 +9,6 @@ function assignHrefs(id) {
     link = document.getElementById("deleteYard");
     link.href = "/yard/delete/" + id;
 
-    link = document.getElementById("yardDrops");
-    link.href = "/dropsite/list/" + id;
-
     link = document.getElementById("yardShipments");
     link.href = "/shipment/list/" + id;
 }
