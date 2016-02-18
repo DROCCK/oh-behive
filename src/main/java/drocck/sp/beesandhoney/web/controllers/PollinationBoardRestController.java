@@ -7,6 +7,7 @@ import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.Shipment;
 import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +44,11 @@ public class PollinationBoardRestController {
         return new Contract();
     }
 
+    @ModelAttribute("inspection")
+    public Inspection constructInspection() {
+        return new Inspection();
+    }
+
     @RequestMapping(value = "pollination/contracts", method = RequestMethod.GET)
     public List<ContractDTO> contracts() {
         return contractService.findAllAsDTO();
@@ -64,7 +70,7 @@ public class PollinationBoardRestController {
     }
 
     @RequestMapping(value = "pollination/contractShipments/{id}", method = RequestMethod.GET)
-    public List<Shipment> shipments(@PathVariable("id") Long id) {
+    public List<Shipment> getShipment(@PathVariable("id") Long id) {
         return shipmentService.findAllByYard(orchardService.findOne(id));
     }
 
@@ -79,9 +85,18 @@ public class PollinationBoardRestController {
         return personService.findAll();
     }
 
-    @RequestMapping(value = "pollination/orchardInspections/{id}")
+    @RequestMapping(value = "pollination/inspections/{id}")
     public List<Inspection> inspections(@PathVariable("id") Long id) {
-        // return inspectionService.
-        return null;
+        return inspectionService.findAllByYard(orchardService.findOne(id));
+    }
+
+    @RequestMapping(value = "pollination/addInspection")
+    public void addInspection(@ModelAttribute("inspection") Inspection inspection) {
+        inspectionService.save(inspection);
+    }
+
+    @RequestMapping(value = "pollination/inspection/{id}")
+    public Inspection getInspection(@PathVariable("id") Long id) {
+        return inspectionService.findOne(id);
     }
 }

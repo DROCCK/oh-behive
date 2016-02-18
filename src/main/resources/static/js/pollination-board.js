@@ -6,6 +6,8 @@ var url = "/pollination/";
 var contractDtoList = url + "contracts";
 var contract = url + "contract/";
 var contacts = url + "contacts/";
+var inspections = url + "inspections/";
+var shipments = url + "shipments/";
 
 function getEmptyTableHead() {
     var tableHead = $('#t-head');
@@ -21,18 +23,28 @@ function getEmptyTableBody() {
 
 function getContract(id) {
     var contractUrl = contract + id;
-    alert(contractUrl);
     $.getJSON(contractUrl, function (data) {
         loadTableData(data);
     });
 }
 
 function getContacts(id) {
-    var contactsUrl = contacts + id;
-    $('#table-modal-title').text("Orchard's Contacts");
+    return get(contacts + id, "Orchard's Contacts", loadContactListModal);
+}
+
+function getInspections(id) {
+    return get(inspections + id, "Orchard's Inspections", loadInspectionListModal);
+}
+
+function getShipments(id) {
+    return get(shipments + id, "Orchard's Shipments", loadShipmentListModal);
+}
+
+function get(type, title, func) {
+    $('#table-modal-title').text(title);
     $('#t-body').text("Loading...");
-    $.getJSON(contactsUrl, function(data) {
-        loadContactListModal(data);
+    $.getJSON(type, function(data) {
+        func(data);
     });
 }
 
@@ -48,12 +60,12 @@ function loadContactListModal(data) {
     loadListModal(data, getContactHead, getContactRow);
 }
 
-function getContactRow(e) {
-    return $('<tr>').append(
-        $('<td>').text(e.name),
-        $('<td>').text(e.contactInfo.email),
-        $('<td>').text(e.contactInfo.phone)
-    );
+function loadShipmentListModal(data) {
+    loadListModal(data, getShipmentHead, getShipmentRow);
+}
+
+function loadInspectionListModal(data) {
+    loadListModal(data, getInspectionHead, getInspectionRow);
 }
 
 function getContactHead() {
@@ -64,16 +76,36 @@ function getContactHead() {
     );
 }
 
-function loadShipmentListModal(data) {
-    loadListModal(data, getShipmentHead, getShipmentRow);
+function getContactRow(e) {
+    return $('<tr>').append(
+        $('<td>').text(e.name),
+        $('<td>').text(e.contactInfo.email),
+        $('<td>').text(e.contactInfo.phone)
+    );
 }
 
 function getShipmentHead() {
-    // TODO add html for shipment head.
+    return $('<tr>').append(
+        $('<td>').text('Name'),
+        $('<td>').text('Email'),
+        $('<td>').text('Phone')
+    );
 }
 
 function getShipmentRow(e) {
     // TODO add html for shipment row.
+}
+
+function getInspectionHead() {
+    return $('<tr>').append(
+        $('<td>').text('Name'),
+        $('<td>').text('Email'),
+        $('<td>').text('Phone')
+    );
+}
+
+function getInspectionRow(e) {
+    //TODO add html for inspection head.
 }
 
 function loadTableData(data) {
