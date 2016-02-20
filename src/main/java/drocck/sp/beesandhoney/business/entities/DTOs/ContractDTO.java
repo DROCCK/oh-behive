@@ -13,6 +13,10 @@ public class ContractDTO {
     private String orchardName;
     private Double progress;
 
+    public ContractDTO() {
+
+    }
+
     public ContractDTO(Contract contract) {
         id = contract.getId();
         Orchard o = contract.getOrchard();
