@@ -70,4 +70,12 @@ public class Event {
     public void setTask(NucingTask task) {
         this.task = task;
     }
+
+    public int getGoalAmount() {
+        return goalAmount;
+    }
+
+    public void setGoalAmount(int goalAmount) {
+        this.goalAmount = goalAmount;
+    }
 }
