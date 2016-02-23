@@ -19,11 +19,12 @@ public abstract class Task {
     private long id;
 
     @OneToMany
-    private List<Yard> yardList;
+    private List<NucReport> nucReports;
 
     @Column
     private String currentStage;
 
+    @Transient
     private final String[] stageList;
 
     public Task(String[] stages) {
@@ -38,12 +39,12 @@ public abstract class Task {
         this.id = id;
     }
 
-    public List<Yard> getYardList() {
-        return yardList;
+    public List<NucReport> getYardList() {
+        return nucReports;
     }
 
-    public void setYardList(List<Yard> yardList) {
-        this.yardList = yardList;
+    public void setYardList(List<NucReport> nucReports) {
+        this.nucReports = nucReports;
     }
 
     public String[] getStageList() {

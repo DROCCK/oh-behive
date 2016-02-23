@@ -24,8 +24,8 @@ public class Event {
     @Column(nullable = false)
     private Date date;
 
-    //The nucing task for event. I'm assuming this will be automatic and not something a user will need to choose options for.
-    private NucingTask task;
+//    //The nucing task for event. I'm assuming this will be automatic and not something a user will need to choose options for.
+//    private NucingTask task;
 
     //The goal amount of Queens
     //or total Hives in which we can then determine for the user the number of queens needed to reach given(entered) goal etc.
@@ -63,9 +63,9 @@ public class Event {
         return allDay;
     }
 
-    public NucingTask getTask() {
-        return task;
-    }
+//    public NucingTask getTask() {
+//        return task;
+//    }
 
     public void setTask(NucingTask task) {
         this.task = task;

@@ -1,5 +1,8 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,13 +12,18 @@ import java.util.List;
  * where new bees are created.
  */
 
+@Entity
 public class NucingTask extends Task {
 
     private static final String[] myStages = {"pre-split", "post-split", "post-queen-placed", "queen-checked"};
+
+    @OneToOne
     private NucReport report; //report of a specific nucing yard.
     //private Collection nucReports; //collection of reports.
-    private List<Yard> yards; //yards to target.
-    private NucYard nucYard; //yards that are targeted for nucing event.
+
+    @OneToMany
+    private List<Event> event;
+//    private NucYard nucYard; //yards that are targeted for nucing event.
     private int totalPostNucHiveCount; //number of total hives after nuc.
     private int totalPostNucQueenCount; //number of queens accepted after nuc.
     private boolean allYardsComplete = false; //Overall status complete/incomplete of all nucing yards.
@@ -24,13 +32,13 @@ public class NucingTask extends Task {
         super(myStages);
     }
 
-    public List<Yard> getYards() {
-        return yards;
-    }
+//    public List<Yard> getYards() {
+//        return yards;
+//    }
 
-    public void setYards(List<Yard> yards) {
-        this.yards = yards;
-    }
+//    public void setYards(List<Yard> yards) {
+//        this.yards = yards;
+//    }
 
     public NucReport getReport(){
         return report;
@@ -40,13 +48,13 @@ public class NucingTask extends Task {
         report = nr;
     }
 
-    public NucYard getNucYard() {
-        return nucYard;
-    }
+//    public NucYard getNucYard() {
+//        return nucYard;
+//    }
 
-    public void setNucYard(NucYard nucYard) {
-        this.nucYard = nucYard;
-    }
+//    public void setNucYard(NucYard nucYard) {
+//        this.nucYard = nucYard;
+//    }
 
     public int getTotalPostNucHiveCount() {
         return totalPostNucHiveCount;
@@ -70,6 +78,14 @@ public class NucingTask extends Task {
 
     public void setAllYardsComplete(boolean allYardsComplete) {
         this.allYardsComplete = allYardsComplete;
+    }
+
+    public List<Event> getEvent() {
+        return event;
+    }
+
+    public void setEvent(List<Event> event) {
+        this.event = event;
     }
 
     /*
