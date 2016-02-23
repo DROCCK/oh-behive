@@ -72,12 +72,10 @@ public class Yard implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Inspection> inspections;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "yards_regions",
-            joinColumns={@JoinColumn(name="YARD_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="REGION_ID", referencedColumnName="ID")})
-    @JsonManagedReference
-    private List<Region> regions;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "REGION_ID")
+    @JsonBackReference
+    private Region region;
 
     @Column(name = "LAST_VISIT")
     private Date lastVisit;
@@ -267,10 +265,11 @@ public class Yard implements Serializable {
         this.lastFedDate = lastFedDate;
     }
 
-    public List<Region> getRegions() {
-        return regions;
+    public Region getRegion() {
+        return region;
     }
-    
+
+    /*
     public String[] getRegionsAsStrings() {
         String[] regionStrings = new String[regions.size()];
         IntStream.iterate(0, i -> i++)
@@ -289,8 +288,8 @@ public class Yard implements Serializable {
         }
         return "NONE";
     }
-
-    public void setRegions(List<Region> regions) {
-        this.regions = regions;
+    */
+    public void setRegion(Region region) {
+        this.region = region;
     }
 }

@@ -1,39 +1,120 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: head">
-    <script type="text/javascript" th:href="@{/js/pollination-board.js}"></script>
-    <title>Pollination Board</title>
+<head th:include="fragments/head :: head"></head>
+<head>
+    <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script th:src="@{/js/maps.js}"></script>
+    <script th:src="@{/js/tables.js}"></script>
+    <script th:src="@{/js/pollination-board.js}"></script>
+    <title th:text="#{pollinationBoard}"></title>
 </head>
 <body>
+<script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
 <header th:replace="fragments/header :: header"></header>
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-        <div>
-            <table class="table table-hover">
-                <thead>
+
+<!-- List and edit Modals -->
+<div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div>
+<div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
+
+<div class="row dashboard-row">
+    <div class="col-md-2 hidden-xs hidden-sm">
+        <div class="left-sidebar-div">
+            <h3><b th:text="#{counts}"></b></h3>
+            <hr/>
+            <h4 th:text="|#{current}: ${1}|"></h4>
+            <h4 th:text="|#{contract}: ${1}|"></h4>
+        </div>
+        <div class="left-sidebar-div">
+            <h3><b th:text="#{progress}"></b></h3>
+            <hr/>
+            <progress value="22" max="100">
+            </progress>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="row dashboard-row">
+            <div class="col-md-6 col-sm-12">
+                <div class="col-md-6 col-sm-6">
+                    <p id="id"></p>
+                    <p id="orchard"></p>
+                    <p id="amount"></p>
+                    <p id="in"></p>
+                </div>
+                <div class="col-md-6">
+                    <p id="broker"></p>
+                    <p id="number"></p>
+                    <p id="out"></p>
+                </div>
+                <div class="col-md-12">
+                    <p id="progress" ></p>
+                </div>
+                <div align="center" class="col-md-12 col-sm-12">
+                    <div class="col-md-3 col-sm-3">
+                        <p id="edit"></p>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <p id="delete"></p>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <p id="contacts"></p>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <p id="shipments"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12" >
+                <div class="col-md-0 col-sm-1"></div>
+                <div style="display: none" id="map-div" class="col-md-12 col-sm-10"></div>
+                <div class="col-md-0 col-sm-1"></div>
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <hr/>
+            <a data-toggle="modal" data-target="#form-modal">
+                <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                   title="Add Contract">
+                    add_circle_outline
+                </i>
+            </a>
+            <h4 class="list-header" th:text="|#{pipe} Add Contract|">Add Contract</h4>
+            <table class="table table-condensed table-responsive"
+                   style="border-collapse: collapse"
+                   id="contract-table"
+                   data-url="/pollination/contracts"
+                   data-toggle="table"
+                   data-cache="false"
+                   data-pagination="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+                   data-search="true">
+                <caption align="center" th:text="#{activeContracts}"></caption>
+                <thead id="contract-table-head">
                 <tr>
-                    <th>ID</th>
-                    <th>Orchard Name</th>
-                    <th>Progress</th>
-                    <th></th>
-                    <th></th>
+                    <th data-field="id" data-visible="false"></th>
+                    <th data-field="orchardName" data-sortable="true" data-visible="true" th:text="#{orchardName}"></th>
+                    <th data-field="progress" data-formatter="progressFormatter" data-sortable="true"
+                        data-visible="true" th:text="#{progress}"></th>
+                    <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents"
+                        th:text="#{edit}"></th>
+                    <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents"
+                        th:text="#{delete}"></th>
                 </tr>
                 </thead>
-
-                <tbody>
-                <!--/*@thymesVar id="contracts" type="java.util.ArrayList"*/-->
-                <tr th:each="c : ${contracts}">
-                    <td th:text="${c.id}">0</td>
-                    <td th:text="${c.yardName}"></td>
-                    <td th:text="${c.progress}">in use</td>
-                    <td><a class="btn btn-xs btn-warning" th:href="@{/yard/update/{id}(id=${y.id})}">Update</a></td>
-                    <td><a class="btn btn-xs btn-danger" th:href="@{/yard/delete/{id}(id=${y.id})}">Delete</a></td>
-                </tr>
-                </tbody>
             </table>
         </div>
-        <div class="col-md-1"></div>
+    </div>
+    <div class="col-md-2 hidden-xs hidden-sm">
+        <div class="right-sidebar-div">
+            <h3><b th:text="#{dates}"></b></h3>
+            <hr/>
+            <h4 th:text="|#{in}: ${1}|"></h4>
+            <h4 th:text="|#{out}: ${1}|"></h4>
+            <h4 th:text="|#{fed}: ${1}|"></h4>
+        </div>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>

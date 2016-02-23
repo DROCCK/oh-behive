@@ -1,5 +1,6 @@
 package drocck.sp.beesandhoney.business.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -20,7 +21,8 @@ public class Region implements GrantedAuthority {
     @Column(unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "regions", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="region")
+    @JsonManagedReference
     private List<Yard> yards;
 
     public Long getId() {
