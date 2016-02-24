@@ -7,20 +7,19 @@ import java.util.List;
  */
 public class NucReport {
 
-    private List<Yard> yards; //Later this will be specifc nucing yard.
+    private List<NucYard> nucYards; //Specific Nucing yards in the report.
     private int initialCount; //Number of hives of a specific nucing yard before nucing.
     private int postNucCount; //Number of hives of a specific nucingyard after nucing.
     private int postNucQueenCount; //Number of Queens accepted at specific nucing yard.
     private boolean postNucCheck = false; //Nucing yard status that a nucing yard has been checked after 3 weeks.
 
-    public List<Yard> getYards() {
-        return yards;
+    public List<NucYard> getYards() {
+        return nucYards;
     }
 
-    public void setYards(List<Yard> yards) {
-        this.yards = yards;
+    public void setYards(List<NucYard> nYards) {
+        this.nucYards = nYards;
     }
-
 
     public int getInitialCount() {
         return initialCount;
