@@ -27,11 +27,6 @@ public class Event {
     //The nucing task for event. I'm assuming this will be automatic and not something a user will need to choose options for.
     private NucingTask task;
 
-    //The goal amount of Queens
-    //or total Hives in which we can then determine for the user the number of queens needed to reach given(entered) goal etc.
-    //This could also be done in DTO maybe.
-    private int goalAmount;
-
     // For our uses we can be precise down to the date but not time.
     private boolean allDay = true;
 
@@ -69,13 +64,5 @@ public class Event {
 
     public void setTask(NucingTask task) {
         this.task = task;
-    }
-
-    public int getGoalAmount() {
-        return goalAmount;
-    }
-
-    public void setGoalAmount(int goalAmount) {
-        this.goalAmount = goalAmount;
     }
 }

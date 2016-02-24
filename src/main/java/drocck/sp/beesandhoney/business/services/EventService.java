@@ -2,6 +2,7 @@ package drocck.sp.beesandhoney.business.services;
 
 import drocck.sp.beesandhoney.business.entities.Event;
 import drocck.sp.beesandhoney.business.entities.repositories.EventRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class EventService {
 
     public Event save(Event event) {
         return eventRepository.save(event);
-    }
+    }  //create nucing yard goes here maybe.
 
     public Event update(Event event) {
         return eventRepository.save(event);
