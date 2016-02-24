@@ -2,6 +2,8 @@ package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.DTOs.NucingBoardDTO;
 import drocck.sp.beesandhoney.business.entities.Event;
+import drocck.sp.beesandhoney.business.entities.NucingTask;
+import drocck.sp.beesandhoney.business.entities.Task;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.services.ShipmentService;
 import drocck.sp.beesandhoney.business.services.YardService;
@@ -15,17 +17,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.sql.Date;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Chai on 10/31/2015.
+ *
  */
 
 @Controller
 public class NucingBoardController {
 
     //FOR TESTING
-    List<Event> eventList = new Vector<>();
+    List<NucingTask> taskList = new Vector<>();
 
     @Autowired
     private YardService yardService;
@@ -46,16 +51,9 @@ public class NucingBoardController {
     @RequestMapping("nucing/events")
     public List<Event> eventFeed() {
         // TODO: CHANGE THIS FROM HARD CODED TO RETRIEVE FROM DB
-//        List<Event> eventList = new Vector<>();
-//        Event e1 = new Event();
-//        e1.setTitle("First");
-//        e1.setStart(new Date());
-//        e1.setColor("yellow");
-//        eventList.add(e1);
-//        Event e2 = new Event();
-//        e2.setTitle("Second");
-//        e2.setStart(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24)));
-//        eventList.add(e2);
+        List<Event> eventList = new Vector<>();
+        for (NucingTask t : taskList)
+            eventList.addAll(t.getEvent().stream().collect(Collectors.toList()));
         return eventList;
     }
 
@@ -63,44 +61,30 @@ public class NucingBoardController {
     @RequestMapping("nucing/yards")
     public List<Yard> yardFeed() {
         // TODO: CHANGE THIS TO NUCING SPECIFIC YARDS
-        List<Yard> yardList = yardService.findAllInUse();
-        return yardList;
+        return yardService.findAllInUse();
     }
-/*
+
     @RequestMapping(value = "nucing/test", method = RequestMethod.POST)
-    public @ResponseBody Event test(@RequestBody final String event) {
+    public @ResponseBody Task test(@RequestBody final String event) {
         Map<String, String> m = parseString(event);
 
-        Event e = new Event();
-        e.setTitle("Place " + m.get("count") + " queens");
+        int count = Integer.parseInt(m.get("count"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date d = new Date();
+        Date d = new java.sql.Date(0);
         try {
-            d = sdf.parse(m.get("start"));
+            java.util.Date day = sdf.parse(m.get("start"));
+            d.setTime(day.getTime());
         } catch (ParseException pe) {
             System.err.println("Parsing Date Failed " + pe.getMessage());
         }
-        e.setStart(d);
-        eventList.add(e);
 
-        Event nuc = new Event();
-        nuc.setTitle("Make " + m.get("count") + " nucs");
-        long dayInMilli = 1000 * 60 * 60 * 24;
-        nuc.setStart(new Date(d.getTime() - (2 * dayInMilli)));
-        nuc.setColor("red");
-        eventList.add(nuc);
-
-        Event check = new Event();
-        check.setTitle("Check " + m.get("count") + " nucs");
-        check.setStart(new Date(d.getTime() + (21 * dayInMilli)));
-        check.setColor("green");
-        eventList.add(check);
-
-        return e;
+        NucingTask task = new NucingTask(count, d);
+        taskList.add(task);
+        return task;
     }
-*/
+
     private Map<String, String> parseString(String s) {
-        Map<String, String> m = new HashMap();
+        Map<String, String> m = new HashMap<>();
         String key = "";
         String value = "";
         s+='&';

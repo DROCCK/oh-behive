@@ -24,6 +24,15 @@ public class Event {
     @Column(nullable = false)
     private Date date;
 
+    public Event() {
+
+    }
+
+    public Event(String t, Date d) {
+        title = t;
+        date = d;
+    }
+
 //    //The nucing task for event. I'm assuming this will be automatic and not something a user will need to choose options for.
 //    private NucingTask task;
 

@@ -4,7 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.Collection;
+import java.sql.Date;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Created by Connor on 2/10/2016.
@@ -17,19 +19,30 @@ public class NucingTask extends Task {
 
     private static final String[] myStages = {"pre-split", "post-split", "post-queen-placed", "queen-checked"};
 
-    @OneToOne
-    private NucReport report; //report of a specific nucing yard.
+    @OneToMany
+    private List<NucReport> report; //report of a specific nucing yard.
     //private Collection nucReports; //collection of reports.
 
     @OneToMany
-    private List<Event> event;
+    private List<Event> event = new Vector<>();
 //    private NucYard nucYard; //yards that are targeted for nucing event.
+    private int queensOrdered;
     private int totalPostNucHiveCount; //number of total hives after nuc.
     private int totalPostNucQueenCount; //number of queens accepted after nuc.
     private boolean allYardsComplete = false; //Overall status complete/incomplete of all nucing yards.
 
     public NucingTask() {
         super(myStages);
+    }
+
+    public NucingTask(int count, Date d) {
+        super(myStages);
+        queensOrdered = count;
+        long dayInMilli = 1000 * 60 * 60 * 24;
+        event.add(new Event("Make " + count + " queenless nucs", new Date(d.getTime() - 3 * dayInMilli)));
+        event.add(new Event("Place " + count + " queens", new Date(d.getTime())));
+        event.add(new Event("Queen check " + count + " nucs", new Date(d.getTime() + 21 * dayInMilli)));
+
     }
 
 //    public List<Yard> getYards() {
@@ -40,11 +53,11 @@ public class NucingTask extends Task {
 //        this.yards = yards;
 //    }
 
-    public NucReport getReport(){
+    public List<NucReport> getReport(){
         return report;
     }
 
-    public void setReport(NucReport nr){
+    public void setReport(List<NucReport> nr){
         report = nr;
     }
 
@@ -55,6 +68,15 @@ public class NucingTask extends Task {
 //    public void setNucYard(NucYard nucYard) {
 //        this.nucYard = nucYard;
 //    }
+
+
+    public int getQueensOrdered() {
+        return queensOrdered;
+    }
+
+    public void setQueensOrdered(int queensOrdered) {
+        this.queensOrdered = queensOrdered;
+    }
 
     public int getTotalPostNucHiveCount() {
         return totalPostNucHiveCount;

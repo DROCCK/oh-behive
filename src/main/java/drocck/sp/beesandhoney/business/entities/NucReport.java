@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Created by Chai on 2/15/2016.
+ *
+ * Information for a nucing task related to a single yard.
  */
 @Entity
 public class NucReport {
@@ -14,19 +16,19 @@ public class NucReport {
     @GeneratedValue
     private Long id;
 
-    @OneToMany
-    private List<Yard> yards; //Later this will be specifc nucing yard.
+    @OneToOne
+    private Yard yard; //Later this will be specifc nucing yard.
     private int initialCount; //Number of hives of a specific nucing yard before nucing.
     private int postNucCount; //Number of hives of a specific nucingyard after nucing.
     private int postNucQueenCount; //Number of Queens accepted at specific nucing yard.
     private boolean postNucCheck = false; //Nucing yard status that a nucing yard has been checked after 3 weeks.
 
-    public List<Yard> getYards() {
-        return yards;
+    public Yard getYards() {
+        return yard;
     }
 
-    public void setYards(List<Yard> yards) {
-        this.yards = yards;
+    public void setYards(Yard yards) {
+        this.yard = yards;
     }
 
 
