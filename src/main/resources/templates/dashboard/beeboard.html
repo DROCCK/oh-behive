@@ -199,13 +199,13 @@
         <!--Yard table-->
         <div class="col-md-12">
             <div class="col-md-6">
-                <a data-toggle="modal" data-target="#form-modal">
+                <a data-toggle="modal" data-target="#form-modal" href="#">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Add Contract">
+                       title="Add Yard">
                         add_circle_outline
                     </i>
                 </a>
-                <h4 class="list-header" th:text="|#{pipe} Add Contract|">Add Contract</h4>
+                <h4 class="list-header" th:text="|#{pipe} Add Yard|">Add Yard</h4>
             </div>
             <div class="col-md-4"></div>
             <div align="right" class="form-group col-md-2">
@@ -221,12 +221,14 @@
                    data-url="/yard/json"
                    data-cache="false"
                    data-pagination="true"
+                   data-page-size="10"
+                   data-page-list="true"
                    data-show-refresh="true"
                    data-show-toggle="true"
                    data-show-columns="true"
                    data-search="true">
                 <caption align="center">
-                    <div class="col-sm-2" th:text="#{activeYards}"></div>
+                    <div class="col-sm-2" style="margin-left: -15px" th:text="#{activeYards}"></div>
                 </caption>
                 <thead>
                 <tr>
