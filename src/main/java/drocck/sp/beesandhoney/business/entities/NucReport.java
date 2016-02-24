@@ -23,12 +23,12 @@ public class NucReport {
     private int postNucQueenCount; //Number of Queens accepted at specific nucing yard.
     private boolean postNucCheck = false; //Nucing yard status that a nucing yard has been checked after 3 weeks.
 
-    public Yard getYards() {
+    public Yard getYard() {
         return yard;
     }
 
-    public void setYards(List<Yard> yards) {
-        this.yards = yards;
+    public void setYard(Yard yard) {
+        this.yard = yard;
     }
 
     public int getInitialCount() {

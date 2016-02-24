@@ -25,8 +25,7 @@ public class NucingTask extends Task {
 
     @OneToMany
     private List<Event> event = new Vector<>();
-//    private NucYard nucYard; //yards that are targeted for nucing event.
-    private int queensOrdered;
+
     private int totalPostNucHiveCount; //number of total hives after nuc.
 
     private int totalPostNucQueenCount; //number of queens accepted after nuc.
@@ -44,7 +43,7 @@ public class NucingTask extends Task {
 
     public NucingTask(int count, Date d) {
         super(myStages);
-        queensOrdered = count;
+        goalAmount = count;
         long dayInMilli = 1000 * 60 * 60 * 24;
         event.add(new Event("Make " + count + " queenless nucs", new Date(d.getTime() - 3 * dayInMilli)));
         event.add(new Event("Place " + count + " queens", new Date(d.getTime())));
@@ -52,37 +51,12 @@ public class NucingTask extends Task {
 
     }
 
-//    public List<Yard> getYards() {
-//        return yards;
-//    }
-
-//    public void setYards(List<Yard> yards) {
-//        this.yards = yards;
-//    }
-
     public List<NucReport> getReport(){
         return report;
     }
 
     public void setReport(List<NucReport> nr){
         report = nr;
-    }
-
-//    public NucYard getNucYard() {
-//        return nucYard;
-//    }
-
-//    public void setNucYard(NucYard nucYard) {
-//        this.nucYard = nucYard;
-//    }
-
-
-    public int getQueensOrdered() {
-        return queensOrdered;
-    }
-
-    public void setQueensOrdered(int queensOrdered) {
-        this.queensOrdered = queensOrdered;
     }
 
     public int getTotalPostNucHiveCount() {
