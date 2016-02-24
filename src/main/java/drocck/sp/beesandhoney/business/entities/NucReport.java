@@ -27,10 +27,9 @@ public class NucReport {
         return yard;
     }
 
-    public void setYards(Yard yards) {
-        this.yard = yards;
+    public void setYards(List<Yard> yards) {
+        this.yards = yards;
     }
-
 
     public int getInitialCount() {
         return initialCount;

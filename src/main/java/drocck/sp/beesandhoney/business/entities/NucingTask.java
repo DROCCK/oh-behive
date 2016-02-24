@@ -28,8 +28,15 @@ public class NucingTask extends Task {
 //    private NucYard nucYard; //yards that are targeted for nucing event.
     private int queensOrdered;
     private int totalPostNucHiveCount; //number of total hives after nuc.
+
     private int totalPostNucQueenCount; //number of queens accepted after nuc.
+
     private boolean allYardsComplete = false; //Overall status complete/incomplete of all nucing yards.
+
+    //The goal amount of Queens
+    //or total Hives in which we can then determine for the user the number of queens needed to reach given(entered) goal etc.
+    //This could also be done in DTO maybe.
+    private int goalAmount;
 
     public NucingTask() {
         super(myStages);
@@ -110,20 +117,11 @@ public class NucingTask extends Task {
         this.event = event;
     }
 
-    /*
-    *******Possibly going to service class, if we decide on sending every method/object/class to the service/repository/database*******
-    public void createReport(){ //do something to allow the creation of reports.
-        report = new NucReport();
+    public int getGoalAmount() {
+        return goalAmount;
     }
-    public void addReport(NucReport r){ //add reports to collection.
-        nucReports.add(r);
+
+    public void setGoalAmount(int goalAmount) {
+        this.goalAmount = goalAmount;
     }
-    public NucReport getReports(){ //method to get reports from collection.
-        NucReport temp = new NucReport();
-        if(nucReports.iterator().hasNext()){
-            temp =  (NucReport) nucReports.iterator().next();
-        }
-        return temp;
-    }
-    */
 }
