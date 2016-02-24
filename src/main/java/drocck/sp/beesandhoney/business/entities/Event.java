@@ -67,9 +67,9 @@ public class Event {
 //        return task;
 //    }
 
-    public void setTask(NucingTask task) {
-        this.task = task;
-    }
+//    public void setTask(NucingTask task) {
+//        this.task = task;
+//    }
 
     public int getGoalAmount() {
         return goalAmount;
