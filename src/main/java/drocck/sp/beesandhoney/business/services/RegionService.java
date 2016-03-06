@@ -38,4 +38,9 @@ public class RegionService {
     public Region save(Region region) {
         return regionRepository.save(region);
     }
+
+    public List<String> findAllRegionNames() {
+        List<String> names = regionRepository.findAllNames();
+        return names;
+    }
 }

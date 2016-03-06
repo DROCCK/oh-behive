@@ -33,7 +33,7 @@ public class YardService {
 
     public List<Yard> findAllInUse() {
         return findAll().stream().filter(
-            yard -> yard.getStatus().equals("IN USE")).collect(Collectors.toList()
+            yard -> yard.getStatus().equals(Yard.IN_USE)).collect(Collectors.toList()
         );
     }
 

@@ -37,8 +37,17 @@ a:hover {
     color: #FFF;
 }
 
+.in-side-div {
+    margin: 10px;
+}
 .side-div {
-    background-color: linen;
+    // background-color: linen;
+    border-style: solid;
+    border-color: #C9C9C9;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -o-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
 }
 
 .right-sidebar-div {
@@ -67,6 +76,14 @@ a:hover {
 }
 .list-header {
     display: inline-block;
+}
+
+.auto {
+    table-layout: auto;
+}
+
+.pane {
+    margin-top: 10px;
 }
 
 .material-icons.md-18 { font-size: 18px; }

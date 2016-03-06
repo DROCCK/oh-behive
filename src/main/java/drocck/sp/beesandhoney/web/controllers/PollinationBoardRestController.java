@@ -1,10 +1,13 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.*;
+import drocck.sp.beesandhoney.business.entities.DTOs.ContractCreateDTO;
 import drocck.sp.beesandhoney.business.entities.DTOs.ContractDTO;
+import drocck.sp.beesandhoney.business.entities.DTOs.OrchardCreateDTO;
 import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -31,7 +34,13 @@ public class PollinationBoardRestController {
     private ShipmentService shipmentService;
 
     @Autowired
+    private PolliShipmentService polliShipmentService;
+
+    @Autowired
     private InspectionService inspectionService;
+
+    @Autowired
+    private RegionService regionService;
 
     @Autowired
     private YardService yardService;
@@ -80,6 +89,23 @@ public class PollinationBoardRestController {
         //return contractService.findOne(id);
     }
 
+    @RequestMapping(value = "pollination/createContract", method = RequestMethod.GET)
+    public ContractCreateDTO createContract() {
+        ContractCreateDTO c = new ContractCreateDTO();
+        c.setPeople(personService.findAll());
+        c.setOrchards(orchardService.findAllOrchardNames());
+        return c;
+    }
+
+    @RequestMapping(value = "pollination/createOrchard")
+    public OrchardCreateDTO createOrchard() {
+        OrchardCreateDTO ocdto = new OrchardCreateDTO();
+        ocdto.setStati(Yard.getStati());
+        ocdto.setPeople(personService.findAll());
+        ocdto.setRegions(regionService.findAllRegionNames());
+        return ocdto;
+    }
+
     @RequestMapping(value = "pollination/addContract", method = RequestMethod.POST)
     public void addContract(@ModelAttribute("contract") Contract contract) {
         contractService.save(contract);
@@ -121,6 +147,10 @@ public class PollinationBoardRestController {
         return inspectionService.findOne(id);
     }
 
+    @RequestMapping(value = "pollination/getHiveCounts")
+    public void getHiveCounts() {
+        // return the hive counts from the orchards.
+    }
     protected static List<ContractDTO> getSampleContracts() {
         List<ContractDTO> contracts = new ArrayList<>();
         Random r = new Random((int) Math.random());
