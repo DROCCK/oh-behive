@@ -218,244 +218,31 @@ function createOrchardForm(data) {
                     .attr('class', 'pane tab-pane active')
                     .attr('id', 'details')
                     .append(
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'name')
-                                    .text("Name"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'name')
-                                            .attr('type', 'text')
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'maxHives')
-                                    .text("Max Hives"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'maxHives')
-                                            .attr('type', 'text')
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'status')
-                                    .text("Status"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        stati
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'owner')
-                                    .text("Owner"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        owners
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'rentReceiver')
-                                    .text("Rent Receiver"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        rentees
-                                    )
-                            )
+                        getFormGroup('name', 'Name', 'text'),
+                        getFormGroup('maxHives', 'Max Hives', 'text'),
+                        getFormGroupWithSelector('status', 'Status', stati),
+                        getFormGroupWithSelector('owner', 'Owner', owners),
+                        getFormGroupWithSelector('rentReceiver', 'Rent Receiver', rentees)
                     ),
                 $('<div>')
                     .attr('class', 'pane tab-pane')
                     .attr('id', 'location')
                     .append(
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'street')
-                                    .text("Street"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'street')
-                                            .attr('type', 'text')
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'suite')
-                                    .text("Suite"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'suite')
-                                            .attr('type', 'text')
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'city')
-                                    .text("City"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'city')
-                                            .attr('type', 'text')
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'state')
-                                    .text("State"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'state')
-                                            .attr('type', 'text')
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'zip')
-                                    .text("Zip"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'zip')
-                                            .attr('type', 'text')
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'region')
-                                    .text("Region"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        regions
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'longitude')
-                                    .text("Longitude"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'longitude')
-                                            .attr('type', 'text')
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'latitude')
-                                    .text("Latitude"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'latitude')
-                                            .attr('type', 'text')
-                                    )
-                            )
+                        getFormGroup('street', 'Street', 'text'),
+                        getFormGroup('suite', 'Suite', 'text'),
+                        getFormGroup('city', 'City', 'text'),
+                        getFormGroup('state', 'State', 'text'),
+                        getFormGroup('zip', 'Zip', 'text'),
+                        getFormGroupWithSelector('region', 'Region', regions),
+                        getFormGroup('longitude', 'Longitude', 'text'),
+                        getFormGroup('latitude', 'Latitude', 'text')
                     ),
                 $('<div>')
                     .attr('class', 'pane tab-pane')
                     .attr('id', 'access')
                     .append(
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'combo')
-                                    .text("Combination or Key"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'combo')
-                                            .attr('type', 'text')
-                                    )
-                            ),
-                        $('<div>')
-                            .attr('class', 'form-group')
-                            .append(
-                                $('<label>')
-                                    .attr('class', 'col-sm-2 control-label')
-                                    .attr('for', 'accessNotes')
-                                    .text("Access Notes"),
-                                $('<div>')
-                                    .attr('class', 'col-sm-10')
-                                    .append(
-                                        $('<input>')
-                                            .attr('class', 'form-control')
-                                            .attr('id', 'accessNotes')
-                                            .attr('type', 'text')
-                                    )
-                            )
+                        getFormGroup('combo', 'Combination or Key', 'text'),
+                        getFormGroup('accessNotes', 'Access Notes', 'text')
                     )
             ),
         $('<div>')
@@ -471,6 +258,54 @@ function createOrchardForm(data) {
                     )
             )
     );
+}
+
+function getFormGroup(for_id, label, type) {
+    return getGroupDiv()
+        .append(
+            getFormGroupLabel(for_id, label),
+            getFormGroupInput(for_id, type)
+        )
+        ;
+}
+
+function getGroupDiv() {
+    return $('<div>')
+        .attr('class', 'form-group');
+}
+
+function getFormGroupLabel(for_id, label) {
+    return $('<label>')
+        .attr('class', 'col-sm-2 control-label')
+        .attr('for', for_id)
+        .text(label);
+}
+
+function getFormGroupInput(for_id, type) {
+    return $('<div>')
+        .attr('class', 'col-sm-10')
+        .append(
+            $('<input>')
+                .attr('class', 'form-control')
+                .attr('id', for_id)
+                .attr('type', type)
+        )
+    ;
+}
+
+function getFormGroupSelector(data) {
+    return $('<div>')
+        .attr('class', 'col-sm-10')
+        .append(data);
+}
+
+function getFormGroupWithSelector(for_id, label, selector) {
+    return getGroupDiv()
+        .append(
+            getFormGroupLabel(for_id, label),
+            getFormGroupSelector(selector)
+        )
+        ;
 }
 
 function createContractForm(data) {
