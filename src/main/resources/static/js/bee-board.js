@@ -108,6 +108,7 @@ function createYardForm(data) {
             $('<li>')
                 .append(
                 $('<a>')
+                    .attr('id', "locationTab")
                     .attr('href', '#location')
                     .attr('data-toggle', 'tab')
                     .text('Location')
@@ -301,14 +302,14 @@ function createYardForm(data) {
                     .append(
                     $('<label>')
                         .attr('class', 'col-sm-2 control-label')
-                        .attr('for', 'longitude')
+                        .attr('for', 'longitudeModal')
                         .text("Longitude"),
                     $('<div>')
                         .attr('class', 'col-sm-10')
                         .append(
                         $('<input>')
                             .attr('class', 'form-control')
-                            .attr('id', 'longitude')
+                            .attr('id', 'longitudeModal')
                             .attr('type', 'text')
                     )
                 ),
@@ -318,19 +319,29 @@ function createYardForm(data) {
                     .append(
                     $('<label>')
                         .attr('class', 'col-sm-2 control-label')
-                        .attr('for', 'latitude')
+                        .attr('for', 'latitudeModal')
                         .text("Latitude"),
                     $('<div>')
                         .attr('class', 'col-sm-10')
                         .append(
                         $('<input>')
                             .attr('class', 'form-control')
-                            .attr('id', 'latitude')
+                            .attr('id', 'latitudeModal')
                             .attr('type', 'text')
-                    ),
+                    )
+                ),
+
+                $('<div>')
+                    .attr('class', 'form-group')
+                    .append(
+                    $('<div>')
+                        .attr('class', 'col-sm-1'),
                     $('<div>')
                         .attr('class', 'col-sm-10')
-                        .attr('id', 'mapPlaceholder')
+                        .attr('id', 'map-div-modal')
+                        .attr('style', 'height:300px'),
+                    $('<div>')
+                        .attr('class', 'col-sm-1')
                 )
             ),
             $('<div>')
@@ -384,6 +395,12 @@ function createYardForm(data) {
             )
         )
     );
+    getLocation();
+    $('#tabContent').on('shown.bs.tab', function (e){
+        if(e.target.id== "locationTab"){
+            google.maps.event.trigger(map, 'resize');
+        }
+    });
 }
 var x = document.getElementById("error");
 var map;
@@ -395,6 +412,7 @@ var lng;
 var markerImage;
 <!-- Query Device for Location -->
 function getLocation() {
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(setVals, showError);
     } else {
@@ -411,6 +429,8 @@ function getLocation() {
 function setVals(position) {
     lat = position.coords.latitude;
     lng = position.coords.longitude;
+    document.getElementById("latitudeModal").value = lat;
+    document.getElementById("longitudeModal").value = lng;
     coords = new google.maps.LatLng(lat, lng);
     var mapOptions = {
         zoom: 15,
@@ -419,7 +439,7 @@ function setVals(position) {
         mapTypeId: google.maps.MapTypeId.HYBRID
     };
     map = new google.maps.Map(
-        document.getElementById("mapPlaceholder"), mapOptions
+        document.getElementById("map-div-modal"), mapOptions
     );
     google.maps.event.addListener(map, 'click', function (event) {
         placeMarker(event.latLng);
@@ -436,9 +456,8 @@ function placeMarker(location) {
     lat = location.lat();
     lng = location.lng();
     setMarkerPosition(marker, lat, lng);
-    document.getElementById("latitude").value = location.lat();
-    document.getElementById("longitude").value = location.lng();
-    infowindow.open(map, marker);
+    document.getElementById("latitudeModal").value = location.lat();
+    document.getElementById("longitudeModal").value = location.lng();
 }
 function showError(error) {
     switch (error.code) {
@@ -464,5 +483,4 @@ function setMarkerPosition(marker, lat, lng) {
             lng)
     );
 }
-<!-- Add Event Listener to Map -->
-google.maps.event.addDomListener(window, 'load', getLocation);
+

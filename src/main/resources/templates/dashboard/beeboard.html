@@ -3,8 +3,7 @@
 <head th:include="fragments/head :: head"></head>
 <head>
     <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
-    <script th:src="@{/js/bee-board.js}"></script>
+
     <script>
         function editFormatter(value, row, index) {
             var modelId = row["id"];
@@ -269,6 +268,8 @@
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script th:src="@{/js/bee-board.js}"></script>
 <script>
     var x = document.getElementById("error");
     var marker;
