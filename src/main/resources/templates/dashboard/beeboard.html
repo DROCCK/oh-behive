@@ -3,6 +3,7 @@
 <head th:include="fragments/head :: head"></head>
 <head>
     <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
     <script th:src="@{/js/bee-board.js}"></script>
     <script>
         function editFormatter(value, row, index) {
@@ -105,6 +106,11 @@
 <body>
 <script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
 <header th:replace="fragments/header :: header"></header>
+
+<!-- List and edit Modals -->
+<div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div>
+<div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
+
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="left-sidebar-div">
@@ -183,10 +189,10 @@
                             </a>
                         </div>
                         <div class="col-sm-4">
-                            <a id="yardShipments" href="#">
+                            <a id="yardInspections" href="#">
                                 <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"
-                                   th:title="|#{goto} #{shipments}|">
-                                    send
+                                   th:title="|#{goto} #{inspections}|">
+                                    visibility
                                 </i>
                             </a>
                         </div>
@@ -199,7 +205,7 @@
         <!--Yard table-->
         <div class="col-md-12">
             <div class="col-md-6">
-                <a data-toggle="modal" data-target="#form-modal" href="#">
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateYardModal()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                        title="Add Yard">
                         add_circle_outline
@@ -263,7 +269,6 @@
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
-<script src="http://maps.googleapis.com/maps/api/js"></script>
 <script>
     var x = document.getElementById("error");
     var marker;
