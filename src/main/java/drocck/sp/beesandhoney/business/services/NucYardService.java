@@ -2,7 +2,7 @@ package drocck.sp.beesandhoney.business.services;
 
 
 import drocck.sp.beesandhoney.business.entities.NucYard;
-import drocck.sp.beesandhoney.business.entities.repositories.NucingYardRepository;
+import drocck.sp.beesandhoney.business.entities.repositories.NucYardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
@@ -12,30 +12,30 @@ import java.util.List;
 public class NucYardService {
 
     @Autowired
-    private NucingYardRepository nucingYardRepository;
+    private NucYardRepository nucYardRepository;
 
     public void delete(NucYard nucYard) {
-        nucingYardRepository.delete(nucYard);
+        nucYardRepository.delete(nucYard);
     }
 
     public void delete(Long id) {
-        nucingYardRepository.delete(id);
+        nucYardRepository.delete(id);
     }
 
     public NucYard save(NucYard nucYard) {
-        return nucingYardRepository.save(nucYard);
+        return nucYardRepository.save(nucYard);
     }
 
     public NucYard update(NucYard nucYard) {
-        return nucingYardRepository.save(nucYard);
+        return nucYardRepository.save(nucYard);
     }
 
     public NucYard findOne(Long id) {
-        return nucingYardRepository.findOne(id);
+        return nucYardRepository.findOne(id);
     }
 
     public List<NucYard> findAll(){
-        return nucingYardRepository.findAll();
+        return nucYardRepository.findAll();
     }
-
 }
+
