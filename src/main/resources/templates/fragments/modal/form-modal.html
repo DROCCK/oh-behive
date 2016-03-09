@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <body>
-    <form th:fragment="form-modal" id="form-modal">
-
+<div class="container col-md-6">
+    <form class="form-horizontal" th:fragment="form-modal" id="form-modal" role="form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div id="form-body">
+            <div id="msg">
+                <p>Loading form...</p>
+            </div>
+        </div>
     </form>
+</div>
 </body>
 </html>

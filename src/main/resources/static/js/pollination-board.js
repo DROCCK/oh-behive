@@ -8,6 +8,7 @@ var contract = url + "contract/";
 var contacts = url + "contacts/";
 var inspections = url + "inspections/";
 var shipments = url + "shipments/";
+var createContract = url + "createContract";
 
 function getEmptyTableHead() {
     var tableHead = $('#t-head');
@@ -19,6 +20,12 @@ function getEmptyTableBody(id) {
     var tableBody = $(id);
     tableBody.empty();
     return tableBody;
+}
+
+function getEmptyFormBody() {
+    var formBody = $('#form-body');
+    formBody.empty();
+    return formBody;
 }
 
 function getContract(id) {
@@ -121,53 +128,562 @@ function getInspectionRow(e) {
     //TODO add html for inspection head.
 }
 
-function loadTableData(data) {
-    alert(data);
-    // Load full contract into table row here.
+function getStatusSelector(data) {
+    var select = $('<select>')
+        .attr('class', 'form-control');
+    $.each(data, function (i, e) {
+        select.append(
+            $('<option>')
+                .text(e)
+        )
+    });
+    return select;
 }
 
-function loadContractTable() {
-    $.getJSON(contractDtoList, function (data) {
-        var body = getEmptyTableBody('#contract-table-body');
-        $.each(data, function (i, e) {
-            body.append(loadContractRow(e));
-            body.append(addExpandedRow(e));
-        });
+function getPersonSelector(data) {
+    var select = $('<select>')
+        .attr('class', 'form-control');
+    $.each(data, function (i, e) {
+        select.append(
+            $('<option>')
+                .text(e.name)
+        )
+    });
+    return select;
+}
+
+function getRegionSelector(data) {
+    var select = $('<select>')
+        .attr('class', 'form-control');
+    $.each(data, function (i, e) {
+        select.append(
+            $('<option>')
+                .text(e)
+        )
+    });
+    return select;
+}
+
+function getOrchardSelector(data) {
+    var select = $('<select>')
+        .attr('class', 'form-control');
+    $.each(data, function (i, e) {
+        select.append(
+            $('<option>')
+                .text(e)
+        )
+    });
+    return select;
+}
+
+function createOrchardForm(data) {
+    $('#form-modal-title').text("Create Orchard");
+    var body = getEmptyFormBody();
+    var stati = getStatusSelector(data.stati);
+    var owners = getPersonSelector(data.people);
+    var rentees = getPersonSelector(data.people);
+    var regions = getRegionSelector(data.regions);
+    body.append(
+        $('<ul>')
+            .attr('class', 'nav nav-tabs')
+            .attr('id', 'tabContent')
+            .append(
+                $('<li>')
+                    .attr('class', 'active')
+                    .append(
+                        $('<a>')
+                            .attr('href', '#details')
+                            .attr('data-toggle', 'tab')
+                            .text('Details')
+                    ),
+                $('<li>')
+                    .append(
+                        $('<a>')
+                            .attr('href', '#location')
+                            .attr('data-toggle', 'tab')
+                            .text('Location')
+                    ),
+                $('<li>')
+                    .append(
+                        $('<a>')
+                            .attr('href', '#access')
+                            .attr('data-toggle', 'tab')
+                            .text('Access')
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'tab-content')
+            .append(
+                $('<div>')
+                    .attr('class', 'pane tab-pane active')
+                    .attr('id', 'details')
+                    .append(
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'name')
+                                    .text("Name"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'name')
+                                            .attr('type', 'text')
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'maxHives')
+                                    .text("Max Hives"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'maxHives')
+                                            .attr('type', 'text')
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'status')
+                                    .text("Status"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        stati
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'owner')
+                                    .text("Owner"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        owners
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'rentReceiver')
+                                    .text("Rent Receiver"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        rentees
+                                    )
+                            )
+                    ),
+                $('<div>')
+                    .attr('class', 'pane tab-pane')
+                    .attr('id', 'location')
+                    .append(
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'street')
+                                    .text("Street"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'street')
+                                            .attr('type', 'text')
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'suite')
+                                    .text("Suite"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'suite')
+                                            .attr('type', 'text')
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'city')
+                                    .text("City"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'city')
+                                            .attr('type', 'text')
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'state')
+                                    .text("State"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'state')
+                                            .attr('type', 'text')
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'zip')
+                                    .text("Zip"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'zip')
+                                            .attr('type', 'text')
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'region')
+                                    .text("Region"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        regions
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'longitude')
+                                    .text("Longitude"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'longitude')
+                                            .attr('type', 'text')
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'latitude')
+                                    .text("Latitude"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'latitude')
+                                            .attr('type', 'text')
+                                    )
+                            )
+                    ),
+                $('<div>')
+                    .attr('class', 'pane tab-pane')
+                    .attr('id', 'access')
+                    .append(
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'combo')
+                                    .text("Combination or Key"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'combo')
+                                            .attr('type', 'text')
+                                    )
+                            ),
+                        $('<div>')
+                            .attr('class', 'form-group')
+                            .append(
+                                $('<label>')
+                                    .attr('class', 'col-sm-2 control-label')
+                                    .attr('for', 'accessNotes')
+                                    .text("Access Notes"),
+                                $('<div>')
+                                    .attr('class', 'col-sm-10')
+                                    .append(
+                                        $('<input>')
+                                            .attr('class', 'form-control')
+                                            .attr('id', 'accessNotes')
+                                            .attr('type', 'text')
+                                    )
+                            )
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<div>')
+                    .attr('class', 'col-sm-4 control-label')
+                    .append(
+                        $('<button>')
+                            .attr('class', 'btn btn-primary')
+                            .attr('type', 'submit')
+                            .text('Create')
+                    )
+            )
+    );
+}
+
+function createContractForm(data) {
+    $('#form-modal-title').text("Create Contract");
+    var body = getEmptyFormBody();
+    var people = getPersonSelector(data.people);
+    var orchards = getOrchardSelector(data.orchards);
+    body.append(
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<label>')
+                    .attr('class', 'col-sm-2 control-label')
+                    .attr('for', 'orchard')
+                    .text("Orchard"),
+                $('<div>')
+                    .attr('class', 'col-sm-10')
+                    .append(
+                        orchards
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<label>')
+                    .attr('class', 'col-sm-2 control-label')
+                    .attr('for', 'amount')
+                    .text("Amount"),
+                $('<div>')
+                    .attr('class', 'col-sm-10')
+                    .append(
+                        $('<input>')
+                            .attr('class', 'form-control')
+                            .attr('id', 'amount')
+                            .attr('type', 'text')
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<label>')
+                    .attr('class', 'col-sm-2 control-label')
+                    .attr('for', 'broker')
+                    .text("Broker"),
+                $('<div>')
+                    .attr('class', 'col-sm-10')
+                    .append(
+                        people
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<label>')
+                    .attr('class', 'col-sm-2 control-label')
+                    .attr('for', 'inDate')
+                    .text("Move-in Date"),
+                $('<div>')
+                    .attr('class', 'col-sm-10')
+                    .append(
+                        $('<input>')
+                            .attr('class', 'form-control')
+                            .attr('id', 'inDate')
+                            .attr('type', 'date')
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<label>')
+                    .attr('class', 'col-sm-2 control-label')
+                    .attr('for', 'inDate')
+                    .text("Move-out Date"),
+                $('<div>')
+                    .attr('class', 'col-sm-10')
+                    .append(
+                        $('<input>')
+                            .attr('class', 'form-control')
+                            .attr('id', 'outDate')
+                            .attr('type', 'date')
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<div>')
+                    .attr('class', 'col-sm-offset-2 col-sm-10')
+                    .append(
+                        $('<button>')
+                            .attr('type', 'submit')
+                            .attr('class', 'btn btn-primary')
+                            .text('Create')
+                    )
+            )
+    );
+}
+
+function loadCreateOrchardModal() {
+    $.getJSON("/pollination/createOrchard", function (data) {
+        createOrchardForm(data);
     });
 }
 
-function addExpandedRow(e) {
-    return $('<tr>')
-        .attr('class', 'collapse')
-        .attr('id', 'expanded-row-' + e.id)
-        .attr('onclick', '')
-        .append(
-            $('<td>')
-                .attr('colSpan', 4)
-                .append(
-                    $('<div>').append(
-                        $('<h1>').text("Hello then, ....")
-                    )
-                )
-        )
-        ;
+function loadCreateContractModal() {
+    $.getJSON("/pollination/createContract", function (data) {
+        createContractForm(data);
+    });
 }
 
-function loadContractRow(e) {
-    return $('<tr>')
-        .attr('data-toggle', 'collapse')
-        .attr('data-target', '#expanded-row-' + e.id)
-        .append(
-            $('<td>').text(e.orchardName),
-            $('<td>').append(
-                $('<progress>')
-                    .attr('value', e.progress)
-                    .attr('max', '100')
+function loadCreateShipmentModal() {
+    $('#form-modal-title').text("Create Shipment");
+    var body = getEmptyFormBody();
+    body.append(
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<label>')
+                    .attr('class', 'col-sm-2 control-label')
+                    .attr('for', 'direction')
+                    .text("Direction"),
+                $('<div>')
+                    .attr('class', 'col-sm-10')
+                    .append(
+                        $('<select>')
+                            .attr('class', 'form-control')
+                            .attr('id', 'direction')
+                            .append(
+                                $('<option>')
+                                    .text("IN"),
+                                $('<option>')
+                                    .text("OUT")
+                            )
+                    )
             ),
-            $('<td>'),
-            $('<td>')
-        )
-        ;
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<label>')
+                    .attr('class', 'col-sm-2 control-label')
+                    .attr('for', 'in')
+                    .text("In"),
+                $('<div>')
+                    .attr('class', 'col-sm-10')
+                    .append(
+                        $('<input>')
+                            .attr('class', 'form-control')
+                            .attr('id', 'in')
+                            .attr('type', 'text')
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<label>')
+                    .attr('class', 'col-sm-2 control-label')
+                    .attr('for', 'date')
+                    .text("Date"),
+                $('<div>')
+                    .attr('class', 'col-sm-10')
+                    .append(
+                        $('<input>')
+                            .attr('class', 'form-control')
+                            .attr('id', 'date')
+                            .attr('type', 'date')
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<label>')
+                    .attr('class', 'col-sm-2 control-label')
+                    .attr('for', 'dud')
+                    .text("Dud"),
+                $('<div>')
+                    .attr('class', 'col-sm-10')
+                    .append(
+                        $('<input>')
+                            .attr('class', 'form-control')
+                            .attr('id', 'dud')
+                            .attr('type', 'text')
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<label>')
+                    .attr('class', 'col-sm-2 control-label')
+                    .attr('for', 'notes')
+                    .text("Notes"),
+                $('<div>')
+                    .attr('class', 'col-sm-10')
+                    .append(
+                        $('<textarea>')
+                            .attr('class', 'form-control')
+                            .attr('width', '100%')
+                            .attr('rows', '5')
+                            .attr('id', 'notes')
+                            .attr('type', 'text')
+                    )
+            ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+                $('<div>')
+                    .attr('class', 'col-sm-offset-2 col-sm-10')
+                    .append(
+                        $('<button>')
+                            .attr('type', 'submit')
+                            .attr('class', 'btn btn-primary')
+                            .text('Create')
+                    )
+            )
+    );
 }
 
 function loadContractDetails(data) {
@@ -178,16 +694,27 @@ function loadContractDetails(data) {
     $('#out').html('Out Date: ' + data.moveOutDate);
     $('#broker').html('Broker: ' + data.broker.name);
     $('#number').html('Phone: ' + data.broker.contactInfo.phone);
-    $('#edit').html('<a href="#"><i class="material-icons md-24 bee-board-icon">send</i></a>');
+    $('#edit').html('<a href="#"><i class="material-icons md-24 bee-board-icon">create</i></a>');
     $('#delete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">delete</i></a>');
-    $('#contacts').html('<a><i class="material-icons md-24 bee-board-icon" data-toggle="modal" data-target="#table-modal" onclick="getContacts(0)">person_outline</i></a>');
-    $('#shipments').html('<a href="#"><i class="material-icons md-24 bee-board-icon">create</i></a>');
-    $('#progress').html('% Fulfilled:<br/><progress style="width: 100%;" value="' + (data.amount - 10 * data.id) + '" max="100"></progress><hr/>');
+    $('#contacts').html('<a href=#><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
+        'data-target="#table-modal" onclick="getContacts(0)">person_outline</i></a>');
+    $('#shipments').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
+        'data-target="#table-modal" onclick="loadShipmentListModal()">visibility</i></a>');
+    $('#progress').html('% Fulfilled:<br/><div class="progress"><div class="progress-bar" role="progressbar" ' +
+        'aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + data.count + '" style="width: ' + data.count + '%"></div></div>'
+    );
+}
+
+function getHiveCount() {
+    $.ajax("/pollination/hiveCounts", function (data) {
+
+    });
 }
 
 function progressFormatter(value, row, index) {
     return [
-        '<progress value="' + value + '" max="100" />'
+        '<div class="progress"><div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"' +
+        'aria-valuenow="' + value + '" style="width: ' + value + '%;" ></div></div>'
     ].join('');
 }
 
@@ -214,23 +741,6 @@ window.operateEvents = {
 };
 
 $(document).ready(function () {
+    loadContractTable();
     $('[data-toggle="tooltip"]').tooltip();
 });
-
-function updateTable(data) {
-    $.ajax({
-        dataType: "json",
-        url: contractDtoList,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: 'GET',
-        success: function (response) {
-            $('#table-body').empty();
-            $.each(response, function (i, e) {
-                // put table html here.
-            });
-        }
-    });
-}

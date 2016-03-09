@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -20,6 +21,10 @@ import java.util.stream.IntStream;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Yard implements Serializable {
+
+    public static final String IN_USE = "IN USE";
+    public static final String INACTIVE = "INACTIVE";
+    public static final String RIP = "RIP";
 
     @Id
     @Column(name = "ID")
@@ -291,5 +296,9 @@ public class Yard implements Serializable {
     */
     public void setRegion(Region region) {
         this.region = region;
+    }
+
+    public static List<String> getStati() {
+        return Arrays.asList(IN_USE, INACTIVE, RIP);
     }
 }

@@ -11,7 +11,10 @@ import java.util.List;
 public class Orchard extends Yard {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    List<Person> contacts;
+    private List<Person> contacts;
+
+    @Column(name = "COUNT")
+    private Integer count;
 
     public List<Person> getContacts() {
         return contacts;
@@ -19,6 +22,14 @@ public class Orchard extends Yard {
 
     public void setContacts(List<Person> contacts) {
         this.contacts = contacts;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     public int getHiveCount() {
