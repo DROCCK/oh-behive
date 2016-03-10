@@ -341,12 +341,6 @@ function loadContractDetails(data) {
     );
 }
 
-function getHiveCount() {
-    $.ajax("/pollination/hiveCounts", function (data) {
-
-    });
-}
-
 function progressFormatter(value, row, index) {
     return [
         '<div class="progress"><div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"' +
@@ -369,14 +363,14 @@ function tableRowClick(e, row, $element) {
 
 window.operateEvents = {
     'click .edit': function (e, value, row, index) {
-        location.href = "/yard/update/" + row["id"];
+        // location.href = "/yard/update/" + row["id"];
     },
     'click .remove': function (e, value, row, index) {
-        location.href = "/yard/delete/" + row["id"];
+        // location.href = "/yard/delete/" + row["id"];
     }
 };
 
 $(document).ready(function () {
-    loadContractTable();
+    // loadContractTable();
     $('[data-toggle="tooltip"]').tooltip();
 });
