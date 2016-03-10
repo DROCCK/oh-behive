@@ -3,7 +3,7 @@
 <head th:include="fragments/head :: head"></head>
 <head>
     <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
-    <script th:src="@{/js/bee-board.js}"></script>
+
     <script>
         function editFormatter(value, row, index) {
             var modelId = row["id"];
@@ -105,6 +105,11 @@
 <body>
 <script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
 <header th:replace="fragments/header :: header"></header>
+
+<!-- List and edit Modals -->
+<div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div>
+<div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
+
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="left-sidebar-div">
@@ -183,10 +188,10 @@
                             </a>
                         </div>
                         <div class="col-sm-4">
-                            <a id="yardShipments" href="#">
+                            <a id="yardInspections" href="#">
                                 <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"
-                                   th:title="|#{goto} #{shipments}|">
-                                    send
+                                   th:title="|#{goto} #{inspections}|">
+                                    visibility
                                 </i>
                             </a>
                         </div>
@@ -199,13 +204,13 @@
         <!--Yard table-->
         <div class="col-md-12">
             <div class="col-md-6">
-                <a data-toggle="modal" data-target="#form-modal">
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateYardModal()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Add Contract">
+                       title="Add Yard">
                         add_circle_outline
                     </i>
                 </a>
-                <h4 class="list-header" th:text="|#{pipe} Add Contract|">Add Contract</h4>
+                <h4 class="list-header" th:text="|#{pipe} Add Yard|">Add Yard</h4>
             </div>
             <div class="col-md-4"></div>
             <div align="right" class="form-group col-md-2">
@@ -221,12 +226,13 @@
                    data-url="/yard/json"
                    data-cache="false"
                    data-pagination="true"
+                   data-page-list="true"
                    data-show-refresh="true"
                    data-show-toggle="true"
                    data-show-columns="true"
                    data-search="true">
                 <caption align="center">
-                    <div class="col-sm-2" th:text="#{activeYards}"></div>
+                    <div class="col-sm-2" style="margin-left: -15px" th:text="#{activeYards}"></div>
                 </caption>
                 <thead>
                 <tr>
@@ -263,6 +269,7 @@
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 <script src="http://maps.googleapis.com/maps/api/js"></script>
+<script th:src="@{/js/bee-board.js}"></script>
 <script>
     var x = document.getElementById("error");
     var marker;
