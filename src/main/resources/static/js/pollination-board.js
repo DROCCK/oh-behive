@@ -55,6 +55,10 @@ function get(type, title, func) {
     });
 }
 
+function postContract() {
+
+}
+
 function loadListModal(data, headFunc, rowFunc) {
     getEmptyTableHead().append(headFunc());
     var tableBody = getEmptyTableBody('#t-body');
