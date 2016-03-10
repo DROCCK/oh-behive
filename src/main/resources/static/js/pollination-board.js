@@ -99,10 +99,6 @@ function getShipmentHead() {
     );
 }
 
-function getShipmentRow(e) {
-    // TODO add html for shipment row.
-}
-
 function getInspectionHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
@@ -111,24 +107,7 @@ function getInspectionHead() {
     );
 }
 
-function initContractTable() {
-    // Load header
-    loadContractTable();
-}
-
-function getContractTableHead() {
-
-}
-
-function getContractTableBody(data) {
-
-}
-
-function getInspectionRow(e) {
-    //TODO add html for inspection head.
-}
-
-function getStatusSelector(data) {
+function getSelector(data) {
     var select = $('<select>')
         .attr('class', 'form-control');
     $.each(data, function (i, e) {
@@ -140,7 +119,7 @@ function getStatusSelector(data) {
     return select;
 }
 
-function getPersonSelector(data) {
+function getSelectorWithName(data) {
     var select = $('<select>')
         .attr('class', 'form-control');
     $.each(data, function (i, e) {
@@ -152,37 +131,13 @@ function getPersonSelector(data) {
     return select;
 }
 
-function getRegionSelector(data) {
-    var select = $('<select>')
-        .attr('class', 'form-control');
-    $.each(data, function (i, e) {
-        select.append(
-            $('<option>')
-                .text(e)
-        )
-    });
-    return select;
-}
-
-function getOrchardSelector(data) {
-    var select = $('<select>')
-        .attr('class', 'form-control');
-    $.each(data, function (i, e) {
-        select.append(
-            $('<option>')
-                .text(e)
-        )
-    });
-    return select;
-}
-
 function createOrchardForm(data) {
     $('#form-modal-title').text("Create Orchard");
     var body = getEmptyFormBody();
-    var stati = getStatusSelector(data.stati);
-    var owners = getPersonSelector(data.people);
-    var rentees = getPersonSelector(data.people);
-    var regions = getRegionSelector(data.regions);
+    var stati = getSelector(data.stati);
+    var owners = getSelectorWithName(data.people);
+    var rentees = getSelectorWithName(data.people);
+    var regions = getSelector(data.regions);
     body.append(
         $('<ul>')
             .attr('class', 'nav nav-tabs')
@@ -305,14 +260,14 @@ function getFormGroupWithSelector(for_id, label, selector) {
             getFormGroupLabel(for_id, label),
             getFormGroupSelector(selector)
         )
-        ;
+    ;
 }
 
 function createContractForm(data) {
     $('#form-modal-title').text("Create Contract");
     var body = getEmptyFormBody();
-    var people = getPersonSelector(data.people);
-    var orchards = getOrchardSelector(data.orchards);
+    var people = getSelectorWithName(data.people);
+    var orchards = getSelector(data.orchards);
     body.append(
         getFormGroupWithSelector('orchard', "Orchard", orchards),
         getFormGroup('amount', 'Amount', 'text'),
