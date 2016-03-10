@@ -36,4 +36,8 @@ public class OrchardService {
     public void delete(Long id) {
         orchardRepository.delete(id);
     }
+
+    public List<String> findAllOrchardNames() {
+        return orchardRepository.findAllOrchardNames();
+    }
 }

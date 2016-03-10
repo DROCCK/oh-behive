@@ -1,15 +1,12 @@
 package drocck.sp.beesandhoney.business.entities.repositories;
 
-import drocck.sp.beesandhoney.business.entities.Address;
+import drocck.sp.beesandhoney.business.entities.PolliShipment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
- * @author Rob
- * Created on 9/29/2015.
+ * Created by Robert on 3/5/2016.
  */
 @Repository
-public interface AddressRepository
-extends JpaRepository<Address, Long> { }
+public interface PolliShipmentRepository extends JpaRepository<PolliShipment, Long> {
+}

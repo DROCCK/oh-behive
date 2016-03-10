@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:include="fragments/head :: head"></head>
 <head>
     <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
@@ -33,23 +33,23 @@
 
         $(function () {
             //sets array length for the map markers
-            var arrLength=0;
+            var arrLength = 0;
             var jsonArray;
             var labels;
-            var json = $.getJSON('/dashboard/beeboard/json', function(data) {
-                jsonArray=data; //moves data array to var
+            var json = $.getJSON('/dashboard/beeboard/json', function (data) {
+                jsonArray = data; //moves data array to var
                 arrLength = jsonArray[0]["yards"].length;
 
                 initialize();
-                for (var i = 0; arrLength > i ; i++){
-                    labels = '<div id="mapNote">'+
-                            '<h2 id="Yard Info">Yard Info</h2>'+
-                            '<p>Singles: '+jsonArray[0]["yards"][i]["singles"]+'<br/>'+
-                            'Doubles: '+jsonArray[0]["yards"][i]["doubles"]+'<br/>'+
-                            'Supers: '+jsonArray[0]["yards"][i]["supers"]+'<br/>'+
-                            '<a href="/inspection/list/'+jsonArray[0]['yards'][i]['id']+'">' +
-                            'Check Inspections</a>'+
-                            '</p>'+
+                for (var i = 0; arrLength > i; i++) {
+                    labels = '<div id="mapNote">' +
+                            '<h2 id="Yard Info">Yard Info</h2>' +
+                            '<p>Singles: ' + jsonArray[0]["yards"][i]["singles"] + '<br/>' +
+                            'Doubles: ' + jsonArray[0]["yards"][i]["doubles"] + '<br/>' +
+                            'Supers: ' + jsonArray[0]["yards"][i]["supers"] + '<br/>' +
+                            '<a href="/inspection/list/' + jsonArray[0]['yards'][i]['id'] + '">' +
+                            'Check Inspections</a>' +
+                            '</p>' +
                             '</div>';
                     createMarker(jsonArray[0]['yards'][i]['longitude'], jsonArray[0]['yards'][i]['latitude'], labels); //Cycles through drops and places markers
                 }
@@ -62,10 +62,10 @@
                     document.getElementById('infoPanel').style.display = "block";
                     //Recenters map
                     var yardId = row["id"];
-                    var lat = jsonArray[0]['yards'][yardId-1]['latitude'];
-                    var long = jsonArray[0]['yards'][yardId-1]['longitude'];
-                    console.log(jsonArray[0]['yards'][yardId-1]); //--- Look into this further. Why is this yardId-1?
-                    recenter(lat,long);
+                    var lat = jsonArray[0]['yards'][yardId - 1]['latitude'];
+                    var long = jsonArray[0]['yards'][yardId - 1]['longitude'];
+                    console.log(jsonArray[0]['yards'][yardId - 1]); //--- Look into this further. Why is this yardId-1?
+                    recenter(lat, long);
                 })();
                 assignHrefs(row["id"]);
                 var owner = row["owner"];
@@ -129,11 +129,11 @@
         <div align="center">
         </div>
         <hr/>
-        <div class="row dashboard-row" >
+        <div class="row dashboard-row">
             <div class="col-md-6" id="yard-prompt">
                 <h1 th:text="#{chooseRow}"></h1>
             </div>
-            <div id = "infoPanel"  class="col-md-6" style="display:none">
+            <div id="infoPanel" class="col-md-6" style="display:none">
                 <div class="col-md-6">
                     <p id="name"></p>
 
@@ -167,25 +167,28 @@
                     <p id="lastFedDate"></p>
                     <div>
                         <div class="col-sm-4">
-                        <a id="editYard" href="#">
-                            <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="|#{edit} #{yard}|">
-                                create
-                            </i>
-                        </a>
+                            <a id="editYard" href="#">
+                                <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"
+                                   th:title="|#{edit} #{yard}|">
+                                    create
+                                </i>
+                            </a>
                         </div>
                         <div class="col-sm-4">
-                        <a id="deleteYard" href="#">
-                            <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="|#{delete} #{yard}|">
-                                delete
-                            </i>
-                        </a>
+                            <a id="deleteYard" href="#">
+                                <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"
+                                   th:title="|#{delete} #{yard}|">
+                                    delete
+                                </i>
+                            </a>
                         </div>
                         <div class="col-sm-4">
-                        <a id="yardShipments" href="#">
-                            <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="|#{goto} #{shipments}|">
-                                send
-                            </i>
-                        </a>
+                            <a id="yardShipments" href="#">
+                                <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"
+                                   th:title="|#{goto} #{shipments}|">
+                                    send
+                                </i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -193,19 +196,25 @@
             <div id="map-div" class="col-md-6" style="display:block" th:align="right"></div>
         </div>
         <hr/>
-        <!--Region Dropdown-->
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="region" th:text="#{region}"></label>
-
-            <div class="col-sm-10">
-                <select class="form-control" id="region">
+        <!--Yard table-->
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <a data-toggle="modal" data-target="#form-modal">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Add Contract">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Add Contract|">Add Contract</h4>
+            </div>
+            <div class="col-md-4"></div>
+            <div align="right" class="form-group col-md-2">
+                <select class="form-control" style="margin-right: -15px" id="region">
+                    <option selected="selected" disabled="disabled" value="">Region</option>
                     <option value="ALL" th:text="#{all}"></option>
                     <option th:each="r : ${beeBoard.getRegions()}" th:value="${r.id}" th:text="${r.name}"></option>
                 </select>
             </div>
-        </div>
-        <!--Yard table-->
-        <div class="col-md-12">
             <table class="table table-condensed table-responsive"
                    id="yard-table"
                    data-toggle="table"
@@ -218,12 +227,7 @@
                    data-search="true">
                 <caption align="center">
                     <div class="col-sm-2" th:text="#{activeYards}"></div>
-                    <a id="addYard" class="col-sm-10" th:href="@{/yard/create}" th:align="left">
-                        <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="|#{add} #{yard}|">
-                            add_circle_outline
-                        </i>
-                    </a>
-                 </caption>
+                </caption>
                 <thead>
                 <tr>
                     <th data-field="yardName" data-sortable="true" data-visible="true" th:text="#{name}"></th>
@@ -267,7 +271,7 @@
     var lng;
     var markerImage;
     var shape;
-    var markers=[];
+    var markers = [];
     var bounds;
     var map;
     var mapOptions;
@@ -277,16 +281,16 @@
         //generate the bee marker image
         markerImage = {
             url: 'http://i.imgur.com/ALU8OuA.png',
-            size: new google.maps.Size(45,45),
-            origin: new google.maps.Point(0,0),
-            anchor: new google.maps.Point(23,45)
+            size: new google.maps.Size(45, 45),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(23, 45)
         };
         shape = {
-            coords:[1,1,1,45,45,45,45,1],
+            coords: [1, 1, 1, 45, 45, 45, 45, 1],
             type: 'poly'
         };
         bounds = new google.maps.LatLngBounds();
-        mapOptions= {
+        mapOptions = {
             mapTypeControl: true,
             mapTypeId: google.maps.MapTypeId.HYBRID
         };
@@ -295,8 +299,8 @@
         );
     }
 
-    function recenter(latitude, longitude){ //used to recenter the map whenever a new row is clicked
-        coords = new google.maps.LatLng(latitude,longitude);
+    function recenter(latitude, longitude) { //used to recenter the map whenever a new row is clicked
+        coords = new google.maps.LatLng(latitude, longitude);
         map.setZoom(15);
         map.panTo(coords);
     }
@@ -322,7 +326,7 @@
         //create info window
         var infoWindow = new google.maps.InfoWindow({
             content: windowLabel.toString(),
-            maxWidth:200
+            maxWidth: 200
         });
         var latlng = new google.maps.LatLng(lat, long);
         var marker = new google.maps.Marker({
@@ -332,7 +336,7 @@
         });
         marker.setMap(map); //must set its map to the pages' map
         //adds listener to each marker during creation
-        marker.addListener('click', function(){
+        marker.addListener('click', function () {
             infoWindow.open(map, marker);
         });
         bounds.extend(marker.getPosition());

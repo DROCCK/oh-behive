@@ -121,6 +121,11 @@ public class AppConfig {
         return new OrchardService();
     }
 
+    @Bean
+    public PolliShipmentService polliShipmentService() {
+        return new PolliShipmentService();
+    }
+
     //Language beans
     @Bean
     public ReloadableResourceBundleMessageSource messageSource(){
