@@ -1,7 +1,9 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -79,7 +81,6 @@ public class Yard implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "REGION_ID")
-    @JsonBackReference
     private Region region;
 
     @Column(name = "LAST_VISIT")

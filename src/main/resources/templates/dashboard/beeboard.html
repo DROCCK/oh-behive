@@ -30,41 +30,104 @@
                 location.href = "/yard/delete/" + row["id"];
             }
         };
+        //Taken from http://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects
+        JSON.flatten = function(data) {
+            var result = {};
+            function recurse (cur, prop) {
+                if (Object(cur) !== cur) {
+                    result[prop] = cur;
+                } else if (Array.isArray(cur)) {
+                    for(var i=0, l=cur.length; l > i; i++)
+                        recurse(cur[i], prop + "[" + i + "]");
+                    if (l == 0)
+                        result[prop] = [];
+                } else {
+                    var isEmpty = true;
+                    for (var p in cur) {
+                        isEmpty = false;
+                        recurse(cur[p], prop ? prop+"."+p : p);
+                    }
+                    if (isEmpty)
+                        result[prop] = {};
+                }
+            }
+            recurse(data, "");
+            return result;
+        };
 
-        $(function () {
-            //sets array length for the map markers
-            var arrLength = 0;
-            var jsonArray;
-            var labels;
+        var arrLength = 0;
+        var jsonArray;
+        var regionName = "All";
+
+        function recreateMap(){
             var json = $.getJSON('/dashboard/beeboard/json', function (data) {
+                var labels;
                 jsonArray = data; //moves data array to var
-                arrLength = jsonArray[0]["yards"].length;
-
-                initialize();
-                for (var i = 0; arrLength > i; i++) {
-                    labels = '<div id="mapNote">' +
-                            '<h2 id="Yard Info">Yard Info</h2>' +
-                            '<p>Singles: ' + jsonArray[0]["yards"][i]["singles"] + '<br/>' +
-                            'Doubles: ' + jsonArray[0]["yards"][i]["doubles"] + '<br/>' +
-                            'Supers: ' + jsonArray[0]["yards"][i]["supers"] + '<br/>' +
-                            '<a href="/inspection/list/' + jsonArray[0]['yards'][i]['id'] + '">' +
-                            'Check Inspections</a>' +
-                            '</p>' +
-                            '</div>';
-                    createMarker(jsonArray[0]['yards'][i]['longitude'], jsonArray[0]['yards'][i]['latitude'], labels); //Cycles through drops and places markers
+                if(regionName=="All"){
+                    console.log("all");
+                    arrLength=0;
+                    for(var j = 0; jsonArray.length>j; j++){
+                        var tempArrLength = jsonArray[j]["yards"].length;
+                        arrLength+=tempArrLength;
+                        for (var i = 0; tempArrLength > i; i++) {
+                            labels = '<div id="mapNote">' +
+                                    '<h2 id="Yard Info">Yard Info</h2>' +
+                                    '<p>Singles: ' + jsonArray[j]["yards"][i]["singles"] + '<br/>' +
+                                    'Doubles: ' + jsonArray[j]["yards"][i]["doubles"] + '<br/>' +
+                                    'Supers: ' + jsonArray[j]["yards"][i]["supers"] + '<br/>' +
+                                    '<a href="/inspection/list/' + jsonArray[j]['yards'][i]['id'] + '">' +
+                                    'Check Inspections</a>' +
+                                    '</p>' +
+                                    '</div>';
+                            createMarker(jsonArray[j]['yards'][i]['longitude'], jsonArray[j]['yards'][i]['latitude'], labels); //Cycles through drops and places markers
+                        }
+                    }
+                }
+                else{
+                    for(var j = 0; jsonArray.length>j; j++){
+                        if(jsonArray[j]["name"]==regionName){
+                            var index = j;
+                        }
+                    }
+                    arrLength = jsonArray[index]["yards"].length;
+                    for (var i = 0; arrLength > i; i++) {
+                        labels = '<div id="mapNote">' +
+                                '<h2 id="Yard Info">Yard Info</h2>' +
+                                '<p>Singles: ' + jsonArray[index]["yards"][i]["singles"] + '<br/>' +
+                                'Doubles: ' + jsonArray[index]["yards"][i]["doubles"] + '<br/>' +
+                                'Supers: ' + jsonArray[index]["yards"][i]["supers"] + '<br/>' +
+                                '<a href="/inspection/list/' + jsonArray[index]['yards'][i]['id'] + '">' +
+                                'Check Inspections</a>' +
+                                '</p>' +
+                                '</div>';
+                        createMarker(jsonArray[index]['yards'][i]['longitude'], jsonArray[index]['yards'][i]['latitude'], labels); //Cycles through drops and places markers
+                    }
                 }
             });
+            console.log(JSON.flatten(jsonArray));
+        }
+
+        $(function () {
+            initialize(); //initialize map
+            recreateMap();
 
             $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
                 (function () {
+                    console.log(arrLength);
                     document.getElementById('yard-prompt').style.display = "none";
                     document.getElementById('map-div').style.display = "block";
                     document.getElementById('infoPanel').style.display = "block";
                     //Recenters map
                     var yardId = row["id"];
-                    var lat = jsonArray[0]['yards'][yardId - 1]['latitude'];
-                    var long = jsonArray[0]['yards'][yardId - 1]['longitude'];
-                    console.log(jsonArray[0]['yards'][yardId - 1]); //--- Look into this further. Why is this yardId-1?
+                    var addr = 0;
+                    for(var i = 0; arrLength > i; i++){
+                        if(jsonArray[0]['yards'][i]['id']==yardId){
+                            addr = i;
+                        }
+                    }
+                    var lat = jsonArray[0]['yards'][addr]['latitude'];
+                    var long = jsonArray[0]['yards'][addr]['longitude'];
+                    console.log(jsonArray[0]['yards'][addr]);
                     recenter(lat, long);
                 })();
                 assignHrefs(row["id"]);
@@ -90,20 +153,29 @@
                 else
                     $("#lastVisit").html('<b>No Inspections Recorded </b>');
                 if (row["lastFedDate"] != null)
-                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"])
+                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"]);
                 else
                     $("#lastFedDate").html('<b>No Feed Date Recorded </b>');
             });
+
+
         });
+
+
 
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
+            $('#regionDropdown').change(function(){
+                regionName = $('#regionDropdown :selected').text();
+                clearMarkers();
+                recreateMap();
+            });
         });
     </script>
     <title th:text="#{beeBoard}"></title>
 </head>
 <body>
-<script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
+<!--<script type="text/javascript" th:href="@{/js/yard-table.js}"></script>-->
 <header th:replace="fragments/header :: header"></header>
 
 <!-- List and edit Modals -->
@@ -214,7 +286,7 @@
             </div>
             <div class="col-md-4"></div>
             <div align="right" class="form-group col-md-2">
-                <select class="form-control" style="margin-right: -15px" id="region">
+                <select class="form-control" style="margin-right: -15px" id="regionDropdown">
                     <option selected="selected" disabled="disabled" value="">Region</option>
                     <option value="ALL" th:text="#{all}"></option>
                     <option th:each="r : ${beeBoard.getRegions()}" th:value="${r.id}" th:text="${r.name}"></option>
@@ -346,8 +418,17 @@
         marker.addListener('click', function () {
             infoWindow.open(map, marker);
         });
+        markers.push(marker);
         bounds.extend(marker.getPosition());
         map.fitBounds(bounds);
+    }
+
+    function clearMarkers(){
+        for (var i = 0; markers.length > i; i++) {
+            markers[i].setMap(null);
+        }
+        markers = [];
+        bounds = new google.maps.LatLngBounds();    //creates new bounds so that when new markers are made, new bounds are made.
     }
 </script>
 </body>
