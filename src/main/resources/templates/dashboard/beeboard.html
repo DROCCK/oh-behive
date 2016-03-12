@@ -55,20 +55,20 @@
             return result;
         };
 
-        var arrLength = 0;
         var jsonArray;
         var regionName = "All";
+        var tableArray;
 
         function recreateMap(){
             var json = $.getJSON('/dashboard/beeboard/json', function (data) {
                 var labels;
                 jsonArray = data; //moves data array to var
+                tableArray = jsonArray[0]['yards'];
+
                 if(regionName=="All"){
-                    console.log("all");
-                    arrLength=0;
+                    tableArray = [];
                     for(var j = 0; jsonArray.length>j; j++){
                         var tempArrLength = jsonArray[j]["yards"].length;
-                        arrLength+=tempArrLength;
                         for (var i = 0; tempArrLength > i; i++) {
                             labels = '<div id="mapNote">' +
                                     '<h2 id="Yard Info">Yard Info</h2>' +
@@ -80,8 +80,10 @@
                                     '</p>' +
                                     '</div>';
                             createMarker(jsonArray[j]['yards'][i]['longitude'], jsonArray[j]['yards'][i]['latitude'], labels); //Cycles through drops and places markers
+                            tableArray.push(jsonArray[j]['yards'][i]);
                         }
                     }
+                    $('#yard-table').bootstrapTable('load', tableArray);
                 }
                 else{
                     for(var j = 0; jsonArray.length>j; j++){
@@ -89,8 +91,8 @@
                             var index = j;
                         }
                     }
-                    arrLength = jsonArray[index]["yards"].length;
-                    for (var i = 0; arrLength > i; i++) {
+                    var tempArrLength = jsonArray[index]["yards"].length;
+                    for (var i = 0; tempArrLength > i; i++) {
                         labels = '<div id="mapNote">' +
                                 '<h2 id="Yard Info">Yard Info</h2>' +
                                 '<p>Singles: ' + jsonArray[index]["yards"][i]["singles"] + '<br/>' +
@@ -102,32 +104,38 @@
                                 '</div>';
                         createMarker(jsonArray[index]['yards'][i]['longitude'], jsonArray[index]['yards'][i]['latitude'], labels); //Cycles through drops and places markers
                     }
+                    tableArray = jsonArray[index]['yards'];
+                    $('#yard-table').bootstrapTable('load', tableArray);
                 }
             });
-            console.log(JSON.flatten(jsonArray));
         }
 
         $(function () {
             initialize(); //initialize map
             recreateMap();
-
             $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
                 (function () {
-                    console.log(arrLength);
                     document.getElementById('yard-prompt').style.display = "none";
                     document.getElementById('map-div').style.display = "block";
                     document.getElementById('infoPanel').style.display = "block";
+                    var jsonLength = jsonArray.length;
+                    var arrLength;
+                    var yardIndex;
+                    var regionIndex;
                     //Recenters map
-                    var yardId = row["id"];
-                    var addr = 0;
-                    for(var i = 0; arrLength > i; i++){
-                        if(jsonArray[0]['yards'][i]['id']==yardId){
-                            addr = i;
+                    var yardId = row['id'];
+                    for(var j = 0; jsonLength > j; j++){
+                        arrLength = jsonArray[j]['yards'].length;
+                        for(var i = 0; arrLength > i; i++){
+                            if(jsonArray[j]['yards'][i]['id']==yardId){
+                                yardIndex = i;
+                                regionIndex = j;
+                            }
                         }
                     }
-                    var lat = jsonArray[0]['yards'][addr]['latitude'];
-                    var long = jsonArray[0]['yards'][addr]['longitude'];
-                    console.log(jsonArray[0]['yards'][addr]);
+
+                    var lat = jsonArray[regionIndex]['yards'][yardIndex]['latitude'];
+                    var long = jsonArray[regionIndex]['yards'][yardIndex]['longitude'];
                     recenter(lat, long);
                 })();
                 assignHrefs(row["id"]);
@@ -202,7 +210,7 @@
             <h4 th:text="|#{duds}: ${beeBoard.getDudsPercent()} #{percent}|"></h4>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div align="center">
         </div>
         <hr/>
@@ -295,7 +303,7 @@
             <table class="table table-condensed table-responsive"
                    id="yard-table"
                    data-toggle="table"
-                   data-url="/yard/json"
+
                    data-cache="false"
                    data-pagination="true"
                    data-page-list="true"
@@ -331,13 +339,7 @@
             </table>
         </div>
     </div>
-    <div class="col-md-2 hidden-xs hidden-sm">
-        <div class="right-sidebar-div">
-            <h3><b th:text="#{activeShipments}"></b></h3>
-            <hr/>
-            <h3 align="center" th:text="${beeBoard.getActiveShipments()}">10</h3>
-        </div>
-    </div>
+    <div class="col-md-1"></div>    <!-- space for the right side -->
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 <script src="http://maps.googleapis.com/maps/api/js"></script>
