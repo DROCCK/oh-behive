@@ -4,7 +4,8 @@
  */
 
 var url = "/nucing/";
-var createNucYard = "createNucYard";
+var createNucYardForm = "createNucYardForm";
+var updateNucYard = "createNucYard"
 var nucReportUrl = 'nucReport/';
 
 
@@ -91,6 +92,32 @@ function getRegionSelector(data) {
     return select;
 }
 
+function createNucYard() {
+        var NucYard = {
+            count: $('#count').val(),
+            start: $('#date').val()
+        };
+
+        $.ajax({
+            url: url + createNucYard,
+            type: "POST",
+            dataType: 'json',
+            data: event,
+            beforeSend: function () {
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+                $(document).ajaxSend(function (e, xhr, options) {
+                    xhr.setRequestHeader(header, token);
+                });
+            },
+            complete: function () {
+                alert(eventJSON);
+            },
+            error: function (xhr, desc, err) {
+                alert("error " + err + " " + desc + " " + xhr.responseText);
+            }
+        });
+}
 
 function loadCreateNucYardModal() {
     var createNucYardUrl = url + createNucYard;
@@ -534,6 +561,17 @@ function createNucReportForm(data) {
             )
         )
     );
+    // set data
+    $('notes').val(data['notes']);
+    $('#dateLaidOut').val(data['dateLaidOut']);
+    $('#dateBeesPlaced').val(data['dateBeesPlaced']);
+    $('#initalCount').val(data['initialCount']);
+    $('#dateBeesSupered').val(data['dateBeesSupered']);
+    $('#dateBeesSplit').val(data['dateBeesSplit']);
+    $('#oldQueensCount').val(data['oldQueensCount']);
+    $('#nucCount').val(data['nucCount']);
+    $('#queensPlaced').val(data['queensPlaced']);
+    $('#finalCount').val(data['finalCount']);
 }
 
 function getFormGroup(for_id, label, type) {
