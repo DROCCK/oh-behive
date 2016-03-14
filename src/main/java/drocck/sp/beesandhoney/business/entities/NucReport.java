@@ -141,10 +141,10 @@ public class NucReport {
         this.queensPlaced = queensPlaced;
     }
 
-    public float getSplitRatio() {
-        float ratio = (nucCount + oldQueensCount) / initialCount;
-        ratio = ((int)(100 * ratio)) / 100;
-        return ratio;
-    }
+//    public float getSplitRatio() {
+//        float ratio = (nucCount + oldQueensCount) / initialCount;
+//        ratio = ((int)(100 * ratio)) / 100;
+//        return ratio;
+//    }
 }
 

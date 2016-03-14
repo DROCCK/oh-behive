@@ -438,28 +438,28 @@ function createNucReportForm(data) {
                 $('<a>')
                     .attr('href', '#laidout')
                     .attr('data-toggle', 'tab')
-                    .text('Laid Out')
+                    .text('Lay Out')
             ),
             $('<li>')
                 .append(
                 $('<a>')
                     .attr('href', '#placed')
                     .attr('data-toggle', 'tab')
-                    .text('Bees Placed')
+                    .text('Move In')
             ),
             $('<li>')
                 .append(
                 $('<a>')
                     .attr('href', '#supered')
                     .attr('data-toggle', 'tab')
-                    .text('Bees Supered')
+                    .text('Super')
             ),
             $('<li>')
                 .append(
                 $('<a>')
                     .attr('href', '#split')
                     .attr('data-toggle', 'tab')
-                    .text('Bees Split')
+                    .text('Split')
             ),
             $('<li>')
                 .append(
@@ -483,32 +483,42 @@ function createNucReportForm(data) {
                 .attr('class', 'pane tab-pane active')
                 .attr('id', 'laidout')
                 .append(
-                    getFormGroup('','Lay out notes','text')
+                getFormGroup('dateLaidOut', 'Date Laid Out', 'date'),
+                getFormGroup('notes', 'Notes', 'text')
             ),
             $('<div>')
                 .attr('class', 'pane tab-pane')
                 .attr('id', 'placed')
                 .append(
+                getFormGroup('dateBeesPlaced', "Date Bees Placed", 'date'),
+                getFormGroup('initalCount', 'Hives Moved In', 'number')
             ),
             $('<div>')
                 .attr('class', 'pane tab-pane')
                 .attr('id', 'supered')
                 .append(
+                getFormGroup('dateBeesSupered', 'Date Bees Supered', 'date')
             ),
             $('<div>')
                 .attr('class', 'pane tab-pane')
                 .attr('id', 'split')
                 .append(
+                getFormGroup('dateBeesSplit', 'Date Bees Split', 'date'),
+                getFormGroup('nucCount', 'Number of Nucs', 'number'),
+                getFormGroup('oldQueensCount', 'Number of Old Queens', 'number')
+
             ),
             $('<div>')
                 .attr('class', 'pane tab-pane')
                 .attr('id', 'queensplaced')
                 .append(
+                getFormGroup('queensPlaced', 'Number of Queens Placed', 'number')
             ),
             $('<div>')
                 .attr('class', 'pane tab-pane')
                 .attr('id', 'queenschecked')
                 .append(
+                getFormGroup('finalCount', "Total After Queen Check", 'number')
             )
         ),
         $('<div>')
@@ -520,7 +530,7 @@ function createNucReportForm(data) {
                 $('<button>')
                     .attr('class', 'btn btn-primary')
                     .attr('type', 'submit')
-                    .text('Create')
+                    .text('Update')
             )
         )
     );
@@ -541,14 +551,14 @@ function getGroupDiv() {
 
 function getFormGroupLabel(for_id, label) {
     return $('<label>')
-        .attr('class', 'col-sm-2 control-label')
+        .attr('class', 'col-sm-4 control-label')
         .attr('for', for_id)
         .text(label);
 }
 
 function getFormGroupInput(for_id, type) {
     return $('<div>')
-        .attr('class', 'col-sm-10')
+        .attr('class', 'col-sm-8')
         .append(
         $('<input>')
             .attr('class', 'form-control')
@@ -639,4 +649,22 @@ function addZero(s) {
 
 function getCSRFTokenValue() {
     return $('#csrf-token').val();
+}
+
+window.operateEvents = {
+    'click .edit': function (e, value, row, index) {
+        //$.ajax(url + nucReportUrl + row["id"], function (data) {
+        //    alert("Got It");
+        //});
+    }
+};
+
+function editFormatter(value, row, index) {
+    var modelId = row["id"];
+    return [
+        '<a class="edit ml10" data-toggle="modal" data-target="#form-modal" onclick="loadNucReportModal(' + row["id"] + ')" href="javascript:void(0)" title="Edit">',
+        'Edit Report',
+        '<i class="material-icons bee-board-icon">create</i>',
+        '</a>'
+    ].join('');
 }

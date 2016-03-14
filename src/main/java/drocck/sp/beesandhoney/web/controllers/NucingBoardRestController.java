@@ -3,7 +3,10 @@ package drocck.sp.beesandhoney.web.controllers;
 import drocck.sp.beesandhoney.business.entities.DTOs.NucReportDTO;
 import drocck.sp.beesandhoney.business.entities.DTOs.NucYardCreateDTO;
 import drocck.sp.beesandhoney.business.entities.DTOs.YardCreateDTO;
+import drocck.sp.beesandhoney.business.entities.NucReport;
 import drocck.sp.beesandhoney.business.entities.Yard;
+import drocck.sp.beesandhoney.business.services.NucReportService;
+import drocck.sp.beesandhoney.business.services.NucYardService;
 import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,12 @@ public class NucingBoardRestController {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private NucReportService nucReportService;
+
+    @Autowired
+    private NucYardService nucYardService;
+
     @RequestMapping(value = "nucing/createNucYard")
     public YardCreateDTO createYard() {
         YardCreateDTO ycdto = new YardCreateDTO();
@@ -33,10 +42,13 @@ public class NucingBoardRestController {
         return ycdto;
     }
 
-    @RequestMapping(value = "nucing/nucRepor/{id}", method = RequestMethod.GET)
-    public NucReportDTO report(@PathVariable("id") Long id) {
-        NucReportDTO nucReport = new NucReportDTO();
-        //todo: fill DTO
+    @RequestMapping(value = "nucing/nucReport/{id}", method = RequestMethod.GET)
+    public NucReport report(@PathVariable("id") Long id) {
+        NucReport nucReport;
+        nucReport = nucReportService.findOne(id);
+        if (nucReport == null) {
+            nucReport = new NucReport();
+        }
         return nucReport;
     }
 }

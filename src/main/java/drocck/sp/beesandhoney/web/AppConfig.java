@@ -1,5 +1,6 @@
 package drocck.sp.beesandhoney.web;
 
+import drocck.sp.beesandhoney.business.entities.NucReport;
 import drocck.sp.beesandhoney.business.entities.validators.UserCreateFormValidator;
 import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -125,6 +126,12 @@ public class AppConfig {
     public PolliShipmentService polliShipmentService() {
         return new PolliShipmentService();
     }
+
+    @Bean
+    public NucYardService nucYardService() {return new NucYardService(); }
+
+    @Bean
+    public NucReportService nucReportService() {return new NucReportService(); }
 
     //Language beans
     @Bean
