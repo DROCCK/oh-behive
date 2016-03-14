@@ -7,106 +7,47 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.0/fullcalendar.min.css"/>
 
     <meta name="_csrf" th:content="${_csrf.token}"/>
-    <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script th:src="@{/js/nucing-board.js}"></script>
     <script>
         $(document).ready(function () {
-            $('#createButton').click(function () {
-
-                var event = {
-                    count: $('#count').val(),
-                    start: $('#date').val()
-                };
-
-                $.ajax({
-                    url: "/nucing/test",
-                    type: "POST",
-                    dataType: 'json',
-                    data: event,
-                    beforeSend: function () {
-                        var token = $("meta[name='_csrf']").attr("content");
-                        var header = $("meta[name='_csrf_header']").attr("content");
-                        $(document).ajaxSend(function (e, xhr, options) {
-                            xhr.setRequestHeader(header, token);
-                        });
-                    },
-                    complete: function () {
-                        alert(eventJSON);
-                    },
-                    error: function (xhr, desc, err) {
-                        alert("error " + err + " " + desc + " " + xhr.responseText);
-                    }
-                });
-                $('#calendar').fullCalendar('refetchEvents');
-                $('#count').val("");
-            });
-
-            $('#date').val(getTodaysDate());
-
-            $('#calendar').fullCalendar({
-                events: '/nucing/events',
-                color: 'yellow',
-                droppable: true
-            });
+            init();
         });
-
-        function getTodaysDate() {
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth();
-            var yyyy = today.getFullYear();
-            var format = yyyy + '-' + addZero(mm + 1) + '-' + addZero(dd);
-
-            return format;
-        }
-
-        function addZero(s) {
-            s = s + '';
-            if (s.length === 1) s = '0' + s;
-            return s;
-        }
-
-        function getCSRFTokenValue() {
-            return $('#csrf-token').val();
-        }
     </script>
-
 </head>
 <body>
 <header th:replace="fragments/header :: header"></header>
+
+<!-- List and edit Modals -->
+<div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div>
+<div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
+
 <div class="row">
     <!-- Start Left Side Bar-->
-    <div class="col-md-3" style="background-color: aliceblue;">
+    <div class="col-md-4" >
         <!-- Stats go here -->
-        <p id="stats">Some Stats will go over here</p>
+        <!--<p id="stats">Some Stats will go over here</p>-->
 
-        <p>One suggestion is to put lists over here</p>
-        <ol>
-            <li>Next nuccing yard</li>
-            <li>Next nuccing yard after that</li>
-            <li>Next nuccing yard after the previous one</li>
-        </ol>
-        <p></p>
-        <ol>
-            <li>Next queen place yard</li>
-            <li>Next queen place yard after that</li>
-            <li>Next queen place yard after the previous one</li>
-        </ol>
-        <p></p>
-        <ol>
-            <li>Next queen check yard</li>
-            <li>Next queen check yard after that</li>
-            <li>Next queen check yard after the previous one</li>
-        </ol>
-    </div>
-
-    <!-- End Left Side Bar -->
-
-    <!-- Start Center Panel -->
-    <div class="col-md-6">
-        <!-- Calandar -->
-        <div id='calendar'></div>
+        <!--<p>One suggestion is to put lists over here</p>-->
+        <!--<ol>-->
+        <!--<li>Next nuccing yard</li>-->
+        <!--<li>Next nuccing yard after that</li>-->
+        <!--<li>Next nuccing yard after the previous one</li>-->
+        <!--</ol>-->
+        <!--<p></p>-->
+        <!--<ol>-->
+        <!--<li>Next queen place yard</li>-->
+        <!--<li>Next queen place yard after that</li>-->
+        <!--<li>Next queen place yard after the previous one</li>-->
+        <!--</ol>-->
+        <!--<p></p>-->
+        <!--<ol>-->
+        <!--<li>Next queen check yard</li>-->
+        <!--<li>Next queen check yard after that</li>-->
+        <!--<li>Next queen check yard after the previous one</li>-->
+        <!--</ol>-->
         <!-- Table -->
         <table class="table table-condensed table-responsive"
                id="yard-table"
@@ -134,39 +75,71 @@
                     th:text="#{owner}"></th>
                 <th data-field="rentReceiver.name" data-sortable="true" data-visible="false"
                     th:text="#{rentPayee}"></th>
-                <!--<th data-field="edit" data-formatter="editFormatter" data-events="operateEvents"-->
-                <!--th:text="#{edit}"></th>-->
+                <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents"
+                th:text="#{edit}"></th>
                 <!--<th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents"-->
                 <!--th:text="#{delete}"></th>-->
             </tr>
             </thead>
         </table>
     </div>
+
+    <!-- End Left Side Bar -->
+
+    <!-- Start Center Panel -->
+    <div class="col-md-6">
+        <!-- Calandar -->
+        <div id='calendar'></div>
+
+    </div>
     <!-- End Center Panel -->
 
     <!-- Start Right Side Bar-->
-    <div class="col-md-3 panel-group">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title">
-                    <a data-toggle="collapse" href="#new">Order Queens</a>
-                </h2>
-            </div>
-            <div id="new" class="panel-collapse collapse">
-                <form id="testform" class="form-horizontal">
-                    <input id="csrf-token" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <div class="col-md-2 panel-group">
+        <!--<div class="panel panel-default">-->
+        <!--<div class="panel-heading">-->
+        <!--<h2 class="panel-title">-->
+        <!--<a data-toggle="collapse" href="#new">Order Queens</a>-->
+        <!--</h2>-->
+        <!--</div>-->
+        <!--<div id="new" class="panel-collapse collapse">-->
+        <!--<form id="testform" class="form-horizontal">-->
+        <!--<input id="csrf-token" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
 
-                    <div class="form-group col-sm-12">
-                        <label class="col-sm-2 control-label" for="date">Date</label>
-                        <input class="form-control" type="date" id="date"/>
-                    </div>
+        <!--<div class="form-group col-sm-12">-->
+        <!--<label class="col-sm-2 control-label" for="date">Date</label>-->
+        <!--<input class="form-control" type="date" id="date"/>-->
+        <!--</div>-->
 
-                    <div class="form-group col-sm-12">
-                        <label class="col-sm-2 control-label" for="count">Count</label>
-                        <input class="form-control" type="number" id="count"/>
-                    </div>
-                </form>
-                <input class="btn btn-default" id="createButton" type="button" value="Create"/>
+        <!--<div class="form-group col-sm-12">-->
+        <!--<label class="col-sm-2 control-label" for="count">Count</label>-->
+        <!--<input class="form-control" type="number" id="count"/>-->
+        <!--</div>-->
+        <!--</form>-->
+        <!--<input class="btn btn-default" id="createButton" type="button" value="Create"/>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <div class="side-div right-sidebar-div">
+            <div class="in-side-div">
+                <h3><b th:text="Tasks"></b></h3>
+                <hr/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateNucYardModal()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Add Nucing Yard">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Add Nucing Yard|">Add Nucing Yard</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#form-modal" onclick=""> <!-- TODO: CREATE LOAD MODAL FUNCTION -->
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Order Queens">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Order Queens|">Order Queens</h4>
+                <br/>
             </div>
         </div>
     </div>

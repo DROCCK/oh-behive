@@ -5,6 +5,7 @@ import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.entities.repositories.InspectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -30,6 +31,10 @@ public class InspectionService {
 
     public List<Inspection> findAllByYard(Yard yard) {
         return inspectionRepository.findAllByYard(yard);
+    }
+
+    public List<Inspection> findAllByYardAndVisitDateBetween(Yard yard, Date d1, Date d2) {
+        return inspectionRepository.findAllByYardAndVisitDateBetween(yard, d1, d2);
     }
 
     public Inspection update(Inspection inspection) {

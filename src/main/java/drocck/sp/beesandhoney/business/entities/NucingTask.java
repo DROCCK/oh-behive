@@ -1,9 +1,6 @@
 package drocck.sp.beesandhoney.business.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import java.util.Collection;
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 import java.util.Vector;
@@ -15,73 +12,67 @@ import java.util.Vector;
  */
 
 @Entity
-public class NucingTask extends Task {
+public class NucingTask {
 
-    private static final String[] myStages = {"pre-split", "post-split", "post-queen-placed", "queen-checked"};
+    public enum NucingStates {EMPTY, LAID_OUT, BEES_PLACED, BEES_SUPERED, BEES_SPLIT, QUEENS_PLACED, QUEENS_CHECKED}
 
-    @OneToMany
-    private List<NucReport> report; //report of a specific nucing yard.
+    @Id
+    @Column(unique = true)
+    private long id;
+
+    @OneToOne
+    private NucReport report; //report of a specific nucing yard.
     //private Collection nucReports; //collection of reports.
 
     @OneToMany
     private List<Event> event = new Vector<>();
 
-    private int totalPostNucHiveCount; //number of total hives after nuc.
-
-    private int totalPostNucQueenCount; //number of queens accepted after nuc.
-
-    private boolean allYardsComplete = false; //Overall status complete/incomplete of all nucing yards.
+    private NucingStates currentState = NucingStates.EMPTY;
 
     //The goal amount of Queens
     //or total Hives in which we can then determine for the user the number of queens needed to reach given(entered) goal etc.
     //This could also be done in DTO maybe.
     private int goalAmount;
 
-    public NucingTask() {
-        super(myStages);
-    }
-
     public NucingTask(int count, Date d) {
-        super(myStages);
         goalAmount = count;
         long dayInMilli = 1000 * 60 * 60 * 24;
         event.add(new Event("Make " + count + " queenless nucs", new Date(d.getTime() - 3 * dayInMilli)));
         event.add(new Event("Place " + count + " queens", new Date(d.getTime())));
         event.add(new Event("Queen check " + count + " nucs", new Date(d.getTime() + 21 * dayInMilli)));
-
     }
 
-    public List<NucReport> getReport(){
+    public NucReport getReport() {
         return report;
     }
 
-    public void setReport(List<NucReport> nr){
+    public void setReport(NucReport nr) {
         report = nr;
     }
 
-    public int getTotalPostNucHiveCount() {
-        return totalPostNucHiveCount;
-    }
-
-    public void setTotalPostNucHiveCount(int totalPostNucHiveCount) {
-        this.totalPostNucHiveCount = totalPostNucHiveCount;
-    }
-
-    public int getTotalPostNucQueenCount() {
-        return totalPostNucQueenCount;
-    }
-
-    public void setTotalPostNucQueenCount(int totalPostNucQueenCount) {
-        this.totalPostNucQueenCount = totalPostNucQueenCount;
-    }
-
-    public boolean getAllYardsComplete() {
-        return allYardsComplete;
-    }
-
-    public void setAllYardsComplete(boolean allYardsComplete) {
-        this.allYardsComplete = allYardsComplete;
-    }
+//    public int getTotalPostNucHiveCount() {
+//        return totalPostNucHiveCount;
+//    }
+//
+//    public void setTotalPostNucHiveCount(int totalPostNucHiveCount) {
+//        this.totalPostNucHiveCount = totalPostNucHiveCount;
+//    }
+//
+//    public int getTotalPostNucQueenCount() {
+//        return totalPostNucQueenCount;
+//    }
+//
+//    public void setTotalPostNucQueenCount(int totalPostNucQueenCount) {
+//        this.totalPostNucQueenCount = totalPostNucQueenCount;
+//    }
+//
+//    public boolean getAllYardsComplete() {
+//        return allYardsComplete;
+//    }
+//
+//    public void setAllYardsComplete(boolean allYardsComplete) {
+//        this.allYardsComplete = allYardsComplete;
+//    }
 
     public List<Event> getEvent() {
         return event;
@@ -98,4 +89,5 @@ public class NucingTask extends Task {
     public void setGoalAmount(int goalAmount) {
         this.goalAmount = goalAmount;
     }
+
 }

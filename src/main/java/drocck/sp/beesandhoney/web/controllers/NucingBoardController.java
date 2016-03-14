@@ -3,7 +3,6 @@ package drocck.sp.beesandhoney.web.controllers;
 import drocck.sp.beesandhoney.business.entities.DTOs.NucingBoardDTO;
 import drocck.sp.beesandhoney.business.entities.Event;
 import drocck.sp.beesandhoney.business.entities.NucingTask;
-import drocck.sp.beesandhoney.business.entities.Task;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.services.ShipmentService;
 import drocck.sp.beesandhoney.business.services.YardService;
@@ -65,7 +64,7 @@ public class NucingBoardController {
     }
 
     @RequestMapping(value = "nucing/test", method = RequestMethod.POST)
-    public @ResponseBody Task test(@RequestBody final String event) {
+    public @ResponseBody NucingTask test(@RequestBody final String event) {
         Map<String, String> m = parseString(event);
 
         int count = Integer.parseInt(m.get("count"));
