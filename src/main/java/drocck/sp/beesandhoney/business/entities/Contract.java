@@ -13,21 +13,23 @@ public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    Long id;
+    private Long id;
 
-    @Column(name = "MOVE_IN")
-    Date moveInDate;
+    @Column(name = "MOVE_IN_DATE")
+    private Date moveInDate;
 
-    @Column(name = "MOVE_OUT")
-    Date moveOutDate;
+    @Column(name = "MOVE_OUT_DATE")
+    private Date moveOutDate;
 
     @Column(name = "AMOUNT")
-    Integer amount;
+    private Integer amount;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    Person broker;
+    @JoinColumn(name = "BROKER_ID")
+    private Person broker;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ORCHARD_ID")
     Orchard orchard;
 
     public Long getId() {

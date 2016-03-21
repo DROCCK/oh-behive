@@ -18,27 +18,35 @@ public class PolliShipment {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "TO")
-    private String to;
-
-    @Column(name = "FROM")
-    private String from;
+    @Column(name = "SHIP_DATE")
+    private Date date;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "DIRECTION")
     private Direction direction;
 
-    @Column(name = "IN")
-    private Integer in;
-
-    @Column(name = "DATE")
-    private Date date;
-
     @Column(name = "DUD")
     private Integer dud;
 
+    @Column(name = "WHERE_FROM")
+    private String from;
+
+    @Column(name = "COUNT")
+    private Integer in;
+
+    @Column(name = "WHERE_TO")
+    private String to;
+
     @Column(name = "NOTES")
     private String notes;
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
 
     public Long getId() {
         return id;

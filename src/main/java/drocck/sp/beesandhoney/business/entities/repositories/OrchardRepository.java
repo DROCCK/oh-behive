@@ -16,4 +16,6 @@ public interface OrchardRepository extends JpaRepository<Orchard, Long> {
 
     @Query("select o.yardName from Orchard o")
     List<String> findAllOrchardNames();
+
+    Orchard findOneByYardName(String yardName);
 }

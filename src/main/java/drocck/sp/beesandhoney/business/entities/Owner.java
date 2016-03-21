@@ -18,6 +18,7 @@ public class Owner {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "PERSON_ID")
     private Person person;
 
     @OneToMany(fetch = FetchType.EAGER)
