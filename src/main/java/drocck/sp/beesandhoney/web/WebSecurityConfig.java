@@ -35,10 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
             .antMatchers(
+                "/**",
                 "/resources/**",
-                "/",
                 "/index",
-                "/user/create"
+                "/user/create",
+                "/console/**"
             ).permitAll()
             .antMatchers(
                 "/users/**",
@@ -58,6 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
             .and()
             .rememberMe();
+
+        http.headers().frameOptions().disable();
     }
 
     public void configure(AuthenticationManagerBuilder auth)

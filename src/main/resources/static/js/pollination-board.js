@@ -9,6 +9,9 @@ var contacts = url + "contacts/";
 var inspections = url + "inspections/";
 var shipments = url + "shipments/";
 var createContract = url + "createContract";
+var addOrchard = url + "addOrchard";
+var addContract = url + "addContract";
+var addShipment = url + "addShipment";
 
 function getEmptyTableHead() {
     var tableHead = $('#t-head');
@@ -55,8 +58,77 @@ function get(type, title, func) {
     });
 }
 
-function postContract() {
+function post(url, json, callback) {
+    $.ajax({
+        type: "POST",
+        beforeSend: function () {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $(document).ajaxSend(function (e, xhr, options) {
+                xhr.setRequestHeader(header, token);
+            });
+        },
+        contentType: "application/json",
+        url: url + '/' + JSON.stringify(json) + '/',
+        data: json,
+        dataType: 'json',
+        timeout: 100000,
+        success: function (msg) {
+            getEmptyFormBody();
+            $('#form-modal').modal('hide');
+            $("#form").unbind('submit');
+            callback();
+            console.log("SUCCESS: ", msg);
+            return false;
+        }
+    });
+}
 
+function postContract() {
+    var json = getSimpleJson($('#form').serializeArray());
+    post(addContract, json, function () {
+        $('#contract-table').bootstrapTable('refresh');
+    });
+}
+
+function postOrchard() {
+    var json = getOrchardJson($('#form').serializeArray());
+    alert(JSON.stringify(json));
+    post(addOrchard, json, function () { });
+}
+
+function postShipment() {
+    var json = getSimpleJson($('#form').serializeArray());
+    post(addShipment, json, function () { });
+}
+
+function getSimpleJson(form) {
+    var json = {};
+    $.each(form, function () {
+        json[this.name] = this.value || '';
+    });
+    return json;
+}
+
+function getOrchardJson(form) {
+    var json = {};
+    json['address'] = {};
+    json['contacts'] = {};
+    alert(JSON.stringify(form));
+    $.each(form, function () {
+        switch (this.name) {
+            case 'street':
+            case 'suite':
+            case 'city':
+            case 'state':
+            case 'zip':
+                json['address'][this.name] = this.value || '';
+                break;
+            default:
+                json[this.name] = this.value || '';
+        }
+    });
+    return json;
 }
 
 function loadListModal(data, headFunc, rowFunc) {
@@ -111,80 +183,89 @@ function getInspectionHead() {
     );
 }
 
-function getSelector(data) {
-    var select = $('<select>')
-        .attr('class', 'form-control');
+function getBaseSelector(name) {
+    return $('<select>')
+        .attr('class', 'form-control')
+        .attr('name', name)
+        .attr('id', name);
+}
+
+function getSelector(data, name) {
+    var select = getBaseSelector(name);
     $.each(data, function (i, e) {
         select.append(
             $('<option>')
+                .attr('value', e)
                 .text(e)
         )
     });
     return select;
 }
 
-function getSelectorWithName(data) {
-    var select = $('<select>')
-        .attr('class', 'form-control');
+function getSelectorWithName(data, name) {
+    var select = getBaseSelector(name);
     $.each(data, function (i, e) {
         select.append(
             $('<option>')
+                .attr('value', e.id)
                 .text(e.name)
         )
     });
     return select;
 }
 
-function createOrchardForm(data) {
-    $('#form-modal-title').text("Create Orchard");
-    var body = getEmptyFormBody();
-    var stati = getSelector(data.stati);
-    var owners = getSelectorWithName(data.people);
-    var rentees = getSelectorWithName(data.people);
-    var regions = getSelector(data.regions);
-    body.append(
-        $('<ul>')
-            .attr('class', 'nav nav-tabs')
-            .attr('id', 'tabContent')
-            .append(
-                $('<li>')
-                    .attr('class', 'active')
-                    .append(getTabAnchor('details', 'Details')),
-                $('<li>')
-                    .append(getTabAnchor('location', 'Location')),
-                $('<li>')
-                    .append(getTabAnchor('access', 'Access'))
-            ),
-        $('<div>')
-            .attr('class', 'tab-content')
-            .append(
-                getTabPane('details', true)
-                    .append(
-                        getFormGroup('name', 'Name', 'text'),
-                        getFormGroup('maxHives', 'Max Hives', 'text'),
-                        getFormGroupWithSelector('status', 'Status', stati),
-                        getFormGroupWithSelector('owner', 'Owner', owners),
-                        getFormGroupWithSelector('rentReceiver', 'Rent Receiver', rentees)
-                    ),
-                getTabPane('location', false)
-                    .append(
-                        getFormGroup('street', 'Street', 'text'),
-                        getFormGroup('suite', 'Suite', 'text'),
-                        getFormGroup('city', 'City', 'text'),
-                        getFormGroup('state', 'State', 'text'),
-                        getFormGroup('zip', 'Zip', 'text'),
-                        getFormGroupWithSelector('region', 'Region', regions),
-                        getFormGroup('longitude', 'Longitude', 'text'),
-                        getFormGroup('latitude', 'Latitude', 'text')
-                    ),
-                getTabPane('access', false)
-                    .append(
-                        getFormGroup('combo', 'Combination or Key', 'text'),
-                        getFormGroup('accessNotes', 'Access Notes', 'text')
-                    )
-            ),
-        getSubmitButton('Create')
-    );
+function editOrchardForm(data) {
+    $('#form-modal-title').text("Edit Orchard");
+    var form = $('#form');
+    form.attr('action', '/pollination/addOrchard');
+    form.submit(function (event) {
+        event.preventDefault();
+        postOrchard();
+    });
+    getEmptyFormBody()
+        .append(
+            $('<ul>')
+                .attr('class', 'nav nav-tabs')
+                .attr('id', 'tabContent')
+                .append(
+                    $('<li>')
+                        .attr('class', 'active')
+                        .append(getTabAnchor('details', 'Details')),
+                    $('<li>')
+                        .append(getTabAnchor('location', 'Location')),
+                    $('<li>')
+                        .append(getTabAnchor('access', 'Access'))
+                ),
+            $('<div>')
+                .attr('class', 'tab-content')
+                .append(
+                    getTabPane('details', true)
+                        .append(
+                            getFormGroup('yardName', 'Name', 'text'),
+                            getFormGroup('maxHives', 'Max Hives', 'text'),
+                            getFormGroupWithSelector('status', 'Status', getSelector(data.stati, 'status')),
+                            getFormGroupWithSelector('owner', 'Owner', getSelectorWithName(data.people, 'owner')),
+                            getFormGroupWithSelector('rentReceiver', 'Rent Receiver', getSelectorWithName(data.people, 'rentReceiver'))
+                        ),
+                    getTabPane('location', false)
+                        .append(
+                            getFormGroup('street', 'Street', 'text'),
+                            getFormGroup('suite', 'Suite', 'text'),
+                            getFormGroup('city', 'City', 'text'),
+                            getFormGroup('state', 'State', 'text'),
+                            getFormGroup('zip', 'Zip', 'text'),
+                            getFormGroupWithSelector('region', 'Region', getSelector(data.regions, 'region')),
+                            getFormGroup('longitude', 'Longitude', 'text'),
+                            getFormGroup('latitude', 'Latitude', 'text')
+                        ),
+                    getTabPane('access', false)
+                        .append(
+                            getFormGroup('combo', 'Combination or Key', 'text'),
+                            getFormGroup('accessNotes', 'Access Notes', 'text')
+                        )
+                ),
+            getSubmitButton('Create')
+        );
 }
 
 function getTabAnchor(id, text) {
@@ -192,7 +273,7 @@ function getTabAnchor(id, text) {
         .attr('href', '#' + id)
         .attr('data-toggle', 'tab')
         .text(text)
-    ;
+        ;
 }
 
 function getTabPane(id, active) {
@@ -202,7 +283,7 @@ function getTabPane(id, active) {
     return $('<div>')
         .attr('class', c)
         .attr('id', id)
-    ;
+        ;
 }
 
 function getSubmitButton(text) {
@@ -219,13 +300,13 @@ function getSubmitButton(text) {
         )
 }
 
-function getFormGroup(for_id, label, type) {
+function getFormGroup(for_id, label, type, val) {
     return getGroupDiv()
         .append(
             getFormGroupLabel(for_id, label),
-            getFormGroupInput(for_id, type)
+            getFormGroupInput(for_id, type, val)
         )
-    ;
+        ;
 }
 
 function getGroupDiv() {
@@ -240,16 +321,18 @@ function getFormGroupLabel(for_id, label) {
         .text(label);
 }
 
-function getFormGroupInput(for_id, type) {
+function getFormGroupInput(for_id, type, val) {
     return $('<div>')
         .attr('class', 'col-sm-10')
         .append(
             $('<input>')
                 .attr('class', 'form-control')
                 .attr('id', for_id)
+                .attr('name', for_id)
                 .attr('type', type)
+                .val(val)
         )
-    ;
+        ;
 }
 
 function getFormGroupSelector(data) {
@@ -264,23 +347,111 @@ function getFormGroupWithSelector(for_id, label, selector) {
             getFormGroupLabel(for_id, label),
             getFormGroupSelector(selector)
         )
-    ;
+        ;
+}
+
+/**
+ * Functions that return a built for for the corresponding types.
+ */
+function createShipmentForm(data) {
+    $('#form-modal-title').text("Create Shipment");
+    var form = $('#form');
+    form.attr('action', '/pollination/addShipment');
+    form.submit(function (event) {
+        event.preventDefault();
+        postShipment();
+    });
+    getEmptyFormBody()
+        .append(
+            getFormGroupWithSelector('direction', 'Direction', getSelector(data.directions, 'direction')),
+            getFormGroup('date', 'Date', 'date'),
+            getFormGroup('to', 'To', 'text'),
+            getFormGroup('from', 'From', 'text'),
+            getFormGroup('in', 'In', 'text'),
+            getFormGroup('dud', 'Dud', 'text'),
+            getFormGroup('notes', 'Notes', 'text'),
+            getSubmitButton('Create')
+        );
 }
 
 function createContractForm(data) {
     $('#form-modal-title').text("Create Contract");
-    var body = getEmptyFormBody();
-    var people = getSelectorWithName(data.people);
-    var orchards = getSelector(data.orchards);
-    body.append(
-        getFormGroupWithSelector('orchard', "Orchard", orchards),
-        getFormGroup('amount', 'Amount', 'text'),
-        getFormGroupWithSelector('broker', "Broker", people),
-        getFormGroup('inDate', 'Move-in Date', 'date'),
-        getFormGroup('outDate', 'Move-out Date', 'date')
-    );
+    var form = $('#form');
+    form.attr('action', '/pollination/addContract');
+    form.submit(function (event) {
+        event.preventDefault();
+        postContract();
+    });
+    getEmptyFormBody()
+        .append(
+            getFormGroupWithSelector('orchard', "Orchard", getSelector(data.orchards, 'orchard')),
+            getFormGroup('amount', 'Amount', 'text'),
+            getFormGroupWithSelector('broker', "Broker", getSelectorWithName(data.people, 'broker')),
+            getFormGroup('inDate', 'Move-in Date', 'date'),
+            getFormGroup('outDate', 'Move-out Date', 'date'),
+            getSubmitButton('Create')
+        );
 }
 
+function createOrchardForm(data) {
+    $('#form-modal-title').text("Create Orchard");
+    var form = $('#form');
+    form.attr('action', '/pollination/addOrchard');
+    form.submit(function (event) {
+        event.preventDefault();
+        postOrchard();
+    });
+    getEmptyFormBody()
+        .append(
+            $('<ul>')
+                .attr('class', 'nav nav-tabs')
+                .attr('id', 'tabContent')
+                .append(
+                    $('<li>')
+                        .attr('class', 'active')
+                        .append(getTabAnchor('details', 'Details')),
+                    $('<li>')
+                        .append(getTabAnchor('location', 'Location')),
+                    $('<li>')
+                        .append(getTabAnchor('access', 'Access'))
+                ),
+            $('<div>')
+                .attr('class', 'tab-content')
+                .append(
+                    getTabPane('details', true)
+                        .append(
+                            getFormGroup('yardName', 'Name', 'text', data.yardName),
+                            getFormGroup('maxHives', 'Max Hives', 'text'),
+                            getFormGroupWithSelector('status', 'Status', getSelector(data.stati, 'status')),
+                            getFormGroupWithSelector('owner', 'Owner', getSelectorWithName(data.people, 'owner')),
+                            getFormGroupWithSelector('rentReceiver', 'Rent Receiver', getSelectorWithName(data.people, 'rentReceiver'))
+                        ),
+                    getTabPane('location', false)
+                        .append(
+                            getFormGroup('street', 'Street', 'text'),
+                            getFormGroup('suite', 'Suite', 'text'),
+                            getFormGroup('city', 'City', 'text'),
+                            getFormGroup('state', 'State', 'text'),
+                            getFormGroup('zip', 'Zip', 'text'),
+                            getFormGroupWithSelector('region', 'Region', getSelector(data.regions, 'region')),
+                            getFormGroup('longitude', 'Longitude', 'text'),
+                            getFormGroup('latitude', 'Latitude', 'text')
+                        ),
+                    getTabPane('access', false)
+                        .append(
+                            getFormGroup('combo', 'Combination or Key', 'text'),
+                            getFormGroup('accessNotes', 'Access Notes', 'text')
+                        )
+                ),
+            getSubmitButton('Create')
+        );
+}
+// End form functions
+
+
+/**
+ * Functions that get json from the server and builds the form
+ */
 function loadCreateOrchardModal() {
     $.getJSON("/pollination/createOrchard", function (data) {
         createOrchardForm(data);
@@ -294,37 +465,11 @@ function loadCreateContractModal() {
 }
 
 function loadCreateShipmentModal() {
-    $('#form-modal-title').text("Create Shipment");
-    var body = getEmptyFormBody();
-    body.append(
-        $('<div>')
-            .attr('class', 'form-group')
-            .append(
-                $('<label>')
-                    .attr('class', 'col-sm-2 control-label')
-                    .attr('for', 'direction')
-                    .text("Direction"),
-                $('<div>')
-                    .attr('class', 'col-sm-10')
-                    .append(
-                        $('<select>')
-                            .attr('class', 'form-control')
-                            .attr('id', 'direction')
-                            .append(
-                                $('<option>')
-                                    .text("IN"),
-                                $('<option>')
-                                    .text("OUT")
-                            )
-                    )
-            ),
-        getFormGroup('in', 'In', 'text'),
-        getFormGroup('date', 'Date', 'date'),
-        getFormGroup('dud', 'Dud', 'text'),
-        getFormGroup('notes', 'Notes', 'text'),
-        getSubmitButton('Create')
-    );
+    $.getJSON("/pollination/createShipment", function (data) {
+        createShipmentForm(data);
+    });
 }
+// End form loaders
 
 function loadContractDetails(data) {
     $('#id').html('Contract Id: ' + data.id);
@@ -375,6 +520,5 @@ window.operateEvents = {
 };
 
 $(document).ready(function () {
-    // loadContractTable();
     $('[data-toggle="tooltip"]').tooltip();
 });

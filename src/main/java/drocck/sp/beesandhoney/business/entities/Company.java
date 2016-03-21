@@ -14,7 +14,7 @@ public class Company {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID")
+    @JoinColumn(name = "LOCATION_ID")
     private Location location;
 
     @Column(name = "Name")

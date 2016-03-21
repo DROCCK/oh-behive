@@ -1,14 +1,15 @@
 package drocck.sp.beesandhoney.web;
 
-import org.springframework.context.annotation.Bean;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import drocck.sp.beesandhoney.business.entities.Orchard;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.ViewResolver;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-import org.thymeleaf.templateresolver.TemplateResolver;
+
+import java.util.List;
 
 /**
  * @author Robert Wilk

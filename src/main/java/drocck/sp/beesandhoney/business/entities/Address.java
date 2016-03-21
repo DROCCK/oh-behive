@@ -17,22 +17,22 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(min = 2, max = 30)
+    /*@NotNull
+    @Size(min = 2, max = 30)*/
     private String street;
 
     private String apt;
 
-    @NotNull
-    @Size(min = 2, max = 30)
+    /*@NotNull
+    @Size(min = 2, max = 30)*/
     private String city;
 
-    @NotNull
-    @Size(min = 2, max = 11)
+    /*@NotNull
+    @Size(min = 2, max = 11)*/
     private String state;
 
-    @NotNull
-    @Size(min = 5, max = 9)
+    /*@NotNull
+    @Size(min = 5, max = 9)*/
     private String zip;
 
     public Long getId() {

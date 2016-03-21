@@ -32,13 +32,13 @@ public class Yard implements Serializable {
     private Long id;
 
     @Column(name = "YARD_NAME")
-    @NotNull
-    @NotBlank
+    // @NotNull
+    // @NotBlank
     private String yardName;
 
     @Column(name = "STATUS")
-    @NotNull
-    @NotBlank
+    // @NotNull
+    // @NotBlank
     private String status;
 
     @Column(name = "COMBO")
@@ -48,12 +48,12 @@ public class Yard implements Serializable {
     private String accessNotes;
 
     @Column(name = "MAX_HIVES")
-    @NotNull
+    // @NotNull
     private Integer maxHives;
 
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID")
-    @NotNull
+    // @NotNull
     private Address address;
 
     @ManyToOne(fetch=FetchType.EAGER)
@@ -66,11 +66,11 @@ public class Yard implements Serializable {
     @JsonManagedReference
     private Person rentReceiver;
 
-    @NotNull
+    // @NotNull
     @Column(name = "longitude")
     private Double longitude;
 
-    @NotNull
+    // @NotNull
     @Column(name = "latitude")
     private Double latitude;
 

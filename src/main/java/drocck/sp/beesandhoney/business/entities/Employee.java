@@ -16,12 +16,12 @@ public class Employee {
 
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "PERSON_ID")
-    @NotNull
+    //@NotNull
     private Person person;
 
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "USER_ID")
-    @NotNull
+    //@NotNull
     private User user;
 
     public Long getId() {

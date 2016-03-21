@@ -13,6 +13,8 @@ import java.util.List;
 public interface RegionRepository extends JpaRepository<Region, Long> {
     Region findByYards(Yard yard);
 
+    Region findByName(String name);
+
     @Query("select r.name from Region r")
     List<String> findAllNames();
 }

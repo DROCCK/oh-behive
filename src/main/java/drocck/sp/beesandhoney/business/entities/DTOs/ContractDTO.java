@@ -21,7 +21,7 @@ public class ContractDTO {
         id = contract.getId();
         Orchard o = contract.getOrchard();
         orchardName = o.getYardName();
-        progress = ((double) o.getHiveCount()) / contract.getAmount();
+        progress = contract.getAmount() == null ? 0 : ((double) o.getHiveCount()) / contract.getAmount();
     }
 
     public Long getId() {

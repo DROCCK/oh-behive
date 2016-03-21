@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.Region;
+import drocck.sp.beesandhoney.business.entities.Role;
 import drocck.sp.beesandhoney.business.services.RegionService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by Kyle on 11/21/2015.

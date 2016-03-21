@@ -46,15 +46,15 @@ public class Shipment {
     @Column(name = "STATUS")
     private String status;
 
-    @NotBlank
+    //@NotBlank
     @Column(name = "TRUCK_ID")
     private String truckId;
 
-    @NotBlank
+    //@NotBlank
     @Column(name = "LOAD_NUM")
     private Integer loadNum;
 
-    @NotBlank
+    //@NotBlank
     @Column(name = "WEIGHT")
     private Double weight;
 
@@ -64,7 +64,7 @@ public class Shipment {
     @Column(name = "ARRIVAL_DATE")
     private Date arrivalDate;
 
-    @NotBlank
+    //@NotBlank
     @Column(name = "CARRIER")
     private String carrier;
 
