@@ -4,7 +4,7 @@ import drocck.sp.beesandhoney.business.entities.*;
 import drocck.sp.beesandhoney.business.entities.DTOs.ContractCreateDTO;
 import drocck.sp.beesandhoney.business.entities.DTOs.ContractDTO;
 import drocck.sp.beesandhoney.business.entities.DTOs.OrchardCreateDTO;
-import drocck.sp.beesandhoney.business.entities.DTOs.PolliShipmentCreateDto;
+//import drocck.sp.beesandhoney.business.entities.DTOs.PolliShipmentCreateDto;
 import drocck.sp.beesandhoney.business.services.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,15 +91,15 @@ public class PollinationBoardRestController {
         return ocdto;
     }
 
-    @RequestMapping(value = "pollination/createShipment")
-    public PolliShipmentCreateDto createShipment() {
-        List<String> list = new ArrayList<>();
-        for (PolliShipment.Direction direction : PolliShipment.Direction.values())
-            list.add(direction.name());
-        PolliShipmentCreateDto pscd = new PolliShipmentCreateDto();
-        pscd.setDirections(list);
-        return pscd;
-    }
+//    @RequestMapping(value = "pollination/createShipment")
+//    public PolliShipmentCreateDto createShipment() {
+//        List<String> list = new ArrayList<>();
+//        for (PolliShipment.Direction direction : PolliShipment.Direction.values())
+//            list.add(direction.name());
+//        PolliShipmentCreateDto pscd = new PolliShipmentCreateDto();
+//        pscd.setDirections(list);
+//        return pscd;
+//    }
 
     @RequestMapping(value = "pollination/addOrchard/{json}", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)

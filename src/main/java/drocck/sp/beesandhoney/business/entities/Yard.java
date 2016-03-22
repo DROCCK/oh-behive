@@ -56,12 +56,12 @@ public class Yard implements Serializable {
     // @NotNull
     private Address address;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "OWNER_ID")
     @JsonManagedReference
     private Owner owner;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "RENT_RECEIVER_ID")
     @JsonManagedReference
     private Person rentReceiver;
@@ -77,7 +77,7 @@ public class Yard implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Inspection> inspections;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "REGION_ID")
     @JsonBackReference
     private Region region;

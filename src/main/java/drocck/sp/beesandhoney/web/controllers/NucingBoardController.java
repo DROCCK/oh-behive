@@ -63,56 +63,5 @@ public class NucingBoardController {
         return yardService.findAllInUse();
     }
 
-    @RequestMapping(value = "nucing/test", method = RequestMethod.POST)
-    public @ResponseBody NucingTask test(@RequestBody final String event) {
-        Map<String, String> m = parseString(event);
 
-        int count = Integer.parseInt(m.get("count"));
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date d = new java.sql.Date(0);
-        try {
-            java.util.Date day = sdf.parse(m.get("start"));
-            d.setTime(day.getTime());
-        } catch (ParseException pe) {
-            System.err.println("Parsing Date Failed " + pe.getMessage());
-        }
-
-        NucingTask task = new NucingTask(count, d);
-        taskList.add(task);
-        return task;
-    }
-
-    private Map<String, String> parseString(String s) {
-        Map<String, String> m = new HashMap<>();
-        String key = "";
-        String value = "";
-        s+='&';
-        boolean writeToKey = true;
-        int i = 0;
-        while (i < s.length()) {
-            switch (s.charAt(i)) {
-                // end of key start of value
-                case '=':
-                    writeToKey = false;
-                    break;
-                // end of value start of new entry
-                case '&':
-                    m.put(key, value);
-                    writeToKey = true;
-                    // clear key and value
-                    key = "";
-                    value = "";
-                    break;
-                default:
-                    if (writeToKey) {
-                        key += s.charAt(i);
-                    } else {
-                        value += s.charAt(i);
-                    }
-                    break;
-            }
-            i++;
-        }
-        return m;
-    }
 }

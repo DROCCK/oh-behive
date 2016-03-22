@@ -21,7 +21,7 @@ public class Owner {
     @JoinColumn(name = "PERSON_ID")
     private Person person;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JsonBackReference
     private List<Yard> yards;
 

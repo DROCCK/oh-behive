@@ -27,7 +27,7 @@ public class IndexController {
     public String index(Model model, Principal principal) {
 
         // Uncomment if running on local DB.
-        // if (many++ == 0) dataInitService.init();
+         if (many++ == 0) dataInitService.init();
 
         String url = "index";
         model.addAttribute("principal", principal);

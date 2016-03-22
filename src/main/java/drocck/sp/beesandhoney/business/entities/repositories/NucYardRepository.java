@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface NucYardRepository extends JpaRepository<NucYard, Long> {
+    NucYard findOneByYardName(String name);
 }

@@ -28,6 +28,8 @@ public class NucReport {
 
     // BEES SUPERED STAGE
     private Date dateBeesSupered;
+    private int countDuringSupering; // number of hives after supering is done
+    private int superCount; // number of supers placed on hives
 
     // BEES SPLIT STAGE
     private Date dateBeesSplit;
@@ -109,6 +111,14 @@ public class NucReport {
         this.dateLaidOut = dateLaidOut;
     }
 
+    public int getSuperCount() {
+        return superCount;
+    }
+
+    public void setSuperCount(int superCount) {
+        this.superCount = superCount;
+    }
+
     public Date getDateBeesPlaced() {
         return dateBeesPlaced;
     }
@@ -141,7 +151,15 @@ public class NucReport {
         this.queensPlaced = queensPlaced;
     }
 
-//    public float getSplitRatio() {
+    public int getCountDuringSupering() {
+        return countDuringSupering;
+    }
+
+    public void setCountDuringSupering(int countDuringSupering) {
+        this.countDuringSupering = countDuringSupering;
+    }
+
+    //    public float getSplitRatio() {
 //        float ratio = (nucCount + oldQueensCount) / initialCount;
 //        ratio = ((int)(100 * ratio)) / 100;
 //        return ratio;

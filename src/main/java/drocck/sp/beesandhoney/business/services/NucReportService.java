@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.services;
 
 import drocck.sp.beesandhoney.business.entities.NucReport;
+import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.entities.repositories.NucReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -16,6 +17,8 @@ public class NucReportService {
     public NucReport findOne(Long id) {
         return nucReportRepository.findOne(id);
     }
+
+    public NucReport findOneByYard(Yard y) { return nucReportRepository.findOneByYard(y);};
 
     public void delete(NucReport nucReport) {
         nucReportRepository.delete(nucReport);

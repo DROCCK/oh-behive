@@ -28,6 +28,10 @@ public class PersonService {
         return personRepository.findOne(id);
     }
 
+    public Person findOneByName(String name) {
+        return personRepository.findOneByName(name);
+    }
+
     public Person save(Person person) {
         return personRepository.save(person);
     }
