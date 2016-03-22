@@ -8,6 +8,7 @@ var nucYardModal = "createNucYard";
 var updateNucYard = "update/nucYard";
 var updateNucReportUrl = "update/nucReport";
 var nucReportUrl = 'nucReport/';
+var dto = "reports";
 
 
 function init() {
@@ -49,6 +50,8 @@ function init() {
         color: 'yellow',
         droppable: true
     });
+
+    addCSRFToken();
 }
 
 function getEmptyFormBody() {
@@ -143,8 +146,7 @@ function getFormGroupWithSelector(for_id, label, selector) {
         .append(
         getFormGroupLabel(for_id, label),
         getFormGroupSelector(selector)
-    )
-        ;
+    );
 }
 
 // Nuc Report Modal
@@ -269,7 +271,7 @@ function createNucReportForm(data, id) {
                 $('<button>')
                     .attr('id', 'updateNucReport')
                     .attr('class', 'btn btn-primary')
-                    .attr('type', 'submit')
+                    //.attr('type', 'submit')
                     .text('Update')
             )
         )
@@ -317,13 +319,7 @@ function updateNucReport() {
         type: "POST",
         dataType: 'json',
         data: nucReport,
-        beforeSend: function () {
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-            $(document).ajaxSend(function (e, xhr, options) {
-                xhr.setRequestHeader(header, token);
-            });
-        }
+        beforeSend: addCSRFToken()
     })
 }
 // Nuc Yard Modal Functions
@@ -425,7 +421,7 @@ function createNucYardForm(data) {
                 $('<button>')
                     .attr('id', 'createNucYard')
                     .attr('class', 'btn btn-primary')
-                    .attr('type', 'submit')
+                    //.attr('type', 'submit')
                     .text('Create')
             )
         )
@@ -469,13 +465,7 @@ function createNucYard() {
         type: "POST",
         dataType: 'json',
         data: NucYard,
-        beforeSend: function () {
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-            $(document).ajaxSend(function (e, xhr, options) {
-                xhr.setRequestHeader(header, token);
-            });
-        },
+        beforeSend: addCSRFToken(),
         complete: function () {
             //alert(NucYard);
         },
@@ -584,6 +574,13 @@ function getCSRFTokenValue() {
     return $('#csrf-token').val();
 }
 
+function addCSRFToken () {
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function (e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+}
 // Table functions
 
 window.operateEvents = {
@@ -597,7 +594,7 @@ window.operateEvents = {
 function editFormatter(value, row, index) {
     var modelId = row["id"];
     return [
-        '<a class="edit ml10" data-toggle="modal" data-target="#form-modal" onclick="loadNucReportModal(' + row["id"] + ')" href="javascript:void(0)" title="Edit">',
+        '<a class="edit ml10" data-toggle="modal" data-target="#form-modal" onclick="loadNucReportModal(' + row["yardId"] + ')" href="javascript:void(0)" title="Edit">',
         'Edit Report',
         '<i class="material-icons bee-board-icon">create</i>',
         '</a>'

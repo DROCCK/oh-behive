@@ -18,6 +18,7 @@ public class NucReport {
 
     @OneToOne
     private Yard yard; //Later this will be specifc nucing yard.
+    private int year;
 
     // LAID OUT STAGE
     private Date dateLaidOut;
@@ -157,6 +158,14 @@ public class NucReport {
 
     public void setCountDuringSupering(int countDuringSupering) {
         this.countDuringSupering = countDuringSupering;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     //    public float getSplitRatio() {

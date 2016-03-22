@@ -20,6 +20,8 @@ public class NucReportService {
 
     public NucReport findOneByYard(Yard y) { return nucReportRepository.findOneByYard(y);};
 
+    public NucReport findOneByYardAndYear(Yard y, int year) {return nucReportRepository.findOneByYardAndYear(y,year);}
+
     public void delete(NucReport nucReport) {
         nucReportRepository.delete(nucReport);
     }

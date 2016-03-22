@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.*;
+import drocck.sp.beesandhoney.business.entities.DTOs.NucReportDTO;
 import drocck.sp.beesandhoney.business.entities.DTOs.YardCreateDTO;
 import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Connor on 3/12/2016.
@@ -46,10 +45,28 @@ public class NucingBoardRestController {
         return ycdto;
     }
 
+    @RequestMapping(value = "nucing/reports", method = RequestMethod.GET)
+    public List<NucReportDTO> listReports() {
+        List<NucReportDTO> dtoList = new ArrayList<>();
+        List<NucYard> yardList = nucYardService.findAll();
+        for (NucYard n : yardList) {
+            NucReport report = nucReportService.findOneByYardAndYear(n, Calendar.getInstance().get(Calendar.YEAR));
+            if (report == null) {
+                NucReportDTO temp = new NucReportDTO();
+                temp.setYardName(n.getYardName());
+                temp.setYardId(n.getId());
+                dtoList.add(temp);
+            } else {
+                dtoList.add(new NucReportDTO(report));
+            }
+        }
+        return dtoList;
+    }
+
     @RequestMapping(value = "nucing/nucReport/{id}", method = RequestMethod.GET)
     public NucReport report(@PathVariable("id") Long id) {
         NucReport nucReport;
-        nucReport = nucReportService.findOneByYard(nucYardService.findOne(id));
+        nucReport = nucReportService.findOneByYardAndYear(nucYardService.findOne(id), Calendar.getInstance().get(Calendar.YEAR));
         if (nucReport == null) {
             nucReport = new NucReport();
         }
@@ -117,9 +134,10 @@ public class NucingBoardRestController {
         if (report == null) {
             report = new NucReport();
             report.setYard(y);
+            report.setYear(Calendar.getInstance().get(Calendar.YEAR));
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date lDate = null;
         java.util.Date pDate = null;
         java.util.Date sDate = null;
@@ -127,11 +145,23 @@ public class NucingBoardRestController {
 
         try {
             lDate = sdf.parse(reportMap.get("dateLaidOut"));
+        } catch (ParseException pe) {
+//            System.err.println(pe.getMessage());
+        }
+        try {
             pDate = sdf.parse(reportMap.get("dateBeesPlaced"));
+        } catch (ParseException pe) {
+//            System.err.println(pe.getMessage());
+        }
+        try {
             sDate = sdf.parse(reportMap.get("dateBeesSupered"));
+        } catch (ParseException pe) {
+//            System.err.println(pe.getMessage());
+        }
+        try {
             splitDate = sdf.parse(reportMap.get("dateBeesSplit"));
         } catch (ParseException pe) {
-            System.err.println(pe.getMessage());
+//            System.err.println(pe.getMessage());
         }
 
         if (lDate != null) {
@@ -154,6 +184,7 @@ public class NucingBoardRestController {
             report.setDateBeesSplit(new Date(splitDate.getTime()));
         }
 
+        report.setCountDuringSupering(Integer.parseInt(reportMap.get("countDuringSupering")));
         report.setOldQueensCount(Integer.parseInt(reportMap.get("oldQueensCount")));
         report.setNucCount(Integer.parseInt(reportMap.get("nucCount")));
         report.setQueensPlaced(Integer.parseInt(reportMap.get("queensPlaced")));
