@@ -144,6 +144,37 @@
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Add Shipment|">Add Shipment</h4>
             </div>
+
+        </div>
+        <div class="side-div right-sidebar-div">
+            <div class="in-side-div">
+                <h3><b th:text="Lists"></b></h3>
+                <hr/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadContactListModal()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Contacts">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Contacts|">Contacts</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadInspectionListModal()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Inspections">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Inspections|">Inspections</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadShipmentListModal()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Shipments">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Shipments|">Shipments</h4>
+            </div>
+
         </div>
         <div class="side-div right-sidebar-div">
             <div class="in-side-div">

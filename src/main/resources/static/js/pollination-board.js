@@ -175,11 +175,27 @@ function getShipmentHead() {
     );
 }
 
+function getShipmentRow(e) {
+    return $('<tr>').append(
+        $('<td>').text(e.name),
+        $('<td>').text(e.contactInfo.email),
+        $('<td>').text(e.contactInfo.phone)
+    );
+}
+
 function getInspectionHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
         $('<td>').text('Email'),
         $('<td>').text('Phone')
+    );
+}
+
+function getInspectionRow(e) {
+    return $('<tr>').append(
+        $('<td>').text(e.name),
+        $('<td>').text(e.contactInfo.email),
+        $('<td>').text(e.contactInfo.phone)
     );
 }
 
