@@ -228,7 +228,7 @@ function getSelectorWithName(data, name) {
     $.each(data, function (i, e) {
         select.append(
             $('<option>')
-                .attr('id', e.id)
+                .attr('id', e.name)
                 .attr('value', e.id)
                 .text(e.name)
         )
@@ -352,6 +352,7 @@ function fillShipmentForm(data) {
     putInputValue('in', data.in);
     putInputValue('dud', data.dud);
     putInputValue('notes', data.notes);
+    selectOption(data.direction, data.direction);
 }
 
 function createShipmentForm(data) {
@@ -363,7 +364,7 @@ function editShipmentForm(data) {
     $('#form-modal-title').text("Edit Shipment");
     getShipmentForm(data.polliShipmentCreateDTO, '/pollination/editShipment');
     fillShipmentForm(data.shipment);
-    selectOption(data.shipment.direction, data.shipment.direction);
+
 }
 
 function getContractForm(data, action) {
@@ -389,6 +390,8 @@ function fillContractForm(data) {
     putInputValue('amount', data.amount);
     putInputValue('inDate', data.moveInDate);
     putInputValue('outDate', data.moveOutDate);
+    selectOption(data.orchard.yardName);
+    selectOption(data.broker.name);
 }
 
 function createContractForm(data) {
