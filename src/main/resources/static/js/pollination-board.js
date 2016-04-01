@@ -215,6 +215,7 @@ function getSelector(data, name) {
     $.each(data, function (i, e) {
         select.append(
             $('<option>')
+                .attr('id', e)
                 .attr('value', e)
                 .text(e)
         )
@@ -227,6 +228,7 @@ function getSelectorWithName(data, name) {
     $.each(data, function (i, e) {
         select.append(
             $('<option>')
+                .attr('id', e.id)
                 .attr('value', e.id)
                 .text(e.name)
         )
@@ -315,6 +317,10 @@ function getHiddenIdInput(id) {
     getFormGroupInput(for_id, "hidden", id);
 }
 
+function selectOption(id) {
+    $('#' + id).prop('selected', true);
+}
+
 /**
  * Functions that return a built for for the corresponding types.
  */
@@ -357,6 +363,7 @@ function editShipmentForm(data) {
     $('#form-modal-title').text("Edit Shipment");
     getShipmentForm(data.polliShipmentCreateDTO, '/pollination/editShipment');
     fillShipmentForm(data.shipment);
+    selectOption(data.shipment.direction, data.shipment.direction);
 }
 
 function getContractForm(data, action) {
