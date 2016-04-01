@@ -26,9 +26,13 @@ function getEmptyTableBody(id) {
 }
 
 function getEmptyFormBody() {
-    var formBody = $('#form-body');
+    var formBody = getFormBody();
     formBody.empty();
     return formBody;
+}
+
+function getFormBody() {
+    return $('#form-body');
 }
 
 function getContract(id) {
@@ -230,10 +234,170 @@ function getSelectorWithName(data, name) {
     return select;
 }
 
-function editOrchardForm(data) {
-    $('#form-modal-title').text("Edit Orchard");
+function getTabAnchor(id, text) {
+    return $('<a>')
+        .attr('href', '#' + id)
+        .attr('data-toggle', 'tab')
+        .text(text);
+}
+
+function getTabPane(id, active) {
+    var c = 'pane tab-pane';
+    if (active)
+        c += ' active';
+    return $('<div>')
+        .attr('class', c)
+        .attr('id', id);
+}
+
+function getSubmitButton(text) {
+    return getGroupDiv()
+        .append(
+            $('<div>')
+                .attr('class', 'col-sm-4 control-label')
+                .append(
+                    $('<button>')
+                        .attr('class', 'btn btn-primary')
+                        .attr('type', 'submit')
+                        .text(text)
+                )
+        )
+}
+
+function getFormGroup(for_id, label, type, val) {
+    return getGroupDiv()
+        .append(
+            getFormGroupLabel(for_id, label),
+            getFormGroupInput(for_id, type, val)
+        );
+}
+
+function getGroupDiv() {
+    return $('<div>')
+        .attr('class', 'form-group');
+}
+
+function getFormGroupLabel(for_id, label) {
+    return $('<label>')
+        .attr('class', 'col-sm-2 control-label')
+        .attr('for', for_id)
+        .text(label);
+}
+
+function getFormGroupInput(for_id, type, val) {
+    return $('<div>')
+        .attr('class', 'col-sm-10')
+        .append(
+            $('<input>')
+                .attr('class', 'form-control')
+                .attr('id', for_id)
+                .attr('name', for_id)
+                .attr('type', type)
+                .val(val)
+        );
+}
+
+function getFormGroupSelector(data) {
+    return $('<div>')
+        .attr('class', 'col-sm-10')
+        .append(data);
+}
+
+function getFormGroupWithSelector(for_id, label, selector) {
+    return getGroupDiv()
+        .append(
+            getFormGroupLabel(for_id, label),
+            getFormGroupSelector(selector)
+        );
+}
+
+function getHiddenIdInput(id) {
+    getFormGroupInput(for_id, "hidden", id);
+}
+
+/**
+ * Functions that return a built for for the corresponding types.
+ */
+function getShipmentForm(data, action) {
     var form = $('#form');
-    form.attr('action', '/pollination/addOrchard');
+    form.attr('action', action);
+    form.submit(function (event) {
+        event.preventDefault();
+        postShipment();
+    });
+    getEmptyFormBody()
+        .append(
+            getFormGroupWithSelector('direction', 'Direction', getSelector(data.directions, 'direction')),
+            getFormGroup('date', 'Date', 'date'),
+            getFormGroup('to', 'To', 'text'),
+            getFormGroup('from', 'From', 'text'),
+            getFormGroup('in', 'In', 'text'),
+            getFormGroup('dud', 'Dud', 'text'),
+            getFormGroup('notes', 'Notes', 'text'),
+            getSubmitButton('Create')
+        );
+}
+
+function fillShipmentForm(data) {
+    // Add input for direction selection
+    putInputValue('date', data.date);
+    putInputValue('to', data.to);
+    putInputValue('from', data.from);
+    putInputValue('in', data.in);
+    putInputValue('dud', data.dud);
+    putInputValue('notes', data.notes);
+}
+
+function createShipmentForm(data) {
+    $('#form-modal-title').text("Create Shipment");
+    getShipmentForm(data, '/pollination/addShipment');
+}
+
+function editShipmentForm(data) {
+    $('#form-modal-title').text("Edit Shipment");
+    getShipmentForm(data.polliShipmentCreateDTO, '/pollination/editShipment');
+    fillShipmentForm(data.shipment);
+}
+
+function getContractForm(data, action) {
+    var form = $('#form');
+    form.attr('action', action);
+    form.submit(function (event) {
+        event.preventDefault();
+        postContract();
+    });
+    getEmptyFormBody()
+        .append(
+            getFormGroupWithSelector('orchard', "Orchard", getSelector(data.orchards, 'orchard')),
+            getFormGroup('amount', 'Amount', 'text'),
+            getFormGroupWithSelector('broker', "Broker", getSelectorWithName(data.people, 'broker')),
+            getFormGroup('inDate', 'Move-in Date', 'date'),
+            getFormGroup('outDate', 'Move-out Date', 'date'),
+            getSubmitButton('Create')
+        );
+}
+
+function fillContractForm(data) {
+    // Add values to orchard and broker selectors
+    putInputValue('amount', data.amount);
+    putInputValue('inDate', data.moveInDate);
+    putInputValue('outDate', data.moveOutDate);
+}
+
+function createContractForm(data) {
+    $('#form-modal-title').text("Create Contract");
+    getContractForm(data, '/pollination/addContract');
+}
+
+function editContractForm(data) {
+    $('#form-modal-title').text("Edit Contract");
+    getContractForm(data.contractCreateDTO, '/pollination/editContract');
+    fillContractForm(data.contract);
+}
+
+function getOrchardForm(data, action) {
+    var form = $('#form');
+    form.attr('action', action);
     form.submit(function (event) {
         event.preventDefault();
         postOrchard();
@@ -284,183 +448,35 @@ function editOrchardForm(data) {
         );
 }
 
-function getTabAnchor(id, text) {
-    return $('<a>')
-        .attr('href', '#' + id)
-        .attr('data-toggle', 'tab')
-        .text(text)
-        ;
+function fillOrchardForm(data) {
+    putInputValue('yardName', data.yardName);
+    putInputValue('maxHives', data.maxHives);
+    // Add drop-down vals for owner and rent receiver.
+    putInputValue('street', data.address.street);
+    putInputValue('suite', data.address.suite);
+    putInputValue('city', data.address.city);
+    putInputValue('state', data.address.state);
+    putInputValue('zip', data.address.zip);
+    putInputValue('longitude', data.longitude);
+    putInputValue('latitude', data.latitude);
+    putInputValue('combo', data.combo);
+    putInputValue('accessNotes', data.accessNotes);
 }
 
-function getTabPane(id, active) {
-    var c = 'pane tab-pane';
-    if (active)
-        c += ' active';
-    return $('<div>')
-        .attr('class', c)
-        .attr('id', id)
-        ;
-}
-
-function getSubmitButton(text) {
-    return getGroupDiv()
-        .append(
-            $('<div>')
-                .attr('class', 'col-sm-4 control-label')
-                .append(
-                    $('<button>')
-                        .attr('class', 'btn btn-primary')
-                        .attr('type', 'submit')
-                        .text(text)
-                )
-        )
-}
-
-function getFormGroup(for_id, label, type, val) {
-    return getGroupDiv()
-        .append(
-            getFormGroupLabel(for_id, label),
-            getFormGroupInput(for_id, type, val)
-        )
-        ;
-}
-
-function getGroupDiv() {
-    return $('<div>')
-        .attr('class', 'form-group');
-}
-
-function getFormGroupLabel(for_id, label) {
-    return $('<label>')
-        .attr('class', 'col-sm-2 control-label')
-        .attr('for', for_id)
-        .text(label);
-}
-
-function getFormGroupInput(for_id, type, val) {
-    return $('<div>')
-        .attr('class', 'col-sm-10')
-        .append(
-            $('<input>')
-                .attr('class', 'form-control')
-                .attr('id', for_id)
-                .attr('name', for_id)
-                .attr('type', type)
-                .val(val)
-        )
-        ;
-}
-
-function getFormGroupSelector(data) {
-    return $('<div>')
-        .attr('class', 'col-sm-10')
-        .append(data);
-}
-
-function getFormGroupWithSelector(for_id, label, selector) {
-    return getGroupDiv()
-        .append(
-            getFormGroupLabel(for_id, label),
-            getFormGroupSelector(selector)
-        )
-        ;
-}
-
-/**
- * Functions that return a built for for the corresponding types.
- */
-function createShipmentForm(data) {
-    $('#form-modal-title').text("Create Shipment");
-    var form = $('#form');
-    form.attr('action', '/pollination/addShipment');
-    form.submit(function (event) {
-        event.preventDefault();
-        postShipment();
-    });
-    getEmptyFormBody()
-        .append(
-            getFormGroupWithSelector('direction', 'Direction', getSelector(data.directions, 'direction')),
-            getFormGroup('date', 'Date', 'date'),
-            getFormGroup('to', 'To', 'text'),
-            getFormGroup('from', 'From', 'text'),
-            getFormGroup('in', 'In', 'text'),
-            getFormGroup('dud', 'Dud', 'text'),
-            getFormGroup('notes', 'Notes', 'text'),
-            getSubmitButton('Create')
-        );
-}
-
-function createContractForm(data) {
-    $('#form-modal-title').text("Create Contract");
-    var form = $('#form');
-    form.attr('action', '/pollination/addContract');
-    form.submit(function (event) {
-        event.preventDefault();
-        postContract();
-    });
-    getEmptyFormBody()
-        .append(
-            getFormGroupWithSelector('orchard', "Orchard", getSelector(data.orchards, 'orchard')),
-            getFormGroup('amount', 'Amount', 'text'),
-            getFormGroupWithSelector('broker', "Broker", getSelectorWithName(data.people, 'broker')),
-            getFormGroup('inDate', 'Move-in Date', 'date'),
-            getFormGroup('outDate', 'Move-out Date', 'date'),
-            getSubmitButton('Create')
-        );
+function putInputValue(name, value) {
+    $('#' + name).val(value == null ? '' : value);
 }
 
 function createOrchardForm(data) {
     $('#form-modal-title').text("Create Orchard");
-    var form = $('#form');
-    form.attr('action', '/pollination/addOrchard');
-    form.submit(function (event) {
-        event.preventDefault();
-        postOrchard();
-    });
-    getEmptyFormBody()
-        .append(
-            $('<ul>')
-                .attr('class', 'nav nav-tabs')
-                .attr('id', 'tabContent')
-                .append(
-                    $('<li>')
-                        .attr('class', 'active')
-                        .append(getTabAnchor('details', 'Details')),
-                    $('<li>')
-                        .append(getTabAnchor('location', 'Location')),
-                    $('<li>')
-                        .append(getTabAnchor('access', 'Access'))
-                ),
-            $('<div>')
-                .attr('class', 'tab-content')
-                .append(
-                    getTabPane('details', true)
-                        .append(
-                            getFormGroup('yardName', 'Name', 'text', data.yardName),
-                            getFormGroup('maxHives', 'Max Hives', 'text'),
-                            getFormGroupWithSelector('status', 'Status', getSelector(data.stati, 'status')),
-                            getFormGroupWithSelector('owner', 'Owner', getSelectorWithName(data.people, 'owner')),
-                            getFormGroupWithSelector('rentReceiver', 'Rent Receiver', getSelectorWithName(data.people, 'rentReceiver'))
-                        ),
-                    getTabPane('location', false)
-                        .append(
-                            getFormGroup('street', 'Street', 'text'),
-                            getFormGroup('suite', 'Suite', 'text'),
-                            getFormGroup('city', 'City', 'text'),
-                            getFormGroup('state', 'State', 'text'),
-                            getFormGroup('zip', 'Zip', 'text'),
-                            getFormGroupWithSelector('region', 'Region', getSelector(data.regions, 'region')),
-                            getFormGroup('longitude', 'Longitude', 'text'),
-                            getFormGroup('latitude', 'Latitude', 'text')
-                        ),
-                    getTabPane('access', false)
-                        .append(
-                            getFormGroup('combo', 'Combination or Key', 'text'),
-                            getFormGroup('accessNotes', 'Access Notes', 'text')
-                        )
-                ),
-            getSubmitButton('Create')
-        );
+    getOrchardForm(data, '/pollination/addOrchard');
+
+}
+
+function editOrchardForm(data) {
+    $('#form-modal-title').text("Edit Orchard");
+    getOrchardForm(data.orchardCreateDTO, '/pollination/addOrchard');
+    fillOrchardForm(data.orchard);
 }
 // End form functions
 
@@ -480,9 +496,27 @@ function loadCreateContractModal() {
     });
 }
 
+function loadEditOrchardModal(id) {
+    $.getJSON("/pollination/editOrchard/" + id, function (data) {
+        editOrchardForm(data);
+    });
+}
+
+function loadEditContractModal(id) {
+    $.getJSON("/pollination/editContract/" + id, function (data) {
+        editContractForm(data);
+    });
+}
+
 function loadCreateShipmentModal() {
     $.getJSON("/pollination/createShipment", function (data) {
         createShipmentForm(data);
+    });
+}
+
+function loadEditShipmentModal(id) {
+    $.getJSON("/pollination/editShipment/" + id, function (data) {
+        editShipmentForm(data);
     });
 }
 // End form loaders

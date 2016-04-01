@@ -1,19 +1,14 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.*;
-import drocck.sp.beesandhoney.business.entities.DTOs.ContractCreateDTO;
-import drocck.sp.beesandhoney.business.entities.DTOs.ContractDTO;
-import drocck.sp.beesandhoney.business.entities.DTOs.OrchardCreateDTO;
-import drocck.sp.beesandhoney.business.entities.DTOs.PolliShipmentCreateDto;
+import drocck.sp.beesandhoney.business.entities.DTOs.*;
 import drocck.sp.beesandhoney.business.services.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Policy;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -76,29 +71,42 @@ public class PollinationBoardRestController {
 
     @RequestMapping(value = "pollination/createContract", method = RequestMethod.GET)
     public ContractCreateDTO createContract() {
-        ContractCreateDTO c = new ContractCreateDTO();
-        c.setPeople(personService.findAll());
-        c.setOrchards(orchardService.findAllOrchardNames());
-        return c;
+        return getContractCreateDTO();
+    }
+
+    @RequestMapping(value = "pollination/editContract/{id}", method = RequestMethod.GET)
+    public ContractEditDTO editContract(@PathVariable("id") Long id) {
+        return new ContractEditDTO(getContractCreateDTO(), contractService.findOne(id));
+    }
+
+    @RequestMapping(value = "pollination/orchard/{id}", method = RequestMethod.GET)
+    public Orchard orchard(@PathVariable("id") Long id) {
+        return orchardService.findOne(id);
     }
 
     @RequestMapping(value = "pollination/createOrchard")
     public OrchardCreateDTO createOrchard() {
-        OrchardCreateDTO ocdto = new OrchardCreateDTO();
-        ocdto.setStati(Yard.getStati());
-        ocdto.setPeople(personService.findAll());
-        ocdto.setRegions(regionService.findAllRegionNames());
-        return ocdto;
+        return getOrchardCreateDTO();
+    }
+
+    @RequestMapping(value = "pollination/editOrchard/{id}", method = RequestMethod.GET)
+    public OrchardEditDTO editOrchard(@PathVariable("id") Long id) {
+        return new OrchardEditDTO(getOrchardCreateDTO(), orchardService.findOne(id));
+    }
+
+    @RequestMapping(value = "pollination/shipment/{id}", method = RequestMethod.GET)
+    public PolliShipment shipment(@PathVariable("id") Long id) {
+        return polliShipmentService.findOne(id);
     }
 
     @RequestMapping(value = "pollination/createShipment")
-    public PolliShipmentCreateDto createShipment() {
-        List<String> list = new ArrayList<>();
-        for (PolliShipment.Direction direction : PolliShipment.Direction.values())
-            list.add(direction.name());
-        PolliShipmentCreateDto pscd = new PolliShipmentCreateDto();
-        pscd.setDirections(list);
-        return pscd;
+    public PolliShipmentCreateDTO createShipment() {
+        return getPolliShipmentCreateDTO();
+    }
+
+    @RequestMapping(value = "pollination/editShipment/{id}", method = RequestMethod.GET)
+    public PolliShipmentEditDTO editShipment(@PathVariable("id") Long id) {
+        return new PolliShipmentEditDTO(getPolliShipmentCreateDTO(), polliShipmentService.findOne(id));
     }
 
     @RequestMapping(value = "pollination/addOrchard/{json}", method = RequestMethod.POST,
@@ -166,5 +174,29 @@ public class PollinationBoardRestController {
     @RequestMapping(value = "pollination/inspection/{id}")
     public Inspection getInspection(@PathVariable("id") Long id) {
         return inspectionService.findOne(id);
+    }
+
+    private PolliShipmentCreateDTO getPolliShipmentCreateDTO() {
+        List<String> list = new ArrayList<>();
+        for (PolliShipment.Direction direction : PolliShipment.Direction.values())
+            list.add(direction.name());
+        PolliShipmentCreateDTO pscd = new PolliShipmentCreateDTO();
+        pscd.setDirections(list);
+        return pscd;
+    }
+
+    private OrchardCreateDTO getOrchardCreateDTO() {
+        OrchardCreateDTO ocdto = new OrchardCreateDTO();
+        ocdto.setStati(Yard.getStati());
+        ocdto.setPeople(personService.findAll());
+        ocdto.setRegions(regionService.findAllRegionNames());
+        return ocdto;
+    }
+
+    private ContractCreateDTO getContractCreateDTO() {
+        ContractCreateDTO c = new ContractCreateDTO();
+        c.setPeople(personService.findAll());
+        c.setOrchards(orchardService.findAllOrchardNames());
+        return c;
     }
 }
