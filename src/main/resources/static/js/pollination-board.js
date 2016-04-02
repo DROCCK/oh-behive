@@ -312,7 +312,7 @@ function getFormGroupWithSelector(for_id, label, selector) {
 }
 
 function getHiddenIdInput(id) {
-    getFormGroupInput(for_id, "hidden", id);
+    return getFormGroupInput("id", "hidden", id);
 }
 
 function selectOption(id) {
@@ -342,6 +342,7 @@ function getShipmentForm(data, action) {
 }
 
 function fillShipmentForm(data) {
+    getHiddenIdInput(data.id);
     putInputValue('date', data.date);
     putInputValue('to', data.to);
     putInputValue('from', data.from);
@@ -382,6 +383,7 @@ function getContractForm(data, action) {
 }
 
 function fillContractForm(data) {
+    getHiddenIdInput(data.id);
     putInputValue('amount', data.amount);
     putInputValue('inDate', data.moveInDate);
     putInputValue('outDate', data.moveOutDate);
@@ -455,6 +457,7 @@ function getOrchardForm(data, action) {
 }
 
 function fillOrchardForm(data) {
+    getHiddenIdInput(data.id);
     putInputValue('yardName', data.yardName);
     putInputValue('maxHives', data.maxHives);
     putInputValue('street', data.address.street);
@@ -489,7 +492,6 @@ function editOrchardForm(data) {
     fillOrchardForm(data.orchard);
 }
 // End form functions
-
 
 /**
  * Functions that get json from the server and builds the form
