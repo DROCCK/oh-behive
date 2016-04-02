@@ -97,7 +97,6 @@ function postContract() {
 
 function postOrchard() {
     var json = getOrchardJson($('#form').serializeArray());
-    alert(JSON.stringify(json));
     post(addOrchard, json, function () { });
 }
 
@@ -118,7 +117,6 @@ function getOrchardJson(form) {
     var json = {};
     json['address'] = {};
     json['contacts'] = {};
-    alert(JSON.stringify(form));
     $.each(form, function () {
         switch (this.name) {
             case 'street':
@@ -339,13 +337,11 @@ function getShipmentForm(data, action) {
             getFormGroup('from', 'From', 'text'),
             getFormGroup('in', 'In', 'text'),
             getFormGroup('dud', 'Dud', 'text'),
-            getFormGroup('notes', 'Notes', 'text'),
-            getSubmitButton('Create')
+            getFormGroup('notes', 'Notes', 'text')
         );
 }
 
 function fillShipmentForm(data) {
-    // Add input for direction selection
     putInputValue('date', data.date);
     putInputValue('to', data.to);
     putInputValue('from', data.from);
@@ -358,13 +354,14 @@ function fillShipmentForm(data) {
 function createShipmentForm(data) {
     $('#form-modal-title').text("Create Shipment");
     getShipmentForm(data, '/pollination/addShipment');
+    getFormBody().append(getSubmitButton('Create'));
 }
 
 function editShipmentForm(data) {
     $('#form-modal-title').text("Edit Shipment");
     getShipmentForm(data.polliShipmentCreateDTO, '/pollination/editShipment');
+    getFormBody().append(getSubmitButton('Save'));
     fillShipmentForm(data.shipment);
-
 }
 
 function getContractForm(data, action) {
@@ -380,13 +377,11 @@ function getContractForm(data, action) {
             getFormGroup('amount', 'Amount', 'text'),
             getFormGroupWithSelector('broker', "Broker", getSelectorWithName(data.people, 'broker')),
             getFormGroup('inDate', 'Move-in Date', 'date'),
-            getFormGroup('outDate', 'Move-out Date', 'date'),
-            getSubmitButton('Create')
+            getFormGroup('outDate', 'Move-out Date', 'date')
         );
 }
 
 function fillContractForm(data) {
-    // Add values to orchard and broker selectors
     putInputValue('amount', data.amount);
     putInputValue('inDate', data.moveInDate);
     putInputValue('outDate', data.moveOutDate);
@@ -397,11 +392,13 @@ function fillContractForm(data) {
 function createContractForm(data) {
     $('#form-modal-title').text("Create Contract");
     getContractForm(data, '/pollination/addContract');
+    getFormBody().append(getSubmitButton('Create'));
 }
 
 function editContractForm(data) {
     $('#form-modal-title').text("Edit Contract");
     getContractForm(data.contractCreateDTO, '/pollination/editContract');
+    getFormBody().append(getSubmitButton('Save'));
     fillContractForm(data.contract);
 }
 
@@ -453,15 +450,13 @@ function getOrchardForm(data, action) {
                             getFormGroup('combo', 'Combination or Key', 'text'),
                             getFormGroup('accessNotes', 'Access Notes', 'text')
                         )
-                ),
-            getSubmitButton('Create')
+                )
         );
 }
 
 function fillOrchardForm(data) {
     putInputValue('yardName', data.yardName);
     putInputValue('maxHives', data.maxHives);
-    // Add drop-down vals for owner and rent receiver.
     putInputValue('street', data.address.street);
     putInputValue('suite', data.address.suite);
     putInputValue('city', data.address.city);
@@ -471,6 +466,10 @@ function fillOrchardForm(data) {
     putInputValue('latitude', data.latitude);
     putInputValue('combo', data.combo);
     putInputValue('accessNotes', data.accessNotes);
+    selectOption(data.status);
+    selectOption(data.owner.person.name);
+    selectOption(data.rentReceiver.name);
+    selectOption(data.region);
 }
 
 function putInputValue(name, value) {
@@ -480,12 +479,13 @@ function putInputValue(name, value) {
 function createOrchardForm(data) {
     $('#form-modal-title').text("Create Orchard");
     getOrchardForm(data, '/pollination/addOrchard');
-
+    getFormBody().append(getSubmitButton('Create'));
 }
 
 function editOrchardForm(data) {
     $('#form-modal-title').text("Edit Orchard");
     getOrchardForm(data.orchardCreateDTO, '/pollination/addOrchard');
+    getFormBody().append(getSubmitButton('Save'));
     fillOrchardForm(data.orchard);
 }
 // End form functions
