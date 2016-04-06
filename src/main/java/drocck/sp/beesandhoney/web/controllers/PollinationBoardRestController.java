@@ -109,6 +109,11 @@ public class PollinationBoardRestController {
         return new PolliShipmentEditDTO(getPolliShipmentCreateDTO(), polliShipmentService.findOne(id));
     }
 
+    @RequestMapping(value = "pollination/shipments", method = RequestMethod.GET)
+    public List<PolliShipment> shipments() {
+        return polliShipmentService.findAll();
+    }
+
     @RequestMapping(value = "pollination/addOrchard/{json}", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Orchard addOrchard(@PathVariable("json") String json) {

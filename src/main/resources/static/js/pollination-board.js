@@ -50,8 +50,8 @@ function getInspections(id) {
     return get(inspections + id, "Orchard's Inspections", loadInspectionListModal);
 }
 
-function getShipments(id) {
-    return get(shipments + id, "Orchard's Shipments", loadShipmentListModal);
+function getShipments() {
+    return get(shipments, "Orchard's Shipments", loadShipmentListModal);
 }
 
 function get(type, title, func) {
@@ -147,6 +147,10 @@ function loadContactListModal(data) {
 
 function loadShipmentListModal(data) {
     loadListModal(data, getShipmentHead, getShipmentRow);
+}
+
+function getShipmentListModal() {
+    loadShipmentListModal(getShipments());
 }
 
 function loadInspectionListModal(data) {
@@ -342,7 +346,6 @@ function getShipmentForm(data, action) {
 }
 
 function fillShipmentForm(data) {
-    getHiddenIdInput(data.id);
     putInputValue('date', data.date);
     putInputValue('to', data.to);
     putInputValue('from', data.from);
@@ -457,7 +460,8 @@ function getOrchardForm(data, action) {
 }
 
 function fillOrchardForm(data) {
-    getHiddenIdInput(data.id);
+    alert(data.id);
+    $('#form').append(getHiddenIdInput(data.id));
     putInputValue('yardName', data.yardName);
     putInputValue('maxHives', data.maxHives);
     putInputValue('street', data.address.street);

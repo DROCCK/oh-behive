@@ -42,8 +42,8 @@ public class PolliShipmentService {
                     sdf.parse(json.getString("date")).getTime()
                 )
             );
-        } catch (ParseException pe) {
-            System.err.println(pe.getMessage());
+        } catch (ParseException | JSONException jpe) {
+            System.err.println(jpe.getMessage());
         }
         try {
             p.setDirection(
