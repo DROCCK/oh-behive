@@ -37,6 +37,11 @@ public class PolliShipmentService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         PolliShipment p = new PolliShipment();
         try {
+            p.setId(json.getLong("id"));
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        }
+        try {
             p.setDate(
                 new Date(
                     sdf.parse(json.getString("date")).getTime()

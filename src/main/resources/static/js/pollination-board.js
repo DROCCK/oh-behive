@@ -97,12 +97,12 @@ function postContract() {
 
 function postOrchard() {
     var json = getOrchardJson($('#form').serializeArray());
-    post(addOrchard, json, function () { });
+    post(addOrchard, json, function () {});
 }
 
 function postShipment() {
     var json = getSimpleJson($('#form').serializeArray());
-    post(addShipment, json, function () { });
+    post(addShipment, json, function () {});
 }
 
 function getSimpleJson(form) {
@@ -332,6 +332,7 @@ function getShipmentForm(data, action) {
     form.submit(function (event) {
         event.preventDefault();
         postShipment();
+        return false;
     });
     getEmptyFormBody()
         .append(
@@ -346,6 +347,7 @@ function getShipmentForm(data, action) {
 }
 
 function fillShipmentForm(data) {
+    $('#form').append(getHiddenIdInput(data.id));
     putInputValue('date', data.date);
     putInputValue('to', data.to);
     putInputValue('from', data.from);
@@ -374,6 +376,7 @@ function getContractForm(data, action) {
     form.submit(function (event) {
         event.preventDefault();
         postContract();
+        return false;
     });
     getEmptyFormBody()
         .append(
@@ -413,6 +416,7 @@ function getOrchardForm(data, action) {
     form.submit(function (event) {
         event.preventDefault();
         postOrchard();
+        return false;
     });
     getEmptyFormBody()
         .append(
@@ -460,7 +464,6 @@ function getOrchardForm(data, action) {
 }
 
 function fillOrchardForm(data) {
-    alert(data.id);
     $('#form').append(getHiddenIdInput(data.id));
     putInputValue('yardName', data.yardName);
     putInputValue('maxHives', data.maxHives);
