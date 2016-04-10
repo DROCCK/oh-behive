@@ -12,6 +12,8 @@ public class ContractDTO {
     private Long id;
     private String orchardName;
     private Double progress;
+    private Double longitude;
+    private Double latitude;
 
     public ContractDTO() {
 
@@ -22,6 +24,8 @@ public class ContractDTO {
         Orchard o = contract.getOrchard();
         orchardName = o.getYardName();
         progress = contract.getAmount() == null ? 0 : ((double) o.getHiveCount()) / contract.getAmount();
+        longitude = contract.getOrchard().getLongitude();
+        latitude = contract.getOrchard().getLatitude();
     }
 
     public Long getId() {
@@ -46,6 +50,22 @@ public class ContractDTO {
 
     public void setProgress(Double progress) {
         this.progress = progress;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }
 

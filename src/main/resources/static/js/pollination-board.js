@@ -275,7 +275,19 @@ function getFormGroup(for_id, label, type, val) {
             getFormGroupInput(for_id, type, val)
         );
 }
-
+function getMapFormGroup(for_id){
+    return getGroupDiv()
+        .append(
+            $('<div>')
+                .attr('class', 'col-sm-1'),
+            $('<div>')
+                .attr('class', 'col-sm-10')
+                .attr('id', for_id)
+                .attr('style', 'height:300px'),
+            $('<div>')
+                .attr('class', 'col-sm-1')
+        )
+}
 function getGroupDiv() {
     return $('<div>')
         .attr('class', 'form-group');
@@ -452,7 +464,8 @@ function getOrchardForm(data, action) {
                             getFormGroup('zip', 'Zip', 'text'),
                             getFormGroupWithSelector('region', 'Region', getSelector(data.regions, 'region')),
                             getFormGroup('longitude', 'Longitude', 'text'),
-                            getFormGroup('latitude', 'Latitude', 'text')
+                            getFormGroup('latitude', 'Latitude', 'text'),
+                            getMapFormGroup('map-div-modal')
                         ),
                     getTabPane('access', false)
                         .append(
@@ -461,6 +474,13 @@ function getOrchardForm(data, action) {
                         )
                 )
         );
+    getLocation();  //sets location of map
+    //resizes and recenters maps whenever modal is opened
+    $('#tabContent').on('shown.bs.tab', function (e){
+        var curCenter=map.getCenter();
+        google.maps.event.trigger(map, 'resize');
+        map.setCenter(curCenter);
+    });
 }
 
 function fillOrchardForm(data) {
@@ -547,7 +567,7 @@ function loadContractDetails(data) {
     $('#in').html('In Date: ' + data.moveInDate);
     $('#out').html('Out Date: ' + data.moveOutDate);
     $('#broker').html('Broker: ' + data.broker.name);
-    $('#number').html('Phone: ' + data.broker.contactInfo.phone);
+    //$('#number').html('Phone: ' + data.broker.contactInfo.phone);
     $('#edit').html('<a href="#"><i class="material-icons md-24 bee-board-icon">create</i></a>');
     $('#delete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">delete</i></a>');
     $('#contacts').html('<a href=#><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
@@ -568,9 +588,12 @@ function progressFormatter(value, row, index) {
 
 function tableRowClick(e, row, $element) {
     getContract(row["id"]);
-    var lat = 48.8582;
-    var long = 2.2945;
-    var labels = '<div><p>Hello Polli</p></div>';
+    if(row["latitude"]==null || row["longitude"]==null){
+        console.log("Longitude or Latitude is null!");
+    }
+    var lat = row["latitude"];
+    var long = row["longitude"];
+    var labels = '<div><h5>'+row["orchardName"]+'</h5></div>';
     //sets location of map on first drop location.
     initialize(long, lat);
     //Creates Markers for map
@@ -591,3 +614,85 @@ window.operateEvents = {
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
+
+var x = document.getElementById("error");
+var map;
+var marker;
+var prevMarker;
+var coords;
+var lat;
+var lng;
+var markerImage;
+<!-- Query Device for Location -->
+function getLocation() {
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setVals, showError);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+    markerImage = {
+        url: 'http://i.imgur.com/ALU8OuA.png',
+        size: new google.maps.Size(45,45),
+        origin: new google.maps.Point(0,0),
+        anchor: new google.maps.Point(23,45)
+    };
+}
+<!-- Sets Latitude and Longitude values -->
+function setVals(position) {
+    lat = position.coords.latitude;
+    lng = position.coords.longitude;
+    document.getElementById("latitude").value = lat;
+    document.getElementById("longitude").value = lng;
+    coords = new google.maps.LatLng(lat, lng);
+    var mapOptions = {
+        zoom: 15,
+        center: coords,
+        mapTypeControl: true,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+    };
+    map = new google.maps.Map(
+        document.getElementById("map-div-modal"), mapOptions
+    );
+    google.maps.event.addListener(map, 'click', function (event) {
+        placeMarker(event.latLng);
+    });
+
+    marker = new google.maps.Marker({
+        position: coords,
+        map: map,
+        icon: markerImage,
+        title: "Current Location"
+    });
+}
+function placeMarker(location) {
+    lat = location.lat();
+    lng = location.lng();
+    setMarkerPosition(marker, lat, lng);
+    document.getElementById("latitude").value = location.lat();
+    document.getElementById("longitude").value = location.lng();
+}
+function showError(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation.";
+            break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable.";
+            break;
+        case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out.";
+            break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred.";
+            break;
+    }
+}
+<!-- This moves the marker on the map when you click -->
+function setMarkerPosition(marker, lat, lng) {
+    marker.setPosition(
+        new google.maps.LatLng(
+            lat,
+            lng)
+    );
+}
