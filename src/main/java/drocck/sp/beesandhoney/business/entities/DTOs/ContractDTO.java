@@ -22,7 +22,8 @@ public class ContractDTO {
     public ContractDTO(Contract contract) {
         id = contract.getId();
         Orchard o = contract.getOrchard();
-        orchardName = o.getYardName();
+        String name = o.getYardName();
+        orchardName = name == null ? "" : name;
         progress = contract.getAmount() == null ? 0 : ((double) o.getHiveCount()) / contract.getAmount();
         longitude = contract.getOrchard().getLongitude();
         latitude = contract.getOrchard().getLatitude();

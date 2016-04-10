@@ -84,6 +84,12 @@
         </div>
         <hr/>
         <div class="col-md-12">
+            <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateContractModal()">
+                <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                   title="Add Contract">
+                    add_circle_outline
+                </i> | Add Contract
+            </a>
             <table class="table table-condensed table-responsive auto"
                    style="table-layout: auto"
                    id="contract-table"
@@ -99,14 +105,7 @@
                 <thead id="contract-table-head">
                 <tr>
                     <th data-field="id" data-visible="false"></th>
-                    <th class="col-md-2" data-field="orchardName" data-sortable="true" data-visible="true" th:text="#{orchardName}">
-                        <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateContractModal()">
-                            <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                               title="Add Contract">
-                                add_circle_outline
-                            </i>
-                        </a>
-                    </th>
+                    <th class="col-md-2" data-field="orchardName" data-sortable="true" data-visible="true" th:text="#{orchardName}"></th>
                     <th class="col-md-6" data-field="progress" data-formatter="progressFormatter" data-sortable="true"
                         data-visible="true" th:text="#{progress}"></th>
                     <th class="col-md-1" data-field="edit" data-formatter="editFormatter" data-sortable="false" data-events="operateEvents"

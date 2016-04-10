@@ -91,18 +91,23 @@ function post(url, json, callback) {
 function postContract() {
     var json = getSimpleJson($('#form').serializeArray());
     post(addContract, json, function () {
+        $('#id').remove();
         $('#contract-table').bootstrapTable('refresh');
     });
 }
 
 function postOrchard() {
     var json = getOrchardJson($('#form').serializeArray());
-    post(addOrchard, json, function () {});
+    post(addOrchard, json, function () {
+        $('#id').remove();
+    });
 }
 
 function postShipment() {
     var json = getSimpleJson($('#form').serializeArray());
-    post(addShipment, json, function () {});
+    post(addShipment, json, function () {
+        $('#id').remove();
+    });
 }
 
 function getSimpleJson(form) {
@@ -377,7 +382,7 @@ function createShipmentForm(data) {
 
 function editShipmentForm(data) {
     $('#form-modal-title').text("Edit Shipment");
-    getShipmentForm(data.polliShipmentCreateDTO, '/pollination/editShipment');
+    getShipmentForm(data.polliShipmentCreateDTO, '/pollination/addShipment');
     getFormBody().append(getSubmitButton('Save'));
     fillShipmentForm(data.shipment);
 }
@@ -401,7 +406,7 @@ function getContractForm(data, action) {
 }
 
 function fillContractForm(data) {
-    getHiddenIdInput(data.id);
+    $('#form').append(getHiddenIdInput(data.id));
     putInputValue('amount', data.amount);
     putInputValue('inDate', data.moveInDate);
     putInputValue('outDate', data.moveOutDate);
@@ -417,7 +422,7 @@ function createContractForm(data) {
 
 function editContractForm(data) {
     $('#form-modal-title').text("Edit Contract");
-    getContractForm(data.contractCreateDTO, '/pollination/editContract');
+    getContractForm(data.contractCreateDTO, '/pollination/addContract');
     getFormBody().append(getSubmitButton('Save'));
     fillContractForm(data.contract);
 }
@@ -561,20 +566,20 @@ function loadEditShipmentModal(id) {
 // End form loaders
 
 function loadContractDetails(data) {
-    $('#id').html('Contract Id: ' + data.id);
-    //$('#orchard').html('<b>' + data.orchard.yardName + '</b>');
-    $('#amount').html('Amount: ' + data.amount);
-    $('#in').html('In Date: ' + data.moveInDate);
-    $('#out').html('Out Date: ' + data.moveOutDate);
-    $('#broker').html('Broker: ' + data.broker.name);
-    //$('#number').html('Phone: ' + data.broker.contactInfo.phone);
+    $('#id').html('<b>Contract Id: </b>' + data.id);
+    $('#orchard').html('<b>Orchard: </b>' + data.orchard.yardName);
+    $('#amount').html('<b>Amount: </b>' + data.amount);
+    $('#in').html('<b>In Date: </b>' + data.moveInDate);
+    $('#out').html('<b>Out Date: </b>' + data.moveOutDate);
+    $('#broker').html('<b>Broker: </b>' + (data.broker == null ? '' : data.broker.name));
+    $('#number').html('<b>Phone: </b>' + (data.broker == null ? '' : data.broker.contactInfo == null ? '' : data.broker.contactInfo.phone));
     $('#edit').html('<a href="#"><i class="material-icons md-24 bee-board-icon">create</i></a>');
     $('#delete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">delete</i></a>');
     $('#contacts').html('<a href=#><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#table-modal" onclick="getContacts(0)">person_outline</i></a>');
     $('#shipments').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#table-modal" onclick="loadShipmentListModal()">visibility</i></a>');
-    $('#progress').html('% Fulfilled:<br/><div class="progress"><div class="progress-bar" role="progressbar" ' +
+    $('#progress').html('<b>% Fulfilled:</b><br/><div class="progress"><div class="progress-bar" role="progressbar" ' +
         'aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + data.count + '" style="width: ' + data.count + '%"></div></div>'
     );
 }
