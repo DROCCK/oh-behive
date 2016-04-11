@@ -108,9 +108,10 @@
                     <th class="col-md-2" data-field="orchardName" data-sortable="true" data-visible="true" th:text="#{orchardName}"></th>
                     <th class="col-md-6" data-field="progress" data-formatter="progressFormatter" data-sortable="true"
                         data-visible="true" th:text="#{progress}"></th>
-                    <th class="col-md-1" data-field="edit" data-formatter="editFormatter" data-sortable="false" data-events="operateEvents"
-                        th:text="#{edit}"></th>
-                    <th class="col-md-1" data-field="delete" data-formatter="checkFormatter" data-sortable="false" data-events="operateEvents">Complete</th>
+                    <th class="col-md-1" data-field="edit" data-formatter="editOrchardFormatter" data-sortable="false" data-events="operateEvents"
+                        th:text="|#{edit} #{orchard}|"></th>
+                    <th class="col-md-1" data-field="delete" data-formatter="checkFormatter" data-sortable="false" data-events="operateEvents"
+                        th:text="#{delete}"></th>
                 </tr>
                 </thead>
             </table>
