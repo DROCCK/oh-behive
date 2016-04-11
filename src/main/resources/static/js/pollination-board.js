@@ -574,11 +574,11 @@ function loadContractDetails(data) {
     $('#broker').html('<b>Broker: </b>' + (data.broker == null ? '' : data.broker.name));
     $('#number').html('<b>Phone: </b>' + (data.broker == null ? '' : data.broker.contactInfo == null ? '' : data.broker.contactInfo.phone));
     $('#edit').html('<a href="#"><i class="material-icons md-24 bee-board-icon">create</i></a>');
-    $('#delete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">delete</i></a>');
+    $('#delete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">check</i></a>');
     $('#contacts').html('<a href=#><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#table-modal" onclick="getContacts(0)">person_outline</i></a>');
     $('#shipments').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
-        'data-target="#table-modal" onclick="loadShipmentListModal()">visibility</i></a>');
+        'data-target="#table-modal" onclick="loadShipmListModal()">visibility</i></a>');
     $('#progress').html('<b>% Fulfilled:</b><br/><div class="progress"><div class="progress-bar" role="progressbar" ' +
         'aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + data.count + '" style="width: ' + data.count + '%"></div></div>'
     );
