@@ -172,41 +172,73 @@ function getContactHead() {
 
 function getContactRow(e) {
     return $('<tr>').append(
-        $('<td>').text(e.name),
-        $('<td>').text(e.contactInfo.email),
-        $('<td>').text(e.contactInfo.phone)
+        $('<td>').text(e.id),
+        $('<td>').text(e.email),
+        $('<td>').text(e.phone)
     );
 }
 
 function getShipmentHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
-        $('<td>').text('Email'),
-        $('<td>').text('Phone')
+        $('<td>').text('To'),
+        $('<td>').text('From'),
+        $('<td>').text('Singles'),
+        $('<td>').text('Doubles'),
+        $('<td>').text('Supers'),
+        $('<td>').text('Status'),
+        $('<td>').text('Truck ID'),
+        $('<td>').text('Load Number'),
+        $('<td>').text('Weight'),
+        $('<td>').text('Depart Date'),
+        $('<td>').text('Arrival Date'),
+        $('<td>').text('Carrier')
     );
 }
 
 function getShipmentRow(e) {
     return $('<tr>').append(
-        $('<td>').text(e.name),
-        $('<td>').text(e.contactInfo.email),
-        $('<td>').text(e.contactInfo.phone)
+        $('<td>').text(e.id),
+        $('<td>').text(e.toYard),
+        $('<td>').text(e.fromYard),
+        $('<td>').text(e.singles),
+        $('<td>').text(e.doubles),
+        $('<td>').text(e.supers),
+        $('<td>').text(e.status),
+        $('<td>').text(e.truckId),
+        $('<td>').text(e.loadNum),
+        $('<td>').text(e.weight),
+        $('<td>').text(e.departDate),
+        $('<td>').text(e.arrivalDate),
+        $('<td>').text(e.carrier)
     );
 }
 
 function getInspectionHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
-        $('<td>').text('Email'),
-        $('<td>').text('Phone')
+        $('<td>').text('Doubles'),
+        $('<td>').text('Singles'),
+        $('<td>').text('Supers'),
+        $('<td>').text('Duds'),
+        $('<td>').text('Visit Date'),
+        $('<td>').text('Fed Status'),
+        $('<td>').text('Medication'),
+        $('<td>').text('Notes')
     );
 }
 
 function getInspectionRow(e) {
     return $('<tr>').append(
-        $('<td>').text(e.name),
-        $('<td>').text(e.contactInfo.email),
-        $('<td>').text(e.contactInfo.phone)
+        $('<td>').text(e.id),
+        $('<td>').text(e.numDoubles),
+        $('<td>').text(e.numSingles),
+        $('<td>').text(e.supers),
+        $('<td>').text(e.duds),
+        $('<td>').text(e.visitDate),
+        $('<td>').text(e.isFed),
+        $('<td>').text(e.medication),
+        $('<td>').text(e.notes)
     );
 }
 
