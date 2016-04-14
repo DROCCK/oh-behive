@@ -142,6 +142,8 @@ public class AppConfig {
     @Bean
     public NucReportService nucReportService() {return new NucReportService(); }
 
+    @Bean
+    public EventService eventService() {return new EventService(); }
     //Language beans
     @Bean
     public ReloadableResourceBundleMessageSource messageSource(){

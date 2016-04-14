@@ -8,7 +8,7 @@ import drocck.sp.beesandhoney.business.entities.NucReport;
 public class NucReportDTO {
     private long yardId;
     private String yardName;
-    private int initalCount;
+    private int initialCount;
     private int countDuringSupering;
     private int superCount;
     private int oldQueensCount;
@@ -19,6 +19,8 @@ public class NucReportDTO {
     // calculated values
     private int boxesAfterSupering;
     private int queensNeeded;
+    private float splitRatio;
+    private float totalRatio;
 
     public NucReportDTO() {
 
@@ -27,7 +29,7 @@ public class NucReportDTO {
     public NucReportDTO(NucReport report) {
         yardId = report.getYard().getId();
         yardName = report.getYard().getYardName();
-        initalCount = report.getInitialCount();
+        initialCount = report.getInitialCount();
         countDuringSupering = report.getCountDuringSupering();
         superCount = report.getSuperCount();
         oldQueensCount = report.getOldQueensCount();
@@ -37,6 +39,13 @@ public class NucReportDTO {
 
         boxesAfterSupering = countDuringSupering * 2 + superCount;
         queensNeeded = nucCount - queensPlaced;
+        if (countDuringSupering != 0) {
+            splitRatio = (float)nucCount / countDuringSupering;
+            totalRatio = (float)finalCount / countDuringSupering;
+        } else {
+            splitRatio = 0;
+            totalRatio = 0;
+        }
     }
 
     public long getYardId() {
@@ -55,12 +64,12 @@ public class NucReportDTO {
         this.yardName = yardName;
     }
 
-    public int getInitalCount() {
-        return initalCount;
+    public int getInitialCount() {
+        return initialCount;
     }
 
-    public void setInitalCount(int initalCount) {
-        this.initalCount = initalCount;
+    public void setInitialCount(int initalCount) {
+        this.initialCount = initalCount;
     }
 
     public int getCountDuringSupering() {
@@ -126,4 +135,25 @@ public class NucReportDTO {
     public void setQueensNeeded() {
         this.queensNeeded = nucCount - queensPlaced;
     }
+
+    //Todo: Split Ratio: NucCount + OldQueensCount / countDuringSupering
+    public float getSplitRatio() {
+        return splitRatio;
+    }
+
+    public void setSplitRatio() {
+        if (this.countDuringSupering != 0)
+            this.splitRatio = (float) this.nucCount / (float) this.countDuringSupering;
+        else this.splitRatio = 0;
+    }
+
+    public float getTotalRatio() {
+        return totalRatio;
+    }
+
+    public void setTotalRatio() {
+        if (this.countDuringSupering != 0) this.totalRatio = (float) this.finalCount / this.countDuringSupering;
+        else this.totalRatio = 0;
+    }
+
 }

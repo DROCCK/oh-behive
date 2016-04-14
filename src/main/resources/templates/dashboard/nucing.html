@@ -15,6 +15,7 @@
         $(document).ready(function () {
             init();
         });
+
     </script>
 </head>
 <body>
@@ -53,6 +54,8 @@
                 <th data-field="finalCount" data-sortable="true" data-visible="false">Final Count</th>
                 <th data-field="boxesAfterSupering" data-sortable="true" data-visible="true">Boxes After Supering</th>
                 <th data-field="queensNeeded" data-sortable="true" data-visible="false">Queens Needed</th>
+                <th data-field="splitRatio" data-sortable="true" data-visible="false">Split Ratio</th>
+                <th data-field="totalRatio" data-sortable="true" data-visible="false">Total Ratio</th>
                 <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents"
                     th:text="#{edit}"></th>
             </tr>
@@ -73,7 +76,19 @@
     <!-- Start Right Side Bar-->
     <div class="col-md-2 panel-group">
         <div class="side-div right-sidebar-div">
+
             <div class="in-side-div">
+                <h3><b th:text="Stats"></b></h3>
+                <hr/>
+                <h4>Initial Count: <span id="sumInitialCount"></span></h4>
+                <h4>Count @ Supering: <span id="sumSuperCount">0</span></h4>
+                <h4>Total Supers: <span id="sumSupers">0</span></h4>
+                <h4>Total Old Queens: <span id="sumOldQueens">0</span></h4>
+                <h4>Total Nucs: <span id="sumNucCount">0</span></h4>
+                <h4>Total Queens Placed: <span id="sumQueensPlaced">0</span></h4>
+                <h4>Total Final Count: <span id="sumFinalCount">0</span></h4>
+                <br/>
+
                 <h3><b th:text="Tasks"></b></h3>
                 <hr/>
                 <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateNucYardModal()">
@@ -84,14 +99,7 @@
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Add Nucing Yard|">Add Nucing Yard</h4>
                 <br/>
-                <a data-toggle="modal" data-target="#form-modal" onclick=""> <!-- TODO: CREATE LOAD MODAL FUNCTION -->
-                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Order Queens">
-                        add_circle_outline
-                    </i>
-                </a>
-                <h4 class="list-header" th:text="|#{pipe} Order Queens|">Order Queens</h4>
-                <br/>
+                <!-- TODO: EDIT YARD -->
             </div>
         </div>
     </div>

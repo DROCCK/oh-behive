@@ -24,10 +24,15 @@ public class DataInitService {
     public void init() {
 
         if (!(userService.getUserByUsername("admin@admin.com").isPresent())) {
-            Role role = new Role();
-            role.setName("ADMIN");
-            roleService.save(role);
+            Role role;
+            role = roleService.findOne((long)1);
 
+            if (role == null) {
+                role =new Role();
+                role.setName("ADMIN");
+                roleService.save(role);
+
+            }
             User user = new User();
             user.setUsername("admin@admin.com");
             String passHash = new BCryptPasswordEncoder().encode("password");

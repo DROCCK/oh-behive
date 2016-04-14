@@ -2,11 +2,13 @@ package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.*;
 import drocck.sp.beesandhoney.business.entities.DTOs.NucReportDTO;
+import drocck.sp.beesandhoney.business.entities.DTOs.NucReportSumDTO;
 import drocck.sp.beesandhoney.business.entities.DTOs.YardCreateDTO;
 import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +38,9 @@ public class NucingBoardRestController {
     @Autowired
     private NucYardService nucYardService;
 
+    @Autowired
+    private EventService eventService;
+
     @RequestMapping(value = "nucing/createNucYard")
     public YardCreateDTO createYard() {
         YardCreateDTO ycdto = new YardCreateDTO();
@@ -63,6 +68,25 @@ public class NucingBoardRestController {
         return dtoList;
     }
 
+    @RequestMapping(value = "nucing/reportSum", method = RequestMethod.GET)
+    public NucReportSumDTO sumReports() {
+        List<NucYard> yardList = nucYardService.findAll();
+        NucReportSumDTO sum = new NucReportSumDTO();
+        for (NucYard n : yardList) {
+            NucReport report = nucReportService.findOneByYardAndYear(n, Calendar.getInstance().get(Calendar.YEAR));
+            if (report != null) {
+                sum.setInitialCount(sum.getInitialCount() + report.getInitialCount());
+                sum.setCountDuringSupering(sum.getCountDuringSupering() + report.getCountDuringSupering());
+                sum.setSuperCount(sum.getSuperCount() + report.getSuperCount());
+                sum.setOldQueensCount(sum.getOldQueensCount() + report.getOldQueensCount());
+                sum.setNucCount(sum.getNucCount() + report.getNucCount());
+                sum.setQueensPlaced(sum.getQueensPlaced() + report.getQueensPlaced());
+                sum.setFinalCount(sum.getFinalCount() + report.getFinalCount());
+            }
+        }
+        return sum;
+    }
+
     @RequestMapping(value = "nucing/nucReport/{id}", method = RequestMethod.GET)
     public NucReport report(@PathVariable("id") Long id) {
         NucReport nucReport;
@@ -73,12 +97,14 @@ public class NucingBoardRestController {
         return nucReport;
     }
 
-    @RequestMapping(value = "nucing/update/nucYard", method = RequestMethod.POST)
-    public void addNucYard(@RequestBody String nucYard) {
+    @RequestMapping(value = "nucing/update/nucYard/{yardTimeStamp}", method = RequestMethod.POST)
+    public void addNucYard(@RequestBody String nucYard, @PathVariable(value = "yardTimeStamp") String timestamp, final HttpServletResponse response) {
         Map<String, String> keyValMap = parseString(nucYard);
         NucYard y = nucYardService.findOneByName(keyValMap.get("yardName"));
         Address a;
         Owner o = ownerService.findOneByPerson(personService.findOneByName(keyValMap.get("owner")));
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("pragma", "no-cache");
         if (y == null) {
             y = new NucYard();
             a = new Address();
@@ -125,8 +151,10 @@ public class NucingBoardRestController {
         nucYardService.save(y);
     }
 
-    @RequestMapping(value = "nucing/update/nucReport", method = RequestMethod.POST)
-    public void addNucReport(@RequestBody String nucReport) {
+    @RequestMapping(value = "nucing/update/nucReport/{reportTimestamp}", method = RequestMethod.POST)
+    public void addNucReport(@RequestBody String nucReport, @PathVariable(value = "reportTimestamp") String timestamp, final HttpServletResponse response) {
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("pragma", "no-cache");
         System.out.println(nucReport);
         Map<String, String> reportMap = parseString(nucReport);
         Yard y = nucYardService.findOne(Long.parseLong(reportMap.get("yardId")));
@@ -181,6 +209,23 @@ public class NucingBoardRestController {
         report.setSuperCount(Integer.parseInt(reportMap.get("superCount")));
 
         if (splitDate != null) {
+            if (report.getDateBeesSplit() == null) {
+                Event split = new Event();
+                split.setDate(new Date(splitDate.getTime()));
+                split.setTitle("Splits @ " + report.getYard().getYardName());
+
+                Event place = new Event();
+                place.setDate(new Date(splitDate.getTime() + (1000*60*60*24*3)));
+                place.setTitle("Place @ " + report.getYard().getYardName());
+
+                Event check = new Event();
+                check.setDate(new Date(splitDate.getTime()+(1000*60*60*24*24)));
+                check.setTitle("Check @ " + report.getYard().getYardName());
+
+                eventService.save(split);
+                eventService.save(place);
+                eventService.save(check);
+            }
             report.setDateBeesSplit(new Date(splitDate.getTime()));
         }
 

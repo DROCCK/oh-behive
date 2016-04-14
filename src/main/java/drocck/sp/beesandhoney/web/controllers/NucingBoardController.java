@@ -4,6 +4,7 @@ import drocck.sp.beesandhoney.business.entities.DTOs.NucingBoardDTO;
 import drocck.sp.beesandhoney.business.entities.Event;
 import drocck.sp.beesandhoney.business.entities.NucingTask;
 import drocck.sp.beesandhoney.business.entities.Yard;
+import drocck.sp.beesandhoney.business.services.EventService;
 import drocck.sp.beesandhoney.business.services.ShipmentService;
 import drocck.sp.beesandhoney.business.services.YardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class NucingBoardController {
     @Autowired
     private ShipmentService shipmentService;
 
+    @Autowired
+    private EventService eventService;
+
     @RequestMapping(value = "dashboard/nucing", method = RequestMethod.GET)
     public String nucingBoard(Model model) {
         NucingBoardDTO nucingBoardDTO = new NucingBoardDTO();
@@ -49,17 +53,13 @@ public class NucingBoardController {
     @ResponseBody
     @RequestMapping("nucing/events")
     public List<Event> eventFeed() {
-        // TODO: CHANGE THIS FROM HARD CODED TO RETRIEVE FROM DB
-        List<Event> eventList = new Vector<>();
-        for (NucingTask t : taskList)
-            eventList.addAll(t.getEvent().stream().collect(Collectors.toList()));
+        List<Event> eventList = eventService.findAll();
         return eventList;
     }
 
     @ResponseBody
     @RequestMapping("nucing/yards")
     public List<Yard> yardFeed() {
-        // TODO: CHANGE THIS TO NUCING SPECIFIC YARDS
         return yardService.findAllInUse();
     }
 

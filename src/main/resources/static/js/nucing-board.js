@@ -5,8 +5,8 @@
 
 var url = "/nucing/";
 var nucYardModal = "createNucYard";
-var updateNucYard = "update/nucYard";
-var updateNucReportUrl = "update/nucReport";
+var updateNucYard = "update/nucYard/";
+var updateNucReportUrl = "update/nucReport/";
 var nucReportUrl = 'nucReport/';
 var dto = "reports";
 
@@ -52,6 +52,12 @@ function init() {
     });
 
     addCSRFToken();
+    updateTotalValues();
+
+    $.ajaxSetup({
+        type: 'POST',
+        headers: {"cache-control": "no-cache"}
+    });
 }
 
 function getEmptyFormBody() {
@@ -315,11 +321,15 @@ function updateNucReport() {
     };
 
     $.ajax({
-        url: url + updateNucReportUrl,
+        url: url + updateNucReportUrl + getTimeStamp(),
         type: "POST",
         dataType: 'json',
         data: nucReport,
-        beforeSend: addCSRFToken()
+        beforeSend: addCSRFToken(),
+        error: function (xhr, desc, err) {
+            //alert("error " + err + " " + desc + " " + xhr.responseText);
+            alert("Update nuc report");
+        }
     })
 }
 // Nuc Yard Modal Functions
@@ -461,7 +471,7 @@ function createNucYard() {
     };
 
     $.ajax({
-        url: url + updateNucYard,
+        url: url + updateNucYard + getTimeStamp(),
         type: "POST",
         dataType: 'json',
         data: NucYard,
@@ -471,6 +481,7 @@ function createNucYard() {
         },
         error: function (xhr, desc, err) {
             //alert("error " + err + " " + desc + " " + xhr.responseText);
+            alert("Created new nuc yard");
         }
     });
 }
@@ -564,6 +575,20 @@ function getTodaysDate() {
     return format;
 }
 
+function getTimeStamp() {
+    var today = new Date();
+    var ms = today.getMilliseconds();
+    var s = today.getSeconds();
+    var m = today.getMinutes();
+    var h = today.getHours();
+    var dd = today.getDate();
+    var mm = today.getMonth();
+    var yyyy = today.getFullYear();
+    var format = yyyy + "" + mm + "" + dd + "" + h + "" + m + '' + s + "" + ms;
+
+    return format;
+}
+
 function addZero(s) {
     s = s + '';
     if (s.length === 1) s = '0' + s;
@@ -574,7 +599,7 @@ function getCSRFTokenValue() {
     return $('#csrf-token').val();
 }
 
-function addCSRFToken () {
+function addCSRFToken() {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
     $(document).ajaxSend(function (e, xhr, options) {
@@ -599,4 +624,17 @@ function editFormatter(value, row, index) {
         '<i class="material-icons bee-board-icon">create</i>',
         '</a>'
     ].join('');
+}
+
+function updateTotalValues() {
+    $.getJSON("/nucing/reportSum", function (result) {
+            $('#sumInitialCount').text(result['initialCount']);
+            $("#sumSuperCount").text(result["countDuringSupering"]);
+            $("#sumSupers").text(result["superCount"]);
+            $("#sumOldQueens").text(result["oldQueensCount"]);
+            $("#sumNucCount").text(result["nucCount"]);
+            $("#sumQueensPlaced").text(result["queensPlaced"]);
+            $("#sumFinalCount").text(result["finalCount"]);
+        }
+    );
 }
