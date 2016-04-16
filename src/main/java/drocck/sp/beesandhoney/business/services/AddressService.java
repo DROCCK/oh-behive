@@ -3,6 +3,7 @@ package drocck.sp.beesandhoney.business.services;
 import drocck.sp.beesandhoney.business.entities.Address;
 import drocck.sp.beesandhoney.business.entities.repositories.AddressRepository;
 import org.hibernate.Hibernate;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,16 @@ public class AddressService {
 
     public Address save(Address address) {
         return addressRepository.save(address);
+    }
+
+    public Address save(JSONObject address) {
+        Address a = new Address();
+        a.setStreet(address.getString("street"));
+        a.setApt(address.getString("suite"));
+        a.setCity(address.getString("city"));
+        a.setState(address.getString("state"));
+        a.setZip(address.getString("zip"));
+        return save(a);
     }
 
     public Address update(Address address) {

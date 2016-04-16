@@ -15,12 +15,12 @@ public class Location {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID")
-    @NotNull
+    @JoinColumn(name = "CONTACT_INFO_ID")
+    //@NotNull
     private ContactInfo contactInfo;
 
     @Column(name = "Name")
-    @NotNull
+    //@NotNull
     private String name = null;
 
     public void setId(Long id) {

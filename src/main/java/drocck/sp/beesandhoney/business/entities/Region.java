@@ -20,7 +20,7 @@ public class Region implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    //@NotNull
     @Column(unique = true)
     private String name;
 

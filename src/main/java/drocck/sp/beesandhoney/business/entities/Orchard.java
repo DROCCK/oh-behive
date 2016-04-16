@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,12 +9,15 @@ import java.util.List;
  *         Created on 2/2/2016.
  */
 @Entity
-public class Orchard extends Yard {
+@PrimaryKeyJoinColumn(name = "YARD_ID")
+public class Orchard
+extends Yard
+implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Person> contacts;
 
-    @Column(name = "COUNT")
+    @Column(name = "HIVE_COUNT")
     private Integer count;
 
     public List<Person> getContacts() {

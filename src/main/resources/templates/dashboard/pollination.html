@@ -4,6 +4,7 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
     <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script th:src="@{/js/util.js}"></script>
     <script th:src="@{/js/maps.js}"></script>
     <script th:src="@{/js/tables.js}"></script>
     <script th:src="@{/js/pollination-board.js}"></script>
@@ -39,9 +40,11 @@
             </div>
         </div>
     </div>
+    <!-- Map & Description -->
     <div class="col-md-8">
         <div class="row dashboard-row">
             <hr/>
+            <!--Description-->
             <div class="col-md-6 col-sm-12">
                 <div class="col-md-6 col-sm-6">
                     <p id="id"></p>
@@ -72,6 +75,8 @@
                     </div>
                 </div>
             </div>
+            <!--Map-->
+            <!--Map-->
             <div class="col-md-6 col-sm-12">
                 <div class="col-md-0 col-sm-1"></div>
                 <div style="display: none" id="map-div" class="col-md-12 col-sm-10"></div>
@@ -80,6 +85,12 @@
         </div>
         <hr/>
         <div class="col-md-12">
+            <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateContractModal()">
+                <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                   title="Add Contract">
+                    add_circle_outline
+                </i> | Add Contract
+            </a>
             <table class="table table-condensed table-responsive auto"
                    style="table-layout: auto"
                    id="contract-table"
@@ -95,18 +106,11 @@
                 <thead id="contract-table-head">
                 <tr>
                     <th data-field="id" data-visible="false"></th>
-                    <th class="col-md-2" data-field="orchardName" data-sortable="true" data-visible="true" th:text="#{orchardName}">
-                        <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateContractModal()">
-                            <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                               title="Add Contract">
-                                add_circle_outline
-                            </i>
-                        </a>
-                    </th>
+                    <th class="col-md-2" data-field="orchardName" data-sortable="true" data-visible="true" th:text="#{orchardName}"></th>
                     <th class="col-md-6" data-field="progress" data-formatter="progressFormatter" data-sortable="true"
                         data-visible="true" th:text="#{progress}"></th>
-                    <th class="col-md-1" data-field="edit" data-formatter="editFormatter" data-sortable="false" data-events="operateEvents"
-                        th:text="#{edit}"></th>
+                    <th class="col-md-1" data-field="edit" data-formatter="editOrchardFormatter" data-sortable="false" data-events="operateEvents"
+                        th:text="|#{edit} #{orchard}|"></th>
                     <th class="col-md-1" data-field="delete" data-formatter="deleteFormatter" data-sortable="false" data-events="operateEvents"
                         th:text="#{delete}"></th>
                 </tr>
@@ -119,9 +123,11 @@
             <div class="in-side-div">
                 <h3><b th:text="Tasks"></b></h3>
                 <hr/>
+                <h4><b th:text="Add"></b></h4>
+                <hr/>
                 <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateOrchardModal()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Add Contract">
+                       title="Add Orchard">
                         add_circle_outline
                     </i>
                 </a>
@@ -137,12 +143,70 @@
                 <br/>
                 <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateShipmentModal()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Add Contract">
+                       title="Add Shipment">
                         add_circle_outline
                     </i>
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Add Shipment|">Add Shipment</h4>
+                <br/>
+                <hr/>
+                <h4><b th:text="Edit"></b></h4>
+                <hr/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadEditOrchardModal(1)">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Edit Orchard">
+                        create
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Edit Orchard|">Edit Orchard</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadEditContractModal(1)">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Edit Contract">
+                        create
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Edit Contract|">Edit Contract</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadEditShipmentModal(1)">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Edit Shipment">
+                        create
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Edit Shipment|">Edit Shipment</h4>
             </div>
+
+        </div>
+        <div class="side-div right-sidebar-div">
+            <div class="in-side-div">
+                <h3><b th:text="Lists"></b></h3>
+                <hr/>
+                <a data-toggle="modal" data-target="#table-modal" onclick="getContacts(1)">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Contacts">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Contacts|">Contacts</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#table-modal" onclick="getInspections(1)">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Inspections">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Inspections|">Inspections</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#table-modal" onclick="getShipments()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Shipments">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Shipments|">Shipments</h4>
+            </div>
+
         </div>
         <div class="side-div right-sidebar-div">
             <div class="in-side-div">

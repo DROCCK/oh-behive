@@ -1,6 +1,8 @@
 package drocck.sp.beesandhoney.web.controllers;
 
+import drocck.sp.beesandhoney.business.entities.Address;
 import drocck.sp.beesandhoney.business.entities.ContactInfo;
+import drocck.sp.beesandhoney.business.services.AddressService;
 import drocck.sp.beesandhoney.business.services.ContactInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author Robert Wilk
@@ -31,7 +35,7 @@ public class ContactInfoController {
         return "contactInfo/create";
     }
 
-    @RequestMapping(value = "contactInfo/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("contactInfo") ContactInfo contactInfo) {
         contactInfoService.save(contactInfo);
         return "redirect:list";

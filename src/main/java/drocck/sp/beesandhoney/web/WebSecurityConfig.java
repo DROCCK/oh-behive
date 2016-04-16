@@ -27,7 +27,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -36,10 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
             .antMatchers(
+                // "/**",
                 "/resources/**",
-                "/",
                 "/index",
-                "/user/create"
+                "/user/create",
+                "/console/**"
             ).permitAll()
             .antMatchers(
                 "/users/**",
