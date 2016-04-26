@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Robert on 3/20/2016.
  */
-public class PolliShipmentCreateDto {
+public class PolliShipmentCreateDTO {
     private List<String> directions = new ArrayList<>();
 
     public List<String> getDirections() {

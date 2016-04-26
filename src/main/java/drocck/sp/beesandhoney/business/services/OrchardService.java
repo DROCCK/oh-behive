@@ -50,6 +50,11 @@ public class OrchardService {
     public Orchard save(JSONObject json) {
         Orchard orchard = new Orchard();
         try {
+            orchard.setId(json.getLong("id"));
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        }
+        try {
             orchard.setYardName(json.getString("yardName"));
         } catch (JSONException je) {
             System.err.println(je.getMessage());

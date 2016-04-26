@@ -58,6 +58,11 @@ public class ContractService {
         Contract c = new Contract();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         try {
+            c.setId(json.getLong("id"));
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        }
+        try {
             c.setMoveInDate(
                     new Date(sdf.parse(json.getString("inDate"))
                             .getTime()
@@ -80,8 +85,16 @@ public class ContractService {
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }
-        c.setBroker(personService.findOne(json.getLong("broker")));
-        c.setOrchard(orchardService.findOneByName(json.getString("orchard")));
+        try {
+            c.setBroker(personService.findOne(json.getLong("broker")));
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        }
+        try {
+            c.setOrchard(orchardService.findOneByName(json.getString("orchard")));
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        }
         return save(c);
     }
 
