@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.Date;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,7 +39,7 @@ public class InspectionService {
         return inspectionRepository.findAllByYard(yard);
     }
 
-    public List<Inspection> findAllByYardAndVisitDateBetween(Yard yard, Date d1, Date d2) {
+    public List<Inspection> findAllByYardAndVisitDateBetween(Yard yard, java.sql.Date d1, java.sql.Date d2) {
         return inspectionRepository.findAllByYardAndVisitDateBetween(yard, d1, d2);
     }
 

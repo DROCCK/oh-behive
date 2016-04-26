@@ -3,6 +3,7 @@ package drocck.sp.beesandhoney.web.controllers;
 import drocck.sp.beesandhoney.business.entities.DTOs.BeeboardInspectionCreateDTO;
 import drocck.sp.beesandhoney.business.entities.DTOs.YardCreateDTO;
 import drocck.sp.beesandhoney.business.entities.DTOs.YardEditDTO;
+import drocck.sp.beesandhoney.business.entities.DTOs.YardEditMultipleDTO;
 import drocck.sp.beesandhoney.business.entities.Inspection;
 import drocck.sp.beesandhoney.business.entities.Region;
 import drocck.sp.beesandhoney.business.entities.Yard;
@@ -52,7 +53,7 @@ public class BeeBoardRestController {
 
     @RequestMapping(value = "beeboard/editYard/{id}", method = RequestMethod.GET)
     public YardEditDTO editOrchard(@PathVariable("id") Long id) {
-        return new YardEditDTO(yardService.findOne(id));
+        return new YardEditDTO(getYardCreateDTO(), yardService.findOne(id));
     }
 
     @RequestMapping(value = "beeboard/addYard/{json}", method = RequestMethod.POST,
