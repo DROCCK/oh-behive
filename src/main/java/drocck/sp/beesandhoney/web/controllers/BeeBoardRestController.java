@@ -1,6 +1,8 @@
 package drocck.sp.beesandhoney.web.controllers;
 
+import drocck.sp.beesandhoney.business.entities.DTOs.BeeboardInspectionCreateDTO;
 import drocck.sp.beesandhoney.business.entities.DTOs.YardCreateDTO;
+import drocck.sp.beesandhoney.business.entities.DTOs.YardEditDTO;
 import drocck.sp.beesandhoney.business.entities.Inspection;
 import drocck.sp.beesandhoney.business.entities.Region;
 import drocck.sp.beesandhoney.business.entities.Yard;
@@ -45,6 +47,33 @@ public class BeeBoardRestController {
 
     @RequestMapping(value = "beeboard/createYard")
     public YardCreateDTO createYard() {
+        return getYardCreateDTO();
+    }
+
+    @RequestMapping(value = "beeboard/editYard/{id}", method = RequestMethod.GET)
+    public YardEditDTO editOrchard(@PathVariable("id") Long id) {
+        return new YardEditDTO(getYardCreateDTO(), yardService.findOne(id));
+    }
+
+    @RequestMapping(value = "beeboard/addYard/{json}", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Yard addYard(@PathVariable("json") String json) {
+        return yardService.save(new JSONObject(json));
+    }
+
+    @RequestMapping(value = "beeboard/createInspection/{id}", method = RequestMethod.GET)
+    public BeeboardInspectionCreateDTO createInspection(@PathVariable("id") Long id){
+        return getBeeboardInspectionCreateDTO(id);
+    }
+
+    @RequestMapping(value = "beeboard/addInspection/{json}", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Inspection addInspection(@PathVariable("json") String json) {
+        Inspection inspection = inspectionService.interpret(new JSONObject(json));
+        return inspectionService.save(inspection);
+    }
+
+    private YardCreateDTO getYardCreateDTO(){
         YardCreateDTO ycdto = new YardCreateDTO();
         ycdto.setStati(Yard.getStati());
         ycdto.setPeople(personService.findAll());
@@ -52,9 +81,9 @@ public class BeeBoardRestController {
         return ycdto;
     }
 
-    @RequestMapping(value = "beeboard/addYard/{json}", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Yard addYard(@PathVariable("json") String json) {
-        return yardService.save(new JSONObject(json));
+    private BeeboardInspectionCreateDTO getBeeboardInspectionCreateDTO(Long id){
+        BeeboardInspectionCreateDTO bicdto = new BeeboardInspectionCreateDTO();
+        bicdto.setYard(yardService.findOne(id));
+        return bicdto;
     }
 }

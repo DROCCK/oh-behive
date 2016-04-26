@@ -102,12 +102,12 @@ public class YardService {
             System.err.println(je.getMessage());
         }
         try {
-            yard.setLatitude(json.getDouble("latitudeModal"));
+            yard.setLatitude(json.getDouble("latitude"));
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }
         try {
-            yard.setLongitude(json.getDouble("longitudeModal"));
+            yard.setLongitude(json.getDouble("longitude"));
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }

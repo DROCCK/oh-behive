@@ -1,6 +1,7 @@
 /**
  * Created by Oscar on 4/16/2016.
  */
+//BEEBOARD MAP FUNCTIONS
 var x = document.getElementById("error");
 var coords;
 var markerImage;
@@ -84,4 +85,92 @@ function clearMarkers(){
     }
     markers = [];
     bounds = new google.maps.LatLngBounds();    //creates new bounds so that when new markers are made, new bounds are made.
+}
+
+//MODAL MAP FUNCTIONS
+var mapModal;
+var markerModal;
+var coordsModal;
+var latModal;
+var lngModal;
+
+<!-- Query Device for Location -->
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setVals, showError);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+    markerImage = {
+        url: 'http://i.imgur.com/ALU8OuA.png',
+        size: new google.maps.Size(45,45),
+        origin: new google.maps.Point(0,0),
+        anchor: new google.maps.Point(23,45)
+    };
+}
+<!-- Sets Latitude and Longitude values -->
+function setVals(position) {
+    latModal = position.coords.latitude;
+    lngModal = position.coords.longitude;
+    document.getElementById("latitudeModal").value = latModal;
+    document.getElementById("longitudeModal").value = lngModal;
+    coordsModal = new google.maps.LatLng(latModal, lngModal);
+    var mapOptions = {
+        zoom: 15,
+        center: coordsModal,
+        mapTypeControl: true,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+    };
+    mapModal = new google.maps.Map(
+        document.getElementById("map-div-modal"), mapOptions
+    );
+    google.maps.event.addListener(mapModal, 'click', function (event) {
+        placeMarker(event.latLng);
+    });
+
+    markerModal = new google.maps.Marker({
+        position: coordsModal,
+        map: mapModal,
+        icon: markerImage,
+        title: "Current Location"
+    });
+}
+function initializeEditYardMap(latitude, longitude){
+    document.getElementById("latitudeModal").value = latitude;
+    document.getElementById("longitudeModal").value = longitude;
+    coordsModal = new google.maps.LatLng(latitude, longitude);
+    var mapOptions = {
+        zoom: 15,
+        center: coordsModal,
+        mapTypeControl: true,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+    };
+    mapModal = new google.maps.Map(
+        document.getElementById("map-div-modal"), mapOptions
+    );
+    google.maps.event.addListener(mapModal, 'click', function (event) {
+        placeMarker(event.latLng);
+    });
+
+    markerModal = new google.maps.Marker({
+        position: coordsModal,
+        map: mapModal,
+        icon: markerImage,
+        title: "Current Location"
+    });
+}
+function placeMarker(location) {
+    latModal = location.lat();
+    lngModal = location.lng();
+    setMarkerPosition(markerModal, latModal, lngModal);
+    document.getElementById("latitudeModal").value = location.lat();
+    document.getElementById("longitudeModal").value = location.lng();
+}
+<!-- This moves the marker on the map when you click -->
+function setMarkerPosition(marker, lat, lng) {
+    marker.setPosition(
+        new google.maps.LatLng(
+            lat,
+            lng)
+    );
 }

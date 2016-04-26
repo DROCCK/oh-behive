@@ -75,9 +75,20 @@
                     <p id="lastVisit"></p>
 
                     <p id="lastFedDate"></p>
+
+                    <div>
+                        <div class="col-sm-4" id="editDescButton">
+                        </div>
+                        <div class="col-sm-4" id="inspectionsDescButton">
+                        </div>
+                        <div class="col-sm-4">
+                            button3
+                        </div>
+                    </div>
+                    <!--
                     <div>
                         <div class="col-sm-4">
-                            <a id="editYard" href="#">
+                            <a data-toggle="modal" data-target="#form-modal" onclick="loadEditYardModal(1)">
                                 <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"
                                    th:title="|#{edit} #{yard}|">
                                     create
@@ -101,6 +112,7 @@
                             </a>
                         </div>
                     </div>
+                    -->
                 </div>
             </div>
             <div id="map-div" class="col-md-6" style="display:block" th:align="right"></div>

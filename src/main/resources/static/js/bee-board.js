@@ -4,24 +4,30 @@
  */
 var url = "/beeboard/";
 var addYard = url + "addYard";
-var editYard = url + "yardedit/";
 var deleteYard = url + "yarddelete/";
 var inspections = url + "inspections/";
+var addInspection = url + "addInspection";
 
 function assignHrefs(id) {
+    /*
     var link = document.getElementById("editYard");
     link.href = "/yard/update/" + id;
 
-    link = document.getElementById("deleteYard");
+    var link = document.getElementById("deleteYard");
     link.href = "/yard/delete/" + id;
-
+    */
     link = document.getElementById("yardInspections");
     link.href = "/inspection/list/" + id;
 }
 
 function assignOwnerHrefs(ownerId) {
+    //console.log(document.getElementById("yardOwner"));
     var link = document.getElementById("yardOwner");
     link.href ="/owner/read/" + ownerId;
+}
+
+function putInputValue(name, value) {
+    $('#' + name).val(value == null ? '' : value);
 }
 
 function getEmptyTableHead() {
@@ -116,6 +122,13 @@ function getFormGroup(for_id, label, type, val) {
             getFormGroupInput(for_id, type, val)
         );
 }
+function getFormGroupWithTextArea(for_id, label, val){
+    return getGroupDiv()
+        .append(
+            getFormGroupLabel(for_id,label),
+            getFormGroupTextArea(for_id, val)
+        )
+}
 function getMapFormGroup(for_id){
     return getGroupDiv()
         .append(
@@ -154,6 +167,20 @@ function getFormGroupInput(for_id, type, val) {
         );
 }
 
+function getFormGroupTextArea(for_id, val){
+    return $('<div>')
+        .attr('class', 'col-sm-10')
+        .append(
+            $('<textarea>')
+                .attr('class', 'form-control')
+                .attr('id', for_id)
+                .attr('name', for_id)
+                .attr('rows', 4)
+                .attr('cols', 20)
+                .val(val)
+        );
+}
+
 function getFormGroupSelector(data) {
     return $('<div>')
         .attr('class', 'col-sm-10')
@@ -182,6 +209,18 @@ function loadCreateYardModal() {
     });
 }
 
+function loadEditYardModal(id) {
+    $.getJSON("/beeboard/editYard/" + id, function (data) {
+        editYardForm(data);
+    });
+}
+
+function loadCreateInspectionModal(id) {
+    $.getJSON("/beeboard/createInspection/"+id, function (data) {
+        createInspectionForm(data);
+    });
+}
+
 function getYardJson(form) {
     var json = {};
     json['address'] = {};
@@ -195,6 +234,12 @@ function getYardJson(form) {
             case 'zip':
                 json['address'][this.name] = this.value || '';
                 break;
+            case 'longitudeModal':
+                json['longitude'] = this.value;
+                break;
+            case 'latitudeModal':
+                json['latitude'] = this.value;
+                break;
             default:
                 json[this.name] = this.value || '';
         }
@@ -202,9 +247,29 @@ function getYardJson(form) {
     return json;
 }
 
+function getInspectionJson(form, yardId){
+    var json = {};
+    $.each(form, function(){
+        switch (this.name){
+            default:
+                json[this.name] = this.value || '';
+        }
+    });
+    json["yard"]=yardId;
+    console.log(json);
+    return json;
+}
+
 function postYard() {
     var json = getYardJson($('#form').serializeArray());
     post(addYard, json, function () {
+        $('#id').remove();
+    });
+}
+
+function postInspection(yardId){
+    var json = getInspectionJson($('#form').serializeArray(), yardId);
+    post(addInspection, json, function () {
         $('#id').remove();
     });
 }
@@ -261,7 +326,36 @@ function getYardForm(data, action) {
                         )
                 )
         );
-    getLocation();  //sets location of map
+}
+
+function getInspectionForm(data, action){
+    var form = $('#form');
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth()+1;
+    var year = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    //console.log(year+"-"+month+"-"+day);
+    form.attr('action', action);
+    form.submit(function (event) {
+        event.preventDefault();
+        postInspection(data.yard.id);
+        return false;
+    });
+    getEmptyFormBody()
+        .append(
+            getFormGroup('date', 'Date', 'date', year+"-"+month+"-"+day),
+            getFormGroup('doubles', 'Doubles', 'text'),
+            getFormGroup('singles', 'Singles', 'text'),
+            getFormGroup('supers', 'Supers', 'text'),
+            getFormGroup('medication', 'Medication Used', 'text'),
+            getFormGroup('isFed', 'Where the bees fed?', 'checkbox', 'fed'),
+            getFormGroupWithTextArea('notes', 'Notes')
+        );
+}
+
+function resizeAndCenterMap(){
     //resizes and recenters maps whenever modal is opened
     $('#tabContent').on('shown.bs.tab', function (e){
         var curCenter=mapModal.getCenter();
@@ -270,12 +364,47 @@ function getYardForm(data, action) {
     });
 }
 
+function fillYardForm(data){
+    $('#form').append(getHiddenIdInput(data.id));
+    putInputValue('yardName', data.yardName);
+    putInputValue('maxHives', data.maxHives);
+    putInputValue('street', data.address.street);
+    putInputValue('suite', data.address.apt);
+    putInputValue('city', data.address.city);
+    putInputValue('state', data.address.state);
+    putInputValue('zip', data.address.zip);
+    putInputValue('longitudeModal', data.longitude);
+    putInputValue('latitudeModal', data.latitude);
+    putInputValue('combo', data.combo);
+    putInputValue('accessNotes', data.accessNotes);
+    selectOption(data.status);
+    selectOption(data.owner.person.name);
+    selectOption(data.rentReceiver.name);
+    selectOption(data.region.name);
+}
+
 function createYardForm(data) {
     $('#form-modal-title').text("Create Yard");
     getYardForm(data, '/beeboard/addYard');
     getFormBody().append(getSubmitButton('Create'));
+    getLocation();  //sets location of map
+    resizeAndCenterMap();
 }
 
+function editYardForm(data){
+    $('#form-modal-title').text("Edit Yard");
+    getYardForm(data.yardCreateDTO, '/beeboard/addYard');
+    getFormBody().append(getSubmitButton('Save'));
+    fillYardForm(data.yard);
+    initializeEditYardMap(data.yard.latitude, data.yard.longitude);
+    resizeAndCenterMap();
+}
+
+function createInspectionForm(data){
+    $('#form-modal-title').text("Create Inspection for "+data.yard.yardName);
+    getInspectionForm(data, '/beeboard/addInspection');
+    getFormBody().append(getSubmitButton('Create'));
+}
 //POST FUNCTION
 function post(url, json, callback) {
     $.ajax({
@@ -341,7 +470,7 @@ function recreateMap(){
         //console.log(json);
         var labels;
         jsonArray = data; //moves data array to var
-        tableArray = jsonArray[0]['yards'];
+        tableArray = jsonArray[0]['yards']; //array that holds beeboard table data
         if(regionName=="All"){
             tableArray = [];
             for(var j = 0; jsonArray.length>j; j++){
@@ -416,13 +545,10 @@ $(function () {
             //console.log(lat +" "+long);
             recenter(lat, long);
         })();
-        assignHrefs(row["id"]);
-        var owner = row["owner"];
-
         $("#name").html('<b>Yard Name: </b>' + row["yardName"]);
         $("#status").html('<b>Status: </b>' + row["status"]);
         $("#combo").html('<b>Combo: </b>' + row["combo"]);
-        $("#owner").html('<b>Owner: </b>' + '<a id="yardOwner" href="#">' + owner["person"]["name"] + '</a>');
+        $("#owner").html('<b>Owner: </b>' + '<a id="yardOwner" href="#">' + row["owner"]["person"]["name"] + '</a>');
         var address = row["address"];
         $("#street").html('<b>Address: </b>' + address["street"]);
         $("#city").text(address["city"]);
@@ -432,8 +558,17 @@ $(function () {
         $("#doubles").html('<b>Doubles: </b>' + row["doubles"]);
         $("#supers").html('<b>Supers: </b>' + row["supers"]);
         $("#duds").html('<b>Duds: </b>' + row["duds"]);
-        assignOwnerHrefs(owner["id"]);
-
+        assignOwnerHrefs(row["owner"]["id"]);
+        //description buttons
+        $("#editDescButton").html('<a data-toggle="modal" data-target="#form-modal" onclick="loadEditYardModal('+row["id"]+')">' +
+            '<i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="|#{edit} #{yard}|">' +
+            ' create ' +
+            '</i></a>');
+        $("#inspectionsDescButton").html('<a data-toggle="modal" data-target="#form-modal" onclick="loadCreateInspectionModal('+row["id"]+')">' +
+            '<i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"th:title="|#{goto} #{inspections}|">' +
+            'visibility' +
+            '</i> </a>');
+        
         if (row["lastVisit"] != null)
             $("#lastVisit").html('<b>Last Visit: </b>' + row["lastVisit"]);
         else
@@ -442,99 +577,14 @@ $(function () {
             $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"]);
         else
             $("#lastFedDate").html('<b>No Feed Date Recorded </b>');
+        //assignHrefs(row["id"]);
     });
 
-
-});
-
-$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    //Region Dropdown
     $('#regionDropdown').change(function(){
         regionName = $('#regionDropdown :selected').text();
         clearMarkers();
         recreateMap();
     });
 });
-
-//MODAL MAP
-var x = document.getElementById("error");
-var mapModal;
-var markerModal;
-var coords;
-var lat;
-var lng;
-var markerImage;
-<!-- Query Device for Location -->
-function getLocation() {
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(setVals, showError);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-    markerImage = {
-        url: 'http://i.imgur.com/ALU8OuA.png',
-        size: new google.maps.Size(45,45),
-        origin: new google.maps.Point(0,0),
-        anchor: new google.maps.Point(23,45)
-    };
-}
-<!-- Sets Latitude and Longitude values -->
-function setVals(position) {
-    lat = position.coords.latitude;
-    lng = position.coords.longitude;
-    document.getElementById("latitudeModal").value = lat;
-    document.getElementById("longitudeModal").value = lng;
-    coords = new google.maps.LatLng(lat, lng);
-    var mapOptions = {
-        zoom: 15,
-        center: coords,
-        mapTypeControl: true,
-        mapTypeId: google.maps.MapTypeId.HYBRID
-    };
-    mapModal = new google.maps.Map(
-        document.getElementById("map-div-modal"), mapOptions
-    );
-    google.maps.event.addListener(mapModal, 'click', function (event) {
-        placeMarker(event.latLng);
-    });
-
-    markerModal = new google.maps.Marker({
-        position: coords,
-        map: mapModal,
-        icon: markerImage,
-        title: "Current Location"
-    });
-}
-function placeMarker(location) {
-    lat = location.lat();
-    lng = location.lng();
-    setMarkerPosition(markerModal, lat, lng);
-    document.getElementById("latitudeModal").value = location.lat();
-    document.getElementById("longitudeModal").value = location.lng();
-}
-function showError(error) {
-    switch (error.code) {
-        case error.PERMISSION_DENIED:
-            x.innerHTML = "User denied the request for Geolocation.";
-            break;
-        case error.POSITION_UNAVAILABLE:
-            x.innerHTML = "Location information is unavailable.";
-            break;
-        case error.TIMEOUT:
-            x.innerHTML = "The request to get user location timed out.";
-            break;
-        case error.UNKNOWN_ERROR:
-            x.innerHTML = "An unknown error occurred.";
-            break;
-    }
-}
-<!-- This moves the marker on the map when you click -->
-function setMarkerPosition(marker, lat, lng) {
-    marker.setPosition(
-        new google.maps.LatLng(
-            lat,
-            lng)
-    );
-}
-
