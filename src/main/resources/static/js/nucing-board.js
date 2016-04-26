@@ -8,6 +8,7 @@ var nucYardModal = "createNucYard";
 var updateNucYard = "update/nucYard/";
 var updateNucReportUrl = "update/nucReport/";
 var nucReportUrl = 'nucReport/';
+var editNucYardModal = 'editNucYard/';
 var dto = "reports";
 
 
@@ -82,6 +83,20 @@ function getStatusSelector(data) {
     return select;
 }
 
+function getYardSelector(data) {
+    var select = $('<select>')
+        .attr('id', 'yardName')
+        .attr('class', 'form-control');
+    $.each(data, function (i, e) {
+        select.append(
+            $('<option>')
+                .attr('value', e.id)
+                .text(e.yardName)
+        )
+    });
+    return select;
+}
+
 function getPersonSelector(data, id) {
     var select = $('<select>')
         .attr('id', id)
@@ -89,6 +104,7 @@ function getPersonSelector(data, id) {
     $.each(data, function (i, e) {
         select.append(
             $('<option>')
+                .attr('value', e.name)
                 .text(e.name)
         )
     });
@@ -451,14 +467,159 @@ function createNucYardForm(data) {
     );
 }
 
+
+function loadEditNucYardModal() {
+    var editNucYardUrl = url + editNucYardModal;
+    $.getJSON(editNucYardUrl, function (data) {
+        editNucYardForm(data);
+    });
+}
+
+function editNucYardForm(data) {
+    $('#form-modal-title').text("Edit Yard");
+    var body = getEmptyFormBody();
+    var nucYards = getYardSelector(data.yards);
+    var stati = getStatusSelector(data.stati);
+    var owners = getPersonSelector(data.people, 'owner');
+    var rentees = getPersonSelector(data.people, 'rentReceiver');
+    var regions = getRegionSelector(data.regions);
+    body.append(
+        $('<ul>')
+            .attr('class', 'nav nav-tabs')
+            .attr('id', 'tabContent')
+            .append(
+            $('<li>')
+                .attr('class', 'active')
+                .append(
+                $('<a>')
+                    .attr('href', '#details')
+                    .attr('data-toggle', 'tab')
+                    .text('Details')
+            ),
+            $('<li>')
+                .append(
+                $('<a>')
+                    .attr('id', "locationTab")
+                    .attr('href', '#location')
+                    .attr('data-toggle', 'tab')
+                    .text('Location')
+            ),
+            $('<li>')
+                .append(
+                $('<a>')
+                    .attr('href', '#access')
+                    .attr('data-toggle', 'tab')
+                    .text('Access')
+            )
+        ),
+        $('<div>')
+            .attr('class', 'tab-content')
+            .append(
+            $('<div>')
+                .attr('class', 'pane tab-pane active')
+                .attr('id', 'details')
+                .append(
+                getFormGroupWithSelector('yardName', 'Name', nucYards),
+                getFormGroup('maxHives', 'Max Hives', 'number'),
+                getFormGroupWithSelector('status', 'Status', stati),
+                getFormGroupWithSelector('owner', 'Owner', owners),
+                getFormGroupWithSelector('rentReceiver', 'Rent Receiver', rentees)),
+            $('<div>')
+                .attr('class', 'pane tab-pane')
+                .attr('id', 'location')
+                .append(
+                getFormGroup('street', 'Street', 'text'),
+                getFormGroup('apt', 'Suite', 'text'),
+                getFormGroup('city', 'City', 'text'),
+                getFormGroup('state', 'State', 'text'),
+                getFormGroup('zip', 'Zip', 'text'),
+                getFormGroupWithSelector('region', 'Region', regions),
+                getFormGroup('longitudeModal', 'Longitude', 'number'),
+                getFormGroup('latitudeModal', 'Latitude', 'number'),
+                $('<div>')
+                    .attr('class', 'form-group')
+                    .append(
+                    $('<div>')
+                        .attr('class', 'col-sm-1'),
+                    $('<div>')
+                        .attr('class', 'col-sm-10')
+                        .attr('id', 'map-div-modal')
+                        .attr('style', 'height:300px'),
+                    $('<div>')
+                        .attr('class', 'col-sm-1')
+                )
+            ),
+            $('<div>')
+                .attr('class', 'pane tab-pane')
+                .attr('id', 'access')
+                .append(
+                getFormGroup('combo', 'Combination or Key'),
+                getFormGroup('accessNotes', 'Access Notes', 'text')
+            )
+        ),
+        $('<div>')
+            .attr('class', 'form-group')
+            .append(
+            $('<div>')
+                .attr('class', 'col-sm-4 control-label')
+                .append(
+                $('<button>')
+                    .attr('id', 'createNucYard')
+                    .attr('class', 'btn btn-primary')
+                    //.attr('type', 'submit')
+                    .text('Create')
+            )
+        )
+    )
+    ;
+
+    getLocation();
+    $('#tabContent').on('shown.bs.tab', function (e) {
+        if (e.target.id == "locationTab") {
+            google.maps.event.trigger(map, 'resize');
+        }
+    });
+
+    $('#createNucYard').click(function () {
+            createNucYard();
+        }
+    );
+
+    $("#yardName").on("change", function() {
+        updateEditValues($('#yardName').find("option:selected").val());
+    })
+}
+
+
+function updateEditValues(id) {
+    $.getJSON("/nucing/getYard/" + id, function(data) {
+        $("#maxHives").val(data.maxHives);
+        $("#rentReceiver").val(data.rentReceiver.name);
+        $("#owner").val(data.owner.person.name);
+        $("#street").val(data.address.street);
+        $("#apt").val(data.address.apt);
+        $("#city").val(data.address.city);
+        $("#state").val(data.address.state);
+        $("#zip").val(data.address.zip);
+        //TODO: REGION
+        $("#longitudeModal").val(data.longitude);
+        $("#latitudeModal").val(data.latitude);
+        $('#combo').val(data.combo);
+        $('#accessNotes').val(data.accessNotes);
+
+        setMarkerPosition(marker, $("#latitudeModal").val(), $("#longitudeModal").val());
+    })
+}
+
+
 function createNucYard() {
     var NucYard = {
         yardName: $('#yardName').val(),
         maxHives: $('#maxHives').val(),
-        status: $('#status option:selected').val(),
-        owner: $('#owner option:selected').val(),
-        rentReceiver: $('#rentReceiver option:selected').val(),
-        region: $('#region option:selected').val(),
+        status: $('#status').find('option:selected').val(),
+        owner: $('#owner').find('option:selected').val(),
+        rentReceiver: $('#rentReceiver').find('option:selected').val(),
+        region: $('#region').find('option:selected').val(),
         longitude: $('#longitudeModal').val(),
         latitude: $('#latitudeModal').val(),
         combo: $('#combo').val(),

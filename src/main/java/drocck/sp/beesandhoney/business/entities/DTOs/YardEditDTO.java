@@ -2,31 +2,19 @@ package drocck.sp.beesandhoney.business.entities.DTOs;
 
 import drocck.sp.beesandhoney.business.entities.Yard;
 
+import java.util.List;
+
 /**
- * Created by Oscar on 4/24/2016.
+ * Created by Connor on 4/18/2016.
  */
-public class YardEditDTO {
-    private YardCreateDTO ycd;
-    private Yard yard;
+public class YardEditDTO extends YardCreateDTO {
+    private List<? extends Yard> yards;
 
-    public YardEditDTO(YardCreateDTO ycd, Yard yard) {
-        this.ycd = ycd;
-        this.yard = yard;
+    public List<? extends Yard> getYards() {
+        return yards;
     }
 
-    public YardCreateDTO getYardCreateDTO() {
-        return ycd;
-    }
-
-    public void setYardCreateDTO(YardCreateDTO yardCreateDTO) {
-        this.ycd = yardCreateDTO;
-    }
-
-    public Yard getYard() {
-        return yard;
-    }
-
-    public void setYard(Yard yard) {
-        this.yard = yard;
+    public void setYards(List<? extends Yard> yards) {
+        this.yards = yards;
     }
 }
