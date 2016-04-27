@@ -76,6 +76,7 @@
                 </div>
             </div>
             <!--Map-->
+            <!--Map-->
             <div class="col-md-6 col-sm-12">
                 <div class="col-md-0 col-sm-1"></div>
                 <div style="display: none" id="map-div" class="col-md-12 col-sm-10"></div>
@@ -181,7 +182,7 @@
             <div class="in-side-div">
                 <h3><b th:text="Lists"></b></h3>
                 <hr/>
-                <a data-toggle="modal" data-target="#form-modal" onclick="loadContactListModal()">
+                <a data-toggle="modal" data-target="#table-modal" onclick="getContacts(1)">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                        title="Contacts">
                         add_circle_outline
@@ -189,7 +190,7 @@
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Contacts|">Contacts</h4>
                 <br/>
-                <a data-toggle="modal" data-target="#form-modal" onclick="loadInspectionListModal()">
+                <a data-toggle="modal" data-target="#table-modal" onclick="getInspections(1)">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                        title="Inspections">
                         add_circle_outline
@@ -197,7 +198,7 @@
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Inspections|">Inspections</h4>
                 <br/>
-                <a data-toggle="modal" data-target="#form-modal" onclick="loadShipmentListModal()">
+                <a data-toggle="modal" data-target="#table-modal" onclick="getShipments()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                        title="Shipments">
                         add_circle_outline

@@ -62,6 +62,111 @@ function get(type, title, func) {
     });
 }
 
+function loadContactListModal(data) {
+    loadListModal(data, getContactHead, getContactRow);
+}
+
+function loadInspectionListModal(data) {
+    loadListModal(data, getInspectionHead, getInspectionRow);
+}
+
+function loadShipmentListModal(data) {
+    loadListModal(data, getShipmentHead, getShipmentRow);
+}
+
+//function getShipmentListModal() {
+//    loadShipmentListModal(getShipments());
+//}
+
+function loadListModal(data, headFunc, rowFunc) {
+    getEmptyTableHead().append(headFunc());
+    var tableBody = getEmptyTableBody('#t-body');
+    $.each(data, function (i, e) {
+        tableBody.append(rowFunc(e));
+    });
+}
+
+function getContactHead() {
+    return $('<tr>').append(
+        $('<td>').text('Name'),
+        $('<td>').text('Email'),
+        $('<td>').text('Phone')
+    );
+}
+
+function getContactRow(e) {
+    return $('<tr>').append(
+        $('<td>').text(e.id),
+        $('<td>').text(e.email),
+        $('<td>').text(e.phone)
+    );
+}
+
+function getInspectionHead() {
+    return $('<tr>').append(
+        $('<td>').text('Name'),
+        $('<td>').text('Doubles'),
+        $('<td>').text('Singles'),
+        $('<td>').text('Supers'),
+        $('<td>').text('Duds'),
+        $('<td>').text('Visit Date'),
+        $('<td>').text('Fed Status'),
+        $('<td>').text('Medication'),
+        $('<td>').text('Notes'),
+        $('<td>').text('Inspected Yard')
+    );
+}
+
+function getInspectionRow(e) {
+    return $('<tr>').append(
+        $('<td>').text(e.id),
+        $('<td>').text(e.numDoubles),
+        $('<td>').text(e.numSingles),
+        $('<td>').text(e.supers),
+        $('<td>').text(e.duds),
+        $('<td>').text(e.visitDate),
+        $('<td>').text(e.isFed),
+        $('<td>').text(e.medication),
+        $('<td>').text(e.notes),
+        $('<td>').text(e.yard)
+    );
+}
+function getShipmentHead() {
+    return $('<tr>').append(
+        $('<td>').text('Name'),
+        $('<td>').text('To'),
+        $('<td>').text('From'),
+        $('<td>').text('Singles'),
+        $('<td>').text('Doubles'),
+        $('<td>').text('Supers'),
+        $('<td>').text('Status'),
+        $('<td>').text('Truck ID'),
+        $('<td>').text('Load Number'),
+        $('<td>').text('Weight'),
+        $('<td>').text('Depart Date'),
+        $('<td>').text('Arrival Date'),
+        $('<td>').text('Carrier')
+    );
+}
+
+function getShipmentRow(e) {
+    return $('<tr>').append(
+        $('<td>').text(e.id),
+        $('<td>').text(e.toYard),
+        $('<td>').text(e.fromYard),
+        $('<td>').text(e.singles),
+        $('<td>').text(e.doubles),
+        $('<td>').text(e.supers),
+        $('<td>').text(e.status),
+        $('<td>').text(e.truckId),
+        $('<td>').text(e.loadNum),
+        $('<td>').text(e.weight),
+        $('<td>').text(e.departDate),
+        $('<td>').text(e.arrivalDate),
+        $('<td>').text(e.carrier)
+    );
+}
+
 function post(url, json, callback) {
     $.ajax({
         type: "POST",
@@ -136,78 +241,6 @@ function getOrchardJson(form) {
         }
     });
     return json;
-}
-
-function loadListModal(data, headFunc, rowFunc) {
-    getEmptyTableHead().append(headFunc());
-    var tableBody = getEmptyTableBody('#t-body');
-    $.each(data, function (i, e) {
-        tableBody.append(rowFunc(e));
-    });
-}
-
-function loadContactListModal(data) {
-    loadListModal(data, getContactHead, getContactRow);
-}
-
-function loadShipmentListModal(data) {
-    loadListModal(data, getShipmentHead, getShipmentRow);
-}
-
-function getShipmentListModal() {
-    loadShipmentListModal(getShipments());
-}
-
-function loadInspectionListModal(data) {
-    loadListModal(data, getInspectionHead, getInspectionRow);
-}
-
-function getContactHead() {
-    return $('<tr>').append(
-        $('<td>').text('Name'),
-        $('<td>').text('Email'),
-        $('<td>').text('Phone')
-    );
-}
-
-function getContactRow(e) {
-    return $('<tr>').append(
-        $('<td>').text(e.name),
-        $('<td>').text(e.contactInfo.email),
-        $('<td>').text(e.contactInfo.phone)
-    );
-}
-
-function getShipmentHead() {
-    return $('<tr>').append(
-        $('<td>').text('Name'),
-        $('<td>').text('Email'),
-        $('<td>').text('Phone')
-    );
-}
-
-function getShipmentRow(e) {
-    return $('<tr>').append(
-        $('<td>').text(e.name),
-        $('<td>').text(e.contactInfo.email),
-        $('<td>').text(e.contactInfo.phone)
-    );
-}
-
-function getInspectionHead() {
-    return $('<tr>').append(
-        $('<td>').text('Name'),
-        $('<td>').text('Email'),
-        $('<td>').text('Phone')
-    );
-}
-
-function getInspectionRow(e) {
-    return $('<tr>').append(
-        $('<td>').text(e.name),
-        $('<td>').text(e.contactInfo.email),
-        $('<td>').text(e.contactInfo.phone)
-    );
 }
 
 function getBaseSelector(name) {
@@ -575,11 +608,11 @@ function loadContractDetails(data) {
     $('#number').html('<b>Phone: </b>' + (data.broker == null ? '' : data.broker.contactInfo == null ? '' : data.broker.contactInfo.phone));
     $('#edit').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#form-modal" onclick="loadEditContractModal('+data.id+')">create</i></a>');
-    $('#delete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">check</i></a>');
+    $('#delete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">delete</i></a>');
     $('#contacts').html('<a href=#><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#table-modal" onclick="getContacts('+data.id+')">person_outline</i></a>');
     $('#shipments').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
-        'data-target="#table-modal" onclick="loadShipmListModal()">visibility</i></a>');
+        'data-target="#table-modal" onclick="loadShipmentListModal()">visibility</i></a>');
     $('#progress').html('<b>% Fulfilled:</b><br/><div class="progress"><div class="progress-bar" role="progressbar" ' +
         'aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + data.count + '" style="width: ' + data.count + '%"></div></div>'
     );
