@@ -78,6 +78,7 @@ public class InspectionService {
         yard.setSingles(inspection.getNumSingles());
         yard.setDoubles(inspection.getNumDoubles());
         yard.setSupers(inspection.getSupers());
+        yard.setDuds(inspection.getDuds());
 
         if (inspection.isFed()) {
             yard.setLastFedDate(inspection.getVisitDate());
@@ -120,6 +121,11 @@ public class InspectionService {
         }
         try {
             inspection.setSupers(json.getInt("supers"));
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        }
+        try {
+            inspection.setDuds(json.getInt("duds"));
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }

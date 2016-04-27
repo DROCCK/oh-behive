@@ -1,6 +1,8 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.DTOs.BeeBoardDTO;
+import drocck.sp.beesandhoney.business.entities.NucYard;
+import drocck.sp.beesandhoney.business.entities.Orchard;
 import drocck.sp.beesandhoney.business.entities.Region;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.services.RegionService;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Robert Wilk
@@ -32,14 +36,6 @@ public class BeeBoardController {
     @Autowired
     private ShipmentService shipmentService;
 
-    private List<Region> regionList;
-
-    @RequestMapping("dashboard/beeboard/json")
-    @ResponseBody
-    public List<Region> json() {
-        return regionList;
-    }
-
     @ModelAttribute("yard")
     public Yard constructYard() {
         return new Yard();
@@ -48,10 +44,7 @@ public class BeeBoardController {
     @RequestMapping(value = "dashboard/beeboard", method = RequestMethod.GET)
     public String beeBoard(Model model) {
         BeeBoardDTO beeBoardDTO = new BeeBoardDTO();
-        regionList=regionService.findAll();
-        beeBoardDTO.setRegions(regionList);
-        beeBoardDTO.setYards(yardService.findAllInUse());
-        beeBoardDTO.setShipments(shipmentService.findAll());
+        beeBoardDTO.setRegions(regionService.findAll());
         model.addAttribute("beeBoard", beeBoardDTO);
         return "dashboard/beeboard";
     }
