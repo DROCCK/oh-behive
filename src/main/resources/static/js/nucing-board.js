@@ -447,6 +447,7 @@ function createNucYardForm(data) {
                 $('<button>')
                     .attr('id', 'createNucYard')
                     .attr('class', 'btn btn-primary')
+                    .attr('data-dismiss', 'modal')
                     //.attr('type', 'submit')
                     .text('Create')
             )
@@ -566,8 +567,9 @@ function editNucYardForm(data) {
                 $('<button>')
                     .attr('id', 'createNucYard')
                     .attr('class', 'btn btn-primary')
+                    .attr('data-dismiss', 'modal')
                     //.attr('type', 'submit')
-                    .text('Create')
+                    .text('Edit')
             )
         )
     )
@@ -584,6 +586,8 @@ function editNucYardForm(data) {
             createNucYard();
         }
     );
+
+    updateEditValues($('#yardName').find("option:selected").val());
 
     $("#yardName").on("change", function() {
         updateEditValues($('#yardName').find("option:selected").val());
