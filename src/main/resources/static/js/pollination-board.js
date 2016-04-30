@@ -73,7 +73,6 @@ function loadInspectionListModal(data) {
 function loadShipmentListModal(data) {
     loadListModal(data, getShipmentHead, getShipmentRow);
 }
-
 //function getShipmentListModal() {
 //    loadShipmentListModal(getShipments());
 //}
@@ -131,6 +130,7 @@ function getInspectionRow(e) {
         $('<td>').text(e.yard)
     );
 }
+
 function getShipmentHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
@@ -313,6 +313,7 @@ function getFormGroup(for_id, label, type, val) {
             getFormGroupInput(for_id, type, val)
         );
 }
+
 function getMapFormGroup(for_id){
     return getGroupDiv()
         .append(
@@ -326,6 +327,7 @@ function getMapFormGroup(for_id){
                 .attr('class', 'col-sm-1')
         )
 }
+
 function getGroupDiv() {
     return $('<div>')
         .attr('class', 'form-group');
