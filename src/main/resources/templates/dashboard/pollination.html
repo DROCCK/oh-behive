@@ -70,16 +70,13 @@
                     <p id="progress"></p>
                 </div>
                 <div align="center" class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
                         <p id="edit"></p>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
                         <p id="delete"></p>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <p id="contacts"></p>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
                         <p id="shipments"></p>
                     </div>
                 </div>
@@ -157,32 +154,6 @@
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Add Shipment|">Add Shipment</h4>
                 <br/>
-                <hr/>
-                <h4><b th:text="Edit"></b></h4>
-                <hr/>
-                <a data-toggle="modal" data-target="#form-modal" onclick="loadEditOrchardModal(2)">
-                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Edit Orchard">
-                        create
-                    </i>
-                </a>
-                <h4 class="list-header" th:text="|#{pipe} Edit Orchard|">Edit Orchard</h4>
-                <br/>
-                <a data-toggle="modal" data-target="#form-modal" onclick="loadEditContractModal(1)">
-                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Edit Contract">
-                        create
-                    </i>
-                </a>
-                <h4 class="list-header" th:text="|#{pipe} Edit Contract|">Edit Contract</h4>
-                <br/>
-                <a data-toggle="modal" data-target="#form-modal" onclick="loadEditShipmentModal(1)">
-                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Edit Shipment">
-                        create
-                    </i>
-                </a>
-                <h4 class="list-header" th:text="|#{pipe} Edit Shipment|">Edit Shipment</h4>
                 <hr/>
                 <h4><b th:text="Lists"></b></h4>
                 <hr/>
