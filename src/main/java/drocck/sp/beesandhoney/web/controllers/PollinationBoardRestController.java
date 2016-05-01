@@ -166,9 +166,14 @@ public class PollinationBoardRestController {
         return personService.findAll();
     }
 
-    @RequestMapping(value = "pollination/inspections/{id}")
+    @RequestMapping(value = "pollination/inspections", method = RequestMethod.GET)
+    public List<Inspection> inspections() {
+        return inspectionService.findAll();
+    }
+
+    @RequestMapping(value = "pollination/inspections/{id}", method = RequestMethod.GET)
     public List<Inspection> inspections(@PathVariable("id") Long id) {
-        return null; //inspectionService.findAllByYard(orchardService.findOne(id));
+        return inspectionService.findAllByYard(orchardService.findOne(id));
     }
 
     @RequestMapping(value = "pollination/addInspection")
