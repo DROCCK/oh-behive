@@ -6,13 +6,15 @@ a {
     color: black;
 }
 
- #mapPlaceholder {
-
- }
+#mapPlaceholder {}
 
 #map-div {
     display: none;
     height: 300px;
     /*width: 300px;*/
     margin:0 auto;
+}
+
+.modal-dialog {
+    width: 50%;
 }

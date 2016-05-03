@@ -89,7 +89,8 @@ function getContactHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
         $('<td>').text('Email'),
-        $('<td>').text('Phone')
+        $('<td>').text('Phone'),
+        $('<td>').text('Address')
     );
 }
 
@@ -97,7 +98,8 @@ function getContactRow(e) {
     return $('<tr>').append(
         $('<td>').text(e.id),
         $('<td>').text(e.email),
-        $('<td>').text(e.phone)
+        $('<td>').text(e.phone),
+        $('<td>').text(e.address)
     );
 }
 
@@ -134,36 +136,26 @@ function getInspectionRow(e) {
 function getShipmentHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
-        $('<td>').text('To'),
+        $('<td>').text('Date'),
+        $('<td>').text('Direction'),
+        $('<td>').text('Dud'),
         $('<td>').text('From'),
-        $('<td>').text('Singles'),
-        $('<td>').text('Doubles'),
-        $('<td>').text('Supers'),
-        $('<td>').text('Status'),
-        $('<td>').text('Truck ID'),
-        $('<td>').text('Load Number'),
-        $('<td>').text('Weight'),
-        $('<td>').text('Depart Date'),
-        $('<td>').text('Arrival Date'),
-        $('<td>').text('Carrier')
+        $('<td>').text('To'),
+        $('<td>').text('In'),
+        $('<td>').text('Notes')
     );
 }
 
 function getShipmentRow(e) {
     return $('<tr>').append(
         $('<td>').text(e.id),
-        $('<td>').text(e.toYard),
-        $('<td>').text(e.fromYard),
-        $('<td>').text(e.singles),
-        $('<td>').text(e.doubles),
-        $('<td>').text(e.supers),
-        $('<td>').text(e.status),
-        $('<td>').text(e.truckId),
-        $('<td>').text(e.loadNum),
-        $('<td>').text(e.weight),
-        $('<td>').text(e.departDate),
-        $('<td>').text(e.arrivalDate),
-        $('<td>').text(e.carrier)
+        $('<td>').text(e.date),
+        $('<td>').text(e.direction),
+        $('<td>').text(e.dud),
+        $('<td>').text(e.from),
+        $('<td>').text(e.to),
+        $('<td>').text(e.in),
+        $('<td>').text(e.notes)
     );
 }
 
@@ -452,7 +444,7 @@ function fillContractForm(data) {
 function createContractForm(data) {
     $('#form-modal-title').text("Create Contract");
     getContractForm(data, '/pollination/addContract');
-    getFormBody().append(getSubmitButton('Create'));
+    getFormBody().append(getSubmitButton('Creafte'));
 }
 
 function editContractForm(data) {
