@@ -17,6 +17,9 @@ implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Person> contacts;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<PolliInspection> pollInspections;
+
     @Column(name = "HIVE_COUNT")
     private Integer count;
 
@@ -38,5 +41,13 @@ implements Serializable {
 
     public int getHiveCount() {
         return getSingles() + getDoubles() + getSupers() - getDuds();
+    }
+
+    public List<PolliInspection> getPolliInspections() {
+        return pollInspections;
+    }
+
+    public void setPolliInspections(List<PolliInspection> pollInspections) {
+        this.pollInspections = pollInspections;
     }
 }

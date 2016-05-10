@@ -34,7 +34,7 @@ public class PollinationBoardRestController {
     private PolliShipmentService polliShipmentService;
 
     @Autowired
-    private InspectionService inspectionService;
+    private PolliInspectionService inspectionService;
 
     @Autowired
     private RegionService regionService;
@@ -150,34 +150,37 @@ public class PollinationBoardRestController {
         contractService.save(contract);
     }
 
-    @RequestMapping(value = "pollination/contractShipments/{id}", method = RequestMethod.GET)
+/*    @RequestMapping(value = "pollination/contractShipments/{id}", method = RequestMethod.GET)
     public List<Shipment> getShipment(@PathVariable("id") Long id) {
         return null; // shipmentService.findAllByYard(orchardService.findOne(id));
-    }
+    }*/
 
     @RequestMapping(value = "pollination/addShipment", method = RequestMethod.POST)
     public void addShipment(@ModelAttribute("shipment") Shipment shipment) {
         shipmentService.save(shipment);
     }
 
+/*
     @RequestMapping(value = "pollination/contacts/{id}", method = RequestMethod.GET)
     public List<Person> contacts(@PathVariable("id") Long id) {
         // return orchardService.findOne(id).getContacts();
         return personService.findAll();
     }
+*/
 
     @RequestMapping(value = "pollination/inspections/{id}")
-    public List<Inspection> inspections(@PathVariable("id") Long id) {
-        return null; //inspectionService.findAllByYard(orchardService.findOne(id));
+    public List<PolliInspection> inspections(@PathVariable("id") Long id) {
+
+        return inspectionService.findAllByOrchard(orchardService.findOne(id));
     }
 
     @RequestMapping(value = "pollination/addInspection")
-    public void addInspection(@ModelAttribute("inspection") Inspection inspection) {
+    public void addInspection(@ModelAttribute("inspection") PolliInspection inspection) {
         inspectionService.save(inspection);
     }
 
     @RequestMapping(value = "pollination/inspection/{id}")
-    public Inspection getInspection(@PathVariable("id") Long id) {
+    public PolliInspection getInspection(@PathVariable("id") Long id) {
         return inspectionService.findOne(id);
     }
 

@@ -16,6 +16,10 @@ INSERT INTO yard(id, yard_name, status, combo, max_hives, owner_id, rent_receive
 -- # Orchards
 INSERT INTO orchard(yard_id, hive_count) VALUES (1, 25);
 
+-- # PolliInspection
+INSERT INTO polli_inspection(id, orchard, inspect_date, purpose) VALUES (1, 1, '2012-09-17', 'INSPECT');
+INSERT INTO polli_inspection(id, orchard, inspect_date, purpose) VALUES (2, 1, '2012-10-17', 'FEED');
+
 -- # Contracts
 -- # INSERT INTO contract(id, move_in_date, move_out_date, amount, broker_id, orchard_id) VALUES (1, '2016/04/01', '2016/08/01', 527, 1, 1);
 INSERT INTO contract(id, move_in_date, move_out_date, amount, broker_id, orchard_id) VALUES (1, '2012-09-17', '2012-10-17', 527, 1, 1);

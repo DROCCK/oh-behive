@@ -103,31 +103,21 @@ function getContactRow(e) {
 
 function getInspectionHead() {
     return $('<tr>').append(
-        $('<td>').text('Name'),
-        $('<td>').text('Doubles'),
-        $('<td>').text('Singles'),
-        $('<td>').text('Supers'),
-        $('<td>').text('Duds'),
-        $('<td>').text('Visit Date'),
-        $('<td>').text('Fed Status'),
-        $('<td>').text('Medication'),
+        $('<td>').text('Date'),
+        $('<td>').text('Purpose'),
         $('<td>').text('Notes'),
-        $('<td>').text('Inspected Yard')
+        $('<td>').text('Edit'),
+        $('<td>').text('Delete')
     );
 }
 
 function getInspectionRow(e) {
     return $('<tr>').append(
-        $('<td>').text(e.id),
-        $('<td>').text(e.numDoubles),
-        $('<td>').text(e.numSingles),
-        $('<td>').text(e.supers),
-        $('<td>').text(e.duds),
-        $('<td>').text(e.visitDate),
-        $('<td>').text(e.isFed),
-        $('<td>').text(e.medication),
+        $('<td>').text(e.date),
+        $('<td>').text(e.purpose),
         $('<td>').text(e.notes),
-        $('<td>').text(e.yard)
+        $('<td>').text('Edit'),
+        $('<td>').text('Delete')
     );
 }
 
@@ -612,7 +602,7 @@ function loadContractDetails(data) {
         'data-target="#form-modal" onclick="loadEditContractModal('+data.id+')">create</i></a>');
     $('#delete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">check</i></a>');
     $('#shipments').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
-        'data-target="#table-modal" onclick="loadShipmentListModal()">visibility</i></a>');
+        'data-target="#table-modal" onclick="getInspections(' + data.id + ')">visibility</i></a>');
     $('#progress').html('<b>% Fulfilled:</b><br/><div class="progress"><div class="progress-bar" role="progressbar" ' +
         'aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + data.count + '" style="width: ' + data.count + '%"></div></div>'
     );
