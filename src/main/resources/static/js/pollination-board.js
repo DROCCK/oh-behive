@@ -89,7 +89,8 @@ function getContactHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
         $('<td>').text('Email'),
-        $('<td>').text('Phone')
+        $('<td>').text('Phone'),
+        $('<td>').text('Address')
     );
 }
 
@@ -97,7 +98,8 @@ function getContactRow(e) {
     return $('<tr>').append(
         $('<td>').text(e.id),
         $('<td>').text(e.email),
-        $('<td>').text(e.phone)
+        $('<td>').text(e.phone),
+        $('<td>').text(e.address)
     );
 }
 
@@ -124,36 +126,26 @@ function getInspectionRow(e) {
 function getShipmentHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
-        $('<td>').text('To'),
+        $('<td>').text('Date'),
+        $('<td>').text('Direction'),
+        $('<td>').text('Dud'),
         $('<td>').text('From'),
-        $('<td>').text('Singles'),
-        $('<td>').text('Doubles'),
-        $('<td>').text('Supers'),
-        $('<td>').text('Status'),
-        $('<td>').text('Truck ID'),
-        $('<td>').text('Load Number'),
-        $('<td>').text('Weight'),
-        $('<td>').text('Depart Date'),
-        $('<td>').text('Arrival Date'),
-        $('<td>').text('Carrier')
+        $('<td>').text('To'),
+        $('<td>').text('In'),
+        $('<td>').text('Notes')
     );
 }
 
 function getShipmentRow(e) {
     return $('<tr>').append(
         $('<td>').text(e.id),
-        $('<td>').text(e.toYard),
-        $('<td>').text(e.fromYard),
-        $('<td>').text(e.singles),
-        $('<td>').text(e.doubles),
-        $('<td>').text(e.supers),
-        $('<td>').text(e.status),
-        $('<td>').text(e.truckId),
-        $('<td>').text(e.loadNum),
-        $('<td>').text(e.weight),
-        $('<td>').text(e.departDate),
-        $('<td>').text(e.arrivalDate),
-        $('<td>').text(e.carrier)
+        $('<td>').text(e.date),
+        $('<td>').text(e.direction),
+        $('<td>').text(e.dud),
+        $('<td>').text(e.from),
+        $('<td>').text(e.to),
+        $('<td>').text(e.in),
+        $('<td>').text(e.notes)
     );
 }
 
@@ -600,8 +592,8 @@ function loadContractDetails(data) {
     $('#number').html('<b>Phone: </b>' + (data.broker == null ? '' : data.broker.contactInfo == null ? '' : data.broker.contactInfo.phone));
     $('#edit').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#form-modal" onclick="loadEditContractModal('+data.id+')">create</i></a>');
-    $('#delete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">check</i></a>');
-    $('#shipments').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
+    $('#complete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">check</i></a>');
+    $('#inspections').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#table-modal" onclick="getInspections(' + data.id + ')">visibility</i></a>');
     $('#progress').html('<b>% Fulfilled:</b><br/><div class="progress"><div class="progress-bar" role="progressbar" ' +
         'aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + data.count + '" style="width: ' + data.count + '%"></div></div>'

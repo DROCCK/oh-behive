@@ -24,24 +24,20 @@
             <div class="in-side-div">
                 <h3><b th:text="#{progress}"></b></h3>
                 <hr/>
+                <h4><b>% Fulfilled</b></h4>
+                <hr/>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                          aria-valuenow="56" style="width: 56%;">
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="side-div left-sidebar-div">
-            <div class="in-side-div">
-                <h3><b th:text="#{counts}"></b></h3>
+                <hr/>
+                <h4><b th:text="#{counts}"></b></h4>
                 <hr/>
                 <h4 th:text="|#{current}: ${1}|"></h4>
                 <h4 th:text="|#{contract}: ${1}|"></h4>
-            </div>
-        </div>
-        <div class="side-div left-sidebar-div">
-            <div class="in-side-div">
-                <h3><b th:text="#{dates}"></b></h3>
+                <hr/>
+                <h4><b th:text="#{dates}"></b></h4>
                 <hr/>
                 <h4 th:text="|#{in}: ${1}|"></h4>
                 <h4 th:text="|#{out}: ${1}|"></h4>
@@ -74,10 +70,10 @@
                         <p id="edit"></p>
                     </div>
                     <div class="col-md-4 col-sm-4 col-xs-4">
-                        <p id="delete"></p>
+                        <p id="complete"></p>
                     </div>
                     <div class="col-md-4 col-sm-4 col-xs-4">
-                        <p id="shipments"></p>
+                        <p id="inspections"></p>
                     </div>
                 </div>
             </div>
@@ -112,12 +108,16 @@
                 <thead id="contract-table-head">
                 <tr>
                     <th data-field="id" data-visible="false"></th>
-                    <th class="col-md-2" data-field="orchardName" data-sortable="true" data-visible="true" th:text="#{orchardName}"></th>
+                    <th class="col-md-2" data-field="orchardName" data-sortable="true" data-visible="true"
+                        th:text="#{orchardName}"></th>
                     <th class="col-md-6" data-field="progress" data-formatter="progressFormatter" data-sortable="true"
                         data-visible="true" th:text="#{progress}"></th>
-                    <th class="col-md-1" data-field="edit" data-formatter="editOrchardFormatter" data-sortable="false" data-events="operateEvents"
+                    <th class="col-md-1" data-field="edit" data-formatter="editOrchardFormatter" data-sortable="false"
+                        data-events="operateEvents"
                         th:text="|#{edit} #{orchard}|"></th>
-                    <th class="col-md-1" data-field="delete" data-formatter="checkFormatter" data-sortable="false" data-events="operateEvents">Complete</th>
+                    <th class="col-md-1" data-field="delete" data-formatter="checkFormatter" data-sortable="false"
+                        data-events="operateEvents">Complete
+                    </th>
                 </tr>
                 </thead>
             </table>
