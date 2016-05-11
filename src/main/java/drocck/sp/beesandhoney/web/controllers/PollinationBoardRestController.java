@@ -184,6 +184,11 @@ public class PollinationBoardRestController {
         return inspectionService.findOne(id);
     }
 
+    @RequestMapping(value = "pollination/progress", method = RequestMethod.GET)
+    public ProgressDTO progress() {
+        return new ProgressDTO(contractService.findAll());
+    }
+
     private PolliShipmentCreateDTO getPolliShipmentCreateDTO() {
         List<String> list = new ArrayList<>();
         for (PolliShipment.Direction direction : PolliShipment.Direction.values())

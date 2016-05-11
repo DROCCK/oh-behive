@@ -7,6 +7,7 @@ var contractDtoList = url + "contracts";
 var contract = url + "contract/";
 var contacts = url + "contacts/";
 var inspections = url + "inspections/";
+var progress = url + "progress";
 var shipments = url + "shipments/";
 var createContract = url + "createContract";
 var addOrchard = url + "addOrchard";
@@ -178,8 +179,10 @@ function post(url, json, callback) {
 function postContract() {
     var json = getSimpleJson($('#form').serializeArray());
     post(addContract, json, function () {
-        $('#id').remove();
+        var id = $('#id');
         $('#contract-table').bootstrapTable('refresh');
+        getContract(id.val());
+        loadProgress();
     });
 }
 
@@ -595,8 +598,11 @@ function loadContractDetails(data) {
     $('#complete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">check</i></a>');
     $('#inspections').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#table-modal" onclick="getInspections(' + data.id + ')">visibility</i></a>');
+    var a = data.amount;
+    var c = data.orchard.count;
+    var p = (c / a) * 100;
     $('#progress').html('<b>% Fulfilled:</b><br/><div class="progress"><div class="progress-bar" role="progressbar" ' +
-        'aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + data.count + '" style="width: ' + data.count + '%"></div></div>'
+        'aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + p + '" style="width: ' + p + '%"></div></div>'
     );
 }
 
@@ -623,6 +629,15 @@ function tableRowClick(e, row, $element) {
         document.getElementById('map-div').style.display = 'block';
 }
 
+function loadProgress() {
+    $.getJSON(progress, function(data) {
+        $('#current-count').text('Current count: ' + data.fulfilled);
+        $('#contracted-count').text('Contracted count: ' + data.needed);
+        var p = data.progress * 100;
+        $('#progress-bar').css('width', p +'%').attr('aria-valuenow', p);
+    })
+}
+
 window.operateEvents = {
     'click .edit': function (e, value, row, index) {
         // location.href = "/yard/update/" + row["id"];
@@ -634,6 +649,7 @@ window.operateEvents = {
 
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    loadProgress();
 });
 
 var x = document.getElementById("error");

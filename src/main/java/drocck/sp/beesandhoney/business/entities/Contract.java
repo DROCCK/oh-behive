@@ -8,7 +8,7 @@ import java.sql.Date;
  *         Created on 2/2/2016.
  */
 @Entity
-public class Contract {
+public class  Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

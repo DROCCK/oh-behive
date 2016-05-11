@@ -27,15 +27,15 @@
                 <h4><b>Total % Fulfilled</b></h4>
                 <hr/>
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                         aria-valuenow="56" style="width: 56%;">
+                    <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuemin="0"
+                         aria-valuemax="100">
                     </div>
                 </div>
                 <hr/>
                 <h4><b th:text="#{counts}"></b></h4>
                 <hr/>
-                <h4 th:text="|#{current}: ${1}|"></h4>
-                <h4 th:text="|#{contract}: ${1}|"></h4>
+                <h4 id="current-count"></h4>
+                <h4 id="contracted-count"></h4>
                 <hr/>
                 <h4><b th:text="#{dates}"></b></h4>
                 <hr/>
