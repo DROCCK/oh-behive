@@ -38,4 +38,13 @@ public class RegionService {
     public Region save(Region region) {
         return regionRepository.save(region);
     }
+
+    public Region findByName(String name) {
+        return regionRepository.findByName(name);
+    }
+
+    public List<String> findAllRegionNames() {
+        List<String> names = regionRepository.findAllNames();
+        return names;
+    }
 }

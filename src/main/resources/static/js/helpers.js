@@ -4,9 +4,10 @@
  */
 
 function goBack() {
-    if(confirm("Are you sure you want to navigate away from this page?"))
-    {
-        history.go(-1);
-    }
+    //if(confirm("Are you sure you want to navigate away from this page?"))
+    //{
+    //    history.go(-1);
+    //}
+    history.go(-1);
     return false;
 };

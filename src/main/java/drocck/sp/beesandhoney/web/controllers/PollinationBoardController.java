@@ -19,7 +19,6 @@ public class PollinationBoardController {
 
     @RequestMapping(value = "dashboard/pollination", method = RequestMethod.GET)
     public ModelAndView pollinationBoard() {
-        return new ModelAndView("dashboard/pollination", "contracts", PollinationBoardRestController.getSampleContracts());
-        /*return new ModelAndView("dashboard/pollination", "contracts", contractService.findAllAsDTO());*/
+        return new ModelAndView("dashboard/pollination");
     }
 }

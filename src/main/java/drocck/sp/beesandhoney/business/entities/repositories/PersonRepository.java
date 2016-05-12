@@ -12,4 +12,6 @@ import java.util.List;
  * Created on 9/29/2015.
  */
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Long> { }
+public interface PersonRepository extends JpaRepository<Person, Long> {
+    Person findOneByName(String name);
+}

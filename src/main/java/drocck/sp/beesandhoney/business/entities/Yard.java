@@ -1,7 +1,9 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -21,19 +24,23 @@ import java.util.stream.IntStream;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Yard implements Serializable {
 
+    public static final String IN_USE = "IN USE";
+    public static final String INACTIVE = "INACTIVE";
+    public static final String RIP = "RIP";
+
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "YARD_NAME")
-    @NotNull
-    @NotBlank
+    // @NotNull
+    // @NotBlank
     private String yardName;
 
     @Column(name = "STATUS")
-    @NotNull
-    @NotBlank
+    // @NotNull
+    // @NotBlank
     private String status;
 
     @Column(name = "COMBO")
@@ -43,38 +50,37 @@ public class Yard implements Serializable {
     private String accessNotes;
 
     @Column(name = "MAX_HIVES")
-    @NotNull
+    // @NotNull
     private Integer maxHives;
 
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID")
-    @NotNull
+    // @NotNull
     private Address address;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "OWNER_ID")
     @JsonManagedReference
     private Owner owner;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "RENT_RECEIVER_ID")
     @JsonManagedReference
     private Person rentReceiver;
 
-    @NotNull
+    // @NotNull
     @Column(name = "longitude")
     private Double longitude;
 
-    @NotNull
+    // @NotNull
     @Column(name = "latitude")
     private Double latitude;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Inspection> inspections;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "REGION_ID")
-    @JsonBackReference
     private Region region;
 
     @Column(name = "LAST_VISIT")
@@ -107,6 +113,7 @@ public class Yard implements Serializable {
 
     public void setDoubles(Integer doubles) {
         this.doubles = doubles;
+        this.currentHives = this.doubles + this.singles;
     }
 
     public Integer getSingles() {
@@ -116,6 +123,7 @@ public class Yard implements Serializable {
 
     public void setSingles(Integer singles) {
         this.singles = singles;
+        this.currentHives = this.singles + this.doubles;
     }
 
     public void setSupers(Integer supers) {
@@ -139,6 +147,8 @@ public class Yard implements Serializable {
     }
 
     public void setCurrentHives(Integer singles, Integer doubles) {
+        this.singles = singles;
+        this.doubles = doubles;
         this.currentHives = singles + doubles;
     }
 
@@ -291,5 +301,9 @@ public class Yard implements Serializable {
     */
     public void setRegion(Region region) {
         this.region = region;
+    }
+
+    public static List<String> getStati() {
+        return Arrays.asList(IN_USE, INACTIVE, RIP);
     }
 }

@@ -4,6 +4,7 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
     <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script th:src="@{/js/util.js}"></script>
     <script th:src="@{/js/maps.js}"></script>
     <script th:src="@{/js/tables.js}"></script>
     <script th:src="@{/js/pollination-board.js}"></script>
@@ -19,21 +20,36 @@
 
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
-        <div class="left-sidebar-div">
-            <h3><b th:text="#{counts}"></b></h3>
-            <hr/>
-            <h4 th:text="|#{current}: ${1}|"></h4>
-            <h4 th:text="|#{contract}: ${1}|"></h4>
-        </div>
-        <div class="left-sidebar-div">
-            <h3><b th:text="#{progress}"></b></h3>
-            <hr/>
-            <progress value="22" max="100">
-            </progress>
+        <div class="side-div left-sidebar-div">
+            <div class="in-side-div">
+                <h3><b th:text="#{progress}"></b></h3>
+                <hr/>
+                <h4><b>Total % Fulfilled</b></h4>
+                <hr/>
+                <div class="progress">
+                    <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuemin="0"
+                         aria-valuemax="100">
+                    </div>
+                </div>
+                <hr/>
+                <h4><b th:text="#{counts}"></b></h4>
+                <hr/>
+                <h4 id="current-count"></h4>
+                <h4 id="contracted-count"></h4>
+                <hr/>
+                <h4><b th:text="#{dates}"></b></h4>
+                <hr/>
+                <h4 th:text="|#{in}: ${1}|"></h4>
+                <h4 th:text="|#{out}: ${1}|"></h4>
+                <h4 th:text="|#{fed}: ${1}|"></h4>
+            </div>
         </div>
     </div>
+    <!-- Map & Description -->
     <div class="col-md-8">
         <div class="row dashboard-row">
+            <hr/>
+            <!--Description-->
             <div class="col-md-6 col-sm-12">
                 <div class="col-md-6 col-sm-6">
                     <p id="id"></p>
@@ -47,41 +63,38 @@
                     <p id="out"></p>
                 </div>
                 <div class="col-md-12">
-                    <p id="progress" ></p>
+                    <p id="progress"></p>
                 </div>
-                <div align="center" class="col-md-12 col-sm-12">
-                    <div class="col-md-3 col-sm-3">
+                <div align="center" class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
                         <p id="edit"></p>
                     </div>
-                    <div class="col-md-3 col-sm-3">
-                        <p id="delete"></p>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <p id="complete"></p>
                     </div>
-                    <div class="col-md-3 col-sm-3">
-                        <p id="contacts"></p>
-                    </div>
-                    <div class="col-md-3 col-sm-3">
-                        <p id="shipments"></p>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <p id="inspections"></p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12" >
+            <!--Map-->
+            <!--Map-->
+            <div class="col-md-6 col-sm-12">
                 <div class="col-md-0 col-sm-1"></div>
                 <div style="display: none" id="map-div" class="col-md-12 col-sm-10"></div>
                 <div class="col-md-0 col-sm-1"></div>
             </div>
-
         </div>
+        <hr/>
         <div class="col-md-12">
-            <hr/>
-            <a data-toggle="modal" data-target="#form-modal">
+            <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateContractModal()">
                 <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                    title="Add Contract">
                     add_circle_outline
-                </i>
+                </i> | Add Contract
             </a>
-            <h4 class="list-header" th:text="|#{pipe} Add Contract|">Add Contract</h4>
-            <table class="table table-condensed table-responsive"
-                   style="border-collapse: collapse"
+            <table class="table table-condensed table-responsive auto"
+                   style="table-layout: auto"
                    id="contract-table"
                    data-url="/pollination/contracts"
                    data-toggle="table"
@@ -95,25 +108,79 @@
                 <thead id="contract-table-head">
                 <tr>
                     <th data-field="id" data-visible="false"></th>
-                    <th data-field="orchardName" data-sortable="true" data-visible="true" th:text="#{orchardName}"></th>
-                    <th data-field="progress" data-formatter="progressFormatter" data-sortable="true"
+                    <th class="col-md-2" data-field="orchardName" data-sortable="true" data-visible="true"
+                        th:text="#{orchardName}"></th>
+                    <th class="col-md-6" data-field="progress" data-formatter="progressFormatter" data-sortable="true"
                         data-visible="true" th:text="#{progress}"></th>
-                    <th data-field="edit" data-formatter="editFormatter" data-events="operateEvents"
-                        th:text="#{edit}"></th>
-                    <th data-field="delete" data-formatter="deleteFormatter" data-events="operateEvents"
-                        th:text="#{delete}"></th>
+                    <th class="col-md-1" data-field="edit" data-formatter="editOrchardFormatter" data-sortable="false"
+                        data-events="operateEvents"
+                        th:text="|#{edit} #{orchard}|"></th>
+                    <th class="col-md-1" data-field="delete" data-formatter="checkFormatter" data-sortable="false"
+                        data-events="operateEvents">Complete
+                    </th>
                 </tr>
                 </thead>
             </table>
         </div>
     </div>
     <div class="col-md-2 hidden-xs hidden-sm">
-        <div class="right-sidebar-div">
-            <h3><b th:text="#{dates}"></b></h3>
-            <hr/>
-            <h4 th:text="|#{in}: ${1}|"></h4>
-            <h4 th:text="|#{out}: ${1}|"></h4>
-            <h4 th:text="|#{fed}: ${1}|"></h4>
+        <div class="side-div right-sidebar-div">
+            <div class="in-side-div">
+                <h3><b th:text="Tasks"></b></h3>
+                <hr/>
+                <h4><b th:text="Add"></b></h4>
+                <hr/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateOrchardModal()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Add Orchard">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Add Orchard|">Add Orchard</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateContractModal()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Add Contract">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Add Contract|">Add Contract</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateShipmentModal()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Add Shipment">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Add Shipment|">Add Shipment</h4>
+                <br/>
+                <hr/>
+                <h4><b th:text="Lists"></b></h4>
+                <hr/>
+                <a data-toggle="modal" data-target="#table-modal" onclick="getContacts(1)">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Contacts">
+                        list
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Contacts|">Contacts</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#table-modal" onclick="getInspections(1)">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Inspections">
+                        list
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Inspections|">Inspections</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#table-modal" onclick="getShipments()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Shipments">
+                        list
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Shipments|">Shipments</h4>
+            </div>
         </div>
     </div>
 </div>

@@ -1,15 +1,15 @@
 package drocck.sp.beesandhoney.web.controllers;
 
 import drocck.sp.beesandhoney.business.entities.*;
-import drocck.sp.beesandhoney.business.entities.DTOs.ContractDTO;
+import drocck.sp.beesandhoney.business.entities.DTOs.*;
 import drocck.sp.beesandhoney.business.services.*;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author Robert Wilk
@@ -31,10 +31,18 @@ public class PollinationBoardRestController {
     private ShipmentService shipmentService;
 
     @Autowired
-    private InspectionService inspectionService;
+    private PolliShipmentService polliShipmentService;
 
     @Autowired
-    private YardService yardService;
+    private PolliInspectionService inspectionService;
+
+    @Autowired
+    private RegionService regionService;
+
+    @ModelAttribute("orchard")
+    public Orchard constructOrchard() {
+        return new Orchard();
+    }
 
     @ModelAttribute("shipment")
     public Shipment constructShipment() {
@@ -53,32 +61,84 @@ public class PollinationBoardRestController {
 
     @RequestMapping(value = "pollination/contracts", method = RequestMethod.GET)
     public List<ContractDTO> contracts() {
-        return getSampleContracts();
-        // return contractService.findAllAsDTO();
+        return contractService.findAllAsDTO();
     }
 
     @RequestMapping(value = "pollination/contract/{id}", method = RequestMethod.GET)
     public Contract contract(@PathVariable("id") Long id) {
-        ContractDTO cDto = getSampleContracts().get(id.intValue());
-        Contract c = new Contract();
-        /*Orchard o = new Orchard();
-        Yard y = yardService.findAll().get(0);
-        o.setYardName("Orchard" + id);
-        o.setId(y.getId());
-        o.setAddress(y.getAddress());
-        o.setMaxHives(y.getMaxHives());
-        o.setStatus(y.getStatus());
-        o.setLongitude(y.getLongitude());
-        o.setLatitude(y.getLatitude());*/
-        c.setId(cDto.getId());
-        //c.setOrchard(o);
-        c.setBroker(personService.findAll().get(0));
-        c.setAmount(100);
-        c.setMoveInDate(new Date(23000));
-        c.setMoveOutDate(new Date(35000));
-        return c;
-        //return contractService.findOne(id);
+        return contractService.findOne(id);
     }
+
+    @RequestMapping(value = "pollination/createContract", method = RequestMethod.GET)
+    public ContractCreateDTO createContract() {
+        return getContractCreateDTO();
+    }
+
+    @RequestMapping(value = "pollination/editContract/{id}", method = RequestMethod.GET)
+    public ContractEditDTO editContract(@PathVariable("id") Long id) {
+        return new ContractEditDTO(getContractCreateDTO(), contractService.findOne(id));
+    }
+
+    @RequestMapping(value = "pollination/orchard/{id}", method = RequestMethod.GET)
+    public Orchard orchard(@PathVariable("id") Long id) {
+        return orchardService.findOne(id);
+    }
+
+    @RequestMapping(value = "pollination/createOrchard")
+    public OrchardCreateDTO createOrchard() {
+        return getOrchardCreateDTO();
+    }
+
+    @RequestMapping(value = "pollination/editOrchard/{id}", method = RequestMethod.GET)
+    public OrchardEditDTO editOrchard(@PathVariable("id") Long id) {
+        return new OrchardEditDTO(getOrchardCreateDTO(), orchardService.findOne(id));
+    }
+
+    @RequestMapping(value = "pollination/shipment/{id}", method = RequestMethod.GET)
+    public PolliShipment shipment(@PathVariable("id") Long id) {
+        return polliShipmentService.findOne(id);
+    }
+
+    @RequestMapping(value = "pollination/createShipment")
+    public PolliShipmentCreateDTO createShipment() {
+        return getPolliShipmentCreateDTO();
+    }
+
+    @RequestMapping(value = "pollination/editShipment/{id}", method = RequestMethod.GET)
+    public PolliShipmentEditDTO editShipment(@PathVariable("id") Long id) {
+        return new PolliShipmentEditDTO(getPolliShipmentCreateDTO(), polliShipmentService.findOne(id));
+    }
+
+    @RequestMapping(value = "pollination/shipments", method = RequestMethod.GET)
+    public List<PolliShipment> shipments() {
+        return polliShipmentService.findAll();
+    }
+
+    @RequestMapping(value = "pollination/addOrchard/{json}", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Orchard addOrchard(@PathVariable("json") String json) {
+        return orchardService.save(new JSONObject(json));
+    }
+
+    @RequestMapping(value = "pollination/addContract/{json}", method = RequestMethod.POST,
+        consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Contract addContract(@PathVariable("json") String json) {
+        return contractService.save(new JSONObject(json));
+    }
+
+    @RequestMapping(value = "pollination/addShipment/{json}", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public PolliShipment addShipment(@PathVariable("json") String json) {
+        return polliShipmentService.save(new JSONObject(json));
+    }
+
+    @RequestMapping(value = "pollination/orchards", method = RequestMethod.GET)
+    public List<Orchard> orchards() {
+        return orchardService.findAll();
+    }
+
+    @RequestMapping(value = "pollination/fullContracts", method = RequestMethod.GET)
+    public List<Contract> fullContracts() { return contractService.findAll(); }
 
     @RequestMapping(value = "pollination/addContract", method = RequestMethod.POST)
     public void addContract(@ModelAttribute("contract") Contract contract) {
@@ -90,47 +150,66 @@ public class PollinationBoardRestController {
         contractService.save(contract);
     }
 
-    @RequestMapping(value = "pollination/contractShipments/{id}", method = RequestMethod.GET)
+/*    @RequestMapping(value = "pollination/contractShipments/{id}", method = RequestMethod.GET)
     public List<Shipment> getShipment(@PathVariable("id") Long id) {
-        return shipmentService.findAllByYard(orchardService.findOne(id));
-    }
+        return null; // shipmentService.findAllByYard(orchardService.findOne(id));
+    }*/
 
     @RequestMapping(value = "pollination/addShipment", method = RequestMethod.POST)
     public void addShipment(@ModelAttribute("shipment") Shipment shipment) {
         shipmentService.save(shipment);
     }
 
+/*
     @RequestMapping(value = "pollination/contacts/{id}", method = RequestMethod.GET)
     public List<Person> contacts(@PathVariable("id") Long id) {
         // return orchardService.findOne(id).getContacts();
         return personService.findAll();
     }
+*/
 
     @RequestMapping(value = "pollination/inspections/{id}")
-    public List<Inspection> inspections(@PathVariable("id") Long id) {
-        return inspectionService.findAllByYard(orchardService.findOne(id));
+    public List<PolliInspection> inspections(@PathVariable("id") Long id) {
+
+        return inspectionService.findAllByOrchard(orchardService.findOne(id));
     }
 
     @RequestMapping(value = "pollination/addInspection")
-    public void addInspection(@ModelAttribute("inspection") Inspection inspection) {
+    public void addInspection(@ModelAttribute("inspection") PolliInspection inspection) {
         inspectionService.save(inspection);
     }
 
     @RequestMapping(value = "pollination/inspection/{id}")
-    public Inspection getInspection(@PathVariable("id") Long id) {
+    public PolliInspection getInspection(@PathVariable("id") Long id) {
         return inspectionService.findOne(id);
     }
 
-    protected static List<ContractDTO> getSampleContracts() {
-        List<ContractDTO> contracts = new ArrayList<>();
-        Random r = new Random((int) Math.random());
-        for (long i = 0; i < 6; i++) {
-            ContractDTO c = new ContractDTO();
-            c.setId(i);
-            c.setOrchardName("Orchard" + i);
-            c.setProgress(i * r.nextDouble() * 10 * Math.sqrt(2.0) + 5.0);
-            contracts.add(c);
-        }
-        return contracts;
+    @RequestMapping(value = "pollination/progress", method = RequestMethod.GET)
+    public ProgressDTO progress() {
+        return new ProgressDTO(contractService.findAll());
+    }
+
+    private PolliShipmentCreateDTO getPolliShipmentCreateDTO() {
+        List<String> list = new ArrayList<>();
+        for (PolliShipment.Direction direction : PolliShipment.Direction.values())
+            list.add(direction.name());
+        PolliShipmentCreateDTO pscd = new PolliShipmentCreateDTO();
+        pscd.setDirections(list);
+        return pscd;
+    }
+
+    private OrchardCreateDTO getOrchardCreateDTO() {
+        OrchardCreateDTO ocdto = new OrchardCreateDTO();
+        ocdto.setStati(Yard.getStati());
+        ocdto.setPeople(personService.findAll());
+        ocdto.setRegions(regionService.findAllRegionNames());
+        return ocdto;
+    }
+
+    private ContractCreateDTO getContractCreateDTO() {
+        ContractCreateDTO c = new ContractCreateDTO();
+        c.setPeople(personService.findAll());
+        c.setOrchards(orchardService.findAllOrchardNames());
+        return c;
     }
 }

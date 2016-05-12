@@ -1,7 +1,10 @@
 package drocck.sp.beesandhoney.web;
 
+import drocck.sp.beesandhoney.business.entities.NucReport;
 import drocck.sp.beesandhoney.business.entities.validators.UserCreateFormValidator;
 import drocck.sp.beesandhoney.business.services.*;
+//import org.h2.server.web.WebServlet;
+import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +32,13 @@ import javax.persistence.EntityManagerFactory;
 @EnableTransactionManagement
 public class AppConfig {
 
+//    @Bean
+//    public ServletRegistrationBean servletRegistrationBean() {
+//        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new WebServlet());
+//        servletRegistrationBean.addUrlMappings("/console/*");
+//        return servletRegistrationBean;
+//    }
+
     @Bean
     public ViewResolver myViewResolver() {
         InternalResourceViewResolver internalResourceViewResolver =
@@ -51,6 +61,11 @@ public class AppConfig {
         final JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(emf);
         return txManager;
+    }
+
+    @Bean
+    public PolliInspectionService polliInspectionService() {
+        return new PolliInspectionService();
     }
 
     @Bean
@@ -121,6 +136,19 @@ public class AppConfig {
         return new OrchardService();
     }
 
+    @Bean
+    public PolliShipmentService polliShipmentService() {
+        return new PolliShipmentService();
+    }
+
+    @Bean
+    public NucYardService nucYardService() {return new NucYardService(); }
+
+    @Bean
+    public NucReportService nucReportService() {return new NucReportService(); }
+
+    @Bean
+    public EventService eventService() {return new EventService(); }
     //Language beans
     @Bean
     public ReloadableResourceBundleMessageSource messageSource(){

@@ -15,12 +15,12 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    //@NotNull
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "CONTACT_ID")
-    @NotNull
+    //@NotNull
     private ContactInfo contactInfo;
 
     public Long getId() {

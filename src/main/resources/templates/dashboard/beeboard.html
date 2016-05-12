@@ -3,108 +3,18 @@
 <head th:include="fragments/head :: head"></head>
 <head>
     <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
-    <script th:src="@{/js/bee-board.js}"></script>
-    <script>
-        function editFormatter(value, row, index) {
-            var modelId = row["id"];
-            return [
-                '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
-                '<i class="material-icons bee-board-icon">create</i>',
-                '</a>'
-            ].join('');
-        }
-
-        function deleteFormatter(value, row, index) {
-            return [
-                '<a class="remove ml10 bee-board-icon" href="javascript:void(0)" title="Remove">',
-                ' <i class="material-icons bee-board-icon">delete</i>',
-                '</a>'
-            ].join('');
-        }
-
-        window.operateEvents = {
-            'click .edit': function (e, value, row, index) {
-                location.href = "/yard/update/" + row["id"];
-            },
-            'click .remove': function (e, value, row, index) {
-                location.href = "/yard/delete/" + row["id"];
-            }
-        };
-
-        $(function () {
-            //sets array length for the map markers
-            var arrLength = 0;
-            var jsonArray;
-            var labels;
-            var json = $.getJSON('/dashboard/beeboard/json', function (data) {
-                jsonArray = data; //moves data array to var
-                arrLength = jsonArray[0]["yards"].length;
-
-                initialize();
-                for (var i = 0; arrLength > i; i++) {
-                    labels = '<div id="mapNote">' +
-                            '<h2 id="Yard Info">Yard Info</h2>' +
-                            '<p>Singles: ' + jsonArray[0]["yards"][i]["singles"] + '<br/>' +
-                            'Doubles: ' + jsonArray[0]["yards"][i]["doubles"] + '<br/>' +
-                            'Supers: ' + jsonArray[0]["yards"][i]["supers"] + '<br/>' +
-                            '<a href="/inspection/list/' + jsonArray[0]['yards'][i]['id'] + '">' +
-                            'Check Inspections</a>' +
-                            '</p>' +
-                            '</div>';
-                    createMarker(jsonArray[0]['yards'][i]['longitude'], jsonArray[0]['yards'][i]['latitude'], labels); //Cycles through drops and places markers
-                }
-            });
-
-            $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
-                (function () {
-                    document.getElementById('yard-prompt').style.display = "none";
-                    document.getElementById('map-div').style.display = "block";
-                    document.getElementById('infoPanel').style.display = "block";
-                    //Recenters map
-                    var yardId = row["id"];
-                    var lat = jsonArray[0]['yards'][yardId - 1]['latitude'];
-                    var long = jsonArray[0]['yards'][yardId - 1]['longitude'];
-                    console.log(jsonArray[0]['yards'][yardId - 1]); //--- Look into this further. Why is this yardId-1?
-                    recenter(lat, long);
-                })();
-                assignHrefs(row["id"]);
-                var owner = row["owner"];
-
-                $("#name").html('<b>Yard Name: </b>' + row["yardName"]);
-                $("#status").html('<b>Status: </b>' + row["status"]);
-                $("#combo").html('<b>Combo: </b>' + row["combo"]);
-                $("#owner").html('<b>Owner: </b>' + '<a id="yardOwner" href="#">' + owner["person"]["name"] + '</a>');
-                var address = row["address"];
-                $("#street").html('<b>Address: </b>' + address["street"]);
-                $("#city").text(address["city"]);
-                $("#state").text(address["state"]);
-                $("#zip").text(address["zip"]);
-                $("#singles").html('<b>Singles: </b>' + row["singles"]);
-                $("#doubles").html('<b>Doubles: </b>' + row["doubles"]);
-                $("#supers").html('<b>Supers: </b>' + row["supers"]);
-                $("#duds").html('<b>Duds: </b>' + row["duds"]);
-                assignOwnerHrefs(owner["id"]);
-
-                if (row["lastVisit"] != null)
-                    $("#lastVisit").html('<b>Last Visit: </b>' + row["lastVisit"]);
-                else
-                    $("#lastVisit").html('<b>No Inspections Recorded </b>');
-                if (row["lastFedDate"] != null)
-                    $("#lastFedDate").html('<b>Last Fed: </b>' + row["lastFedDate"])
-                else
-                    $("#lastFedDate").html('<b>No Feed Date Recorded </b>');
-            });
-        });
-
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
     <title th:text="#{beeBoard}"></title>
 </head>
 <body>
-<script type="text/javascript" th:href="@{/js/yard-table.js}"></script>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script th:src="@{/js/bee-board.js}"></script>
+<script th:src="@{/js/bee-board-map.js}"></script>
 <header th:replace="fragments/header :: header"></header>
+
+<!-- List and edit Modals -->
+<div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div>
+<div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
+
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="left-sidebar-div">
@@ -125,7 +35,7 @@
             <h4 th:text="|#{duds}: ${beeBoard.getDudsPercent()} #{percent}|"></h4>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div align="center">
         </div>
         <hr/>
@@ -165,9 +75,20 @@
                     <p id="lastVisit"></p>
 
                     <p id="lastFedDate"></p>
+
+                    <div>
+                        <div class="col-sm-4" id="editDescButton">
+                        </div>
+                        <div class="col-sm-4" id="inspectionsDescButton">
+                        </div>
+                        <div class="col-sm-4">
+                            button3
+                        </div>
+                    </div>
+                    <!--
                     <div>
                         <div class="col-sm-4">
-                            <a id="editYard" href="#">
+                            <a data-toggle="modal" data-target="#form-modal" onclick="loadEditYardModal(1)">
                                 <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"
                                    th:title="|#{edit} #{yard}|">
                                     create
@@ -183,14 +104,15 @@
                             </a>
                         </div>
                         <div class="col-sm-4">
-                            <a id="yardShipments" href="#">
+                            <a id="yardInspections" href="#">
                                 <i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"
-                                   th:title="|#{goto} #{shipments}|">
-                                    send
+                                   th:title="|#{goto} #{inspections}|">
+                                    visibility
                                 </i>
                             </a>
                         </div>
                     </div>
+                    -->
                 </div>
             </div>
             <div id="map-div" class="col-md-6" style="display:block" th:align="right"></div>
@@ -199,7 +121,7 @@
         <!--Yard table-->
         <div class="col-md-12">
             <div class="col-md-6">
-                <a data-toggle="modal" data-target="#form-modal" href="#">
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateYardModal()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                        title="Add Yard">
                         add_circle_outline
@@ -209,7 +131,7 @@
             </div>
             <div class="col-md-4"></div>
             <div align="right" class="form-group col-md-2">
-                <select class="form-control" style="margin-right: -15px" id="region">
+                <select class="form-control" style="margin-right: -15px" id="regionDropdown">
                     <option selected="selected" disabled="disabled" value="">Region</option>
                     <option value="ALL" th:text="#{all}"></option>
                     <option th:each="r : ${beeBoard.getRegions()}" th:value="${r.id}" th:text="${r.name}"></option>
@@ -218,10 +140,9 @@
             <table class="table table-condensed table-responsive"
                    id="yard-table"
                    data-toggle="table"
-                   data-url="/yard/json"
+
                    data-cache="false"
                    data-pagination="true"
-                   data-page-size="10"
                    data-page-list="true"
                    data-show-refresh="true"
                    data-show-toggle="true"
@@ -255,95 +176,8 @@
             </table>
         </div>
     </div>
-    <div class="col-md-2 hidden-xs hidden-sm">
-        <div class="right-sidebar-div">
-            <h3><b th:text="#{activeShipments}"></b></h3>
-            <hr/>
-            <h3 align="center" th:text="${beeBoard.getActiveShipments()}">10</h3>
-        </div>
-    </div>
+    <div class="col-md-1"></div>    <!-- space for the right side -->
 </div>
 <div th:replace="fragments/footer :: footer"></div>
-<script src="http://maps.googleapis.com/maps/api/js"></script>
-<script>
-    var x = document.getElementById("error");
-    var marker;
-    var coords;
-    var lat;
-    var lng;
-    var markerImage;
-    var shape;
-    var markers = [];
-    var bounds;
-    var map;
-    var mapOptions;
-
-    //Creates and centers map
-    function initialize() { //Passed in longitude and latitude are just the position of the first drop of the yard.
-        //generate the bee marker image
-        markerImage = {
-            url: 'http://i.imgur.com/ALU8OuA.png',
-            size: new google.maps.Size(45, 45),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(23, 45)
-        };
-        shape = {
-            coords: [1, 1, 1, 45, 45, 45, 45, 1],
-            type: 'poly'
-        };
-        bounds = new google.maps.LatLngBounds();
-        mapOptions = {
-            mapTypeControl: true,
-            mapTypeId: google.maps.MapTypeId.HYBRID
-        };
-        map = new google.maps.Map(
-                document.getElementById("map-div"), mapOptions
-        );
-    }
-
-    function recenter(latitude, longitude) { //used to recenter the map whenever a new row is clicked
-        coords = new google.maps.LatLng(latitude, longitude);
-        map.setZoom(15);
-        map.panTo(coords);
-    }
-
-    function showError(error) {
-        switch (error.code) {
-            case error.PERMISSION_DENIED:
-                x.innerHTML = "User denied the request for Geolocation.";
-                break;
-            case error.POSITION_UNAVAILABLE:
-                x.innerHTML = "Location information is unavailable.";
-                break;
-            case error.TIMEOUT:
-                x.innerHTML = "The request to get user location timed out.";
-                break;
-            case error.UNKNOWN_ERROR:
-                x.innerHTML = "An unknown error occurred.";
-                break;
-        }
-    }
-    //Creates Markers
-    function createMarker(long, lat, windowLabel) {
-        //create info window
-        var infoWindow = new google.maps.InfoWindow({
-            content: windowLabel.toString(),
-            maxWidth: 200
-        });
-        var latlng = new google.maps.LatLng(lat, long);
-        var marker = new google.maps.Marker({
-            position: latlng,
-            icon: markerImage,
-            shape: shape
-        });
-        marker.setMap(map); //must set its map to the pages' map
-        //adds listener to each marker during creation
-        marker.addListener('click', function () {
-            infoWindow.open(map, marker);
-        });
-        bounds.extend(marker.getPosition());
-        map.fitBounds(bounds);
-    }
-</script>
 </body>
 </html>
