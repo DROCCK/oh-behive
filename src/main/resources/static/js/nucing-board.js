@@ -9,43 +9,9 @@ var updateNucYard = "update/nucYard/";
 var updateNucReportUrl = "update/nucReport/";
 var nucReportUrl = 'nucReport/';
 var editNucYardModal = 'editNucYard/';
-var dto = "reports";
 
 
 function init() {
-
-    //$('#createButton').click(function () {
-    //
-    //    var event = {
-    //        count: $('#count').val(),
-    //        start: $('#date').val()
-    //    };
-    //
-    //    $.ajax({
-    //        url: "/nucing/test",
-    //        type: "POST",
-    //        dataType: 'json',
-    //        data: event,
-    //        beforeSend: function () {
-    //            var token = $("meta[name='_csrf']").attr("content");
-    //            var header = $("meta[name='_csrf_header']").attr("content");
-    //            $(document).ajaxSend(function (e, xhr, options) {
-    //                xhr.setRequestHeader(header, token);
-    //            });
-    //        },
-    //        complete: function () {
-    //            alert(eventJSON);
-    //        },
-    //        error: function (xhr, desc, err) {
-    //            alert("error " + err + " " + desc + " " + xhr.responseText);
-    //        }
-    //    });
-    //    $('#calendar').fullCalendar('refetchEvents');
-    //    $('#count').val("");
-    //});
-    //
-    //$('#date').val(getTodaysDate());
-
     $('#calendar').fullCalendar({
         events: '/nucing/events',
         color: 'yellow',
@@ -184,6 +150,7 @@ function createNucReportForm(data, id) {
     $('#form-modal-title').text("Nucing Report");
     var body = getEmptyFormBody();
     body.append(
+        getFormGroup("dateFed", "Last Fed", "date"),
         $('<ul>')
             .attr('class', 'nav nav-tabs')
             .attr('id', 'tabContent')
@@ -253,7 +220,7 @@ function createNucReportForm(data, id) {
                 .attr('id', 'placed')
                 .append(
                 getFormGroup('dateBeesPlaced', "Date Bees Placed", 'date'),
-                getFormGroup('initalCount', 'Hives Moved In', 'number')
+                getFormGroup('initialCount', 'Hives Moved In', 'number')
             ),
             $('<div>')
                 .attr('class', 'pane tab-pane')
@@ -281,6 +248,7 @@ function createNucReportForm(data, id) {
                 .attr('class', 'pane tab-pane')
                 .attr('id', 'queenschecked')
                 .append(
+                getFormGroup('dateBeesQueened', 'Date Bees Queened', 'date'),
                 getFormGroup('finalCount', "Total After Queen Check", 'number')
             )
         ),
@@ -300,11 +268,12 @@ function createNucReportForm(data, id) {
     );
     // set data
 
+    $('#dateFed').val(data['dateFed']);
     $('#yardId').val(id);
     $('#notes').val(data['notes']);
     $('#dateLaidOut').val(data['dateLaidOut']);
     $('#dateBeesPlaced').val(data['dateBeesPlaced']);
-    $('#initalCount').val(data['initialCount']);
+    $('#initialCount').val(data['initialCount']);
     $('#dateBeesSupered').val(data['dateBeesSupered']);
     $('#countDuringSupering').val(data['countDuringSupering']);
     $('#superCount').val(data['superCount']);
@@ -325,7 +294,7 @@ function updateNucReport() {
         dateLaidOut: $('#dateLaidOut').val(),
         notes: $('#notes').val(),
         dateBeesPlaced: $('#dateBeesPlaced').val(),
-        initalCount: $('#initalCount').val(),
+        initialCount: $('#initialCount').val(),
         dateBeesSupered: $('#dateBeesSupered').val(),
         countDuringSupering: $('#countDuringSupering').val(),
         superCount: $('#superCount').val(),
@@ -333,20 +302,25 @@ function updateNucReport() {
         nucCount: $('#nucCount').val(),
         oldQueensCount: $('#oldQueensCount').val(),
         queensPlaced: $('#queensPlaced').val(),
-        finalCount: $('#finalCount').val()
+        finalCount: $('#finalCount').val(),
+        dateFed: $('#dateFed').val()
     };
 
     $.ajax({
-        url: url + updateNucReportUrl + getTimeStamp(),
-        type: "POST",
-        dataType: 'json',
-        data: nucReport,
-        beforeSend: addCSRFToken(),
-        error: function (xhr, desc, err) {
-            //alert("error " + err + " " + desc + " " + xhr.responseText);
-            alert("Update nuc report");
+            url: url + updateNucReportUrl + getTimeStamp(),
+            type: "POST",
+            dataType: 'json',
+            data: nucReport,
+            beforeSend: addCSRFToken(),
+            complete: function () {
+                setAlert("success", "<strong>Success!</strong> Nuc Report Updated!")
+            },
+            error: function (xhr, desc, err) {
+                //alert("error " + err + " " + desc + " " + xhr.responseText);
+                //alert("Update nuc report");
+            }
         }
-    })
+    )
 }
 // Nuc Yard Modal Functions
 
@@ -587,17 +561,18 @@ function editNucYardForm(data) {
         }
     );
 
-    updateEditValues($('#yardName').find("option:selected").val());
 
-    $("#yardName").on("change", function() {
+    updateEditValues($('#yardName').find("option:selected").val());
+    $("#yardName").on("change", function () {
         updateEditValues($('#yardName').find("option:selected").val());
     })
 }
 
 
 function updateEditValues(id) {
-    $.getJSON("/nucing/getYard/" + id, function(data) {
+    $.getJSON("/nucing/getYard/" + id, function (data) {
         $("#maxHives").val(data.maxHives);
+        $("#status").val(data.status);
         $("#rentReceiver").val(data.rentReceiver.name);
         $("#owner").val(data.owner.person.name);
         $("#street").val(data.address.street);
@@ -621,7 +596,7 @@ function createNucYard() {
         yardName: $('#yardName').val(),
         maxHives: $('#maxHives').val(),
         status: $('#status').find('option:selected').val(),
-        owner: $('#owner').find('option:selected').val(),
+        owner: $('#owner').find("option:selected").val(),
         rentReceiver: $('#rentReceiver').find('option:selected').val(),
         region: $('#region').find('option:selected').val(),
         longitude: $('#longitudeModal').val(),
@@ -641,14 +616,13 @@ function createNucYard() {
         dataType: 'json',
         data: NucYard,
         beforeSend: addCSRFToken(),
-        complete: function () {
-            //alert(NucYard);
-        },
         error: function (xhr, desc, err) {
             //alert("error " + err + " " + desc + " " + xhr.responseText);
-            alert("Created new nuc yard");
+            //alert("Created new nuc yard");
         }
     });
+    setAlert("success", "<strong>Sucess!</strong> Updated Nucing Yard!");
+    $('#form-modal').html(getEmptyFormBody().append('<p').text("loading"));
 }
 
 // Map Functions
@@ -735,9 +709,7 @@ function getTodaysDate() {
     var dd = today.getDate();
     var mm = today.getMonth();
     var yyyy = today.getFullYear();
-    var format = yyyy + '-' + addZero(mm + 1) + '-' + addZero(dd);
-
-    return format;
+    return yyyy + '-' + addZero(mm + 1) + '-' + addZero(dd);
 }
 
 function getTimeStamp() {
@@ -749,9 +721,7 @@ function getTimeStamp() {
     var dd = today.getDate();
     var mm = today.getMonth();
     var yyyy = today.getFullYear();
-    var format = yyyy + "" + mm + "" + dd + "" + h + "" + m + '' + s + "" + ms;
-
-    return format;
+    return yyyy + "" + mm + "" + dd + "" + h + "" + m + '' + s + "" + ms;
 }
 
 function addZero(s) {
@@ -800,6 +770,21 @@ function updateTotalValues() {
             $("#sumNucCount").text(result["nucCount"]);
             $("#sumQueensPlaced").text(result["queensPlaced"]);
             $("#sumFinalCount").text(result["finalCount"]);
+            $("#parentToNucRatio").text((Math.round(result["nucCount"] / result["countDuringSupering"] * 100) / 100))
+            $("#initialToFinalRatio").text((Math.round(result["finalCount"] / result["initialCount"] * 100) / 100))
         }
     );
+}
+
+function setAlert(type, message) {
+    $("#alert").attr("class", "alert alert-" + type)
+        .removeAttr("hidden")
+        .html(message);
+}
+
+function toggleCalendar() {
+    $("#cal-div").toggle();
+    $("#tbl-div").toggleClass("col-md-4")
+        .toggleClass("col-md-10");
+    $("#toggleCal").toggleClass("btn-default").toggleClass("btn-primary");
 }

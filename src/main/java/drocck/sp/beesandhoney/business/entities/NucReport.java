@@ -20,6 +20,8 @@ public class NucReport {
     private Yard yard; //Later this will be specifc nucing yard.
     private int year;
 
+
+    private Date dateFed;
     // LAID OUT STAGE
     private Date dateLaidOut;
 
@@ -166,6 +168,14 @@ public class NucReport {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public Date getDateFed() {
+        return dateFed;
+    }
+
+    public void setDateFed(Date dateFed) {
+        this.dateFed = dateFed;
     }
 
     //    public float getSplitRatio() {
