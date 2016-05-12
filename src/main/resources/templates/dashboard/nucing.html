@@ -5,11 +5,12 @@
     <title>Nucing Board</title>
     <link rel="stylesheet" th:href="@{/css/nucing.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.0/fullcalendar.min.css"/>
+    <script th:src="@{/js/maps.js}"></script>
 
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <!--<script src="http://maps.googleapis.com/maps/api/js"></script>-->
     <script th:src="@{/js/nucing-board.js}"></script>
     <script>
         $(document).ready(function () {
@@ -109,9 +110,9 @@
                 <h4 class="list-header" th:text="|#{pipe} Add Nucing Yard|">Add Nucing Yard</h4>
                 <br/>
                 <a data-toggle="modal" data-target="#form-modal" onclick="loadEditNucYardModal()">
-                    <i class="material-icons md-24 edit-list-icon" data-toggle="tooltip"
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                        title="Add Nucing Yard">
-                        add_circle_outline
+                        create
                     </i>
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Edit Nucing Yard|">Edit Nucing Yard</h4>
