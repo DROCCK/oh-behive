@@ -199,6 +199,9 @@ function getHiddenIdInput(id) {
     return getFormGroupInput("id", "hidden", id);
 }
 
+function getHiddenInput(name, i){
+    return getFormGroupInput(name, "hidden", i);
+}
 function selectOption(id) {
     $('#' + id).prop('selected', true);
 }
@@ -218,6 +221,12 @@ function loadEditYardModal(id) {
 function loadCreateInspectionModal(id) {
     $.getJSON("/beeboard/createInspection/"+id, function (data) {
         createInspectionForm(data);
+    });
+}
+
+function loadChangeToInactiveModal(id){
+    $.getJSON("/beeboard/changeInactive/"+id, function(data){
+       createChangeToInactiveForm(data);
     });
 }
 
@@ -346,13 +355,25 @@ function getInspectionForm(data, action){
     getEmptyFormBody()
         .append(
             getFormGroup('date', 'Date', 'date', year+"-"+month+"-"+day),
-            getFormGroup('doubles', 'Doubles', 'text'),
             getFormGroup('singles', 'Singles', 'text'),
+            getFormGroup('doubles', 'Doubles', 'text'),
             getFormGroup('supers', 'Supers', 'text'),
+            getFormGroup('duds', 'Duds', 'text'),
             getFormGroup('medication', 'Medication Used', 'text'),
             getFormGroup('isFed', 'Where the bees fed?', 'checkbox', 'fed'),
             getFormGroupWithTextArea('notes', 'Notes')
         );
+}
+
+function getEmptyYardForm(action){
+    var form = $('#form');
+    form.attr('action', action);
+    form.submit(function (event) {
+        event.preventDefault();
+        postYard();
+        return false;
+    });
+    getEmptyFormBody();
 }
 
 function resizeAndCenterMap(){
@@ -366,6 +387,12 @@ function resizeAndCenterMap(){
 
 function fillYardForm(data){
     $('#form').append(getHiddenIdInput(data.id));
+    $('#form').append(getHiddenInput('singles', data.singles));
+    $('#form').append(getHiddenInput('doubles', data.doubles));
+    $('#form').append(getHiddenInput('supers', data.supers));
+    $('#form').append(getHiddenInput('duds', data.duds));
+    $('#form').append(getHiddenInput('lastVisit', data.lastVisit));
+    $('#form').append(getHiddenInput('lastFedDate', data.lastFedDate));
     putInputValue('yardName', data.yardName);
     putInputValue('maxHives', data.maxHives);
     putInputValue('street', data.address.street);
@@ -381,6 +408,38 @@ function fillYardForm(data){
     selectOption(data.owner.person.name);
     selectOption(data.rentReceiver.name);
     selectOption(data.region.name);
+}
+
+function fillEmptyYardInactiveForm(data){
+    $('#form').append(getHiddenIdInput(data.id));
+    $('#form').append(getHiddenInput('singles', data.singles));
+    $('#form').append(getHiddenInput('doubles', data.doubles));
+    $('#form').append(getHiddenInput('supers', data.supers));
+    $('#form').append(getHiddenInput('duds', data.duds));
+    $('#form').append(getHiddenInput('lastVisit', data.lastVisit));
+    $('#form').append(getHiddenInput('lastFedDate', data.lastFedDate));
+    $('#form').append(getHiddenInput('yardName', data.yardName));
+    $('#form').append(getHiddenInput('maxHives', data.maxHives));
+    $('#form').append(getHiddenInput('street', data.address.street));
+    $('#form').append(getHiddenInput('suite', data.address.apt));
+    $('#form').append(getHiddenInput('city', data.address.city));
+    $('#form').append(getHiddenInput('state', data.address.state));
+    $('#form').append(getHiddenInput('zip', data.address.zip));
+    $('#form').append(getHiddenInput('longitudeModal', data.longitude));
+    $('#form').append(getHiddenInput('latitudeModal', data.latitude));
+    $('#form').append(getHiddenInput('combo', data.combo));
+    $('#form').append(getHiddenInput('accessNotes', data.accessNotes));
+    $('#form').append(getHiddenInput('status', 'INACTIVE'));
+    $('#form').append(getHiddenInput('owner', data.owner.person.id));
+    $('#form').append(getHiddenInput('rentReceiver', data.rentReceiver.id));
+    $('#form').append(getHiddenInput('region', data.region.name));
+}
+
+function fillInspectionForm(data){
+    putInputValue('singles', data.yard.singles);
+    putInputValue('doubles', data.yard.singles);
+    putInputValue('supers', data.yard.supers);
+    putInputValue('duds', data.yard.duds);
 }
 
 function createYardForm(data) {
@@ -404,6 +463,14 @@ function createInspectionForm(data){
     $('#form-modal-title').text("Create Inspection for "+data.yard.yardName);
     getInspectionForm(data, '/beeboard/addInspection');
     getFormBody().append(getSubmitButton('Create'));
+    fillInspectionForm(data);
+}
+
+function createChangeToInactiveForm(data){
+    $('#form-modal-title').text("Are you sure you want to make "+data.yard.yardName+" inactive?");
+    getEmptyYardForm(data, '/beeboard/addYard');
+    fillEmptyYardInactiveForm(data.yard);
+    getFormBody().append(getSubmitButton('Yes'));
 }
 //POST FUNCTION
 function post(url, json, callback) {
@@ -429,25 +496,40 @@ function post(url, json, callback) {
             console.log("SUCCESS: ", msg);
             clearMarkers();
             recreateMap();
+            recalculateTotals();
             return false;
         }
     });
 }
 //FORMATTER
+
 function editFormatter(value, row, index) {
     var modelId = row["id"];
     return [
-        '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
-        '<i class="material-icons bee-board-icon">create</i>',
-        '</a>'
+        '<a data-toggle="modal" data-target="#form-modal" onclick="loadEditYardModal('+modelId+')">' +
+            '<i class="material-icons bee-board-icon">' +
+            ' create ' +
+            '</i></a>'
+    ].join('');
+}
+
+function createInspectionFormatter(value, row, index){
+    var modelId = row["id"];
+    return [
+        '<a data-toggle="modal" data-target="#form-modal" onclick="loadCreateInspectionModal('+row["id"]+')">' +
+        '<i class="material-icons bee-board-icon" data-toggle="tooltip">' +
+        'add_circle_outline' +
+        '</i> </a>'
     ].join('');
 }
 
 function deleteFormatter(value, row, index) {
+    var modelId=row["id"];
     return [
-        '<a class="remove ml10 bee-board-icon" href="javascript:void(0)" title="Remove">',
-        ' <i class="material-icons bee-board-icon">delete</i>',
-        '</a>'
+        '<a data-toggle="modal" data-target="#form-modal" onclick="loadChangeToInactiveModal('+modelId+')">' +
+        '<i class="material-icons bee-board-icon">' +
+        ' delete ' +
+        '</i></a>'
     ].join('');
 }
 
@@ -490,6 +572,7 @@ function recreateMap(){
                 }
             }
             $('#yard-table').bootstrapTable('load', tableArray);
+            $('#yard-table').bootstrapTable('hideLoading');
         }
         else{
             for(var j = 0; jsonArray.length>j; j++){
@@ -516,9 +599,25 @@ function recreateMap(){
     });
 }
 
+function recalculateTotals(){
+    $.getJSON("/beeboard/sums", function(data){
+        $('#singlesTotal').text("Singles: "+data['singles']);
+        $('#doublesTotal').text("Doubles: "+data['doubles']);
+        $('#supersTotal').text("Supers: "+data['supers']);
+        $('#dudsTotal').text("Duds: "+data['duds']);
+        $('#total').text("Total: "+data['total']);
+
+        $('#singlesPercent').text("Singles: %"+data['singlesPercent']);
+        $('#doublesPercent').text("Doubles: %"+data['doublesPercent']);
+        $('#supersPercent').text("Supers: %"+data['supersPercent']);
+        $('#dudsPercent').text("Duds: %"+data['dudsPercent']);
+    });
+}
+
 $(function () {
     initialize(); //initialize map
     recreateMap();
+    recalculateTotals();
     $('#yard-table').bootstrapTable({}).on('click-row.bs.table', function (e, row, $element) {
         (function () {
             document.getElementById('yard-prompt').style.display = "none";
@@ -539,7 +638,6 @@ $(function () {
                     }
                 }
             }
-
             var lat = jsonArray[regionIndex]['yards'][yardIndex]['latitude'];
             var long = jsonArray[regionIndex]['yards'][yardIndex]['longitude'];
             //console.log(lat +" "+long);
@@ -561,14 +659,13 @@ $(function () {
         assignOwnerHrefs(row["owner"]["id"]);
         //description buttons
         $("#editDescButton").html('<a data-toggle="modal" data-target="#form-modal" onclick="loadEditYardModal('+row["id"]+')">' +
-            '<i class="material-icons md-24 bee-board-icon" data-toggle="tooltip" th:title="|#{edit} #{yard}|">' +
+            '<i class="material-icons bee-board-icon" data-toggle="tooltip">' +
             ' create ' +
             '</i></a>');
         $("#inspectionsDescButton").html('<a data-toggle="modal" data-target="#form-modal" onclick="loadCreateInspectionModal('+row["id"]+')">' +
-            '<i class="material-icons md-24 bee-board-icon" data-toggle="tooltip"th:title="|#{goto} #{inspections}|">' +
-            'visibility' +
+            '<i class="material-icons bee-board-icon" data-toggle="tooltip">' +
+            'add_circle_outline' +
             '</i> </a>');
-        
         if (row["lastVisit"] != null)
             $("#lastVisit").html('<b>Last Visit: </b>' + row["lastVisit"]);
         else

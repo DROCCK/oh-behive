@@ -1,9 +1,6 @@
 package drocck.sp.beesandhoney.business.services;
 
-import drocck.sp.beesandhoney.business.entities.Owner;
-import drocck.sp.beesandhoney.business.entities.Person;
-import drocck.sp.beesandhoney.business.entities.Region;
-import drocck.sp.beesandhoney.business.entities.Yard;
+import drocck.sp.beesandhoney.business.entities.*;
 import drocck.sp.beesandhoney.business.entities.repositories.RegionRepository;
 import drocck.sp.beesandhoney.business.entities.repositories.YardRepository;
 import org.json.JSONException;
@@ -11,6 +8,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +46,11 @@ public class YardService {
         );
     }
 
+    public List<Yard> findAllInUseOnlyYard(){
+        return findAll().stream().filter(
+                yard -> (!(yard instanceof Orchard || yard instanceof NucYard))&& yard.getStatus().equals(Yard.IN_USE)).collect(Collectors.toList());
+    }
+
     public List<Yard> findAllByOwner(Owner owner) {
         return yardRepository.findAllByOwner(owner);
     }
@@ -71,6 +76,7 @@ public class YardService {
 
     public Yard save(JSONObject json){
         Yard yard = new Yard();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
         try {
             yard.setId(json.getLong("id"));
         } catch (JSONException je) {
@@ -130,6 +136,44 @@ public class YardService {
             yard.setAddress(addressService.save(json.getJSONObject("address")));
         } catch (JSONException je) {
             System.err.println(je.getMessage());
+        }
+        try {
+            yard.setSingles(json.getInt("singles"));
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        }
+        try {
+            yard.setDoubles(json.getInt("doubles"));
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        }
+        try {
+            yard.setSupers(json.getInt("supers"));
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        }
+        try {
+            yard.setDuds(json.getInt("duds"));
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        }
+        try {
+            Date parsed = format.parse(json.getString("lastVisit"));
+            java.sql.Date sql = new java.sql.Date(parsed.getTime());
+            yard.setLastVisit(sql);
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            Date parsed = format.parse(json.getString("lastFedDate"));
+            java.sql.Date sql = new java.sql.Date(parsed.getTime());
+            yard.setLastFedDate(sql);
+        } catch (JSONException je) {
+            System.err.println(je.getMessage());
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return yardRepository.save(yard);
     }
