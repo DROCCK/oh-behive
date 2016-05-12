@@ -543,6 +543,40 @@ function editOrchardForm(data) {
     getFormBody().append(getSubmitButton('Save'));
     fillOrchardForm(data.orchard);
 }
+
+function createInspectionForm(data) {
+    $('#form-modal-title').text("Create Inspection");
+    getInspectionForm(data, '/pollination/addInspection');
+    getFormBody().append(getSubmitButton('Create'));
+}
+
+function editInspectionForm(data) {
+    $('#form-modal-title').text("Create Inspection");
+    getInspectionForm(data, '/pollination/addInspection');
+    getFormBody().append(getSubmitButton('Save'));
+    fillInspectionForm(data);
+}
+
+function getInspectionForm(data, action) {
+    var form = $('#form');
+    form.attr('action', action);
+    form.submit(function (event) {
+        event.preventDefault();
+        postInspection();
+        return false;
+    });
+    getEmptyFormBody()
+        .append(
+            getFormGroupWithSelector('orchard', "Orchard", getSelector(data.orchards, 'orchard')),
+            getFormGroup('date', 'Date', 'date'),
+            getFormGroupWithSelector('purpose', "Purpose", getSelector(data.purposes, 'purpose')),
+            getFormGroup('notes', 'Notes', 'text')
+        );
+}
+
+function fillInspectionForm() {
+
+}
 // End form functions
 
 /**
@@ -557,6 +591,12 @@ function loadCreateOrchardModal() {
 function loadCreateContractModal() {
     $.getJSON("/pollination/createContract", function (data) {
         createContractForm(data);
+    });
+}
+
+function loadCreateInspectionModal() {
+    $.getJSON("/pollination/createInspection", function (data) {
+        createInspectionForm(data);
     });
 }
 

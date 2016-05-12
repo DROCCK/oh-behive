@@ -31,6 +31,9 @@ public class PolliInspection implements Serializable {
     @Enumerated(EnumType.STRING)
     private Purpose purpose;
 
+    @Column(name = "NOTES")
+    private String notes;
+
     public Long getId() {
         return id;
     }
@@ -61,5 +64,13 @@ public class PolliInspection implements Serializable {
 
     public void setOrchard(Orchard orchard) {
         this.orchard = orchard;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

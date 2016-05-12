@@ -36,12 +36,6 @@
                 <hr/>
                 <h4 id="current-count"></h4>
                 <h4 id="contracted-count"></h4>
-                <hr/>
-                <h4><b th:text="#{dates}"></b></h4>
-                <hr/>
-                <h4 th:text="|#{in}: ${1}|"></h4>
-                <h4 th:text="|#{out}: ${1}|"></h4>
-                <h4 th:text="|#{fed}: ${1}|"></h4>
             </div>
         </div>
     </div>
@@ -153,6 +147,14 @@
                     </i>
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Add Shipment|">Add Shipment</h4>
+                <br/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateInspectionModal()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Add Inspection">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Add Inspection|">Add Inspection</h4>
                 <br/>
                 <hr/>
                 <h4><b th:text="Lists"></b></h4>
