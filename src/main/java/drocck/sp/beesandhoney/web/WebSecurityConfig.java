@@ -30,42 +30,43 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf()
-            .csrfTokenRepository(csrfTokenRepository())
-        .and()
-            .authorizeRequests()
-            .antMatchers(
-                // "/**",
-                "/resources/**",
-                "/index",
-                "/user/create",
-                "/console/**"
-            ).permitAll()
-            .antMatchers(
-                "/users/**",
-                "/user/**"
-            ).hasAuthority("ADMIN")
-            .anyRequest().fullyAuthenticated()
-        .and()
-            .formLogin()
-            .loginPage("/login")
-            .failureUrl("/login?error")
-            .usernameParameter("username")
-            .permitAll()
-        .and()
-            .logout()
-            .deleteCookies("remember-me")
-            .logoutSuccessUrl("/")
-            .permitAll()
-            .and()
-            .rememberMe();
+                .csrf()
+                .csrfTokenRepository(csrfTokenRepository())
+                .and()
+                .authorizeRequests()
+                .antMatchers(
+                        // "/**",
+                        "/resources/**",
+                        "/index",
+                        "/user/create",
+                        "/help/**",
+                        "/console/**"
+                ).permitAll()
+                .antMatchers(
+                        "/users/**",
+                        "/user/**"
+                ).hasAuthority("ADMIN")
+                .anyRequest().fullyAuthenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .failureUrl("/login?error")
+                .usernameParameter("username")
+                .permitAll()
+                .and()
+                .logout()
+                .deleteCookies("remember-me")
+                .logoutSuccessUrl("/")
+                .permitAll()
+                .and()
+                .rememberMe();
     }
 
     public void configure(AuthenticationManagerBuilder auth)
             throws Exception {
         auth
-          .userDetailsService(userDetailsService)
-          .passwordEncoder(new BCryptPasswordEncoder());
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
 
     private CsrfTokenRepository csrfTokenRepository() {

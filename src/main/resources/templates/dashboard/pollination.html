@@ -22,21 +22,26 @@
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="side-div left-sidebar-div">
             <div class="in-side-div">
-                <h3><b th:text="#{counts}"></b></h3>
-                <hr/>
-                <h4 th:text="|#{current}: ${1}|"></h4>
-                <h4 th:text="|#{contract}: ${1}|"></h4>
-            </div>
-        </div>
-        <div class="side-div left-sidebar-div">
-            <div class="in-side-div">
                 <h3><b th:text="#{progress}"></b></h3>
                 <hr/>
+                <h4><b>Total % Fulfilled</b></h4>
+                <hr/>
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                         aria-valuenow="56" style="width: 56%;">
+                    <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuemin="0"
+                         aria-valuemax="100">
                     </div>
                 </div>
+                <hr/>
+                <h4><b th:text="#{counts}"></b></h4>
+                <hr/>
+                <h4 id="current-count"></h4>
+                <h4 id="contracted-count"></h4>
+                <hr/>
+                <h4><b th:text="#{dates}"></b></h4>
+                <hr/>
+                <h4 th:text="|#{in}: ${1}|"></h4>
+                <h4 th:text="|#{out}: ${1}|"></h4>
+                <h4 th:text="|#{fed}: ${1}|"></h4>
             </div>
         </div>
     </div>
@@ -61,17 +66,14 @@
                     <p id="progress"></p>
                 </div>
                 <div align="center" class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
                         <p id="edit"></p>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <p id="delete"></p>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <p id="complete"></p>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <p id="contacts"></p>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <p id="shipments"></p>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <p id="inspections"></p>
                     </div>
                 </div>
             </div>
@@ -106,13 +108,16 @@
                 <thead id="contract-table-head">
                 <tr>
                     <th data-field="id" data-visible="false"></th>
-                    <th class="col-md-2" data-field="orchardName" data-sortable="true" data-visible="true" th:text="#{orchardName}"></th>
+                    <th class="col-md-2" data-field="orchardName" data-sortable="true" data-visible="true"
+                        th:text="#{orchardName}"></th>
                     <th class="col-md-6" data-field="progress" data-formatter="progressFormatter" data-sortable="true"
                         data-visible="true" th:text="#{progress}"></th>
-                    <th class="col-md-1" data-field="edit" data-formatter="editOrchardFormatter" data-sortable="false" data-events="operateEvents"
+                    <th class="col-md-1" data-field="edit" data-formatter="editOrchardFormatter" data-sortable="false"
+                        data-events="operateEvents"
                         th:text="|#{edit} #{orchard}|"></th>
-                    <th class="col-md-1" data-field="delete" data-formatter="deleteFormatter" data-sortable="false" data-events="operateEvents"
-                        th:text="#{delete}"></th>
+                    <th class="col-md-1" data-field="delete" data-formatter="checkFormatter" data-sortable="false"
+                        data-events="operateEvents">Complete
+                    </th>
                 </tr>
                 </thead>
             </table>
@@ -150,42 +155,12 @@
                 <h4 class="list-header" th:text="|#{pipe} Add Shipment|">Add Shipment</h4>
                 <br/>
                 <hr/>
-                <h4><b th:text="Edit"></b></h4>
-                <hr/>
-                <a data-toggle="modal" data-target="#form-modal" onclick="loadEditOrchardModal(1)">
-                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Edit Orchard">
-                        create
-                    </i>
-                </a>
-                <h4 class="list-header" th:text="|#{pipe} Edit Orchard|">Edit Orchard</h4>
-                <br/>
-                <a data-toggle="modal" data-target="#form-modal" onclick="loadEditContractModal(1)">
-                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Edit Contract">
-                        create
-                    </i>
-                </a>
-                <h4 class="list-header" th:text="|#{pipe} Edit Contract|">Edit Contract</h4>
-                <br/>
-                <a data-toggle="modal" data-target="#form-modal" onclick="loadEditShipmentModal(1)">
-                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Edit Shipment">
-                        create
-                    </i>
-                </a>
-                <h4 class="list-header" th:text="|#{pipe} Edit Shipment|">Edit Shipment</h4>
-            </div>
-
-        </div>
-        <div class="side-div right-sidebar-div">
-            <div class="in-side-div">
-                <h3><b th:text="Lists"></b></h3>
+                <h4><b th:text="Lists"></b></h4>
                 <hr/>
                 <a data-toggle="modal" data-target="#table-modal" onclick="getContacts(1)">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                        title="Contacts">
-                        add_circle_outline
+                        list
                     </i>
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Contacts|">Contacts</h4>
@@ -193,7 +168,7 @@
                 <a data-toggle="modal" data-target="#table-modal" onclick="getInspections(1)">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                        title="Inspections">
-                        add_circle_outline
+                        list
                     </i>
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Inspections|">Inspections</h4>
@@ -201,20 +176,10 @@
                 <a data-toggle="modal" data-target="#table-modal" onclick="getShipments()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                        title="Shipments">
-                        add_circle_outline
+                        list
                     </i>
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Shipments|">Shipments</h4>
-            </div>
-
-        </div>
-        <div class="side-div right-sidebar-div">
-            <div class="in-side-div">
-                <h3><b th:text="#{dates}"></b></h3>
-                <hr/>
-                <h4 th:text="|#{in}: ${1}|"></h4>
-                <h4 th:text="|#{out}: ${1}|"></h4>
-                <h4 th:text="|#{fed}: ${1}|"></h4>
             </div>
         </div>
     </div>

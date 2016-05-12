@@ -7,6 +7,7 @@ var contractDtoList = url + "contracts";
 var contract = url + "contract/";
 var contacts = url + "contacts/";
 var inspections = url + "inspections/";
+var progress = url + "progress";
 var shipments = url + "shipments/";
 var createContract = url + "createContract";
 var addOrchard = url + "addOrchard";
@@ -73,7 +74,6 @@ function loadInspectionListModal(data) {
 function loadShipmentListModal(data) {
     loadListModal(data, getShipmentHead, getShipmentRow);
 }
-
 //function getShipmentListModal() {
 //    loadShipmentListModal(getShipments());
 //}
@@ -90,7 +90,8 @@ function getContactHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
         $('<td>').text('Email'),
-        $('<td>').text('Phone')
+        $('<td>').text('Phone'),
+        $('<td>').text('Address')
     );
 }
 
@@ -98,72 +99,54 @@ function getContactRow(e) {
     return $('<tr>').append(
         $('<td>').text(e.id),
         $('<td>').text(e.email),
-        $('<td>').text(e.phone)
+        $('<td>').text(e.phone),
+        $('<td>').text(e.address)
     );
 }
 
 function getInspectionHead() {
     return $('<tr>').append(
-        $('<td>').text('Name'),
-        $('<td>').text('Doubles'),
-        $('<td>').text('Singles'),
-        $('<td>').text('Supers'),
-        $('<td>').text('Duds'),
-        $('<td>').text('Visit Date'),
-        $('<td>').text('Fed Status'),
-        $('<td>').text('Medication'),
+        $('<td>').text('Date'),
+        $('<td>').text('Purpose'),
         $('<td>').text('Notes'),
-        $('<td>').text('Inspected Yard')
+        $('<td>').text('Edit'),
+        $('<td>').text('Delete')
     );
 }
 
 function getInspectionRow(e) {
     return $('<tr>').append(
-        $('<td>').text(e.id),
-        $('<td>').text(e.numDoubles),
-        $('<td>').text(e.numSingles),
-        $('<td>').text(e.supers),
-        $('<td>').text(e.duds),
-        $('<td>').text(e.visitDate),
-        $('<td>').text(e.isFed),
-        $('<td>').text(e.medication),
+        $('<td>').text(e.date),
+        $('<td>').text(e.purpose),
         $('<td>').text(e.notes),
-        $('<td>').text(e.yard)
+        $('<td>').text('Edit'),
+        $('<td>').text('Delete')
     );
 }
+
 function getShipmentHead() {
     return $('<tr>').append(
         $('<td>').text('Name'),
-        $('<td>').text('To'),
+        $('<td>').text('Date'),
+        $('<td>').text('Direction'),
+        $('<td>').text('Dud'),
         $('<td>').text('From'),
-        $('<td>').text('Singles'),
-        $('<td>').text('Doubles'),
-        $('<td>').text('Supers'),
-        $('<td>').text('Status'),
-        $('<td>').text('Truck ID'),
-        $('<td>').text('Load Number'),
-        $('<td>').text('Weight'),
-        $('<td>').text('Depart Date'),
-        $('<td>').text('Arrival Date'),
-        $('<td>').text('Carrier')
+        $('<td>').text('To'),
+        $('<td>').text('In'),
+        $('<td>').text('Notes')
     );
 }
 
 function getShipmentRow(e) {
     return $('<tr>').append(
         $('<td>').text(e.id),
-        $('<td>').text(e.toYard),
-        $('<td>').text(e.fromYard),
-        $('<td>').text(e.singles),
-        $('<td>').text(e.doubles),
-        $('<td>').text(e.supers),
-        $('<td>').text(e.status),
-        $('<td>').text(e.truckId),
-        $('<td>').text(e.loadNum),
-        $('<td>').text(e.weight),
-        $('<td>').text(e.departDate),
-        $('<td>').text(e.arrivalDate),
-        $('<td>').text(e.carrier)
+        $('<td>').text(e.date),
+        $('<td>').text(e.direction),
+        $('<td>').text(e.dud),
+        $('<td>').text(e.from),
+        $('<td>').text(e.to),
+        $('<td>').text(e.in),
+        $('<td>').text(e.notes)
     );
 }
 
@@ -196,8 +179,10 @@ function post(url, json, callback) {
 function postContract() {
     var json = getSimpleJson($('#form').serializeArray());
     post(addContract, json, function () {
-        $('#id').remove();
+        var id = $('#id');
         $('#contract-table').bootstrapTable('refresh');
+        getContract(id.val());
+        loadProgress();
     });
 }
 
@@ -313,6 +298,7 @@ function getFormGroup(for_id, label, type, val) {
             getFormGroupInput(for_id, type, val)
         );
 }
+
 function getMapFormGroup(for_id){
     return getGroupDiv()
         .append(
@@ -326,6 +312,7 @@ function getMapFormGroup(for_id){
                 .attr('class', 'col-sm-1')
         )
 }
+
 function getGroupDiv() {
     return $('<div>')
         .attr('class', 'form-group');
@@ -608,16 +595,17 @@ function loadContractDetails(data) {
     $('#number').html('<b>Phone: </b>' + (data.broker == null ? '' : data.broker.contactInfo == null ? '' : data.broker.contactInfo.phone));
     $('#edit').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#form-modal" onclick="loadEditContractModal('+data.id+')">create</i></a>');
-    $('#delete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">delete</i></a>');
-    $('#contacts').html('<a href=#><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
-        'data-target="#table-modal" onclick="getContacts('+data.id+')">person_outline</i></a>');
-    $('#shipments').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
-        'data-target="#table-modal" onclick="getShipments()">visibility</i></a>');
+    $('#complete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">check</i></a>');
+    $('#inspections').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
+        'data-target="#table-modal" onclick="getInspections(' + data.id + ')">visibility</i></a>');
+    var a = data.amount;
+    var c = data.orchard.count;
+    var p = (c / a) * 100;
     $('#progress').html('<b>% Fulfilled:</b><br/><div class="progress"><div class="progress-bar" role="progressbar" ' +
-        'aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + data.count + '" style="width: ' + data.count + '%"></div></div>'
+        'aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + p + '" style="width: ' + p + '%"></div></div>'
     );
 }
-//loadShipmentListModal()
+
 function progressFormatter(value, row, index) {
     return [
         '<div class="progress"><div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"' +
@@ -641,6 +629,15 @@ function tableRowClick(e, row, $element) {
         document.getElementById('map-div').style.display = 'block';
 }
 
+function loadProgress() {
+    $.getJSON(progress, function(data) {
+        $('#current-count').text('Current count: ' + data.fulfilled);
+        $('#contracted-count').text('Contracted count: ' + data.needed);
+        var p = data.progress * 100;
+        $('#progress-bar').css('width', p +'%').attr('aria-valuenow', p);
+    })
+}
+
 window.operateEvents = {
     'click .edit': function (e, value, row, index) {
         // location.href = "/yard/update/" + row["id"];
@@ -652,6 +649,7 @@ window.operateEvents = {
 
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    loadProgress();
 });
 
 var x = document.getElementById("error");

@@ -64,6 +64,11 @@ public class AppConfig {
     }
 
     @Bean
+    public PolliInspectionService polliInspectionService() {
+        return new PolliInspectionService();
+    }
+
+    @Bean
     public UserCreateFormValidator userCreateFormValidator() {
         return new UserCreateFormValidator();
     }

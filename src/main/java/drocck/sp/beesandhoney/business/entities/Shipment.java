@@ -1,9 +1,6 @@
 package drocck.sp.beesandhoney.business.entities;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
