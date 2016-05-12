@@ -109,6 +109,11 @@ public class PollinationBoardRestController {
         return new PolliShipmentEditDTO(getPolliShipmentCreateDTO(), polliShipmentService.findOne(id));
     }
 
+    @RequestMapping(value = "pollination/createInspection", method = RequestMethod.GET)
+    public PolliInspectionCreateDTO createPolliInspection() {
+        return getPolliInspectionCreateDTO();
+    }
+
     @RequestMapping(value = "pollination/shipments", method = RequestMethod.GET)
     public List<PolliShipment> shipments() {
         return polliShipmentService.findAll();
@@ -130,6 +135,11 @@ public class PollinationBoardRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public PolliShipment addShipment(@PathVariable("json") String json) {
         return polliShipmentService.save(new JSONObject(json));
+    }
+
+    @RequestMapping(value = "pollination/addInspection/{json}", method = RequestMethod.POST)
+    public PolliInspection addInspection(@PathVariable("json") String json) {
+        return inspectionService.save(new JSONObject(json));
     }
 
     @RequestMapping(value = "pollination/orchards", method = RequestMethod.GET)
@@ -170,7 +180,6 @@ public class PollinationBoardRestController {
 
     @RequestMapping(value = "pollination/inspections/{id}")
     public List<PolliInspection> inspections(@PathVariable("id") Long id) {
-
         return inspectionService.findAllByOrchard(orchardService.findOne(id));
     }
 
@@ -211,5 +220,15 @@ public class PollinationBoardRestController {
         c.setPeople(personService.findAll());
         c.setOrchards(orchardService.findAllOrchardNames());
         return c;
+    }
+
+    private PolliInspectionCreateDTO getPolliInspectionCreateDTO() {
+        PolliInspectionCreateDTO picdto = new PolliInspectionCreateDTO();
+        picdto.setOrchards(orchardService.findAllOrchardNames());
+        List<String> purposes = new ArrayList<>();
+        for (PolliInspection.Purpose purpose : PolliInspection.Purpose.values())
+            purposes.add(purpose.name());
+        picdto.setPurposes(purposes);
+        return picdto;
     }
 }
