@@ -405,7 +405,7 @@ function fillYardForm(data){
     putInputValue('combo', data.combo);
     putInputValue('accessNotes', data.accessNotes);
     selectOption(data.status);
-    selectOption(data.owner.person.name);
+    selectOption(data.owner.name);
     selectOption(data.rentReceiver.name);
     selectOption(data.region.name);
 }
@@ -430,7 +430,7 @@ function fillEmptyYardInactiveForm(data){
     $('#form').append(getHiddenInput('combo', data.combo));
     $('#form').append(getHiddenInput('accessNotes', data.accessNotes));
     $('#form').append(getHiddenInput('status', 'INACTIVE'));
-    $('#form').append(getHiddenInput('owner', data.owner.person.id));
+    $('#form').append(getHiddenInput('owner', data.owner.id));
     $('#form').append(getHiddenInput('rentReceiver', data.rentReceiver.id));
     $('#form').append(getHiddenInput('region', data.region.name));
 }

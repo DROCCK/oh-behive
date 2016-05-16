@@ -48,32 +48,6 @@ public class InspectionService {
     }
 
     public Inspection save(Inspection inspection) {
-        /*OLD
-        // Get the old drop site and associated yard
-        Yard yard = inspection.getYard();
-
-        int oldSingles = yard.getSingles();
-        int oldDoubles = yard.getDoubles();
-
-        // Update the drop site from the inspection
-        yard.setSingles(inspection.getNumSingles());
-        yard.setDoubles(inspection.getNumDoubles());
-        yard.setSupers(inspection.getSupers());
-
-        int newSingles = yard.getSingles();
-        int newDoubles = yard.getDoubles();
-
-        // update duds
-        int diff = (oldSingles + oldDoubles) - (newSingles + newDoubles);
-        if (yard.getLastVisit() == null)
-            diff = 0;
-        yard.setDuds(yard.getDuds() + diff);
-        // Update last visit date
-        yard.setLastVisit(inspection.getVisitDate());
-        if (inspection.isFed()) {
-            yard.setLastFedDate(inspection.getVisitDate());
-        }
-        */
         Yard yard = inspection.getYard();
         yard.setSingles(inspection.getSingles());
         yard.setDoubles(inspection.getDoubles());
@@ -111,21 +85,25 @@ public class InspectionService {
         }
         try {
             inspection.setDoubles(json.getInt("doubles"));
+          //  System.out.println("doubles: "+inspection.getDoubles());
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }
         try {
             inspection.setSingles(json.getInt("singles"));
+          //  System.out.println("singles: "+inspection.getSingles());
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }
         try {
             inspection.setSupers(json.getInt("supers"));
+          //  System.out.println("supers: "+inspection.getSupers());
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }
         try {
             inspection.setDuds(json.getInt("duds"));
+          //  System.out.println("duds: "+inspection.getDuds());
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }
