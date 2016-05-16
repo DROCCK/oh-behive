@@ -437,7 +437,7 @@ function fillEmptyYardInactiveForm(data){
 
 function fillInspectionForm(data){
     putInputValue('singles', data.yard.singles);
-    putInputValue('doubles', data.yard.singles);
+    putInputValue('doubles', data.yard.doubles);
     putInputValue('supers', data.yard.supers);
     putInputValue('duds', data.yard.duds);
 }

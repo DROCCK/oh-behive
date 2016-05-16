@@ -75,8 +75,8 @@ public class InspectionService {
         }
         */
         Yard yard = inspection.getYard();
-        yard.setSingles(inspection.getNumSingles());
-        yard.setDoubles(inspection.getNumDoubles());
+        yard.setSingles(inspection.getSingles());
+        yard.setDoubles(inspection.getDoubles());
         yard.setSupers(inspection.getSupers());
         yard.setDuds(inspection.getDuds());
 
@@ -110,12 +110,12 @@ public class InspectionService {
             e.printStackTrace();
         }
         try {
-            inspection.setNumDoubles(json.getInt("doubles"));
+            inspection.setDoubles(json.getInt("doubles"));
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }
         try {
-            inspection.setNumSingles(json.getInt("singles"));
+            inspection.setSingles(json.getInt("singles"));
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }

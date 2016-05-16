@@ -16,16 +16,16 @@ public class Inspection {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "NUM_DOUBLES")
-    private Integer numDoubles;
+    @Column(name = "DOUBLES")
+    private Integer doubles;
 
-    @Column(name = "NUM_SINGLES")
-    private Integer numSingles;
+    @Column(name = "SINGLES")
+    private Integer singles;
 
-    @Column(name = "NUM_SUPERS")
+    @Column(name = "SUPERS")
     private Integer supers;
 
-    @Column(name = "NUM_DUDS")
+    @Column(name = "DUDS")
     private Integer duds;
 
     @Column(name = "VISIT_DATE")
@@ -52,20 +52,20 @@ public class Inspection {
         this.id = id;
     }
 
-    public Integer getNumDoubles() {
-        return numDoubles;
+    public Integer getDoubles() {
+        return doubles;
     }
 
-    public void setNumDoubles(Integer numDoubles) {
-        this.numDoubles = numDoubles;
+    public void setDoubles(Integer doubles) {
+        this.doubles = doubles;
     }
 
-    public Integer getNumSingles() {
-        return numSingles;
+    public Integer getSingles() {
+        return singles;
     }
 
-    public void setNumSingles(Integer numSingles) {
-        this.numSingles = numSingles;
+    public void setSingles(Integer singles) {
+        this.singles = singles;
     }
 
     public Integer getSupers() {
