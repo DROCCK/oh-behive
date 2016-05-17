@@ -190,6 +190,7 @@ function postOrchard() {
     var json = getOrchardJson($('#form').serializeArray());
     post(addOrchard, json, function () {
         $('#id').remove();
+        $('#contract-table').bootstrapTable('refresh');
     });
 }
 
