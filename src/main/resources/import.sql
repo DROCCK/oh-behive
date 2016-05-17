@@ -9,6 +9,7 @@ INSERT INTO owner(id, person_id) VALUES (1, 1);
 
 -- # Regions
 INSERT INTO region(id, name) VALUES (1, 'Cali');
+INSERT INTO region(id, name) VALUES (2, 'Dakotas');
 
 -- # Yards
 INSERT INTO yard(id, yard_name, status, combo, max_hives, owner_id, rent_receiver_id, address_id, singles, doubles, longitude, latitude, region_id) VALUES (1, 'Andrews', 'IN USE', '1234', '80', 1, 1, 1, 5, 5, -121.30267710000001, 38.5991552, 1);
