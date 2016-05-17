@@ -189,8 +189,11 @@ function postContract() {
 function postOrchard() {
     var json = getOrchardJson($('#form').serializeArray());
     post(addOrchard, json, function () {
+        var id = $('#id');
         $('#id').remove();
         $('#contract-table').bootstrapTable('refresh');
+        getContract(id.val());
+        loadProgress();
     });
 }
 
