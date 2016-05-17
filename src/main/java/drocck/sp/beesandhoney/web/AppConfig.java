@@ -2,7 +2,6 @@ package drocck.sp.beesandhoney.web;
 
 import drocck.sp.beesandhoney.business.entities.validators.UserCreateFormValidator;
 import drocck.sp.beesandhoney.business.services.*;
-import org.h2.server.web.WebServlet;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.persistence.EntityManagerFactory;
+import org.h2.server.web.WebServlet;
 
 /**
  * @author Connor Elison
