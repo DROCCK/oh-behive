@@ -601,7 +601,7 @@ function loadCreateInspectionModal() {
 }
 
 function loadEditOrchardModal(id) {
-    $.getJSON("/pollination/editOrchard/" + id, function (data) {
+    $.getJSON("/pollination/editContractOrchard/" + id, function (data) {
         editOrchardForm(data);
     });
 }

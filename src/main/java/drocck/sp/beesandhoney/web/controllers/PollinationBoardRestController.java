@@ -94,6 +94,11 @@ public class PollinationBoardRestController {
         return new OrchardEditDTO(getOrchardCreateDTO(), orchardService.findOne(id));
     }
 
+    @RequestMapping(value = "pollination/editContractOrchard/{id}", method = RequestMethod.GET)
+    public OrchardEditDTO editContractOrchard(@PathVariable("id") Long id) {
+        return new OrchardEditDTO(getOrchardCreateDTO(), contractService.findOne(id).getOrchard());
+    }
+
     @RequestMapping(value = "pollination/shipment/{id}", method = RequestMethod.GET)
     public PolliShipment shipment(@PathVariable("id") Long id) {
         return polliShipmentService.findOne(id);
@@ -202,6 +207,7 @@ public class PollinationBoardRestController {
     public void d(@PathVariable("id") Long id) {
         contractService.delete(id);
     }
+
     private PolliShipmentCreateDTO getPolliShipmentCreateDTO() {
         List<String> list = new ArrayList<>();
         for (PolliShipment.Direction direction : PolliShipment.Direction.values())
