@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.entities.repositories;
 
 import drocck.sp.beesandhoney.business.entities.Owner;
+import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner,Long> {
     Owner findByYards(Yard yard);
+    Owner findOneByPerson(Person person);
 }

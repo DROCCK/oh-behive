@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Calendar;
 
 /**
- * Created by cjeli_000
+ * Created by Connor
  * on 10/9/2015.
  */
 @Entity

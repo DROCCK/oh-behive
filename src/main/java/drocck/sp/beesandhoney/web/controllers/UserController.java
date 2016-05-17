@@ -9,6 +9,7 @@ import drocck.sp.beesandhoney.business.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -87,6 +88,7 @@ public class UserController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@ModelAttribute User user, BindingResult result, Model model) {
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.save(user);
         return "redirect:list";
     }
@@ -107,6 +109,7 @@ public class UserController {
     public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user) {
         user.setId(id);
         user.setRoles(userService.findOne(id).getRoles());
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.update(user);
         return "redirect:list";
     }

@@ -3,7 +3,20 @@ hr {
 }
 
 a {
-    color: black;
+    color: blue;
+}
+
+a:hover {
+    cursor:hand;
+}
+
+i   {
+    color:black;
+}
+
+i:hover{
+    color:yellow;
+    cursor:hand;
 }
 
 #mapPlaceholder {}

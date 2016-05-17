@@ -1,5 +1,6 @@
 package drocck.sp.beesandhoney.web;
 
+import drocck.sp.beesandhoney.business.entities.NucReport;
 import drocck.sp.beesandhoney.business.entities.validators.UserCreateFormValidator;
 import drocck.sp.beesandhoney.business.services.*;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
@@ -31,12 +32,12 @@ import org.h2.server.web.WebServlet;
 @EnableTransactionManagement
 public class AppConfig {
 
-    @Bean
-    public ServletRegistrationBean servletRegistrationBean() {
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new WebServlet());
-        servletRegistrationBean.addUrlMappings("/console/*");
-        return servletRegistrationBean;
-    }
+//    @Bean
+//    public ServletRegistrationBean servletRegistrationBean() {
+//        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new WebServlet());
+//        servletRegistrationBean.addUrlMappings("/console/*");
+//        return servletRegistrationBean;
+//    }
 
     @Bean
     public ViewResolver myViewResolver() {
@@ -140,6 +141,14 @@ public class AppConfig {
         return new PolliShipmentService();
     }
 
+    @Bean
+    public NucYardService nucYardService() {return new NucYardService(); }
+
+    @Bean
+    public NucReportService nucReportService() {return new NucReportService(); }
+
+    @Bean
+    public EventService eventService() {return new EventService(); }
     //Language beans
     @Bean
     public ReloadableResourceBundleMessageSource messageSource(){

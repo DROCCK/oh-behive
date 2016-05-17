@@ -1,6 +1,7 @@
 package drocck.sp.beesandhoney.business.services;
 
 import drocck.sp.beesandhoney.business.entities.Owner;
+import drocck.sp.beesandhoney.business.entities.Person;
 import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.entities.repositories.OwnerRepository;
 import drocck.sp.beesandhoney.business.entities.repositories.PersonRepository;
@@ -12,7 +13,6 @@ import java.util.List;
 
 /**
  * Created by Oscar on 9/27/2015.
- *
  */
 @Service
 public class OwnerService {
@@ -49,6 +49,10 @@ public class OwnerService {
         return ownerRepository.findOne(id);
     }
 
+    public Owner findOneByPerson(Person p) {
+        return ownerRepository.findOneByPerson(p);
+    }
+
     public void delete(Owner owner) {
         ownerRepository.delete(owner);
     }
@@ -65,12 +69,12 @@ public class OwnerService {
         return ownerRepository.save(owner);
     }
 
-    public Yard findYard(Long id){
-        List <Yard> yard = yardRepository.findAll();
+    public Yard findYard(Long id) {
+        List<Yard> yard = yardRepository.findAll();
         final Yard[] ownedYard = new Yard[1];
         Yard last;
-        yard.forEach(y->{
-            if(y.getOwner().getId().equals(id)){
+        yard.forEach(y -> {
+            if (y.getOwner().getId().equals(id)) {
                 ownedYard[0] = y;   //not entirely sure why this was necessary
             }
         });

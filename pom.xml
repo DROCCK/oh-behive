@@ -7,8 +7,8 @@
 
     <groupId>drocck.sp.beesandhoney</groupId>
     <artifactId>bees-and-honey</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>0.0.5</version>
+    <packaging>war</packaging>
 
     <name>bees-and-honey</name>
     <description>Data management system for Miller Honey Farms</description>

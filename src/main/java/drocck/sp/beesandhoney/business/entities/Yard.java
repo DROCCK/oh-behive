@@ -1,7 +1,9 @@
 package drocck.sp.beesandhoney.business.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -56,12 +58,12 @@ public class Yard implements Serializable {
     // @NotNull
     private Address address;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "OWNER_ID")
     @JsonManagedReference
     private Owner owner;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "RENT_RECEIVER_ID")
     @JsonManagedReference
     private Person rentReceiver;
@@ -77,9 +79,8 @@ public class Yard implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Inspection> inspections;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "REGION_ID")
-    @JsonBackReference
     private Region region;
 
     @Column(name = "LAST_VISIT")
