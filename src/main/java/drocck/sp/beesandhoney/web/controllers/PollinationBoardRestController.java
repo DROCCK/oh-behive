@@ -198,6 +198,10 @@ public class PollinationBoardRestController {
         return new ProgressDTO(contractService.findAll());
     }
 
+    @RequestMapping(value = "pollination/delCon/{id}", method = RequestMethod.GET)
+    public void d(@PathVariable("id") Long id) {
+        contractService.delete(id);
+    }
     private PolliShipmentCreateDTO getPolliShipmentCreateDTO() {
         List<String> list = new ArrayList<>();
         for (PolliShipment.Direction direction : PolliShipment.Direction.values())
