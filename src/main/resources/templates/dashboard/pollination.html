@@ -18,8 +18,10 @@
 <div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div>
 <div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
 
+
 <div class="row dashboard-row">
     <div class="col-md-2 hidden-xs hidden-sm">
+        <!--Left Side Info Bar-->
         <div class="side-div left-sidebar-div">
             <div class="in-side-div">
                 <h3><b th:text="#{progress}"></b></h3>
@@ -39,6 +41,7 @@
             </div>
         </div>
     </div>
+
     <!-- Map & Description -->
     <div class="col-md-8">
         <div class="row dashboard-row">
@@ -117,6 +120,8 @@
             </table>
         </div>
     </div>
+
+    <!--Right Side Task Bar-->
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="side-div right-sidebar-div">
             <div class="in-side-div">
@@ -159,21 +164,13 @@
                 <hr/>
                 <h4><b th:text="Lists"></b></h4>
                 <hr/>
-                <a data-toggle="modal" data-target="#table-modal" onclick="getContacts(1)">
+                <a data-toggle="modal" data-target="#table-modal" onclick="getOrchards()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Contacts">
+                       title="Orchards">
                         list
                     </i>
                 </a>
-                <h4 class="list-header" th:text="|#{pipe} Contacts|">Contacts</h4>
-                <br/>
-                <a data-toggle="modal" data-target="#table-modal" onclick="getInspections(1)">
-                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Inspections">
-                        list
-                    </i>
-                </a>
-                <h4 class="list-header" th:text="|#{pipe} Inspections|">Inspections</h4>
+                <h4 class="list-header" th:text="|#{pipe} Orchards|">Orchards</h4>
                 <br/>
                 <a data-toggle="modal" data-target="#table-modal" onclick="getShipments()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"

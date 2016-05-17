@@ -7,6 +7,7 @@ var contractDtoList = url + "contracts";
 var contract = url + "contract/";
 var contacts = url + "contacts/";
 var inspections = url + "inspections/";
+var orchards = url + "orchards/";
 var progress = url + "progress";
 var shipments = url + "shipments/";
 var createContract = url + "createContract";
@@ -55,6 +56,10 @@ function getShipments() {
     return get(shipments, "Orchard's Shipments", loadShipmentListModal);
 }
 
+function getOrchards() {
+    return get(orchards, "Orchards", loadOrchardListModal);
+}
+
 function get(type, title, func) {
     $('#table-modal-title').text(title);
     $('#t-body').text("Loading...");
@@ -74,9 +79,10 @@ function loadInspectionListModal(data) {
 function loadShipmentListModal(data) {
     loadListModal(data, getShipmentHead, getShipmentRow);
 }
-//function getShipmentListModal() {
-//    loadShipmentListModal(getShipments());
-//}
+
+function loadOrchardListModal(data) {
+    loadListModal(data, getOrchardHead, getOrchardRow);
+}
 
 function loadListModal(data, headFunc, rowFunc) {
     getEmptyTableHead().append(headFunc());
@@ -147,6 +153,24 @@ function getShipmentRow(e) {
         $('<td>').text(e.to),
         $('<td>').text(e.in),
         $('<td>').text(e.notes)
+    );
+}
+
+function getOrchardHead() {
+    return $('<tr>').append(
+        $('<td>').text('Name'),
+        $('<td>').text('Max Hives'),
+        $('<td>').text('Status'),
+        $('<td>').text('Owner')
+    );
+}
+
+function getOrchardRow(e) {
+    return $('<tr>').append(
+        $('<td>').text(e.yardName),
+        $('<td>').text(e.maxHives),
+        $('<td>').text(e.status),
+        $('<td>').text(e.owner.person.name)
     );
 }
 
