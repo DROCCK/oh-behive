@@ -50,7 +50,7 @@ public class OrchardService {
     public Orchard save(JSONObject json) {
         Orchard orchard = new Orchard();
         try {
-            orchard.setId(json.getLong("id"));
+            orchard = orchardRepository.findOne(json.getLong("id"));
         } catch (JSONException je) {
             System.err.println(je.getMessage());
         }

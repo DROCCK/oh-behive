@@ -12,7 +12,8 @@ function editFormatter(value, row, index) {
 function editOrchardFormatter(value, row, index){
     var modelId = row["id"];
     return [
-        '<a class="edit ml10" href="#" title="Edit" data-toggle="modal" data-target="#form-modal" onclick="loadEditOrchardModal('+modelId+')">',
+        '<a class="edit ml10" href="#" title="Edit" data-toggle="modal" data-target="#form-modal"' +
+        'onclick="loadEditContractOrchardModal(' + modelId + ')">',
         '<i class="material-icons bee-board-icon">create</i>',
         '</a>'
     ].join('');

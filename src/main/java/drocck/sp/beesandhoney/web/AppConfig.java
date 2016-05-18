@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.persistence.EntityManagerFactory;
+import org.h2.server.web.WebServlet;
 
 /**
  * @author Connor Elison

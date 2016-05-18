@@ -17,8 +17,10 @@ public class ProgressDTO {
 
     public ProgressDTO(List<Contract> contracts) {
         for (Contract contract : contracts) {
-            needed += contract.getAmount();
-            fulfilled += contract.getOrchard().getCount();
+            needed += contract.getAmount() == null ? 0 : contract.getAmount();
+            fulfilled += contract.getOrchard() == null ?
+                    0 : contract.getOrchard().getCount() == null ?
+                    0 : contract.getOrchard().getCount();
         }
         progress = (double) fulfilled / (double) needed;
     }
