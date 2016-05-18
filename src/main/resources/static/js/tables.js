@@ -9,6 +9,7 @@ function editFormatter(value, row, index) {
         '</a>'
     ].join('');
 }
+
 function editOrchardFormatter(value, row, index){
     var modelId = row["id"];
     return [
@@ -18,18 +19,29 @@ function editOrchardFormatter(value, row, index){
         '</a>'
     ].join('');
 }
-function deleteFormatter(value, row, index) {
+
+function checkFormatter(value, row, index) {
     return [
-        '<a class="remove ml10 bee-board-icon" href="javascript:void(0)" title="Remove">',
-        ' <i class="material-icons bee-board-icon">delete</i>',
+        '<a class="remove ml10 bee-board-icon" href="#" title="Complete"' +
+        'onclick="fillOrchard(' + row["id"] + ')">',
+        ' <i class="material-icons bee-board-icon">check</i>',
         '</a>'
     ].join('');
 }
 
-function checkFormatter(value, row, index) {
+function recycleFormatter(value, row, index) {
     return [
-        '<a class="remove ml10 bee-board-icon" href="javascript:void(0)" title="Complete">',
-        ' <i class="material-icons bee-board-icon">check</i>',
+        '<a class="remove ml10 bee-board-icon" href="#" title="Renew"' +
+        'onclick="emptyOrchard(' + row["id"] + ')">',
+        ' <i class="material-icons bee-board-icon">autorenew</i>',
+        '</a>'
+    ].join('');
+}
+
+function deleteFormatter(value, row, index) {
+    return [
+        '<a class="remove ml10 bee-board-icon" href="javascript:void(0)" title="Remove">',
+        ' <i class="material-icons bee-board-icon">delete</i>',
         '</a>'
     ].join('');
 }

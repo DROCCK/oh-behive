@@ -14,6 +14,8 @@ var createContract = url + "createContract";
 var addOrchard = url + "addOrchard";
 var addContract = url + "addContract";
 var addShipment = url + "addShipment";
+var renew = url + "emptyOrchard/";
+var complete = url + "fillOrchard/";
 
 function getEmptyTableHead() {
     var tableHead = $('#t-head');
@@ -224,6 +226,7 @@ function postOrchard(reload) {
     var json = getOrchardJson($('#form').serializeArray());
     post(addOrchard, json, function () {
         var id = $('#id');
+        alert(id.val());
         if (id.val() != '') {
             $('#id').remove();
             getContract(id.val());
@@ -239,6 +242,22 @@ function postShipment() {
     var json = getSimpleJson($('#form').serializeArray());
     post(addShipment, json, function () {
         $('#id').remove();
+    });
+}
+
+function emptyOrchard(contractId) {
+    $.ajax(renew + contractId).done( function() {
+        $('#contract-table').bootstrapTable('refresh');
+        getContract(contractId);
+        loadProgress();
+    });
+}
+
+function fillOrchard(contractId) {
+    $.ajax(complete + contractId).done( function() {
+        $('#contract-table').bootstrapTable('refresh');
+        getContract(contractId);
+        loadProgress();
     });
 }
 
