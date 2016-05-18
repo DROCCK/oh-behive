@@ -700,11 +700,11 @@ function loadContractDetails(data) {
     $('#out').html('<b>Out Date: </b>' + data.moveOutDate);
     $('#broker').html('<b>Broker: </b>' + (data.broker == null ? '' : data.broker.name));
     $('#number').html('<b>Phone: </b>' + (data.broker == null ? '' : data.broker.contactInfo == null ? '' : data.broker.contactInfo.phone));
-    $('#edit').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
+    $('#edit').html('<a title="Edit" href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#form-modal" onclick="loadEditContractModal(' + data.id + ')">create</i></a>');
-    $('#complete').html('<a href="#" onclick="fillOrchard(' + data.id + ')"><i class="material-icons md-24 bee-board-icon">check</i></a>');
-    $('#renew').html('<a href="#" onclick="emptyOrchard(' + data.id + ')"><i class="material-icons md-24 bee-board-icon">autorenew</i></a>');
-    $('#inspections').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
+    $('#complete').html('<a title="Fill" href="#" onclick="fillOrchard(' + data.id + ')"><i class="material-icons md-24 bee-board-icon">check</i></a>');
+    $('#renew').html('<a title="Empty" href="#" onclick="emptyOrchard(' + data.id + ')"><i class="material-icons md-24 bee-board-icon">autorenew</i></a>');
+    $('#inspections').html('<a title="Inspections" href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#table-modal" onclick="getInspections(' + data.id + ')">visibility</i></a>');
     var a = data.amount;
     var c = data.orchard.count;
