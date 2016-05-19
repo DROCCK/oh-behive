@@ -18,7 +18,6 @@
 <div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div>
 <div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
 
-
 <div class="row dashboard-row">
     <!--Left Side Info Bar-->
     <div class="col-md-2 hidden-xs hidden-sm">
@@ -63,13 +62,16 @@
                     <p id="progress"></p>
                 </div>
                 <div align="center" class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
                         <p id="edit"></p>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
                         <p id="complete"></p>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <p id="renew"></p>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
                         <p id="inspections"></p>
                     </div>
                 </div>
@@ -114,6 +116,9 @@
                         th:text="|#{edit} #{orchard}|"></th>
                     <th class="col-md-1" data-field="delete" data-formatter="checkFormatter" data-sortable="false"
                         data-events="operateEvents">Complete
+                    </th>
+                    <th class="col-md-1" data-field="recycle" data-formatter="recycleFormatter" data-sortable="false"
+                        data-events="operateEvents">Renew
                     </th>
                 </tr>
                 </thead>

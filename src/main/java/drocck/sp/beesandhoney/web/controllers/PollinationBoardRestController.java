@@ -208,6 +208,32 @@ public class PollinationBoardRestController {
         contractService.delete(id);
     }
 
+    @RequestMapping(value = "pollination/emptyOrchard/{contractId}")
+    public void emptyOrchard(@PathVariable("contractId") Long contractId) {
+        setAndSaveOrchard(getOrchardByContract(contractService.findOne(contractId)), 0);
+    }
+
+    @RequestMapping(value = "pollination/fillOrchard/{contractId}")
+    public void fillOrchard(@PathVariable("contractId") Long contractId) {
+        Contract c = contractService.findOne(contractId);
+        setAndSaveOrchard(getOrchardByContract(c), c.getAmount());
+    }
+
+    private Orchard getOrchardByContract(Contract contract) {
+        if (contract == null) {
+            return null;
+        }
+        return contract.getOrchard();
+    }
+
+    private void setAndSaveOrchard(Orchard orchard, int count) {
+        if (orchard == null) {
+            return;
+        }
+        orchard.setCount(count);
+        orchardService.save(orchard);
+    }
+
     private PolliShipmentCreateDTO getPolliShipmentCreateDTO() {
         List<String> list = new ArrayList<>();
         for (PolliShipment.Direction direction : PolliShipment.Direction.values())
