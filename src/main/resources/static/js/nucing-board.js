@@ -624,7 +624,6 @@ function createNucYard() {
         }
     });
     setAlert("success", "<strong>Sucess!</strong> Updated Nucing Yard!");
-    $('#form-modal').html(getEmptyFormBody().append('<p').text("loading"));
 }
 
 // Map Functions
