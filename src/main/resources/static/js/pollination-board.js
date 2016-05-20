@@ -14,6 +14,7 @@ var createContract = url + "createContract";
 var addOrchard = url + "addOrchard";
 var addContract = url + "addContract";
 var addShipment = url + "addShipment";
+var addInspection = url + "addInspection/"
 var renew = url + "emptyOrchard/";
 var complete = url + "fillOrchard/";
 
@@ -117,8 +118,7 @@ function getInspectionHead() {
         $('<td>').text('Date'),
         $('<td>').text('Purpose'),
         $('<td>').text('Notes'),
-        $('<td>').text('Edit'),
-        $('<td>').text('Delete')
+        $('<td>').text('Edit')
     );
 }
 
@@ -127,8 +127,12 @@ function getInspectionRow(e) {
         $('<td>').text(e.date),
         $('<td>').text(e.purpose),
         $('<td>').text(e.notes),
-        $('<td>').text('Edit'),
-        $('<td>').text('Delete')
+        $('<td>').html([
+            '<a class="edit ml10" href="#" title="Edit" data-toggle="modal" data-target="#form-modal"' +
+            'onclick="loadEditInspectionModal(' + e.id + ', ' + true + ')">',
+            '<i class="material-icons bee-board-icon">create</i>',
+            '</a>'].join('')
+        )
     );
 }
 
@@ -226,7 +230,6 @@ function postOrchard(reload) {
     var json = getOrchardJson($('#form').serializeArray());
     post(addOrchard, json, function () {
         var id = $('#id');
-        alert(id.val());
         if (id.val() != '') {
             $('#id').remove();
             getContract(id.val());
@@ -242,6 +245,15 @@ function postShipment() {
     var json = getSimpleJson($('#form').serializeArray());
     post(addShipment, json, function () {
         $('#id').remove();
+    });
+}
+
+function postInspection(reload) {
+    var json = getSimpleJson($('#form').serializeArray());
+    post(addInspection, json, function () {
+        if (reload) {
+            getInspections(json.orchard);
+        }
     });
 }
 
@@ -611,32 +623,36 @@ function createInspectionForm(data) {
     getFormBody().append(getSubmitButton('Create'));
 }
 
-function editInspectionForm(data) {
-    $('#form-modal-title').text("Create Inspection");
-    getInspectionForm(data, '/pollination/addInspection');
+function editInspectionForm(data, reload) {
+    $('#form-modal-title').text("Edit Inspection");
+    getInspectionForm(data, '/pollination/addInspection', reload);
     getFormBody().append(getSubmitButton('Save'));
     fillInspectionForm(data);
 }
 
-function getInspectionForm(data, action) {
+function getInspectionForm(data, action, reload) {
     var form = $('#form');
     form.attr('action', action);
     form.submit(function (event) {
         event.preventDefault();
-        postInspection();
+        postInspection(reload);
         return false;
     });
     getEmptyFormBody()
         .append(
-            getFormGroupWithSelector('orchard', "Orchard", getSelector(data.orchards, 'orchard')),
+            getFormGroupWithSelector('orchard', "Orchard", getSelector(data.picDto.orchards, 'orchard')),
             getFormGroup('date', 'Date', 'date'),
-            getFormGroupWithSelector('purpose', "Purpose", getSelector(data.purposes, 'purpose')),
+            getFormGroupWithSelector('purpose', "Purpose", getSelector(data.picDto.purposes, 'purpose')),
             getFormGroup('notes', 'Notes', 'text')
         );
 }
 
-function fillInspectionForm() {
-
+function fillInspectionForm(data) {
+    $('#form').append(getHiddenIdInput(data.inspection.id));
+    putInputValue('date', data.inspection.date);
+    putInputValue('notes', data.notes);
+    selectOption(data.inspection.orchard.yardName);
+    selectOption(data.purpose);
 }
 // End form functions
 
@@ -688,6 +704,12 @@ function loadCreateShipmentModal() {
 function loadEditShipmentModal(id) {
     $.getJSON("/pollination/editShipment/" + id, function (data) {
         editShipmentForm(data);
+    });
+}
+
+function loadEditInspectionModal(id, reload) {
+    $.getJSON("/pollination/editInspection/" + id, function (data) {
+        editInspectionForm(data, reload);
     });
 }
 // End form loaders

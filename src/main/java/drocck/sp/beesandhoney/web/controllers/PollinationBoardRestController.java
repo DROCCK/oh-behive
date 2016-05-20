@@ -119,6 +119,11 @@ public class PollinationBoardRestController {
         return getPolliInspectionCreateDTO();
     }
 
+    @RequestMapping(value = "pollination/editInspection/{id}", method = RequestMethod.GET)
+    public PolliInspectionEditDto editPolliInspection(@PathVariable("id") Long id) {
+        return new PolliInspectionEditDto(getPolliInspectionCreateDTO(), inspectionService.findOne(id));
+    }
+
     @RequestMapping(value = "pollination/shipments", method = RequestMethod.GET)
     public List<PolliShipment> shipments() {
         return polliShipmentService.findAll();
@@ -188,9 +193,10 @@ public class PollinationBoardRestController {
         return inspectionService.findAllByOrchard(orchardService.findOne(id));
     }
 
-    @RequestMapping(value = "pollination/addInspection")
-    public void addInspection(@ModelAttribute("inspection") PolliInspection inspection) {
-        inspectionService.save(inspection);
+    @RequestMapping(value = "pollination/inspections/{orchardName")
+    public List<PolliInspection> inspections(@PathVariable("orchardName") String name) {
+        Orchard o = orchardService.findOneByName(name);
+        return inspectionService.findAllByOrchard(o);
     }
 
     @RequestMapping(value = "pollination/inspection/{id}")
