@@ -15,19 +15,19 @@
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
         <div class="form-group">
-            <label class="control-label col-sm-2" for="numDoubles" th:text="#{doubles}">Number of Doubles: </label>
+            <label class="control-label col-sm-2" for="doubles" th:text="#{doubles}">Number of Doubles: </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{numDoubles}" id="numDoubles"
-                       placeholder="Number of Doubles" th:value="${inspection.numDoubles}"/>
+                <input type="number" class="form-control" th:field="*{doubles}" id="doubles"
+                       placeholder="Number of Doubles" th:value="${inspection.doubles}"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="numSingles" th:text="#{singles}">Number of Singles: </label>
+            <label class="control-label col-sm-2" for="singles" th:text="#{singles}">Number of Singles: </label>
 
             <div class="col-sm-10">
-                <input type="number" class="form-control" th:field="*{numSingles}" id="numSingles"
-                       placeholder="Number of Singles" th:value="${inspection.numSingles}"/>
+                <input type="number" class="form-control" th:field="*{singles}" id="singles"
+                       placeholder="Number of Singles" th:value="${inspection.singles}"/>
             </div>
         </div>
         <div class="form-group">
@@ -62,21 +62,6 @@
             <div class="col-sm-10">
                 <input th:field="*{medication}" type="text" class="form-control" id="medication"
                        placeholder="Medication Used" th:value="${inspection.medication}"/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="dropSite" class="col-sm-2 control-label" th:text="#{dropSite}">Drop Site</label>
-
-            <div class="col-sm-10">
-                <select class="form-control" th:field="*{dropSite.id}" id="dropSite">
-                    <option th:each="d : ${allDropSites}" th:value="${d.id}" th:text="|${d.id} ${d.getDropYard().getYardName()}|"
-                            th:unless="${d.id == inspection.dropSite.id}">Guy 1
-                    </option>
-                    <option selected="selected" th:each="d : ${allDropSites}" th:value="${d.id}" th:text="|${d.id} ${d.getDropYard().getYardName()}|"
-                            th:unless="${d.id != inspection.dropSite.id}">Guy 1
-                    </option>
-                </select>
             </div>
         </div>
 

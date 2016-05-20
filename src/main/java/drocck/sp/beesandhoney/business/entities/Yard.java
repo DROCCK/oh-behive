@@ -113,6 +113,7 @@ public class Yard implements Serializable {
 
     public void setDoubles(Integer doubles) {
         this.doubles = doubles;
+        this.currentHives = this.currentHives == null ? 0 : this.singles + this.doubles;
     }
 
     public Integer getSingles() {
@@ -122,6 +123,7 @@ public class Yard implements Serializable {
 
     public void setSingles(Integer singles) {
         this.singles = singles;
+        this.currentHives = this.currentHives == null ? 0 : this.singles + this.doubles;
     }
 
     public void setSupers(Integer supers) {
@@ -145,7 +147,13 @@ public class Yard implements Serializable {
     }
 
     public void setCurrentHives(Integer singles, Integer doubles) {
+        this.singles = singles;
+        this.doubles = doubles;
         this.currentHives = singles + doubles;
+    }
+
+    public void setCurrentHives(){
+        this.currentHives = this.singles + this.doubles;
     }
 
     /** Getters and Setters **/

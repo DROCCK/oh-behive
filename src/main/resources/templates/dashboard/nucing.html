@@ -5,11 +5,12 @@
     <title>Nucing Board</title>
     <link rel="stylesheet" th:href="@{/css/nucing.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.0/fullcalendar.min.css"/>
+    <script th:src="@{/js/maps.js}"></script>
 
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <!--<script src="http://maps.googleapis.com/maps/api/js"></script>-->
     <script th:src="@{/js/nucing-board.js}"></script>
     <script>
         $(document).ready(function () {
@@ -21,13 +22,20 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 
-<!-- List and edit s -->
+<!-- List and edit modals -->
 <div id="table-modal" th:replace="fragments/modal/modal-table-window :: modal-table-window"></div>
 <div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
-
+<div class="row">
+    <div class="col-md-2">
+        <button type="button" class="button btn-primary" id="toggleCal" onclick="toggleCalendar()">Toggle Calendar</button>
+    </div>
+    <div class="col-md-8" align="center">
+        <div class="alert alert-success" id="alert" hidden="hidden"></div>
+    </div>
+</div>
 <div class="row">
     <!-- Start Left Side Bar-->
-    <div class="col-md-4">
+    <div class="col-md-4" id="tbl-div">
         <!-- Table -->
         <table class="table table-condensed table-responsive"
                id="yard-table"
@@ -36,7 +44,7 @@
                data-cache="false"
                data-pagination="true"
                data-show-refresh="true"
-               data-show-toggle="true"
+               data-show-toggle="false"
                data-show-columns="true"
                data-search="true">
             <caption align="center" th:text="#{activeYards}"></caption>
@@ -44,7 +52,7 @@
             <tr>
                 <th data-field="yardName" data-sortable="true" data-visible="true" th:text="#{name}"></th>
                 <!-- TODO: Internationilize? -->
-                <th data-field="initalCount" data-sortable="true" data-visible="false">Initial Count</th>
+                <th data-field="initialCount" data-sortable="true" data-visible="false">Initial Count</th>
                 <th data-field="countDuringSupering" data-sortable="true" data-visible="false">Hive Count @ Supering
                 </th>
                 <th data-field="superCount" data-sortable="true" data-visible="false">Supers</th>
@@ -66,7 +74,7 @@
     <!-- End Left Side Bar -->
 
     <!-- Start Center Panel -->
-    <div class="col-md-6">
+    <div class="col-md-6" id="cal-div">
         <!-- Calandar -->
         <div id='calendar'></div>
 
@@ -80,13 +88,15 @@
             <div class="in-side-div">
                 <h3><b th:text="Stats"></b></h3>
                 <hr/>
-                <h4>Initial Count: <span id="sumInitialCount"></span></h4>
-                <h4>Count @ Supering: <span id="sumSuperCount">0</span></h4>
+                <h4>Initial Count: <span id="sumInitialCount">0</span></h4>
+                <h4>Hives Split: <span id="sumSuperCount">0</span></h4>
                 <h4>Total Supers: <span id="sumSupers">0</span></h4>
                 <h4>Total Old Queens: <span id="sumOldQueens">0</span></h4>
                 <h4>Total Nucs: <span id="sumNucCount">0</span></h4>
                 <h4>Total Queens Placed: <span id="sumQueensPlaced">0</span></h4>
                 <h4>Total Final Count: <span id="sumFinalCount">0</span></h4>
+                <h4>Parent to Nuc: <span id="parentToNucRatio">0</span></h4>
+                <h4>Initial to Final: <span id="initialToFinalRatio">0</span></h4>
                 <br/>
 
                 <h3><b th:text="Tasks"></b></h3>
@@ -102,7 +112,7 @@
                 <a data-toggle="modal" data-target="#form-modal" onclick="loadEditNucYardModal()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
                        title="Add Nucing Yard">
-                        add_circle_outline
+                        create
                     </i>
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Edit Nucing Yard|">Edit Nucing Yard</h4>

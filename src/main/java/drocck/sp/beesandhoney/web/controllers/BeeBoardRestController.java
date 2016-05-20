@@ -1,12 +1,7 @@
 package drocck.sp.beesandhoney.web.controllers;
 
-import drocck.sp.beesandhoney.business.entities.DTOs.BeeboardInspectionCreateDTO;
-import drocck.sp.beesandhoney.business.entities.DTOs.YardCreateDTO;
-import drocck.sp.beesandhoney.business.entities.DTOs.YardEditDTO;
-import drocck.sp.beesandhoney.business.entities.DTOs.YardEditMultipleDTO;
-import drocck.sp.beesandhoney.business.entities.Inspection;
-import drocck.sp.beesandhoney.business.entities.Region;
-import drocck.sp.beesandhoney.business.entities.Yard;
+import drocck.sp.beesandhoney.business.entities.*;
+import drocck.sp.beesandhoney.business.entities.DTOs.*;
 import drocck.sp.beesandhoney.business.services.InspectionService;
 import drocck.sp.beesandhoney.business.services.PersonService;
 import drocck.sp.beesandhoney.business.services.RegionService;
@@ -16,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +39,15 @@ public class BeeBoardRestController {
 
     @RequestMapping(value="dashboard/beeboard/json", method = RequestMethod.GET)
     public List<Region> json() {
-        return regionService.findAll();
+        return filterYards();
+    }
+
+    @RequestMapping(value="beeboard/sums", method = RequestMethod.GET)
+    public BeeboardSumDTO sums(){
+        BeeboardSumDTO bbsdto = new BeeboardSumDTO();
+        bbsdto.setYards(yardService.findAllInUseOnlyYard());
+        bbsdto.setRegions(regionService.findAll());
+        return bbsdto;
     }
 
     @RequestMapping(value = "beeboard/createYard")
@@ -66,12 +70,15 @@ public class BeeBoardRestController {
     public BeeboardInspectionCreateDTO createInspection(@PathVariable("id") Long id){
         return getBeeboardInspectionCreateDTO(id);
     }
-
     @RequestMapping(value = "beeboard/addInspection/{json}", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Inspection addInspection(@PathVariable("json") String json) {
         Inspection inspection = inspectionService.interpret(new JSONObject(json));
         return inspectionService.save(inspection);
+    }
+    @RequestMapping(value = "beeboard/changeInactive/{id}", method = RequestMethod.GET)
+    public YardEditDTO changeInactive(@PathVariable("id") Long id){
+        return new YardEditDTO(getYardCreateDTO(), yardService.findOne(id));
     }
 
     private YardCreateDTO getYardCreateDTO(){
@@ -86,5 +93,20 @@ public class BeeBoardRestController {
         BeeboardInspectionCreateDTO bicdto = new BeeboardInspectionCreateDTO();
         bicdto.setYard(yardService.findOne(id));
         return bicdto;
+    }
+
+    private List<Region> filterYards(){
+        List<Region> regions = new ArrayList<>();
+        for(Region r : regionService.findAll()){
+            List<Yard> rYards = new ArrayList<>();
+            for(Yard y : r.getYards()){
+                if(!(y instanceof Orchard) && !(y instanceof NucYard) && y.getStatus().equals(Yard.IN_USE)){
+                    rYards.add(y);
+                }
+            }
+            r.setYards(rYards);
+            regions.add(r);
+        }
+        return regions;
     }
 }

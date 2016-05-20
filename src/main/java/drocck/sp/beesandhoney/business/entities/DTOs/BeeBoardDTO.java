@@ -19,26 +19,12 @@ public class BeeBoardDTO {
 
     private List<Region> regions;
 
-    private List<Shipment> shipments;
-
     public List<Yard> getYards() {
         return yards;
     }
 
     public void setYards(List<Yard> yards) {
         this.yards = yards;
-    }
-
-    public List<Shipment> getShipments() {
-        return shipments;
-    }
-
-    public void setShipments(List<Shipment> shipments) {
-        this.shipments = shipments;
-    }
-
-    public int getActiveShipments() {
-        return shipments.size();
     }
 
     public int getTotalSingles() {

@@ -4,6 +4,7 @@ import drocck.sp.beesandhoney.business.entities.NucReport;
 
 /**
  * Created by Connor on 3/12/2016.
+ *
  */
 public class NucReportDTO {
     private long yardId;
@@ -21,6 +22,8 @@ public class NucReportDTO {
     private int queensNeeded;
     private float splitRatio;
     private float totalRatio;
+
+
 
     public NucReportDTO() {
 
@@ -40,8 +43,8 @@ public class NucReportDTO {
         boxesAfterSupering = countDuringSupering * 2 + superCount;
         queensNeeded = nucCount - queensPlaced;
         if (countDuringSupering != 0) {
-            splitRatio = (float)nucCount / countDuringSupering;
-            totalRatio = (float)finalCount / countDuringSupering;
+            splitRatio = Math.round(100.0 * this.nucCount / this.countDuringSupering)/100.0F;
+            totalRatio = Math.round(100.0 * this.finalCount / this.countDuringSupering)/100.0F;
         } else {
             splitRatio = 0;
             totalRatio = 0;
@@ -143,7 +146,7 @@ public class NucReportDTO {
 
     public void setSplitRatio() {
         if (this.countDuringSupering != 0)
-            this.splitRatio = (float) this.nucCount / (float) this.countDuringSupering;
+            this.splitRatio = Math.round(100.0 * this.nucCount / this.countDuringSupering)/100.0F;
         else this.splitRatio = 0;
     }
 
@@ -152,7 +155,7 @@ public class NucReportDTO {
     }
 
     public void setTotalRatio() {
-        if (this.countDuringSupering != 0) this.totalRatio = (float) this.finalCount / this.countDuringSupering;
+        if (this.countDuringSupering != 0) this.totalRatio = Math.round(this.finalCount / this.countDuringSupering * 100)/100.0F;
         else this.totalRatio = 0;
     }
 

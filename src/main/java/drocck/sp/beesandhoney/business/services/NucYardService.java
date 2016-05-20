@@ -2,10 +2,12 @@ package drocck.sp.beesandhoney.business.services;
 
 
 import drocck.sp.beesandhoney.business.entities.NucYard;
+import drocck.sp.beesandhoney.business.entities.Yard;
 import drocck.sp.beesandhoney.business.entities.repositories.NucYardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Chai on 2/23/2016.
@@ -43,4 +45,8 @@ public class NucYardService {
         return nucingYardRepository.findAll();
     }
 
+    public List<NucYard> findAllInUse() {
+        return findAll().stream().filter(
+                yard -> yard.getStatus().equals(Yard.IN_USE)).collect(Collectors.toList());
+    }
 }
