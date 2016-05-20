@@ -7,10 +7,50 @@
     <h3>Bee Board</h3>
     <hr/>
     Add help for the nucing board...
+    <br/><br/>
 
     <h3>Nucing Board</h3>
     <hr/>
-    Add help for the nucing board...
+
+    <button type="button" class="button btn-primary">Toggle Calendar</button>
+    This button toggles the calendar between show and hide
+
+    <h4>Table Options</h4>
+
+    <p>
+        The search bar will search on all columns. <br/>
+        <i class="material-icons md-24">
+            cached
+        </i> This icon will reload the data cached in the table.<br/>
+        <i class="material-icons md-24">
+            apps
+        </i> This icon will show which columns to display.<br/>
+        <i class="material-icons md-24">
+            create
+        </i> This icon in the edit column brings up the UI to create or edit a Nucing Report.
+    </p>
+
+    <p>
+        The calandar will automatically be filled with events based on when the nucs are made in the Nuc Report
+    </p>
+
+    <p>
+        On the right you will see statistics that come from the sum of all the nuc reports.
+        Below the statistics are 2 special functions:
+    <ul>
+        <li>
+            <i class="material-icons md-24">
+                add_circle_outline
+            </i> This button adds a new nuc yard into the database.
+        </li>
+        <li>
+            <i class="material-icons md-24">
+                create
+            </i> This button edits an existing nuc yard. This is how a yard can be deactivated and reactivated.
+        </li>
+    </ul>
+    </p>
+    <br/><br/>
 
     <h3>Pollination Board</h3>
     <hr/>
@@ -51,5 +91,6 @@
         (<i class="material-icons md-24 add-list-icon">create</i>).
     </p>
 </div>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
