@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: head"></head>
+<html lang="en">
 <head>
-    <title>Oh, Behive!</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/base.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"/>
+    <!--<link rel="stylesheet" href="./css/bee-board.css"/>-->
 </head>
-<body>
-<div th:replace="fragments/header :: header" class=""></div>
-    <div class="jumbotron btn-yellow">
-        <div class="container">
-            <h2><b>Miller Honey Farms</b></h2>
-        </div>
-    </div>
-    <div th:replace="fragments/footer :: footer" ></div>
+<body ng-app="beeApp">
+<navigation></navigation>
+<div ng-view=""></div>
+<div align="center">
+    <hr/>
+    &copy; Miller Honey Farms  --  Powered by DROCCK Software Solutions
+</div>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-resource/angular-resource.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="app/app.config.js"></script>
+<script type="text/javascript" src="app/navigation/navigation.module.js"></script>
+<script type="text/javascript" src="app/navigation/navigation.component.js"></script>
+<!--<script type="text/javascript" src="./app/services.js"></script>-->
 </body>
 </html>

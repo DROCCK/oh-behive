@@ -21,6 +21,8 @@ buildSrc/build
 /spring-*/build
 /src/asciidoc/build
 target/
+/src/main/resources/static/bower_components
+
 
 # Eclipse artifacts, including WTP generated manifests
 .classpath

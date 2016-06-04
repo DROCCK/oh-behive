@@ -1,0 +1,8 @@
+{
+  "name": "ng-spring-boot",
+  "dependencies": {
+    "angular": "1.5.x",
+    "angular-route": "1.5.x",
+    "bootstrap": "3.3.x"
+  }
+}

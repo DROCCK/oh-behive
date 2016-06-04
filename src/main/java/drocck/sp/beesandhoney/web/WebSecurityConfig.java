@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -27,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Override
+        @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf()
@@ -36,15 +37,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         // "/**",
+                        "/bower_components/**",
+                        "/app/**",
                         "/resources/**",
-                        "/index",
+                        "/index.html",
+                        "/help.html",
+                        "/home.html",
                         "/user/create",
                         "/help/**",
                         "/console/**"
+//                        "/user/**"
                 ).permitAll()
                 .antMatchers(
-                        "/users/**",
-                        "/user/**"
+                        "/users/**"
                 ).hasAuthority("ADMIN")
                 .anyRequest().fullyAuthenticated()
                 .and()
@@ -59,8 +64,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .permitAll()
                 .and()
-                .rememberMe();
+                .rememberMe()
+                .and()
+                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
     }
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.httpBasic().and().authorizeRequests()
+//                .antMatchers("/index.html", "/", "/beeboard", "/nucing", "/pollination", "/home")
+//                .permitAll().anyRequest().authenticated().and().csrf()
+//                .csrfTokenRepository(csrfTokenRepository()).and()
+//                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
+//    }
 
     public void configure(AuthenticationManagerBuilder auth)
             throws Exception {
@@ -70,9 +86,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private CsrfTokenRepository csrfTokenRepository() {
-        HttpSessionCsrfTokenRepository repository =
-                new HttpSessionCsrfTokenRepository();
-        repository.setSessionAttributeName("_csrf");
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
         return repository;
     }
 }

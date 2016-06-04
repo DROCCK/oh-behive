@@ -12,9 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class HelpController {
-
-    @RequestMapping(value = "/help", method = RequestMethod.GET)
-    public ModelAndView help() {
-        return new ModelAndView("help/help");
-    }
+// TODO: Delete this class
+//    @RequestMapping(value = "/help", method = RequestMethod.GET)
+//    public ModelAndView help() {
+//        return new ModelAndView("help/help");
+//    }
 }

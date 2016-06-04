@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,7 +26,7 @@ import java.util.NoSuchElementException;
  * @author Robert Wilk
  *         Created on 10/3/2015.
  */
-@Controller
+@RestController
 @RequestMapping("user")
 public class UserController {
 
@@ -131,5 +132,10 @@ public class UserController {
     public String list(Model model) {
         model.addAttribute("users", userService.findAll());
         return "user/list";
+    }
+
+    @RequestMapping("/")
+    public Principal user(Principal user) {
+        return user;
     }
 }

@@ -1,8 +1,4 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-3.dtd">
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/head :: head"></head>
-<body>
-<nav th:fragment="header" class="navbar navbar-inverse navbar-static-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar"
@@ -36,24 +32,24 @@
             </form>
             <ul class="nav navbar-nav">
                 <!--<li class="dropdown">-->
-                <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="#{mainMenu}">-->
-                <!--<span class="caret"></span></a>-->
-                <!--<ul class="dropdown-menu">-->
-                <!--<li><a th:href="@{/person/list}" th:text="#{people}"></a></li>-->
-                <!--<li><a th:href="@{/address/list}" th:text="#{addresses}"></a></li>-->
-                <!--<li><a th:href="@{/contactInfo/list}" th:text="#{contacts}"></a></li>-->
-                <!--<li><a th:href="@{/employee/list}" th:text="#{employees}"></a></li>-->
-                <!--<li><a th:href="@{/owner/list}" th:text="#{owners}"></a></li>-->
-                <!--<li><a th:href="@{/role/list}" th:text="#{roles}"></a></li>-->
-                <!--<li><a th:href="@{/region/list}" th:text="#{regions}"></a></li>-->
-                <!--<li><a th:href="@{/user/list}" th:text="#{users}"></a></li>-->
-                <!--<li><a th:href="@{/yard/list}" th:text="#{yards}">Yard List</a></li>-->
-                <!--<li><a th:href="@{/dropsite/list}" th:text="#{dropSites}"></a></li>-->
-                <!--<li><a th:href="@{/inspection/list}" th:text="#{inspections}"></a></li>-->
-                <!--&lt;!&ndash;<li><a th:href="@{/company/list}">Companies</a></li>&ndash;&gt;-->
-                <!--&lt;!&ndash;<li><a th:href="@{/location/list}">Locations</a></li>&ndash;&gt;-->
-                <!--<li><a th:href="@{/shipment/list}" th:text="#{shipments}"></a></li>-->
-                <!--</ul>-->
+                    <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="#{mainMenu}">-->
+                        <!--<span class="caret"></span></a>-->
+                    <!--<ul class="dropdown-menu">-->
+                        <!--<li><a th:href="@{/person/list}" th:text="#{people}"></a></li>-->
+                        <!--<li><a th:href="@{/address/list}" th:text="#{addresses}"></a></li>-->
+                        <!--<li><a th:href="@{/contactInfo/list}" th:text="#{contacts}"></a></li>-->
+                        <!--<li><a th:href="@{/employee/list}" th:text="#{employees}"></a></li>-->
+                        <!--<li><a th:href="@{/owner/list}" th:text="#{owners}"></a></li>-->
+                        <!--<li><a th:href="@{/role/list}" th:text="#{roles}"></a></li>-->
+                        <!--<li><a th:href="@{/region/list}" th:text="#{regions}"></a></li>-->
+                        <!--<li><a th:href="@{/user/list}" th:text="#{users}"></a></li>-->
+                        <!--<li><a th:href="@{/yard/list}" th:text="#{yards}">Yard List</a></li>-->
+                        <!--<li><a th:href="@{/dropsite/list}" th:text="#{dropSites}"></a></li>-->
+                        <!--<li><a th:href="@{/inspection/list}" th:text="#{inspections}"></a></li>-->
+                        <!--&lt;!&ndash;<li><a th:href="@{/company/list}">Companies</a></li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<li><a th:href="@{/location/list}">Locations</a></li>&ndash;&gt;-->
+                        <!--<li><a th:href="@{/shipment/list}" th:text="#{shipments}"></a></li>-->
+                    <!--</ul>-->
                 <!--</li>-->
                 <li ng-if="$root.authenticated">
                     <a href="#/beeboard">Bee Board</a>
@@ -78,5 +74,3 @@
 <form role="form" ng-submit="$ctrl.login()">
 
 </form>
-</body>
-</html>

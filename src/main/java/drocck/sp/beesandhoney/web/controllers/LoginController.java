@@ -12,8 +12,8 @@ import java.util.Optional;
  */
 @Controller
 public class LoginController {
-
-    public ModelAndView getLoginPage(@RequestParam Optional<String> error) {
-        return new ModelAndView("login", "error", error);
-    }
+    //TODO: Delete this class
+//    public ModelAndView getLoginPage(@RequestParam Optional<String> error) {
+//        return new ModelAndView("login", "error", error);
+//    }
 }
