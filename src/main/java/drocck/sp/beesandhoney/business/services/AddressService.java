@@ -31,7 +31,7 @@ public class AddressService {
     }
 
     public Address save(Address address) {
-        return addressRepository.save(address);
+        return addressRepository.saveAndFlush(address);
     }
 
     public Address save(JSONObject address) {
