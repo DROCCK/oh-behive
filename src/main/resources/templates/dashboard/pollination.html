@@ -3,7 +3,7 @@
 <head th:include="fragments/head :: head"></head>
 <head>
     <link rel="stylesheet" th:href="@{/css/bee-board.css}"/>
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <!--<script src="http://maps.googleapis.com/maps/api/js"></script>-->
     <script th:src="@{/js/util.js}"></script>
     <script th:src="@{/js/maps.js}"></script>
     <script th:src="@{/js/tables.js}"></script>
@@ -19,6 +19,7 @@
 <div id="form-modal" th:replace="fragments/modal/modal-form-window :: modal-form-window"></div>
 
 <div class="row dashboard-row">
+    <!--Left Side Info Bar-->
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="side-div left-sidebar-div">
             <div class="in-side-div">
@@ -36,15 +37,10 @@
                 <hr/>
                 <h4 id="current-count"></h4>
                 <h4 id="contracted-count"></h4>
-                <hr/>
-                <h4><b th:text="#{dates}"></b></h4>
-                <hr/>
-                <h4 th:text="|#{in}: ${1}|"></h4>
-                <h4 th:text="|#{out}: ${1}|"></h4>
-                <h4 th:text="|#{fed}: ${1}|"></h4>
             </div>
         </div>
     </div>
+
     <!-- Map & Description -->
     <div class="col-md-8">
         <div class="row dashboard-row">
@@ -66,13 +62,16 @@
                     <p id="progress"></p>
                 </div>
                 <div align="center" class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
                         <p id="edit"></p>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
                         <p id="complete"></p>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <p id="renew"></p>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
                         <p id="inspections"></p>
                     </div>
                 </div>
@@ -118,11 +117,16 @@
                     <th class="col-md-1" data-field="delete" data-formatter="checkFormatter" data-sortable="false"
                         data-events="operateEvents">Complete
                     </th>
+                    <th class="col-md-1" data-field="recycle" data-formatter="recycleFormatter" data-sortable="false"
+                        data-events="operateEvents">Renew
+                    </th>
                 </tr>
                 </thead>
             </table>
         </div>
     </div>
+
+    <!--Right Side Task Bar-->
     <div class="col-md-2 hidden-xs hidden-sm">
         <div class="side-div right-sidebar-div">
             <div class="in-side-div">
@@ -154,24 +158,24 @@
                 </a>
                 <h4 class="list-header" th:text="|#{pipe} Add Shipment|">Add Shipment</h4>
                 <br/>
+                <a data-toggle="modal" data-target="#form-modal" onclick="loadCreateInspectionModal()">
+                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
+                       title="Add Inspection">
+                        add_circle_outline
+                    </i>
+                </a>
+                <h4 class="list-header" th:text="|#{pipe} Add Inspection|">Add Inspection</h4>
+                <br/>
                 <hr/>
                 <h4><b th:text="Lists"></b></h4>
                 <hr/>
-                <a data-toggle="modal" data-target="#table-modal" onclick="getContacts(1)">
+                <a data-toggle="modal" data-target="#table-modal" onclick="getOrchards()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Contacts">
+                       title="Orchards">
                         list
                     </i>
                 </a>
-                <h4 class="list-header" th:text="|#{pipe} Contacts|">Contacts</h4>
-                <br/>
-                <a data-toggle="modal" data-target="#table-modal" onclick="getInspections(1)">
-                    <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"
-                       title="Inspections">
-                        list
-                    </i>
-                </a>
-                <h4 class="list-header" th:text="|#{pipe} Inspections|">Inspections</h4>
+                <h4 class="list-header" th:text="|#{pipe} Orchards|">Orchards</h4>
                 <br/>
                 <a data-toggle="modal" data-target="#table-modal" onclick="getShipments()">
                     <i class="material-icons md-24 add-list-icon" data-toggle="tooltip"

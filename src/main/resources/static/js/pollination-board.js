@@ -7,12 +7,16 @@ var contractDtoList = url + "contracts";
 var contract = url + "contract/";
 var contacts = url + "contacts/";
 var inspections = url + "inspections/";
+var orchards = url + "orchards/";
 var progress = url + "progress";
 var shipments = url + "shipments/";
 var createContract = url + "createContract";
 var addOrchard = url + "addOrchard";
 var addContract = url + "addContract";
 var addShipment = url + "addShipment";
+var addInspection = url + "addInspection/"
+var renew = url + "emptyOrchard/";
+var complete = url + "fillOrchard/";
 
 function getEmptyTableHead() {
     var tableHead = $('#t-head');
@@ -55,6 +59,10 @@ function getShipments() {
     return get(shipments, "Orchard's Shipments", loadShipmentListModal);
 }
 
+function getOrchards() {
+    return get(orchards, "Orchards", loadOrchardListModal);
+}
+
 function get(type, title, func) {
     $('#table-modal-title').text(title);
     $('#t-body').text("Loading...");
@@ -74,9 +82,10 @@ function loadInspectionListModal(data) {
 function loadShipmentListModal(data) {
     loadListModal(data, getShipmentHead, getShipmentRow);
 }
-//function getShipmentListModal() {
-//    loadShipmentListModal(getShipments());
-//}
+
+function loadOrchardListModal(data) {
+    loadListModal(data, getOrchardHead, getOrchardRow);
+}
 
 function loadListModal(data, headFunc, rowFunc) {
     getEmptyTableHead().append(headFunc());
@@ -109,8 +118,7 @@ function getInspectionHead() {
         $('<td>').text('Date'),
         $('<td>').text('Purpose'),
         $('<td>').text('Notes'),
-        $('<td>').text('Edit'),
-        $('<td>').text('Delete')
+        $('<td>').text('Edit')
     );
 }
 
@@ -119,8 +127,12 @@ function getInspectionRow(e) {
         $('<td>').text(e.date),
         $('<td>').text(e.purpose),
         $('<td>').text(e.notes),
-        $('<td>').text('Edit'),
-        $('<td>').text('Delete')
+        $('<td>').html([
+            '<a class="edit ml10" href="#" title="Edit" data-toggle="modal" data-target="#form-modal"' +
+            'onclick="loadEditInspectionModal(' + e.id + ', ' + true + ')">',
+            '<i class="material-icons bee-board-icon">create</i>',
+            '</a>'].join('')
+        )
     );
 }
 
@@ -147,6 +159,31 @@ function getShipmentRow(e) {
         $('<td>').text(e.to),
         $('<td>').text(e.in),
         $('<td>').text(e.notes)
+    );
+}
+
+function getOrchardHead() {
+    return $('<tr>').append(
+        $('<td>').text('Name'),
+        $('<td>').text('Max Hives'),
+        $('<td>').text('Status'),
+        $('<td>').text('Owner'),
+        $('<td>').text('Edit')
+    );
+}
+
+function getOrchardRow(e) {
+    return $('<tr>').append(
+        $('<td>').text(e.yardName),
+        $('<td>').text(e.maxHives),
+        $('<td>').text(e.status),
+        $('<td>').text(e.owner.person.name),
+        $('<td>').html([
+            '<a class="edit ml10" href="#" title="Edit" data-toggle="modal" data-target="#form-modal"' +
+            'onclick="loadEditOrchardModal(' + e.id + ', ' + true + ')">',
+                '<i class="material-icons bee-board-icon">create</i>',
+                '</a>'].join('')
+        )
     );
 }
 
@@ -180,16 +217,27 @@ function postContract() {
     var json = getSimpleJson($('#form').serializeArray());
     post(addContract, json, function () {
         var id = $('#id');
+        if (id.val() != '') {
+            $('#id').remove();
+            getContract(id.val());
+        }
         $('#contract-table').bootstrapTable('refresh');
-        getContract(id.val());
         loadProgress();
     });
 }
 
-function postOrchard() {
+function postOrchard(reload) {
     var json = getOrchardJson($('#form').serializeArray());
     post(addOrchard, json, function () {
-        $('#id').remove();
+        var id = $('#id');
+        if (id.val() != '') {
+            $('#id').remove();
+            getContract(id.val());
+        }
+        if (reload)
+            getOrchards();
+        $('#contract-table').bootstrapTable('refresh');
+        loadProgress();
     });
 }
 
@@ -197,6 +245,31 @@ function postShipment() {
     var json = getSimpleJson($('#form').serializeArray());
     post(addShipment, json, function () {
         $('#id').remove();
+    });
+}
+
+function postInspection(reload) {
+    var json = getSimpleJson($('#form').serializeArray());
+    post(addInspection, json, function () {
+        if (reload) {
+            getInspections(json.orchard);
+        }
+    });
+}
+
+function emptyOrchard(contractId) {
+    $.ajax(renew + contractId).done( function() {
+        $('#contract-table').bootstrapTable('refresh');
+        getContract(contractId);
+        loadProgress();
+    });
+}
+
+function fillOrchard(contractId) {
+    $.ajax(complete + contractId).done( function() {
+        $('#contract-table').bootstrapTable('refresh');
+        getContract(contractId);
+        loadProgress();
     });
 }
 
@@ -299,7 +372,7 @@ function getFormGroup(for_id, label, type, val) {
         );
 }
 
-function getMapFormGroup(for_id){
+function getMapFormGroup(for_id) {
     return getGroupDiv()
         .append(
             $('<div>')
@@ -447,12 +520,12 @@ function editContractForm(data) {
     fillContractForm(data.contract);
 }
 
-function getOrchardForm(data, action) {
+function getOrchardForm(data, action, reload) {
     var form = $('#form');
     form.attr('action', action);
     form.submit(function (event) {
         event.preventDefault();
-        postOrchard();
+        postOrchard(reload);
         return false;
     });
     getEmptyFormBody()
@@ -501,8 +574,8 @@ function getOrchardForm(data, action) {
         );
     getLocation();  //sets location of map
     //resizes and recenters maps whenever modal is opened
-    $('#tabContent').on('shown.bs.tab', function (e){
-        var curCenter=map.getCenter();
+    $('#tabContent').on('shown.bs.tab', function (e) {
+        var curCenter = map.getCenter();
         google.maps.event.trigger(map, 'resize');
         map.setCenter(curCenter);
     });
@@ -524,7 +597,7 @@ function fillOrchardForm(data) {
     selectOption(data.status);
     selectOption(data.owner.person.name);
     selectOption(data.rentReceiver.name);
-    selectOption(data.region);
+    selectOption(data.region.name);
 }
 
 function putInputValue(name, value) {
@@ -537,11 +610,49 @@ function createOrchardForm(data) {
     getFormBody().append(getSubmitButton('Create'));
 }
 
-function editOrchardForm(data) {
+function editOrchardForm(data, reload) {
     $('#form-modal-title').text("Edit Orchard");
-    getOrchardForm(data.orchardCreateDTO, '/pollination/addOrchard');
+    getOrchardForm(data.orchardCreateDTO, '/pollination/addOrchard', reload);
     getFormBody().append(getSubmitButton('Save'));
     fillOrchardForm(data.orchard);
+}
+
+function createInspectionForm(data) {
+    $('#form-modal-title').text("Create Inspection");
+    getInspectionForm(data, '/pollination/addInspection');
+    getFormBody().append(getSubmitButton('Create'));
+}
+
+function editInspectionForm(data, reload) {
+    $('#form-modal-title').text("Edit Inspection");
+    getInspectionForm(data, '/pollination/addInspection', reload);
+    getFormBody().append(getSubmitButton('Save'));
+    fillInspectionForm(data);
+}
+
+function getInspectionForm(data, action, reload) {
+    var form = $('#form');
+    form.attr('action', action);
+    form.submit(function (event) {
+        event.preventDefault();
+        postInspection(reload);
+        return false;
+    });
+    getEmptyFormBody()
+        .append(
+            getFormGroupWithSelector('orchard', "Orchard", getSelector(data.picDto.orchards, 'orchard')),
+            getFormGroup('date', 'Date', 'date'),
+            getFormGroupWithSelector('purpose', "Purpose", getSelector(data.picDto.purposes, 'purpose')),
+            getFormGroup('notes', 'Notes', 'text')
+        );
+}
+
+function fillInspectionForm(data) {
+    $('#form').append(getHiddenIdInput(data.inspection.id));
+    putInputValue('date', data.inspection.date);
+    putInputValue('notes', data.notes);
+    selectOption(data.inspection.orchard.yardName);
+    selectOption(data.purpose);
 }
 // End form functions
 
@@ -560,9 +671,21 @@ function loadCreateContractModal() {
     });
 }
 
-function loadEditOrchardModal(id) {
+function loadCreateInspectionModal() {
+    $.getJSON("/pollination/createInspection", function (data) {
+        createInspectionForm(data);
+    });
+}
+
+function loadEditContractOrchardModal(id, reload) {
+    $.getJSON("/pollination/editContractOrchard/" + id, function (data) {
+        editOrchardForm(data, reload);
+    });
+}
+
+function loadEditOrchardModal(id, reload) {
     $.getJSON("/pollination/editOrchard/" + id, function (data) {
-        editOrchardForm(data);
+        editOrchardForm(data, reload);
     });
 }
 
@@ -583,6 +706,12 @@ function loadEditShipmentModal(id) {
         editShipmentForm(data);
     });
 }
+
+function loadEditInspectionModal(id, reload) {
+    $.getJSON("/pollination/editInspection/" + id, function (data) {
+        editInspectionForm(data, reload);
+    });
+}
 // End form loaders
 
 function loadContractDetails(data) {
@@ -593,10 +722,11 @@ function loadContractDetails(data) {
     $('#out').html('<b>Out Date: </b>' + data.moveOutDate);
     $('#broker').html('<b>Broker: </b>' + (data.broker == null ? '' : data.broker.name));
     $('#number').html('<b>Phone: </b>' + (data.broker == null ? '' : data.broker.contactInfo == null ? '' : data.broker.contactInfo.phone));
-    $('#edit').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
-        'data-target="#form-modal" onclick="loadEditContractModal('+data.id+')">create</i></a>');
-    $('#complete').html('<a href="#"><i class="material-icons md-24 bee-board-icon">check</i></a>');
-    $('#inspections').html('<a href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
+    $('#edit').html('<a title="Edit" href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
+        'data-target="#form-modal" onclick="loadEditContractModal(' + data.id + ')">create</i></a>');
+    $('#complete').html('<a title="Fill" href="#" onclick="fillOrchard(' + data.id + ')"><i class="material-icons md-24 bee-board-icon">check</i></a>');
+    $('#renew').html('<a title="Empty" href="#" onclick="emptyOrchard(' + data.id + ')"><i class="material-icons md-24 bee-board-icon">autorenew</i></a>');
+    $('#inspections').html('<a title="Inspections" href="#"><i class="material-icons md-24 bee-board-icon" data-toggle="modal" ' +
         'data-target="#table-modal" onclick="getInspections(' + data.id + ')">visibility</i></a>');
     var a = data.amount;
     var c = data.orchard.count;
@@ -615,12 +745,12 @@ function progressFormatter(value, row, index) {
 
 function tableRowClick(e, row, $element) {
     getContract(row["id"]);
-    if(row["latitude"]==null || row["longitude"]==null){
+    if (row["latitude"] == null || row["longitude"] == null) {
         console.log("Longitude or Latitude is null!");
     }
     var lat = row["latitude"];
     var long = row["longitude"];
-    var labels = '<div><h5>'+row["orchardName"]+'</h5></div>';
+    var labels = '<div><h5>' + row["orchardName"] + '</h5></div>';
     //sets location of map on first drop location.
     initialize(long, lat);
     //Creates Markers for map
@@ -630,11 +760,11 @@ function tableRowClick(e, row, $element) {
 }
 
 function loadProgress() {
-    $.getJSON(progress, function(data) {
+    $.getJSON(progress, function (data) {
         $('#current-count').text('Current count: ' + data.fulfilled);
         $('#contracted-count').text('Contracted count: ' + data.needed);
         var p = data.progress * 100;
-        $('#progress-bar').css('width', p +'%').attr('aria-valuenow', p);
+        $('#progress-bar').css('width', p + '%').attr('aria-valuenow', p);
     })
 }
 
@@ -670,9 +800,9 @@ function getLocation() {
     }
     markerImage = {
         url: 'http://i.imgur.com/ALU8OuA.png',
-        size: new google.maps.Size(45,45),
-        origin: new google.maps.Point(0,0),
-        anchor: new google.maps.Point(23,45)
+        size: new google.maps.Size(45, 45),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(23, 45)
     };
 }
 <!-- Sets Latitude and Longitude values -->

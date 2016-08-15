@@ -242,13 +242,13 @@ function createNucReportForm(data, id) {
                 .attr('class', 'pane tab-pane')
                 .attr('id', 'queensplaced')
                 .append(
+                getFormGroup('dateBeesQueened', 'Date Bees Queened', 'date'),
                 getFormGroup('queensPlaced', 'Number of Queens Placed', 'number')
             ),
             $('<div>')
                 .attr('class', 'pane tab-pane')
                 .attr('id', 'queenschecked')
                 .append(
-                getFormGroup('dateBeesQueened', 'Date Bees Queened', 'date'),
                 getFormGroup('finalCount', "Total After Queen Check", 'number')
             )
         ),
@@ -269,6 +269,7 @@ function createNucReportForm(data, id) {
     // set data
 
     $('#dateFed').val(data['dateFed']);
+    $('#dateBeesQueened').val(data['dateBeesQueened']);
     $('#yardId').val(id);
     $('#notes').val(data['notes']);
     $('#dateLaidOut').val(data['dateLaidOut']);
@@ -303,7 +304,8 @@ function updateNucReport() {
         oldQueensCount: $('#oldQueensCount').val(),
         queensPlaced: $('#queensPlaced').val(),
         finalCount: $('#finalCount').val(),
-        dateFed: $('#dateFed').val()
+        dateFed: $('#dateFed').val(),
+        dateBeesQueened: $('#dateBeesQueened').val()
     };
 
     $.ajax({
@@ -622,7 +624,6 @@ function createNucYard() {
         }
     });
     setAlert("success", "<strong>Sucess!</strong> Updated Nucing Yard!");
-    $('#form-modal').html(getEmptyFormBody().append('<p').text("loading"));
 }
 
 // Map Functions
@@ -755,7 +756,6 @@ function editFormatter(value, row, index) {
     var modelId = row["id"];
     return [
         '<a class="edit ml10" data-toggle="modal" data-target="#form-modal" onclick="loadNucReportModal(' + row["yardId"] + ')" href="javascript:void(0)" title="Edit">',
-        'Edit Report',
         '<i class="material-icons bee-board-icon">create</i>',
         '</a>'
     ].join('');

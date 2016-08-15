@@ -4,20 +4,93 @@
 <body>
 <header th:replace="fragments/header :: header"></header>
 <div class="container">
-    <h3>Add the help documentation here...</h3>
-    <p>
-    <h3>Bee Board: </h3> Add help for the bee board...
+    <h3>Bee Board</h3>
+    <hr/>
+    Add help for the nucing board...
+    <br/><br/>
 
-    </p>
+    <h3>Nucing Board</h3>
+    <hr/>
+
+    <button type="button" class="button btn-primary">Toggle Calendar</button>
+    This button toggles the calendar between show and hide
+
+    <h4>Table Options</h4>
+
     <p>
-    <h3>Nucing Board: </h3> Add help for the nucing board...
+        The search bar will search on all columns. <br/>
+        <i class="material-icons md-24">
+            cached
+        </i> This icon will reload the data cached in the table.<br/>
+        <i class="material-icons md-24">
+            apps
+        </i> This icon will show which columns to display.<br/>
+        <i class="material-icons md-24">
+            create
+        </i> This icon in the edit column brings up the UI to create or edit a Nucing Report.
     </p>
+
     <p>
-    <h3>Pollination Board: </h3> Add help for the pollination board...
+        The calandar will automatically be filled with events based on when the nucs are made in the Nuc Report
     </p>
+
     <p>
-        <h3>CRUDL/Admin Interface: </h3> Should we provide help here???
+        On the right you will see statistics that come from the sum of all the nuc reports.
+        Below the statistics are 2 special functions:
+    <ul>
+        <li>
+            <i class="material-icons md-24">
+                add_circle_outline
+            </i> This button adds a new nuc yard into the database.
+        </li>
+        <li>
+            <i class="material-icons md-24">
+                create
+            </i> This button edits an existing nuc yard. This is how a yard can be deactivated and reactivated.
+        </li>
+    </ul>
+    </p>
+    <br/><br/>
+
+    <h3>Pollination Board</h3>
+    <hr/>
+    <h4>Adding entities</h4>
+    <p>
+        Contracts, Orchards, Shipments, and Inspections can be added through the <b>Tasks</b> side bar. Simply
+        click on the associated <i class="material-icons md-24 add-list-icon">add_circle_outline</i>,fill out
+        the form, and click <b>Create</b>.
+    </p>
+    <br/>
+    <h4>Progress</h4>
+    <p>
+        <b>Tracking Progress:</b>
+        Overall progress, and total counts, can be tracked via the <b>Progress</b> side bar. <br/>
+        Progress of individual Contracts can be tracked via the contract table and contract details section.
+        <br/><br/>
+        <b>Updating Progress:</b>
+        For convenience, a user can Complete (<i class="material-icons md-24 add-list-icon">check</i>) and/or Renew
+        (<i class="material-icons md-24 add-list-icon">autorenew</i>) an Orchard via the associated icons in the
+        contract table and contract details section. Complete matches the Orchard count to the contract amount while
+        renew sets the Orchard count to zero. It is also possible to update the Orchard count to a specific number
+        by editing the Orchard via the modal window.
+    </p>
+    <br/>
+    <h4>Listing entities</h4>
+    <p>
+        Orchards, Shipments, and Inspections can be listed through the <b>Tasks</b> side bar. Simply click on
+        the associated <i class="material-icons md-24 add-list-icon">list</i>; the list of entities will appear
+        in a modal window. Clicking outside the menu, clicking the <b>X</b> button, or clicking the <b>Cancel</b>
+        button will close the window.
+    </p>
+    <br/>
+    <h4>Editing entities</h4>
+    <p>
+        <b>Orchards:</b> can be edited through the Contract table via the <b>Edit Orchard</b> icon
+        (<i class="material-icons md-24 add-list-icon">create</i>).<br/>
+        <b>Contracts:</b> Similarly, Contracts can be edited through the Contract details section via the same icon
+        (<i class="material-icons md-24 add-list-icon">create</i>).
     </p>
 </div>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

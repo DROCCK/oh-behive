@@ -94,6 +94,11 @@ public class PollinationBoardRestController {
         return new OrchardEditDTO(getOrchardCreateDTO(), orchardService.findOne(id));
     }
 
+    @RequestMapping(value = "pollination/editContractOrchard/{id}", method = RequestMethod.GET)
+    public OrchardEditDTO editContractOrchard(@PathVariable("id") Long id) {
+        return new OrchardEditDTO(getOrchardCreateDTO(), contractService.findOne(id).getOrchard());
+    }
+
     @RequestMapping(value = "pollination/shipment/{id}", method = RequestMethod.GET)
     public PolliShipment shipment(@PathVariable("id") Long id) {
         return polliShipmentService.findOne(id);
@@ -107,6 +112,16 @@ public class PollinationBoardRestController {
     @RequestMapping(value = "pollination/editShipment/{id}", method = RequestMethod.GET)
     public PolliShipmentEditDTO editShipment(@PathVariable("id") Long id) {
         return new PolliShipmentEditDTO(getPolliShipmentCreateDTO(), polliShipmentService.findOne(id));
+    }
+
+    @RequestMapping(value = "pollination/createInspection", method = RequestMethod.GET)
+    public PolliInspectionCreateDTO createPolliInspection() {
+        return getPolliInspectionCreateDTO();
+    }
+
+    @RequestMapping(value = "pollination/editInspection/{id}", method = RequestMethod.GET)
+    public PolliInspectionEditDto editPolliInspection(@PathVariable("id") Long id) {
+        return new PolliInspectionEditDto(getPolliInspectionCreateDTO(), inspectionService.findOne(id));
     }
 
     @RequestMapping(value = "pollination/shipments", method = RequestMethod.GET)
@@ -130,6 +145,11 @@ public class PollinationBoardRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public PolliShipment addShipment(@PathVariable("json") String json) {
         return polliShipmentService.save(new JSONObject(json));
+    }
+
+    @RequestMapping(value = "pollination/addInspection/{json}", method = RequestMethod.POST)
+    public PolliInspection addInspection(@PathVariable("json") String json) {
+        return inspectionService.save(new JSONObject(json));
     }
 
     @RequestMapping(value = "pollination/orchards", method = RequestMethod.GET)
@@ -170,13 +190,13 @@ public class PollinationBoardRestController {
 
     @RequestMapping(value = "pollination/inspections/{id}")
     public List<PolliInspection> inspections(@PathVariable("id") Long id) {
-
         return inspectionService.findAllByOrchard(orchardService.findOne(id));
     }
 
-    @RequestMapping(value = "pollination/addInspection")
-    public void addInspection(@ModelAttribute("inspection") PolliInspection inspection) {
-        inspectionService.save(inspection);
+    @RequestMapping(value = "pollination/inspections/{orchardName")
+    public List<PolliInspection> inspections(@PathVariable("orchardName") String name) {
+        Orchard o = orchardService.findOneByName(name);
+        return inspectionService.findAllByOrchard(o);
     }
 
     @RequestMapping(value = "pollination/inspection/{id}")
@@ -187,6 +207,37 @@ public class PollinationBoardRestController {
     @RequestMapping(value = "pollination/progress", method = RequestMethod.GET)
     public ProgressDTO progress() {
         return new ProgressDTO(contractService.findAll());
+    }
+
+    @RequestMapping(value = "pollination/delCon/{id}", method = RequestMethod.GET)
+    public void d(@PathVariable("id") Long id) {
+        contractService.delete(id);
+    }
+
+    @RequestMapping(value = "pollination/emptyOrchard/{contractId}")
+    public void emptyOrchard(@PathVariable("contractId") Long contractId) {
+        setAndSaveOrchard(getOrchardByContract(contractService.findOne(contractId)), 0);
+    }
+
+    @RequestMapping(value = "pollination/fillOrchard/{contractId}")
+    public void fillOrchard(@PathVariable("contractId") Long contractId) {
+        Contract c = contractService.findOne(contractId);
+        setAndSaveOrchard(getOrchardByContract(c), c.getAmount());
+    }
+
+    private Orchard getOrchardByContract(Contract contract) {
+        if (contract == null) {
+            return null;
+        }
+        return contract.getOrchard();
+    }
+
+    private void setAndSaveOrchard(Orchard orchard, int count) {
+        if (orchard == null) {
+            return;
+        }
+        orchard.setCount(count);
+        orchardService.save(orchard);
     }
 
     private PolliShipmentCreateDTO getPolliShipmentCreateDTO() {
@@ -211,5 +262,15 @@ public class PollinationBoardRestController {
         c.setPeople(personService.findAll());
         c.setOrchards(orchardService.findAllOrchardNames());
         return c;
+    }
+
+    private PolliInspectionCreateDTO getPolliInspectionCreateDTO() {
+        PolliInspectionCreateDTO picdto = new PolliInspectionCreateDTO();
+        picdto.setOrchards(orchardService.findAllOrchardNames());
+        List<String> purposes = new ArrayList<>();
+        for (PolliInspection.Purpose purpose : PolliInspection.Purpose.values())
+            purposes.add(purpose.name());
+        picdto.setPurposes(purposes);
+        return picdto;
     }
 }

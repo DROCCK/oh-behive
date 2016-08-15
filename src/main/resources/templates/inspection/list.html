@@ -3,7 +3,7 @@
 
 <head th:include="fragments/head :: head"></head>
 <head>
-    <title th:text="|#{list} #{inspections}">List Inspection</title>
+    <title th:text="|#{list} #{inspections}|">List Inspection</title>
 </head>
 
 <body>
@@ -39,8 +39,8 @@
         <tbody>
         <tr th:each="i : ${inspections}">
             <td><a th:text="${i.id}" th:href="@{/inspection/read/{id}(id=${i.id})}"></a></td>
-            <td th:text="${{i.numSingles}}"></td>
-            <td th:text="${{i.numDoubles}}"></td>
+            <td th:text="${{i.singles}}"></td>
+            <td th:text="${{i.doubles}}"></td>
             <td th:text="${i.visitDate}"></td>
             <td th:text="${{i.fed}}"></td>
             <td th:text="${{i.medication}}"></td>

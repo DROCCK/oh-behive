@@ -40,6 +40,7 @@ public class NucReport {
     private int nucCount; //Number of hives of a specific nucingyard after nucing.
 
     // QUEENS PLACED STAGE
+    private Date dateBeesQueened;
     private int queensPlaced; // the amount of queens placed
 
     // QUEENS CHECKED STAGE
@@ -172,6 +173,14 @@ public class NucReport {
 
     public Date getDateFed() {
         return dateFed;
+    }
+
+    public Date getDateBeesQueened() {
+        return dateBeesQueened;
+    }
+
+    public void setDateBeesQueened(Date dateBeesQueened) {
+        this.dateBeesQueened = dateBeesQueened;
     }
 
     public void setDateFed(Date dateFed) {
